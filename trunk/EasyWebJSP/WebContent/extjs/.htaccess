@@ -1,0 +1,12 @@
+AddHandler application/x-httpd-php .htm .html .js .css
+AddType application/vnd.adobe.air-application-installer-package+zip .air
+<FilesMatch "\.(html?)$">
+php_value auto_prepend_file /var/www/html/playpen/preswap.php
+php_value auto_append_file /var/www/html/playpen/swap.php
+</FilesMatch>
+<FilesMatch "\.(js)$">
+php_value auto_prepend_file /var/www/html/deploy/js.php
+</FilesMatch>
+<FilesMatch "\.(css)$">
+php_value auto_prepend_file /var/www/html/deploy/css.php
+</FilesMatch>
