@@ -9,7 +9,7 @@
 <script type="text/javascript" src="extjs/adapter/jquery/ext-jquery-adapter.js"></script>
 <script type="text/javascript" src="extjs/ext-all.js"></script>
 <script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
-<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 </head>
 <body>
 <div id="msg">你好世界！你好世界！</div>
