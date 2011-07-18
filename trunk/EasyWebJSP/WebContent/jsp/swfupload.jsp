@@ -75,7 +75,7 @@
 				height : 360,
 				resizable : false,
 				modal : true,
-				html : '<iframe src="index.jsp" width="100%" height="100%"></iframe>'
+				html : '<iframe src="jsp/swfupload.jsp" width="100%" height="100%"></iframe>'
 			});
 			function showExtShow(){
 				win.show();
