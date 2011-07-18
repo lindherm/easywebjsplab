@@ -44,7 +44,7 @@
 					upload_complete_handler : uploadComplete,
 	
 					// Button Settings
-					button_image_url : "images/SmallSpyGlassWithTransperancy_17x18.png",
+					button_image_url : "extjs/resources/css/css/SmallSpyGlassWithTransperancy_17x18.png",
 					button_placeholder_id : "spanButtonPlaceholder",
 					button_width: 180,
 					button_height: 18,
