@@ -20,8 +20,8 @@
 <script type="text/javascript" src="extjs/adapter/jquery/ext-jquery-adapter.js"></script>
 <script type="text/javascript" src="extjs/ext-all.js"></script>
 <script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
-<script type="text/javascript" src="extjs/js/upload/swfupload.js"></script>
-<script type="text/javascript" src="extjs/js/upload/handlers.js"></script>
+<script type="text/javascript" src="extjs/js/plugin/swfupload.js"></script>
+<script type="text/javascript" src="extjs/js/plugin/handlers.js"></script>
 <script type="text/javascript">
 			var swfu;
 			window.onload = function () {
@@ -56,7 +56,7 @@
 					button_cursor: SWFUpload.CURSOR.HAND,
 					
 					// Flash Settings
-					flash_url : "extjs/js/upload/swfupload.swf",
+					flash_url : "extjs/js/plugin/swfupload.swf",
 	
 					custom_settings : {
 						upload_target : "divFileProgressContainer"
