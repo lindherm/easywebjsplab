@@ -60,7 +60,8 @@
 					flash_url : "extjs/js/plugin/swfupload.swf",
 	
 					custom_settings : {
-						upload_target : "divFileProgressContainer"
+						upload_target : "divFileProgressContainer",
+						progressTarget: "go"
 					},
 					// Debug Settings
 					debug: false  //是否显示调试窗口
@@ -89,6 +90,7 @@
 <div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"><span id="spanButtonPlaceholder"></span> <input id="btnUpload" type="button" value="上  传" onclick="startUploadFile();" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'" /> <input id="btnCancel" type="button" value="取消所有上传" onclick="cancelUpload();" disabled="disabled" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'" /></div>
 </form>
 <div id="divFileProgressContainer"></div>
+<div id="go"></div>
 <div id="thumbnails">
 <table id="infoTable" border="0" width="530" style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px; margin-top: 8px;">
 </table>
