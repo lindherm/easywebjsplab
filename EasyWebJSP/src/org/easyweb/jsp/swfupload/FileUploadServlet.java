@@ -17,18 +17,16 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class FileUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = -7825355637448948879L;
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// 设置内存缓冲区，超过后写入临时文件
 		factory.setSizeThreshold(10240000);
 		// 设置临时文件存储位置
-		String base =this.getServletContext().getRealPath("/uploadimages/");
+		String base = this.getServletContext().getRealPath("/uploadimages/");
 		File file = new File(base);
 		if (!file.exists())
 			file.mkdirs();
