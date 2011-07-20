@@ -1,8 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort() + path + "/";
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 
 	StringBuffer uploadUrl = new StringBuffer("http://");
 	uploadUrl.append(request.getHeader("Host"));
@@ -22,13 +21,14 @@
 <script type="text/javascript" src="extjs/ext-all.js"></script>
 <script type="text/javascript" src="extjs/ext-lang-zh_CN.js"></script>
 <script type="text/javascript" src="extjs/js/plugin/swfupload.js"></script>
+<script type="text/javascript" src="extjs/js/plugin/fileprogress.js"></script>
 <script type="text/javascript" src="extjs/js/plugin/handlers.js"></script>
 <script type="text/javascript">
 			var swfu;
 			window.onload = function () {
 				swfu = new SWFUpload({
 					upload_url: "<%=uploadUrl.toString()%>",
-					post_params: {"name" : "huliang"},
+					post_params: {"name" : "xiaoliya"},
 					
 					// File Upload Settings
 					file_size_limit : "10 MB",	// 1000MB
@@ -60,8 +60,9 @@
 					flash_url : "extjs/js/plugin/swfupload.swf",
 	
 					custom_settings : {
+						cancelButtonId:"btnCancel",
 						upload_target : "divFileProgressContainer",
-						progressTarget: "go"
+						progressTarget: "divgo"
 					},
 					// Debug Settings
 					debug: false  //是否显示调试窗口
@@ -87,14 +88,10 @@
 <body style="background-color: #C0D1E3; padding: 2px;">
 <div id="content">
 <form>
-<div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"><span id="spanButtonPlaceholder"></span> <input id="btnUpload" type="button" value="上  传" onclick="startUploadFile();" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'" /> <input id="btnCancel" type="button" value="取消所有上传" onclick="cancelUpload();" disabled="disabled" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'" /></div>
+<div style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px;"><span id="spanButtonPlaceholder"></span> <input id="btnUpload" type="button" value="上  传" onclick="startUploadFile();" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'" /> <input id="btnCancel" type="button" value="取消所有上传" onclick="cancelQueue(swfu);" disabled="disabled" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'" /></div>
 </form>
 <div id="divFileProgressContainer"></div>
-<div id="go"></div>
-<div id="thumbnails">
-<table id="infoTable" border="0" width="530" style="display: inline; border: solid 1px #7FAAFF; background-color: #C5D9FF; padding: 2px; margin-top: 8px;">
-</table>
-</div>
+<div id="divgo"></div>
 </div>
 <button id="extfileupload" onclick="showExtShow();" class="btn3_mouseout" onMouseUp="this.className='btn3_mouseup'" onmousedown="this.className='btn3_mousedown'" onMouseOver="this.className='btn3_mouseover'" onmouseout="this.className='btn3_mouseout'">show</button>
 </body>
