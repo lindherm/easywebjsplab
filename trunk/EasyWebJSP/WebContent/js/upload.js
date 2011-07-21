@@ -76,7 +76,7 @@ function getFlashObj() {
     obj.upload_complete_handler = uploadComplete;
 
     // obj.Flash Settings
-    obj.flash_url = "../swfupload.swf"; // Relative to this file (or you can use
+    obj.flash_url = "../extjs/js/plugin/upload/swfupload.swf"; // Relative to this file (or you can use
     // absolute paths)
 	//是否调试
     obj.debug = false;
