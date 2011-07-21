@@ -1,21 +1,21 @@
 var upload;
 $(document).ready(function() {
     Ext.onReady(function() {
-    	alert("hello");
         var openFile = $("#openFile");
-        var bizId = $("#bizId").val();
-        var bizType = $("#bizType").val();
-        var action = $("#action").val();
+       // var bizId = $("#bizId").val();
+       // var bizType = $("#bizType").val();
+      //  var action = $("#action").val();
         openFile.before("<SPAN id='spanButtonPlaceholder2'></SPAN>");
         openFile.hide();
         var select = (openFile.attr("select") && openFile.attr("select") == 'file') ? "file" : "files";
         var up_limit = (openFile.attr("up_limit")) ? openFile.attr("up_limit") : '0';
         var sObj = new Object();
         sObj.progressTarget = "fsUploadProgress2";
+        sObj.cancelButtonId = "cancelButtonId";
         var fObj = getFlashObj();
         //fObj.upload_url = "adjunctAction_saveFile.box?action=" + action + "&bizId=" + bizId + "&bizType=" + bizType;
         fObj.upload_url = "http://localhost:8080/EasyWeb/FileUploadServlet";
-        fObj.button_image_url = "../extjs/resources/images/upload.png";
+        fObj.button_image_url = "../extjs/resources/images/broswe.PNG";
         fObj.button_placeholder_id = "spanButtonPlaceholder2";
         fObj.button_width = 91;
         fObj.button_height = 22;
@@ -76,13 +76,9 @@ function getFlashObj() {
     obj.upload_complete_handler = uploadComplete;
 
     // obj.Flash Settings
-    obj.flash_url = "swfupload.swf"; // Relative to this file (or you can use
+    obj.flash_url = "../swfupload.swf"; // Relative to this file (or you can use
     // absolute paths)
-
-    obj.swfupload_element_id = "flashUI1"; // Setting from graceful degradation
-    // plugin
-    obj.degraded_element_id = "degradedUI1"; // Setting from graceful
-    // degradation plugin
+	//是否调试
     obj.debug = false;
     return obj;
 }
