@@ -16,6 +16,11 @@
 <script type="text/javascript" src="../js/upload.js"></script>
 <script type="text/javascript">
 function uploadStart(){
+	upload.setUseQueryString(true);
+	upload.setPostParams({
+		name:"xiaoliya",
+		age:"28"
+	});
 	if(upload.getStats().files_queued>0){
 		upload.startUpload();
 	}else{
