@@ -23,6 +23,9 @@ public class FileUploadServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DiskFileItemFactory factory = new DiskFileItemFactory();
+		System.out.println(request.getParameter("name"));
+		System.out.println();
+		System.out.println(request.getParameter("age"));
 		// 设置内存缓冲区，超过后写入临时文件
 		factory.setSizeThreshold(10240000);
 		// 设置临时文件存储位置
