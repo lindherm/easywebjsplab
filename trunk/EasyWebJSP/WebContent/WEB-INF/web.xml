@@ -12,6 +12,18 @@
 		<url-pattern>/HelloWorld</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>JSONRPCServlet</servlet-name>
+		<servlet-class>org.jabsorb.JSONRPCServlet</servlet-class>
+		<init-param>
+			<param-name>gzip_threshold</param-name>
+			<param-value>200</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JSONRPCServlet</servlet-name>
+		<url-pattern>/JSON-RPC</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>FileUploadServlet</servlet-name>
 		<servlet-class>org.easyweb.jsp.swfupload.FileUploadServlet</servlet-class>
 	</servlet>
@@ -27,4 +39,5 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
 </web-app>
