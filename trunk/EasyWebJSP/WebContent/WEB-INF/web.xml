@@ -2,7 +2,12 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<description>J2EE Framework</description>
 	<display-name>projectname</display-name>
-	<!-- filters -->
+	<!--spring main-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>    
+		<param-value>/WEB-INF/applicationContext.xml</param-value>    
+	</context-param>    
+	<!--encoding filters -->
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -19,13 +24,17 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.box</url-pattern>
 	</filter-mapping>
+	<!--spring context-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<!-- SpringMVC -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/boxmvc-servlet.xml</param-value>
+			<param-value>/WEB-INF/springmvc-servlet.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -34,13 +43,6 @@
 		<url-pattern>*.box</url-pattern>
 	</servlet-mapping>
 	
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/box_config.xml</param-value>
-	</context-param>
 	<!-- default session configuration -->
 	<session-config>
 		<session-timeout>500</session-timeout>
@@ -54,19 +56,4 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	<!-- taglib -->
-	<jsp-config>
-		<taglib>
-			<taglib-uri>http://www.boxfmk.org.cn/form</taglib-uri>
-			<taglib-location>/WEB-INF/tld/form_tag.tld</taglib-location>
-		</taglib>
-		<taglib>
-			<taglib-uri>http://www.boxfmk.org.cn/ui</taglib-uri>
-			<taglib-location>/WEB-INF/tld/ui_tag.tld</taglib-location>
-		</taglib>
-		<taglib>
-			<taglib-uri>http://www.atg.com/taglibs/json</taglib-uri>
-			<taglib-location>/WEB-INF/tld/json.tld</taglib-location>
-		</taglib>
-	</jsp-config>
 </web-app>
