@@ -5,7 +5,7 @@
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
-				<prop key="HelloWorld.box">HelloWorldController</prop>
+				<prop key="/HelloWorld.box">HelloWorldController</prop>
 			</props>
 		</property>
 	</bean>
