@@ -1,4 +1,4 @@
-package org.easyweb.jsp;
+package org.easyweb;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
