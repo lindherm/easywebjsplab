@@ -1,4 +1,4 @@
-package org.easyweb;
+package org.easyweb.helloworld.action;
 
 import org.springframework.web.servlet.ModelAndView;
 
