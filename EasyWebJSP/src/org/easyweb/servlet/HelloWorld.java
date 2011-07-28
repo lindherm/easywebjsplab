@@ -1,4 +1,4 @@
-package org.easyweb.jsp.servlet;
+package org.easyweb.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="org.easyweb.jsp.jsonrpc.TestJsonRpc"%>
+<%@ page import="org.easyweb.jsonrpc.TestJsonRpc"%>
 <jsp:useBean id="JSONRPCBridge" scope="session" class="org.jabsorb.JSONRPCBridge" />
 <%
 TestJsonRpc testJsonRpc=new TestJsonRpc();
