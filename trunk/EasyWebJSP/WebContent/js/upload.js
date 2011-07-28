@@ -15,7 +15,7 @@ $(document).ready(function() {
 		var fObj = getFlashObj();
 		//fObj.upload_url = "adjunctAction_saveFile.box?action=" + action + "&bizId=" + bizId + "&bizType=" + bizType;
 		fObj.upload_url = "http://localhost:8080/EasyWeb/FileUploadServlet";
-		fObj.button_image_url = "../extjs/resources/images/broswe.PNG";
+		fObj.button_image_url = "/extjs/resources/images/broswe.PNG";
 		fObj.button_placeholder_id = "spanButtonPlaceholder2";
 		fObj.button_width = 91;
 		fObj.button_height = 22;

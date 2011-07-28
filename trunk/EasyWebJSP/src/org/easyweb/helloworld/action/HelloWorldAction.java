@@ -6,7 +6,7 @@ public class HelloWorldAction{
 
 	public ModelAndView action(){
 		// TODO Auto-generated method stub
-		ModelAndView mv=new ModelAndView("/hello.jsp");
+		ModelAndView mv=new ModelAndView("/test.jsp");
 		mv.addObject("name", "sir ,");
 		return mv;
 	}
