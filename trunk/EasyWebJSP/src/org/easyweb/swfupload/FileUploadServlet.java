@@ -1,4 +1,4 @@
-package org.easyweb.jsp.swfupload;
+package org.easyweb.swfupload;
 
 import java.io.File;
 import java.io.IOException;

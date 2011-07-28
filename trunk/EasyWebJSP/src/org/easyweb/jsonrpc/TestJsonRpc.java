@@ -1,4 +1,4 @@
-package org.easyweb.jsp.jsonrpc;
+package org.easyweb.jsonrpc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
