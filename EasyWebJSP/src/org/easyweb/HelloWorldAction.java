@@ -2,7 +2,7 @@ package org.easyweb;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public class HelloWorldController{
+public class HelloWorldAction{
 
 	public ModelAndView action(){
 		// TODO Auto-generated method stub
@@ -10,5 +10,10 @@ public class HelloWorldController{
 		mv.addObject("name", "sir ,");
 		return mv;
 	}
-
+	
+	public ModelAndView add(){
+		ModelAndView mv=new ModelAndView("/hello.jsp");
+		mv.addObject("name","madam");
+		return mv;
+	}
 }
