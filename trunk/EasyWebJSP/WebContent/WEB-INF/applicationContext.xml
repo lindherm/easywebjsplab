@@ -12,5 +12,74 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-
+	<!--导入数据源配置-->
+	<import resource="classpath:datasource.xml" />
+	<!-- 项目特定配置文件集合 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:*.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!--datasource-->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="fmkdataSource" />
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:${project.rootpackage}/**/*.hbm.xml</value>
+			</list>
+		</property>
+		<property name="lobHandler" ref="lobHandler" />
+		<property name="schemaUpdate" value="${project.hibernate.schemaUpdate}" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${project.hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${project.hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${project.hibernate.format_sql}</prop>
+				<prop key="hibernate.use_sql_comments">${project.hibernate.format_sql}</prop>
+				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.use_outer_join">false</prop>
+				<prop key="hibernate.jdbc.batch_size">0</prop>
+				<prop key="hibernate.jdbc.fetch_size">50</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 处理BLOB-->
+	<bean id="lobHandler" class="${project.hibernate.lobHandler}" />
+	<!--事务-->
+	<bean id="transaction" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transaction" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="search*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<!--spring autoProxy-->
+	<bean id="autoProxy" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="proxyTargetClass" value="true" />
+		<property name="beanNames">
+			<value>*Dao,*Manager</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean>
 </beans>
