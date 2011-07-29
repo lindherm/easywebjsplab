@@ -22,15 +22,17 @@
 			</list>
 		</property>
 	</bean>
+	<!-- Hibernate配置域 -->
+	<bean id="autoHbmLoader" class="net.box.hibernate.AutoHbmLoader">
+		<property name="hbmClassPath">
+			<value>classpath:${project.rootpackage}/**/*.hbm.xml</value>
+		</property>
+	</bean>
 	
 	<!--datasource-->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="fmkdataSource" />
-		<property name="mappingDirectoryLocations">
-			<list>
-				<value>classpath:${project.rootpackage}/**/*.hbm.xml</value>
-			</list>
-		</property>
+		<property name="mappingLocations" ref="autoHbmLoader" />
 		<property name="lobHandler" ref="lobHandler" />
 		<property name="schemaUpdate" value="${project.hibernate.schemaUpdate}" />
 		<property name="hibernateProperties">
