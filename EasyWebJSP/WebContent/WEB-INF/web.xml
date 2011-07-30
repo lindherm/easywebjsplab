@@ -2,11 +2,7 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<description>J2EE Framework</description>
 	<display-name>projectname</display-name>
-	<!--spring main-->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>    
-		<param-value>/WEB-INF/applicationContext.xml</param-value>    
-	</context-param>    
+	 
 	<!--encoding filters -->
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
@@ -24,10 +20,12 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.box</url-pattern>
 	</filter-mapping>
-	<!--spring context-->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	
+	<!--spring main-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>    
+		<param-value>/WEB-INF/applicationContext.xml</param-value>    
+	</context-param>   
 	<!-- SpringMVC -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
@@ -42,6 +40,10 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.box</url-pattern>
 	</servlet-mapping>
+	<!--spring context-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	
 	<!-- default session configuration -->
 	<session-config>

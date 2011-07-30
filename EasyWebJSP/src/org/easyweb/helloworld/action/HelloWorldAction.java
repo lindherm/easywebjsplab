@@ -6,10 +6,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class HelloWorldAction{
 	HelloWorldManager helloWorldManager;
 
-	public HelloWorldManager getHelloWorldManager() {
-		return helloWorldManager;
-	}
-
 	public void setHelloWorldManager(HelloWorldManager helloWorldManager) {
 		this.helloWorldManager = helloWorldManager;
 	}
