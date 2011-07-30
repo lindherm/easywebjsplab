@@ -9,7 +9,7 @@
 		</id>
 				
 		<property name="title" type="string">
-			<column name="TITLE"/>
+			<column name="TITILE"/>
 		</property>
 	</class>
 </hibernate-mapping>
