@@ -20,7 +20,6 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.box</url-pattern>
 	</filter-mapping>
-	
 	<!--spring main-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>    
