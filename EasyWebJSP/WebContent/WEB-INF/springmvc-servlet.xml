@@ -20,5 +20,4 @@
 	<bean id="boxWebController" class="org.easyweb.mvc.BoxWebController">
 		<property name="defaultActionMethodName" value="action" />
 	</bean>
-	<import resource="classpath:module_config/**/*.xml" />
 </beans>
