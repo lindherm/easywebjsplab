@@ -14,6 +14,6 @@
 	</tr>
 </c:forEach>
 </table>
-${name},你好！
+${name}
 </body>
 </html>
