@@ -12,7 +12,7 @@
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
-	
+	<!--datasource-->
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -29,8 +29,7 @@
 			<value>root</value>
 		</property>
 	</bean>
-
-	<!--datasource-->
+	<!--sessionFactory-->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
