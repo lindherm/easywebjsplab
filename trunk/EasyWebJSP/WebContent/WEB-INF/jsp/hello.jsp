@@ -8,12 +8,28 @@
 </head>
 <body>
 <table border="1">
-<c:forEach items="${name}" var="helloworld">
-	<tr>
-	<td>${helloworld.id }</td><td>${helloworld.title }</td>
-	</tr>
-</c:forEach>
+	<c:forEach items="${name}" var="helloworld">
+		<tr>
+			<td>${helloworld.id }</td>
+			<td>${helloworld.title }</td>
+		</tr>
+	</c:forEach>
 </table>
 ${name}
+<form action="helloWorldAction_save.box" method="post">
+<table>
+	<tr>
+		<td>id</td>
+		<td><input type="text" id="helloWorld.id" name="helloWorld.id" /></td>
+	</tr>
+	<tr>
+		<td>title</td>
+		<td><input type="text" id="helloWorld.title" name="helloWorld.title" /></td>
+	</tr>
+	<tr>
+		<td><input type="submit" value="保存"/></td>
+	</tr>
+</table>
+</form>
 </body>
 </html>

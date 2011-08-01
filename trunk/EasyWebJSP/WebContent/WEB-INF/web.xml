@@ -20,11 +20,7 @@
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>*.box</url-pattern>
 	</filter-mapping>
-	<!--spring main-->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>    
-		<param-value>/WEB-INF/applicationContext.xml</param-value>    
-	</context-param>   
+	
 	<!-- SpringMVC -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
@@ -39,6 +35,11 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.box</url-pattern>
 	</servlet-mapping>
+	<!--spring main-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>    
+		<param-value>/WEB-INF/applicationContext.xml</param-value>    
+	</context-param>   
 	<!--spring context-->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

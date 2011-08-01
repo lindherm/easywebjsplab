@@ -29,6 +29,8 @@
 			<value>root</value>
 		</property>
 	</bean>
+	<!-- 导入模块配置 -->
+	<import resource="classpath:module_config/**/*.xml" />
 	<!--sessionFactory-->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -43,37 +45,36 @@
 				<value>org/easyweb/helloworld/model/HelloWorld.hbm.xml</value>
 			</list>
 		</property>
-
 	</bean>
-	<bean id="helloWorldDao" class="org.easyweb.helloworld.dao.HelloWorldDao">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory"/>
-		</property>
-	</bean>
-	
-	<bean id="helloWorldManager" class="org.easyweb.helloworld.manager.HelloWorldManager">
-		<property name="helloWorldDao">
-			<ref bean="helloWorldDao"/>
-		</property>
-	</bean>
-	<bean id="helloWorldAction" class="org.easyweb.helloworld.action.HelloWorldAction">
-		<property name="helloWorldManager">
-			<ref bean="helloWorldManager"/>
-		</property>
-	</bean>
-	<!--事务-->
+	<!--transaction-->
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="save*" propagation="REQUIRED"/>
-		</tx:attributes>
-	</tx:advice>
-	<aop:config>
-		<aop:pointcut id="point-cut" expression="execution(* org.easyweb.*.*(..))"/>
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="point-cut"/>
-	</aop:config>
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="search*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="autoProxy" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="proxyTargetClass" value="true" />
+		<property name="beanNames">
+			<value>*Dao,*Manager</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="transactionInterceptor" ref="transactionInterceptor" />
+	</bean>
 </beans>

@@ -8,8 +8,8 @@ import org.easyweb.helloworld.model.HelloWorld;
 public class HelloWorldManager {
 	HelloWorldDao helloWorldDao;
 
-	public void save(String name) {
-		helloWorldDao.save(name);
+	public void save(HelloWorld helloWorld) {
+		helloWorldDao.save(helloWorld);
 	}
 	public List<HelloWorld> getList() {
 		return helloWorldDao.getList();
