@@ -14,6 +14,5 @@
 </head>
 <body>
 <c:redirect url="indexAction.box"/>
-<div id="msg">你好世界！你好世界！</div>
 </body>
 </html>
