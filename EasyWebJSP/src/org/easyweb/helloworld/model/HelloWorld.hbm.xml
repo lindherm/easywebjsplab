@@ -7,7 +7,6 @@
 			<column name="ID"/>
 			<generator class="assigned"/>
 		</id>
-				
 		<property name="title" type="string">
 			<column name="TITILE"/>
 		</property>
