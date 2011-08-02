@@ -13,8 +13,8 @@ $(document).ready(function() {
 		sObj.progressTarget = "fsUploadProgress2";
 		sObj.cancelButtonId = "cancelButtonId";
 		var fObj = getFlashObj();
-		//fObj.upload_url = "adjunctAction_saveFile.box?action=" + action + "&bizId=" + bizId + "&bizType=" + bizType;
-		fObj.upload_url = "http://localhost:8080/EasyWeb/FileUploadServlet";
+		//fObj.upload_url = "FileUploadServlet";
+		fObj.upload_url = "swfUploadAction_saveFile.box";
 		fObj.button_image_url = "extjs/resources/images/broswe.PNG";
 		fObj.button_placeholder_id = "spanButtonPlaceholder2";
 		fObj.button_width = 91;
@@ -79,6 +79,6 @@ function getFlashObj() {
 	obj.flash_url = "extjs/js/plugin/upload/swfupload.swf"; // Relative to this file (or you can use
 	// absolute paths)
 	//是否调试
-	obj.debug = false;
+	obj.debug = true;
 	return obj;
 }
