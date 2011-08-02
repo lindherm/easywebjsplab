@@ -4,7 +4,6 @@ $("document").ready(function() {
 		sb.appendFormat("Hello {0}! {1}", "World", "Bye");
 		sb.append("||");
 		sb.appendFormatEx("Hello ?! ?", "go", "next");
-		alert(sb.toString());
-		
+		Ext.Msg.alert("提示框",sb.toString(),null);
 	});
 });
