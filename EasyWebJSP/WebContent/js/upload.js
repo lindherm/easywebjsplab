@@ -26,15 +26,10 @@ $(document).ready(function() {
 		fObj.custom_settings = sObj;
 		fObj.file_types = openFile.attr("filetypes");
 		fObj.file_size_limit = openFile.attr("filesize") ? openFile.attr("filesize") : 0;
-		//fObj.upload_complete_handler = completeUploadFile;
 		fObj.file_types_description = openFile.attr("filetypesdescription");
 		fObj.file_upload_limit = up_limit;
 		upload = new SWFUpload(fObj);
-		/*function completeUploadFile() {
-		    if (upload.getStats().files_queued == 0) {
-		        checkV();v.curform.submit();
-		    }
-		}*/
+		//删除文档
 		$("a[@id='deletefile']").each(function(i, n) {
 			$(n).click(function() {
 				BoxUI.MessageBox.confirm('确认框', '您确定要删除此附件吗?', function(btn) {
