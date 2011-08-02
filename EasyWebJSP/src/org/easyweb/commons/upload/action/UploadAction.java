@@ -1,7 +1,6 @@
 package org.easyweb.commons.upload.action;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class UploadAction extends FileUploadAction implements HttpServletAware {
 	}
 
 	public ModelAndView saveFile() {
-		ModelAndView mv=null;
+		ModelAndView mv = null;
 		MultipartFile file = this.getFiledata();
 		// 创建保存文件的目录
 		String base = request.getSession().getServletContext().getRealPath("/uploadimages/");
@@ -29,18 +28,17 @@ public class UploadAction extends FileUploadAction implements HttpServletAware {
 		if (!filePath.exists()) {
 			filePath.mkdirs();
 		}
-		byte[] bytes;
+		
+		File destFile=new File(base + File.separator + file.getOriginalFilename());
 		try {
-			bytes = file.getBytes();
-			FileOutputStream fos = new FileOutputStream(base+File.separator+file.getOriginalFilename());
-			fos.write(bytes);
-			fos.close();
+			file.transferTo(destFile);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
 		return mv;
 	}
 
