@@ -1,14 +1,11 @@
 /*
- * 参考Ferreri Gbriele***Faster Javascript StringBuilder***http://www.codeproject.com/KB/ajax/JavascriptStringBuilderEx.aspx
- * 
- * James***Really easy speed testing***http : // james.padolsey.com/javascript/really-easy-speed-testing/
- * 
- * Sample var sb = new StringBuilderEx();
- * sb.append("Hello");
- * sb.appendFormat("Hello {0}!!! {1}", "World", "Bye");
- * sb.appendFormatEx("Hello ?!!! ?", "World", "Bye");
- * 
+ * Ferreri Gbriele***Faster Javascript StringBuilder***http://www.codeproject.com/KB/ajax/JavascriptStringBuilderEx.aspx
  */
+//var sb = new StringBuilderEx(); 
+//sb.append("Hello"); 
+//sb.appendFormat("Hello {0}!!! {1}", "World", "Bye"); 
+//sb.appendFormatEx("Hello ?!!! ?", "World", "Bye");
+
 // Assign our class to Array class
 var StringBuilder = Array;
 
@@ -30,16 +27,16 @@ Array.prototype._convertToArray = function(arguments) {
 };
 
 // First solution using regular expression
-Array.prototype.appendFormat = function(pattern) {
+Array.prototype.appendFormat = function(f_str) {
 	var args = this._convertToArray(arguments).slice(1);
-	//执行替换
-	this[this.length] = pattern.replace(/\{(\d+)\}/g, function(pattern, index) {
-		return args[index].toString();
+	// 执行替换
+	this[this.length] = f_str.replace(/\{(\d+)\}/g, function(n, i) {
+		return args[i].toString();
 	});
 };
 
 // Second solution using split and join
-Array.prototype.appendFormatEx = function(pattern) {
+Array.prototype.appendFormatEx = function(f_str) {
 	if (this._parameters == null)
 		this._parameters = new Array();
 
@@ -49,7 +46,7 @@ Array.prototype.appendFormatEx = function(pattern) {
 		this._parameters[this._parameters.length] = args[t];
 	}
 
-	this[this.length] = pattern;
+	this[this.length] = f_str;
 };
 
 // Concatenate the strings using join
@@ -72,7 +69,6 @@ Array.prototype.toString = function() {
 		return this.join("");
 	}
 };
-
 document.write('<base target="_self">');
 document.write('<style type="text/css">@import url("extjs/resources/css/css/globle.css");@import url("extjs/resources/css/ext-all.css");</style>');
 
