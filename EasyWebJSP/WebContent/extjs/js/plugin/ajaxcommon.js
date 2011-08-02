@@ -32,7 +32,7 @@ Array.prototype._convertToArray = function(arguments) {
 // First solution using regular expression
 Array.prototype.appendFormat = function(pattern) {
 	var args = this._convertToArray(arguments).slice(1);
-
+	//执行替换
 	this[this.length] = pattern.replace(/\{(\d+)\}/g, function(pattern, index) {
 		return args[index].toString();
 	});
