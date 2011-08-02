@@ -29,7 +29,7 @@ function uploadStart(){
 <table class="table" width="600">
 	<tr>
 		<td width="500"><input type="hidden" name="bizId" id="bizId" value="${bizId}"> <input type="hidden" name="bizType" id="bizType" value="squadronInfoBizFile"> <input type="hidden" name="action" id="action" value="insert"> <input id="openFile" select="files" filetypes="*.jpg;*.gif;*.jpeg" filetypesdescription="所有图片文件" type="button" class="box-btn-back" value="浏览..." />
-		<div id="fsUploadProgress2" style="height: 30px; width: 500"></div>
+		<div id="fsUploadProgress2" style="width: 500"></div>
 		</td>
 		<td width="300"><input type="button" id="upload" name="upload" onclick="uploadStart();" value="上传"></td>
 	</tr>
