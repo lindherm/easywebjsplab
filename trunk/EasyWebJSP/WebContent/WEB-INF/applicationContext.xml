@@ -77,4 +77,6 @@
 	<bean class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
 		<property name="transactionInterceptor" ref="transactionInterceptor" />
 	</bean>
+	<!--jabsorb exporter-->
+	<bean id="baseJabSorb" class="org.easyweb.commons.jabsorb.JabSorbExporter" abstract="true"/>
 </beans>

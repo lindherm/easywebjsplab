@@ -17,4 +17,9 @@
 			<ref bean="sessionFactory"/>
 		</property>
 	</bean>
+	<bean id="helloWorldRPCManager" parent="baseJabSorb">
+		<property name="serviceBean">
+			<bean class="org.easyweb.helloworld.manager.HelloWorldManager"></bean>
+		</property>
+	</bean>
 </beans>
