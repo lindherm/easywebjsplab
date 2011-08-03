@@ -1,5 +1,7 @@
 package org.easyweb.helloworld.action;
 
+import net.sf.json.JSONArray;
+
 import org.easyweb.helloworld.manager.HelloWorldManager;
 import org.easyweb.helloworld.model.HelloWorld;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,10 +21,12 @@ public class HelloWorldAction {
 		mv.addObject("name", helloWorldManager.getList());
 		return mv;
 	}
+
 	public ModelAndView getJson() {
 		// TODO Auto-generated method stub
 		ModelAndView mv = new ModelAndView("/success.jsp");
-		mv.addObject("msg", helloWorldManager.getList());
+		JSONArray jsonArray = JSONArray.fromObject(helloWorldManager.getList());
+		mv.addObject("msg", jsonArray);
 		return mv;
 	}
 
