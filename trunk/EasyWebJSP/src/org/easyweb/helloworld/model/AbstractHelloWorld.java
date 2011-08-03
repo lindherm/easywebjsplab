@@ -2,12 +2,11 @@ package org.easyweb.helloworld.model;
 
 // Generated 2008-2-28 15:00:14 by Hibernate Tools 3.2.0.b9
 
-import java.util.Date;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 public abstract class AbstractHelloWorld implements java.io.Serializable {
 	String id;
