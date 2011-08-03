@@ -35,6 +35,20 @@
 		<servlet-name>springmvc</servlet-name>
 		<url-pattern>*.box</url-pattern>
 	</servlet-mapping>
+	<!--jabsorb-->
+	<servlet>
+		<servlet-name>org.jabsorb.JSONRPCServlet</servlet-name>
+		<servlet-class>org.jabsorb.JSONRPCServlet</servlet-class>
+		<init-param>
+			<param-name>gzip_threshold</param-name>
+			<param-value>200</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>org.jabsorb.JSONRPCServlet</servlet-name>
+		<url-pattern>/JSON-RPC</url-pattern>
+	</servlet-mapping>
+
 	<!--spring main-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>    

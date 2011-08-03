@@ -1,5 +1,6 @@
 package org.easyweb.helloworld.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.easyweb.helloworld.dao.HelloWorldDao;
@@ -11,8 +12,17 @@ public class HelloWorldManager {
 	public void save(HelloWorld helloWorld) {
 		helloWorldDao.save(helloWorld);
 	}
+
 	public List<HelloWorld> getList() {
 		return helloWorldDao.getList();
+	}
+
+	public List<String> getListTest() {
+		List<String> list = new ArrayList<String>();
+		list.add("helleo");
+		list.add("gomi");
+		list.add("1");
+		return list;
 	}
 
 	public HelloWorldDao getHelloWorldDao() {
