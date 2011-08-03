@@ -1,13 +1,11 @@
 package org.easyweb.helloworld.action;
 
-import java.util.List;
-
 import org.easyweb.helloworld.manager.HelloWorldManager;
 import org.easyweb.helloworld.model.HelloWorld;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-public class HelloWorldAction{
+public class HelloWorldAction {
 	HelloWorld helloWorld;
 	HelloWorldManager helloWorldManager;
 
@@ -15,16 +13,16 @@ public class HelloWorldAction{
 		this.helloWorldManager = helloWorldManager;
 	}
 
-	public ModelAndView action(){
+	public ModelAndView action() {
 		// TODO Auto-generated method stub
-		ModelAndView mv=new ModelAndView("/hello.jsp");
-		List<HelloWorld> list=helloWorldManager.getList();
-		mv.addObject("name",list);
+		ModelAndView mv = new ModelAndView("/examples/jstlAction.jsp");
+		mv.addObject("name", helloWorldManager.getList());
 		return mv;
 	}
-	public ModelAndView save(){
+
+	public ModelAndView save() {
 		// TODO Auto-generated method stub
-		ModelAndView mv=new ModelAndView(new RedirectView("helloWorldAction.box"));
+		ModelAndView mv = new ModelAndView(new RedirectView("helloWorldAction.box"));
 		helloWorldManager.save(helloWorld);
 		return mv;
 	}

@@ -15,7 +15,7 @@ public class UploadAction extends FileUploadAction implements HttpServletAware {
 	HttpServletResponse response;
 
 	public ModelAndView action() {
-		ModelAndView mv = new ModelAndView("/test.jsp");
+		ModelAndView mv = new ModelAndView("/examples/swfUploadAction.jsp");
 		return mv;
 	}
 
