@@ -78,6 +78,6 @@ function containJS(jsName) {
 if (typeof Ext === "undefined") {
 	containJS("extjs/adapter/jquery/jquery.js");
 	containJS("extjs/adapter/jquery/ext-jquery-adapter.js");
-	containJS("extjs/ext-all.js");
+	containJS("extjs/ext-all-debug.js");
 	containJS("extjs/ext-lang-zh_CN.js");
 }

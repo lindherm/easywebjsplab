@@ -24,7 +24,7 @@ function uploadStart(){
 }
 </script>
 </head>
-<body style="background-color: #C0D1E3; padding: 2px;">
+<body style="background-color: #C0D1E3; padding: 20px;">
 <form>
 <table class="table" width="600">
 	<tr>
