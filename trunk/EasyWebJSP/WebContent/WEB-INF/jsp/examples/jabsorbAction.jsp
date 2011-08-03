@@ -11,7 +11,7 @@ $("document").ready(function(){
 	Ext.onReady(function(){
 		try{
 			var jabsorb=new JSONRpcClient("./JSON-RPC");
-			var res=jsonrpc.helloWorldRPCManager.getListTest();
+			var res=jabsorb.helloWorldRPCManager.getListTest();
 			var res=res['list'];
 			for(var i=0;i<res.length;i++){
 				alert(res[i]);
