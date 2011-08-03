@@ -19,6 +19,12 @@ public class HelloWorldAction {
 		mv.addObject("name", helloWorldManager.getList());
 		return mv;
 	}
+	public ModelAndView getJson() {
+		// TODO Auto-generated method stub
+		ModelAndView mv = new ModelAndView("/success.jsp");
+		mv.addObject("msg", helloWorldManager.getList());
+		return mv;
+	}
 
 	public ModelAndView save() {
 		// TODO Auto-generated method stub
