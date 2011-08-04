@@ -30,8 +30,12 @@
 		<td><input type="text" id="helloWorld.id" name="helloWorld.id" /></td>
 	</tr>
 	<tr>
-		<td>title</td>
-		<td><input type="text" id="helloWorld.title" name="helloWorld.title" /></td>
+		<td>menuName</td>
+		<td><input type="text" id="helloWorld.menuName" name="helloWorld.menuName" /></td>
+	</tr>
+	<tr>
+		<td>parentid</td>
+		<td><input type="text" id="helloWorld.parentid" name="helloWorld.parentid" /></td>
 	</tr>
 	<tr>
 		<td><input type="submit" value="保存" /></td>

@@ -37,8 +37,12 @@ $("document").ready(function() {
 			'click' : function(node, e) {
 				// 获得所有选中复选框的值是一个json对象
 				var nodes = tree.getChecked();
+				if (nodes == '' || nodes == "") {
+					Ext.MessageBox.alert("提示框", "没有选中的菜单！", null);
+					return;
+				}
 				$.each(nodes, function(i, n) {
-					alert(n.id + "|" + n.text);
+					Ext.MessageBox.alert("提示框", n.id + "|" + n.text, null);
 				});
 			}
 		});
