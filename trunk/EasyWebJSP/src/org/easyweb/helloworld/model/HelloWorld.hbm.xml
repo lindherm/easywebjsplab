@@ -7,8 +7,11 @@
 			<column name="ID"/>
 			<generator class="assigned"/>
 		</id>
-		<property name="title" type="string">
-			<column name="TITILE"/>
+		<property name="menuName" type="string">
+			<column name="MENU_NAME"/>
+		</property>
+		<property name="parentid" type="string">
+			<column name="PARENT_ID"/>
 		</property>
 	</class>
 </hibernate-mapping>

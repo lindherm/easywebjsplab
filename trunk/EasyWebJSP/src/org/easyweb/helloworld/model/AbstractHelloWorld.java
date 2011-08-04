@@ -11,7 +11,17 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public abstract class AbstractHelloWorld implements java.io.Serializable {
 	String id;
 
-	String title;
+	String menuName;
+	
+	String parentid;
+
+	public String getParentid() {
+		return parentid;
+	}
+
+	public void setParentid(String parentid) {
+		this.parentid = parentid;
+	}
 
 	public String getId() {
 		return id;
@@ -21,12 +31,13 @@ public abstract class AbstractHelloWorld implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+
+	public String getMenuName() {
+		return menuName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
 	}
 
 	@Override
@@ -34,16 +45,16 @@ public abstract class AbstractHelloWorld implements java.io.Serializable {
 		if (!(other instanceof AbstractHelloWorld))
 			return false;
 		AbstractHelloWorld castOther = (AbstractHelloWorld) other;
-		return new EqualsBuilder().append(id, castOther.id).append(title, castOther.title).isEquals();
+		return new EqualsBuilder().append(id, castOther.id).append(menuName, castOther.menuName).append(parentid,castOther.parentid).isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(id).append(title).toHashCode();
+		return new HashCodeBuilder().append(id).append(menuName).append(parentid).toHashCode();
 	}
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("id", id).append("title", title).toString();
+		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("id", id).append("menuName", menuName).append("parentid",parentid).toString();
 	}
 }
