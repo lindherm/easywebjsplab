@@ -7,9 +7,11 @@ $("document").ready(function() {
 			el : 'tree',
 			width : 400,
 			height : 300,
+			useArrows : true,
 			border : true,
 			animate : true,
 			autoScroll : true,
+			frame : true,
 			enableDD : false,
 			containerScroll : true,
 			checkModel : 'cascade',
@@ -22,9 +24,10 @@ $("document").ready(function() {
 			})
 		});
 		var root = new Ext.tree.AsyncTreeNode({
+			id : '0',
 			text : 'JSON TREE TEST',
 			draggable : false,
-			id : '0'
+			leaf : false
 		});
 		tree.setRootNode(root);
 		tree.render();
@@ -42,9 +45,17 @@ $("document").ready(function() {
 					return;
 				}
 				$.each(nodes, function(i, n) {
-					Ext.MessageBox.alert("提示框", n.id + "|" + n.text, null);
+					alert(n.id + "|" + n.text);
 				});
+			},
+			'checkchange' : function(node, checked) {
+				if (checked) {
+					alert("选中");
+				} else {
+					alert("不选中");
+				}
 			}
+
 		});
 	});
 
