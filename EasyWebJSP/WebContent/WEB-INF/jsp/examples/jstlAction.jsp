@@ -10,14 +10,19 @@
 </head>
 <body>
 <table border="1">
+	<tr>
+		<td>id</td>
+		<td>menuName</td>
+		<td>parentid</td>
+	</tr>
 	<c:forEach items="${name}" var="helloworld">
 		<tr>
 			<td>${helloworld.id }</td>
-			<td>${helloworld.title }</td>
+			<td>${helloworld.menuName }</td>
+			<td>${helloworld.parentid }</td>
 		</tr>
 	</c:forEach>
 </table>
-${name}
 <form action="helloWorldAction_save.box" method="post">
 <table>
 	<tr>
@@ -29,9 +34,10 @@ ${name}
 		<td><input type="text" id="helloWorld.title" name="helloWorld.title" /></td>
 	</tr>
 	<tr>
-		<td><input type="submit" value="保存"/></td>
+		<td><input type="submit" value="保存" /></td>
 	</tr>
 </table>
 </form>
+<div id="tree" style="width: 800; height: 400"></div>
 </body>
 </html>

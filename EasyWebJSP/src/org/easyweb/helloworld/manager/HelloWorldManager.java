@@ -13,8 +13,8 @@ public class HelloWorldManager {
 		helloWorldDao.save(helloWorld);
 	}
 
-	public List<HelloWorld> getList() {
-		return helloWorldDao.getList();
+	public List<HelloWorld> getList(String pid) {
+		return helloWorldDao.getList(pid);
 	}
 
 	public List<String> getListTest() {
