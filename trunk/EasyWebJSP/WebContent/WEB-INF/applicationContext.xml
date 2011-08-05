@@ -34,6 +34,7 @@
 	<!--sessionFactory-->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="lobHandler" ref="lobHandler" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
@@ -43,9 +44,12 @@
 		<property name="mappingResources">
 			<list>
 				<value>org/easyweb/helloworld/model/HelloWorld.hbm.xml</value>
+				<value>org/easyweb/commons/upload/model/UploadFile.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
+	<!--lobHandler-->
+	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
 	<!--transaction-->
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory">
