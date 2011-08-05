@@ -7,6 +7,11 @@
 			<ref bean="uploadManager"/>
 		</property>
 	</bean>
+	<bean id="downLoadAction" class="org.easyweb.commons.upload.action.DownLoadAction" scope="prototype">
+		<property name="uploadManager">
+			<ref bean="uploadManager"/>
+		</property>
+	</bean>
 	<bean id="uploadManager" class="org.easyweb.commons.upload.manager.UploadManager">
 		<property name="uploadDao">
 			<ref bean="uploadDao"/>

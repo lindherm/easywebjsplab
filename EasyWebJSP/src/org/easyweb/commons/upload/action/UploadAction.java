@@ -12,10 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class UploadAction extends FileUploadAction{
 	UploadManager uploadManager;
 	public ModelAndView action() {
-		ModelAndView mv = new ModelAndView("/examples/swfUploadAction.jsp");
+		ModelAndView mv = new ModelAndView("/examples/uploadAction.jsp");
+		mv.addObject("filelist",uploadManager.getAllFile());
 		return mv;
 	}
-
 	public ModelAndView saveFile() throws IOException {
 		ModelAndView mv = null;
 		String uuid=UUID.randomUUID().toString().replace("-", "");
