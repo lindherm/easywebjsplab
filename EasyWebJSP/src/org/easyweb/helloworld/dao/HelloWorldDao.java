@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.easyweb.helloworld.model.HelloWorld;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.util.StringUtils;
-
 public class HelloWorldDao extends HibernateDaoSupport {
 	public void save(HelloWorld helloWorld) {
 		this.getHibernateTemplate().save(helloWorld);

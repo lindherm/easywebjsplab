@@ -13,7 +13,7 @@ $(document).ready(function() {
 		sObj.progressTarget = "fsUploadProgress2";
 		sObj.cancelButtonId = "cancelButtonId";
 		var fObj = getFlashObj();
-		fObj.upload_url = "swfUploadAction_saveFile.box";
+		fObj.upload_url = "uploadAction_saveFile.box";
 		fObj.button_image_url = "extjs/resources/images/broswe.PNG";
 		fObj.button_placeholder_id = "spanButtonPlaceholder2";
 		fObj.button_width = 91;
