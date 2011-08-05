@@ -8,6 +8,7 @@ import net.sf.json.JSONArray;
 import org.easyweb.helloworld.manager.HelloWorldManager;
 import org.easyweb.helloworld.model.HelloWorld;
 import org.easyweb.helloworld.vo.TreeNode;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -52,6 +53,13 @@ public class HelloWorldAction {
 			treeNode.setText(helloWorld.getMenuName());
 			treeNode.setQtip(helloWorld.getMenuName());
 			treeNode.setChecked(false);
+			List<HelloWorld> list2 = helloWorldManager.getList(helloWorld.getId());
+			if (!CollectionUtils.isEmpty(list2) && list2.size() > 0) {
+				treeNode.setLeaf(false);
+			} else {
+				treeNode.setLeaf(true);
+			}
+			//treeNode.setExpanded(true);可用来做操作点记录
 			treeNodeList.add(treeNode);
 		}
 		JSONArray jsonArray = JSONArray.fromObject(treeNodeList);
