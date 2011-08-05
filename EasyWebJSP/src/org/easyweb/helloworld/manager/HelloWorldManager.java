@@ -17,12 +17,11 @@ public class HelloWorldManager {
 		return helloWorldDao.getList(pid);
 	}
 
-	public List<String> getListTest() {
-		List<String> list = new ArrayList<String>();
-		list.add("helleo");
-		list.add("gomi");
-		list.add("1");
+	public List<String> getListTest(ArrayList<String> list) {
 		return list;
+	}
+	public HelloWorld getHelloWorldTest(HelloWorld helloWorld) {
+		return helloWorld;
 	}
 
 	public HelloWorldDao getHelloWorldDao() {
