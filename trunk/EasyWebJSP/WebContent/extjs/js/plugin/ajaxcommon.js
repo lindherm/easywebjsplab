@@ -5,7 +5,6 @@
 //sb.append("Hello"); 
 //sb.appendFormat("Hello {0}!!! {1}", "World", "Bye"); 
 //sb.appendFormatEx("Hello ?!!! ?", "World", "Bye");
-
 // Assign our class to Array class
 var StringBuilder = Array;
 
@@ -80,4 +79,5 @@ if (typeof Ext === "undefined") {
 	containJS("extjs/adapter/jquery/ext-jquery-adapter.js");
 	containJS("extjs/ext-all-debug.js");
 	containJS("extjs/ext-lang-zh_CN.js");
+	containJS("extjs/js/plugin/jsonrpc.js");
 }
