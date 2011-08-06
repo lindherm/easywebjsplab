@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 public class UploadAction extends FileUploadAction{
+	String id;
 	UploadManager uploadManager;
 	public ModelAndView action() {
 		ModelAndView mv = new ModelAndView("/examples/uploadAction.jsp");
@@ -33,11 +34,24 @@ public class UploadAction extends FileUploadAction{
 		return mv;
 	}
 	
+	public ModelAndView deleteFile(){
+		ModelAndView mv=new ModelAndView("success.jsp");
+		uploadManager.deleteFile(id);
+		mv.addObject("msg","文件删除成功！");
+		return mv;
+	}
+	
 	public UploadManager getUploadManager() {
 		return uploadManager;
 	}
 
 	public void setUploadManager(UploadManager uploadManager) {
 		this.uploadManager = uploadManager;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 }

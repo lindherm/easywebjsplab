@@ -16,4 +16,8 @@ public class UploadDao extends HibernateDaoSupport {
 	public List<UploadFile> getAllFile() {
 		return this.getHibernateTemplate().find("from UploadFile");
 	}
+	public void deleteFile(String id){
+		UploadFile file=this.getFileById(id);
+		this.getHibernateTemplate().delete(file);
+	}
 }
