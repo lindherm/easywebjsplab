@@ -10,28 +10,15 @@
 <script type="text/javascript" src="extjs/js/plugin/upload/fileprogress.js"></script>
 <script type="text/javascript" src="extjs/js/plugin/upload/handlers.js"></script>
 <script type="text/javascript" src="js/upload.js"></script>
-<script type="text/javascript"><!--
-function uploadStart(){
-	upload.setUseQueryString(true);
-	upload.setPostParams({
-		name:"xiaoliya",
-		age:"28"
-	});
-	if(upload.getStats().files_queued>0){
-		upload.startUpload();
-	}else{
-		alert("请选择上传的文件!");
-	}
-}
---></script>
+<script type="text/javascript" src="js/upload/uploadAction.js"></script>
 </head>
 <body style="background-color: #C0D1E3; padding: 20px;">
 <table class="table" width="600">
 	<tr>
-		<td width="500"><input type="hidden" name="bizId" id="bizId" value="${bizId}"> <input type="hidden" name="bizType" id="bizType" value="squadronInfoBizFile"> <input type="hidden" name="action" id="action" value="insert"> <input id="openFile" select="files" filetypes="*.jpg;*.gif;*.jpeg" filetypesdescription="所有图片文件" type="button" class="box-btn-back" value="浏览..." />
+		<td width="500"><input type="hidden" name="bizId" id="bizId" value="${bizId}"> <input type="hidden" name="bizType" id="bizType" value="squadronInfoBizFile"> <input type="hidden" name="action" id="action" value="insert"> <input id="openFile" select="files" filetypes="*" filetypesdescription="所有图片文件" type="button" class="box-btn-back" value="浏览..." />
 		<div id="fsUploadProgress2" style="width: 500"></div>
 		</td>
-		<td width="300"><input type="button" id="upload" name="upload" onclick="uploadStart();" value="上传"></td>
+		<td width="300"><input type="button" id="upload" name="upload" value="上传"></td>
 	</tr>
 </table>
 </body>
