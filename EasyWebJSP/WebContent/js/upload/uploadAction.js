@@ -30,9 +30,11 @@ $("document").ready(function() {
 		// 删除文档
 		$("a[@id='deletefile']").each(function(i, n) {
 			$(n).click(function() {
-				var id=$(n).attr("fileid");
+				var id = $(n).attr("fileid");
 				Boxy.confirm("您确定要删除此附件吗?", function() {
-					$.post("uploadAction_deleteFile.box?id=" + id, null,null);
+					$.post("uploadAction_deleteFile.box?id=" + id, null, function(data) {
+						Boxy.alert(data,null,{title:"提示信息",model:true});
+					});
 				}, {
 					title : "确认信息"
 				});
