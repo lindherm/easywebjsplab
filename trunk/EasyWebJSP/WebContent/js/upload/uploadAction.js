@@ -18,7 +18,7 @@ $("document").ready(function() {
 			if (upload.getStats().files_queued > 0) {
 				upload.startUpload();
 			} else {
-				alert("请选择上传的文件!");
+				Boxy.alert("请选择上传的文件!",null,{title:"提示窗口"});
 			}
 		});
 	});
