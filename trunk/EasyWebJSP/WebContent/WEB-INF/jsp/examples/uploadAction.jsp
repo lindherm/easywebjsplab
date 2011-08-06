@@ -35,10 +35,10 @@ function uploadStart(){
 	</tr>
 </table>
 </body>
-<table>
+<table cellpadding="10" cellspacing="10">
 	<tr>
 		<c:forEach items="${filelist}" var="file">
-			<td><img src="downLoadAction.box?id=${file.id}"></img></td>
+			<td><img src="downLoadAction.box?id=${file.id}" width="200" height="200"></img></td>
 		</c:forEach>
 	</tr>
 </table>
