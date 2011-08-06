@@ -118,7 +118,7 @@ jQuery.extend(Boxy, {
         show:                   true,           // show dialog immediately?
         modal:                  false,          // make dialog modal?
         fixed:                  true,           // use fixed positioning, if supported? absolute positioning used otherwise
-        closeText:              '[close]',      // text to use for default close link
+        closeText:              '[关闭]',      // text to use for default close link
         unloadOnHide:           false,          // should this dialog be removed from the DOM after being hidden?
         clickToFront:           false,          // bring dialog to foreground on any click (not just titlebar)?
         behaviours:             Boxy.EF,        // function used to apply behaviours to all content embedded in dialog.
@@ -182,14 +182,14 @@ jQuery.extend(Boxy, {
     // displays an alert box with a given message, calling optional callback
     // after dismissal.
     alert: function(message, callback, options) {
-        return Boxy.ask(message, ['OK'], callback, options);
+        return Boxy.ask(message, ['确定'], callback, options);
     },
     
     // displays an alert box with a given message, calling after callback iff
     // user selects OK.
     confirm: function(message, after, options) {
-        return Boxy.ask(message, ['OK', 'Cancel'], function(response) {
-            if (response == 'OK') after();
+        return Boxy.ask(message, ['确定', '取消'], function(response) {
+            if (response == '确定') after();
         }, options);
     },
     
