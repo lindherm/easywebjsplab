@@ -29,23 +29,7 @@ $(document).ready(function() {
 		fObj.file_types_description = openFile.attr("filetypesdescription");
 		fObj.file_upload_limit = up_limit;
 		upload = new SWFUpload(fObj);
-		//删除文档
-		$("a[@id='deletefile']").each(function(i, n) {
-			$(n).click(function() {
-				BoxUI.MessageBox.confirm('确认框', '您确定要删除此附件吗?', function(btn) {
-					if (btn == "yes") {
-						var rid = $(n).attr("rid");
-						var realhref = $(n).attr("realhref") + "?fileId=" + rid;
-						$.post(realhref, "", function(msg) {
-							$("#showdiv" + rid).fadeOut(1000);
-						});
-					}
-				});
-
-			});
-		});
 	});
-
 });
 
 function getFlashObj() {

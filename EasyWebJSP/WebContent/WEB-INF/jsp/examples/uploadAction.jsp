@@ -13,6 +13,7 @@
 <script type="text/javascript" src="js/upload/uploadAction.js"></script>
 </head>
 <body style="background-color: #C0D1E3; padding: 20px;">
+<div id="errormsg"></div>
 <table class="table" width="600">
 	<tr>
 		<td width="500"><input type="hidden" name="bizId" id="bizId" value="${bizId}"> <input type="hidden" name="bizType" id="bizType" value="squadronInfoBizFile"> <input type="hidden" name="action" id="action" value="insert"> <input id="openFile" select="files" filetypes="*" filetypesdescription="所有图片文件" type="button" class="box-btn-back" value="浏览..." />
@@ -30,7 +31,7 @@
 	<tr>
 	</c:if>
 	<td bordercolor="#000000"><img src="downLoadAction.box?id=${file.id}" width="200" height="200" title="点击查看大图" filename="${file.fileName}"></img></td>
-	<td><div onclick="delfile();">删除<div></td>
+	<td><a href="javascript:void(0)" id="deletefile" fileid="${file.id}">删除</a></td>
 	</c:forEach>
 </table>
 </html>
