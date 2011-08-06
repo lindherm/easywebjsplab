@@ -22,11 +22,15 @@
 	</tr>
 </table>
 </body>
-<table cellpadding="10" cellspacing="10">
+<table cellpadding="0" cellspacing="0" border="1" bordercolor="#000000">
 	<tr>
-		<c:forEach items="${filelist}" var="file">
-			<td><img src="downLoadAction.box?id=${file.id}" width="200" height="200" title="${file.fileName}"></img></td>
-		</c:forEach>
+		<c:forEach items="${filelist}" var="file" varStatus="status">
+			<c:if test="${status.index%5==0}">
 	</tr>
+	<tr>
+	</c:if>
+	<td bordercolor="#000000"><img src="downLoadAction.box?id=${file.id}" width="200" height="200" title="点击查看大图" filename="${file.fileName}"></img></td>
+	<td><div onclick="delfile();">删除<div></td>
+	</c:forEach>
 </table>
 </html>

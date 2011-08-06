@@ -22,4 +22,7 @@ public class UploadManager {
 	public List<UploadFile> getAllFile(){
 		return uploadDao.getAllFile();
 	}
+	public void deleteFile(String id){
+		uploadDao.deleteFile(id);
+	}
 }
