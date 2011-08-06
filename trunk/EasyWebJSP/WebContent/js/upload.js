@@ -73,6 +73,6 @@ function getFlashObj() {
 	obj.flash_url = "extjs/js/plugin/upload/swfupload.swf"; // Relative to this file (or you can use
 	// absolute paths)
 	//是否调试
-	obj.debug = true;
+	obj.debug = false;
 	return obj;
 }

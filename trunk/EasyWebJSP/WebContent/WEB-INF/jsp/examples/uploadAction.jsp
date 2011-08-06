@@ -25,7 +25,7 @@
 <table cellpadding="10" cellspacing="10">
 	<tr>
 		<c:forEach items="${filelist}" var="file">
-			<td><img src="downLoadAction.box?id=${file.id}" width="200" height="200"></img></td>
+			<td><img src="downLoadAction.box?id=${file.id}" width="200" height="200" title="${file.fileName}"></img></td>
 		</c:forEach>
 	</tr>
 </table>

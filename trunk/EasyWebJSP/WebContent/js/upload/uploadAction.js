@@ -1,6 +1,6 @@
 $("document").ready(function() {
 	Ext.onReady(function() {
-		// $(".boxy]").boxy();
+		$(".boxy").boxy();
 		$("img").click(function() {
 			new Boxy("<p><img src=" + $(this).attr("src") + " width=400 height=500></img></p>", {
 				title : "图片",
@@ -8,7 +8,6 @@ $("document").ready(function() {
 				model : true
 			});
 		});
-
 		$("#upload").click(function() {
 			upload.setUseQueryString(true);
 			upload.setPostParams({
@@ -18,7 +17,9 @@ $("document").ready(function() {
 			if (upload.getStats().files_queued > 0) {
 				upload.startUpload();
 			} else {
-				Boxy.alert("请选择上传的文件!",null,{title:"提示窗口"});
+				Boxy.alert("请选择上传的文件!", null, {
+					title : "提示窗口"
+				});
 			}
 		});
 	});
