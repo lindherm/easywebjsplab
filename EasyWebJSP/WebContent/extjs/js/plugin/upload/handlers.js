@@ -36,7 +36,7 @@ function fileQueued(file) {
 		// You might include code here that prevents the form from being submitted while the upload is in
 		// progress.  Then you'll want to put code in the Queue Complete handler to "unblock" the form
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-		progress.setStatus("Pending...");
+		progress.setStatus("成功添加文件"+file.name+"到上传列表！");
 		progress.toggleCancel(true, this);
 
 	} catch (ex) {
@@ -101,7 +101,7 @@ function uploadStart(file) {
 	try {
 		/* I don't want to do any file validation or anything,  I'll just update the UI and return true to indicate that the upload should start */
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
-		progress.setStatus("Uploading...");
+		progress.setStatus("正在上传文件"+file.name+"...");
 		progress.toggleCancel(true, this);
 	}
 	catch (ex) {
@@ -117,7 +117,7 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setProgress(percent);
-		progress.setStatus("Uploading...");
+		progress.setStatus("正在上传文件"+file.name+"...");
 	} catch (ex) {
 		this.debug(ex);
 	}
@@ -126,7 +126,7 @@ function uploadSuccess(file, serverData) {
 	try {
 		var progress = new FileProgress(file, this.customSettings.progressTarget);
 		progress.setComplete();
-		progress.setStatus("Complete.");
+		progress.setStatus("文件"+file.name+"上传成功。");
 		progress.toggleCancel(false);
 
 	} catch (ex) {
