@@ -27,20 +27,17 @@ $("document").ready(function() {
 				title : "确认信息"
 			});
 		});
-		/*function delfile(){
-			alert("hello");
-		}*/
-		/*$("#delfile").each(function(i, n) {
+		// 删除文档
+		$("a[@id='deletefile']").each(function(i, n) {
 			$(n).click(function() {
-				alert("hello");
-				$.post("uploadAction_deleteFile.box", {
-					id : $(this).attr("fileid")
-				}, function(data) {
-					alert(data);
+				var id=$(n).attr("fileid");
+				Boxy.confirm("您确定要删除此附件吗?", function() {
+					$.post("uploadAction_deleteFile.box?id=" + id, null,null);
+				}, {
+					title : "确认信息"
 				});
 			});
 
-		});*/
-
+		});
 	});
 });
