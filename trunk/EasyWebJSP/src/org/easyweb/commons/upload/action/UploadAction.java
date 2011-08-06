@@ -35,9 +35,9 @@ public class UploadAction extends FileUploadAction{
 	}
 	
 	public ModelAndView deleteFile(){
-		ModelAndView mv=new ModelAndView("success.jsp");
+		ModelAndView mv=new ModelAndView("/success.jsp");
 		uploadManager.deleteFile(id);
-		mv.addObject("msg","文件删除成功！");
+		mv.addObject("msg","成功删除一个文件！");
 		return mv;
 	}
 	
