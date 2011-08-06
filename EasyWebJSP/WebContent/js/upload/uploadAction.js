@@ -4,7 +4,6 @@ $("document").ready(function() {
 		$("img").click(function() {
 			new Boxy("<p><img src=" + $(this).attr("src") + " width=400 height=500></img></p><p align='center'><a href=" + $(this).attr("src") + " target='_blank'>查看原图</a></p>", {
 				title : $(this).attr("filename"),
-				closeText : "[关闭]",
 				model : true
 			});
 		});
