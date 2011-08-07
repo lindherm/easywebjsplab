@@ -5,7 +5,6 @@
 <head>
 <title>SWFUpload Demos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="superbox/jquery.superbox.css" type="text/css"/>
 <script type="text/javascript" src="extjs/js/plugin/ajaxcommon.js"></script>
 <script type="text/javascript" src="extjs/js/plugin/upload/swfupload.js"></script>
 <script type="text/javascript" src="extjs/js/plugin/upload/fileprogress.js"></script>
@@ -13,7 +12,7 @@
 <script type="text/javascript" src="js/upload.js"></script>
 <script type="text/javascript" src="js/upload/uploadAction.js"></script>
 </head>
-<body style="background-color: #C0D1E3; padding: 20px;">
+<body style="background-color: #C0D1E3; padding: 20px; font-size: 12px">
 <div id="errormsg"></div>
 <table class="table" width="600">
 	<tr>
@@ -31,8 +30,8 @@
 	</tr>
 	<tr>
 		</c:if>
-		<td bordercolor="#000000"><a href="downLoadAction.box?id=${file.id}" rel="superbox[gallery][my_gallery]"><img src="downLoadAction.box?id=${file.id}" width="200" height="200" title="点击查看大图" filename="${file.fileName}"></img></a></td>
-		<td><a href="javascript:void(0)" id="deletefile" fileid="${file.id}">删除</a></td>
+		<td bordercolor="#000000"><img src="downLoadAction.box?id=${file.id}" width="100" height="100" title="点击查看大图" filename="${file.fileName}"></img></td>
+		<td valign="bottom"><a href="javascript:void(0)" id="deletefile" fileid="${file.id}">删除</a></td>
 		</c:forEach>
 </table>
 </html>

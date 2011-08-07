@@ -70,7 +70,6 @@ Array.prototype.toString = function() {
 };
 document.write('<base target="_self">');
 document.write('<style type="text/css">@import url("extjs/resources/css/css/globle.css");@import url("extjs/resources/css/ext-all.css");@import url("boxy/stylesheets/boxy.css");</style>');
-//document.write('<style type="text/css" media="all">@import url("superbox/jquery.superbox.css");</style>');
 function containJS(jsName) {
 	document.write('<script type="text/javascript" src="' + jsName + '"></script>');
 }
@@ -80,6 +79,5 @@ if (typeof Ext === "undefined") {
 	containJS("extjs/ext-all-debug.js");
 	containJS("extjs/ext-lang-zh_CN.js");
 	containJS("boxy/javascripts/jquery.boxy.js");
-	containJS("superbox/jquery.superbox.js");
 	containJS("extjs/js/plugin/jsonrpc.js");
 }
