@@ -10,23 +10,25 @@ $("document").ready(function() {
 		});
 
 		$("#upload").click(function() {
-			Boxy.confirm("你确定要上传这些文件吗？", function() {
-				upload.setUseQueryString(true);
-				upload.setPostParams({
-					name : "xiaoliya",
-					age : "28"
-				});
-				if (upload.getStats().files_queued > 0) {
-					upload.startUpload();
-				} else {
-					Boxy.alert("请选择上传的文件!", null, {
-						title : "提示信息"
+
+			if (upload.getStats().files_queued > 0) {
+				Boxy.confirm("你确定要上传这些文件吗？", function() {
+					upload.setUseQueryString(true);
+					upload.setPostParams({
+						name : "xiaoliya",
+						age : "28"
 					});
-					return false;
-				}
-			}, {
-				title : "确认信息"
-			});
+					upload.startUpload();
+				}, {
+					title : "确认信息"
+				});
+			} else {
+				Boxy.alert("请选择上传的文件!", null, {
+					title : "提示信息"
+				});
+				return false;
+			}
+
 		});
 		// 删除文档
 		$("a[@id='deletefile']").each(function(i, n) {
