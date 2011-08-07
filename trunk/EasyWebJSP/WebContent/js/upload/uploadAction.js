@@ -1,12 +1,10 @@
 $("document").ready(function() {
 	Ext.onReady(function() {
 		$(".boxy").boxy();
-		$("img").click(function() {
-			new Boxy("<p><img src=" + $(this).attr("src") + " width=400 height=500></img></p><p align='center'><a href=" + $(this).attr("src") + " target='_blank'>查看原图</a></p>", {
-				title : $(this).attr("filename"),
-				model : true
-			});
-		});
+		$.superbox();
+		/*
+		 * $("img").click(function() { new Boxy("<p><img src=" + $(this).attr("src") + " width=400 height=500></img></p><p align='center'><a href=" + $(this).attr("src") + " target='_blank'>查看原图</a></p>", { title : $(this).attr("filename"), model : true }); });
+		 */
 		$("#upload").click(function() {
 			Boxy.confirm("你确定要上传这些文件吗？", function() {
 				upload.setUseQueryString(true);
@@ -32,7 +30,10 @@ $("document").ready(function() {
 				var id = $(n).attr("fileid");
 				Boxy.confirm("您确定要删除此附件吗?", function() {
 					$.post("uploadAction_deleteFile.box?id=" + id, null, function(data) {
-						Boxy.alert(data,null,{title:"提示信息",model:true});
+						Boxy.alert(data, null, {
+							title : "提示信息",
+							model : true
+						});
 					});
 				}, {
 					title : "确认信息"
