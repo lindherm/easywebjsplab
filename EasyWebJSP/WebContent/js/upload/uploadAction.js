@@ -10,7 +10,6 @@ $("document").ready(function() {
 		});
 
 		$("#upload").click(function() {
-
 			if (upload.getStats().files_queued > 0) {
 				Boxy.confirm("你确定要上传这些文件吗？", function() {
 					upload.setUseQueryString(true);
@@ -31,7 +30,7 @@ $("document").ready(function() {
 
 		});
 		// 删除文档
-		$("a[@id='deletefile']").each(function(i, n) {
+		$("div[@id='deletefile']").each(function(i, n) {
 			$(n).click(function() {
 				var id = $(n).attr("fileid");
 				Boxy.confirm("您确定要删除此附件吗?", function() {
