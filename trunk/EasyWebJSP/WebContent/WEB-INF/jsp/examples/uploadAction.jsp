@@ -12,7 +12,7 @@
 <script type="text/javascript" src="js/upload.js"></script>
 <script type="text/javascript" src="js/upload/uploadAction.js"></script>
 </head>
-<body style="background-color: #C0D1E3; padding: 20px; font-size: 12px">
+<body style="padding: 20px; font-size: 12px">
 <div id="errormsg"></div>
 <table class="table" width="800">
 	<tr>
@@ -23,15 +23,17 @@
 	</tr>
 </table>
 </body>
-<table cellpadding="0" cellspacing="0" border="1" bordercolor="#000000">
+<table cellpadding="0" cellspacing="0" border="1">
 	<tr>
 		<c:forEach items="${filelist}" var="file" varStatus="status">
 			<c:if test="${status.index%5==0}">
 	</tr>
 	<tr>
 		</c:if>
-		<td bordercolor="#000000"><img src="downLoadAction.box?id=${file.id}" width="100" height="100" title="点击查看大图" filename="${file.fileName}"></img></td>
-		<td valign="bottom"><a href="javascript:void(0)" id="deletefile" fileid="${file.id}">删除</a></td>
+		<td><img src="downLoadAction.box?id=${file.id}" width="100" height="100" title="点击查看大图" filename="${file.fileName}"></img></td>
+		<td valign="bottom">
+		<div id="deletefile" fileid="${file.id}">删除</div>
+		</td>
 		</c:forEach>
 </table>
 </html>
