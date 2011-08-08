@@ -14,10 +14,10 @@
 </head>
 <body style="background-color: #C0D1E3; padding: 20px; font-size: 12px">
 <div id="errormsg"></div>
-<table class="table" width="600">
+<table class="table" width="800">
 	<tr>
-		<td width="500"><input type="hidden" name="bizId" id="bizId" value="${bizId}"> <input type="hidden" name="bizType" id="bizType" value="squadronInfoBizFile"> <input type="hidden" name="action" id="action" value="insert"> <input id="openFile" select="files" filetypes="*" filetypesdescription="所有图片文件" type="button" class="box-btn-back" value="浏览..." />
-		<div id="fsUploadProgress2" style="width: 500"></div>
+		<td width="800"><input type="hidden" name="bizId" id="bizId" value="${bizId}"> <input type="hidden" name="bizType" id="bizType" value="squadronInfoBizFile"> <input type="hidden" name="action" id="action" value="insert"> <input id="openFile" select="files" filetypes="*" filetypesdescription="所有图片文件" type="button" class="box-btn-back" value="浏览..." />
+		<div id="fsUploadProgress2" style="width: 800"></div>
 		</td>
 		<td width="300"><input type="button" id="upload" name="upload" value="上传"></td>
 	</tr>
