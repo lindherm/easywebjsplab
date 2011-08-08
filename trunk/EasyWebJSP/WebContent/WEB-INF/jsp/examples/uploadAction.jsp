@@ -23,15 +23,15 @@
 	</tr>
 </table>
 </body>
-<table cellpadding="0" cellspacing="0" border="1">
+<table cellpadding="0" cellspacing="10" border="1" bordercolor="#FFFFFF">
 	<tr>
 		<c:forEach items="${filelist}" var="file" varStatus="status">
 			<c:if test="${status.index%5==0}">
 	</tr>
-	<tr>
+	<tr bordercolor="#000000">
 		</c:if>
 		<td><img src="downLoadAction.box?id=${file.id}" width="100" height="100" title="点击查看大图" filename="${file.fileName}"></img></td>
-		<td valign="bottom">
+		<td valign="bottom" bordercolor="#FFFFFF">
 		<div id="deletefile" fileid="${file.id}">删除</div>
 		</td>
 		</c:forEach>
