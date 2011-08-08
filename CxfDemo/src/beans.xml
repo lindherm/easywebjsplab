@@ -11,6 +11,10 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
 	<bean id="hello" class="org.cxf.demo.HelloWorldImpl" />
+	<bean id="bye" class="org.cxf.demo.ByeWorldImpl"/>
 	<jaxws:endpoint id="helloWorld" implementor="#hello" address="/HelloWorld" />
+	<jaxws:endpoint id="byeWorld" implementor="#bye" address="/ByeWorld"/>
+	
 	<jaxws:client id="helloClient" serviceClass="org.cxf.demo.HelloWorld" address="http://localhost:8080/CxfDemo/HelloWorld" />
+	<jaxws:client id="byeClient" serviceClass="org.cxf.demo.ByeWorld" address="http://localhost:8080/CxfDemo/ByeWorld"/>
 </beans>
