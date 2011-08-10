@@ -59,7 +59,7 @@ public class HelloWorldAction {
 			} else {
 				treeNode.setLeaf(true);
 			}
-			//treeNode.setExpanded(true);可用来做操作点记录
+			// treeNode.setExpanded(true);可用来做操作点记录
 			treeNodeList.add(treeNode);
 		}
 		JSONArray jsonArray = JSONArray.fromObject(treeNodeList);
@@ -71,6 +71,13 @@ public class HelloWorldAction {
 		// TODO Auto-generated method stub
 		ModelAndView mv = new ModelAndView(new RedirectView("helloWorldAction.box"));
 		helloWorldManager.save(helloWorld);
+		return mv;
+	}
+	
+	public ModelAndView outWord() {
+		// TODO Auto-generated method stub
+		ModelAndView mv = new ModelAndView("/test.jsp");
+		mv.addObject("name", "这是一个测试程序！成功了！");
 		return mv;
 	}
 
