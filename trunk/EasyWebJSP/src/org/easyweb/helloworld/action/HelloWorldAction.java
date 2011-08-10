@@ -76,7 +76,7 @@ public class HelloWorldAction {
 	
 	public ModelAndView outWord() {
 		// TODO Auto-generated method stub
-		ModelAndView mv = new ModelAndView("/hello.jsp");
+		ModelAndView mv = new ModelAndView("/test.jsp");
 		mv.addObject("name", "这是一个测试程序！成功了！");
 		return mv;
 	}
