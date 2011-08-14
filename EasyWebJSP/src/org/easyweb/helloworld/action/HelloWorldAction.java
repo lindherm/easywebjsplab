@@ -120,6 +120,7 @@ public class HelloWorldAction {
 		Map beans = new HashMap();
 		beans.put("employee", helloWorlds);
 		XLSTransformer transformer = new XLSTransformer();
+		transformer.markAsFixedSizeCollection("employee");
 		try {
 			transformer.transformXLS(templateFileName, beans, destFileName);
 		} catch (ParsePropertyException e) {
