@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>TestDemo</display-name>
+    <servlet-name>TestDemo</servlet-name>
+    <servlet-class>org.easyweb.jword.TestDemo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestDemo</servlet-name>
+    <url-pattern>/TestDemo</url-pattern>
+  </servlet-mapping>
 </web-app>
