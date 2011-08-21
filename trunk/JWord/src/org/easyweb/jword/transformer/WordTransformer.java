@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
@@ -31,15 +30,16 @@ public class WordTransformer {
 					 * System.out.println(method[i].invoke(object,new
 					 * Object[]{}));
 					 */
-					String srcStr = "{" + entry.getKey() + "." + methodName.substring(3).toLowerCase() + "}";
+					String srcStr = entry.getKey() + "." + methodName.substring(3).toLowerCase();
 					System.out.println(srcStr);
-					String targetStr = chineseToRtr(method[i].invoke(object, new Object[] {}).toString());
 
-					int pos = srcStr.indexOf(targetStr);
-					String retstring = srcStr;
+					String targetStr = chineseToRtf(method[i].invoke(object, new Object[] {}).toString());
+					srcStr=chineseToRtf(srcStr);
+					int pos = templateStr.indexOf(srcStr);
+					String retstring = templateStr;
 					while (pos != -1) {
-						retstring = retstring.substring(0, pos) + templateStr + retstring.substring(pos + templateStr.length(), retstring.length());
-						pos = retstring.indexOf(templateStr);
+						retstring = retstring.substring(0, pos) + targetStr + retstring.substring(pos + targetStr.length(), retstring.length());
+						pos = retstring.indexOf(srcStr);
 					}
 				}
 			}
@@ -66,7 +66,7 @@ public class WordTransformer {
 		}
 	}
 
-	public String chineseToRtr(String str) throws UnsupportedEncodingException {
+	public String chineseToRtf(String str) throws UnsupportedEncodingException {
 		byte[] b = str.getBytes("gb2312");
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0, j = b.length; i < j; i++) {
