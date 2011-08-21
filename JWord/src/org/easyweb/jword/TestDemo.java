@@ -68,6 +68,7 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		response.setContentType("application/msword");
 		response.setHeader("Content-disposition", "attachment;" + "filename=word.word");
 		ServletOutputStream out = response.getOutputStream();
+		out.println(str);
 		OutputStreamWriter ow = new OutputStreamWriter(out);
 		ow.write(str);
 		ow.close();
