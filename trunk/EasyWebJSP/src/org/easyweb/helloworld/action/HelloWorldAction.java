@@ -1,6 +1,11 @@
 package org.easyweb.helloworld.action;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +19,7 @@ import net.sf.jxls.exception.ParsePropertyException;
 import net.sf.jxls.transformer.XLSTransformer;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.easyweb.helloworld.manager.HelloWorldManager;
 import org.easyweb.helloworld.model.HelloWorld;
 import org.easyweb.helloworld.vo.TreeNode;
@@ -102,10 +108,10 @@ public class HelloWorldAction {
 
 	private final static String TEMPLATE_PATH = "/WEB-INF/template/";
 
-	public ModelAndView outExcel() {
+	public ModelAndView outExcel() throws IOException {
 		String templateFileName = request.getSession().getServletContext().getRealPath(TEMPLATE_PATH + "fixedsizelist.xls");
 		String destFileName = request.getSession().getServletContext().getRealPath(TEMPLATE_PATH + "destfixedsizelist.xls");
-
+		InputStream is=new FileInputStream(new File(templateFileName));
 		List<HelloWorld> helloWorlds = new ArrayList<HelloWorld>();
 		HelloWorld helloWorld=new HelloWorld();
 		helloWorld.setId("1");
@@ -121,19 +127,21 @@ public class HelloWorldAction {
 		beans.put("employee", helloWorlds);
 		XLSTransformer transformer = new XLSTransformer();
 		transformer.markAsFixedSizeCollection("employee");
+		Workbook workbook = null;
 		try {
-			transformer.transformXLS(templateFileName, beans, destFileName);
+			workbook=transformer.transformXLS(is, beans);
 		} catch (ParsePropertyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 
+		response.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-Disposition","attachment;filename=test.xls"); 
+        OutputStream os=response.getOutputStream();
+        workbook.write(os);
 		return null;
 	}
 
