@@ -33,6 +33,15 @@ import org.xml.sax.SAXException;
 public class WordTransformer {
 	@SuppressWarnings("unchecked")
 	public void transformWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		// 读取模板文件
+		String templateStr = readDocTemplate(srcFileName);
+		// 遍历map替换值
+		String s = replaceContentWidthMap(templateStr, map);
+		// 生成docx文件
+		generateDocFile(srcFileName, s, destFileName);
+	}
+
+	public String readDocTemplate(String srcFileName) throws ZipException, IOException {
 		// 模板文件位置
 		ZipFile docxFile = new ZipFile(new File(srcFileName));
 		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
@@ -42,11 +51,17 @@ public class WordTransformer {
 		InputStreamReader reader = new InputStreamReader(documentXMLIS, "UTF-8");
 		BufferedReader br = new BufferedReader(reader);
 		String str = null;
-
+		// 按行读取模板文件
 		while ((str = br.readLine()) != null) {
 			s = s + str;
 		}
-		// 遍历map替换值
+		documentXMLIS.close();
+		reader.close();
+		br.close();
+		return s;
+	}
+
+	public String replaceContentWidthMap(String templateStr, Map map) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
 			Entry entry = (Entry) it.next();
 			Object object = (Object) entry.getValue();
@@ -58,14 +73,17 @@ public class WordTransformer {
 					String filedName = methodName.substring(3);
 					String desStr = entry.getKey().toString() + "." + filedName.substring(0, 1).toLowerCase() + filedName.substring(1);
 					String replaceStr = method[i].invoke(object, new Object[] {}).toString();
-					s = s.replaceAll(desStr, replaceStr);
+					templateStr = templateStr.replaceAll(desStr, replaceStr);
 				}
 			}
 		}
-		reader.close();
-		br.close();
-		// ZipEntry imgFile = docxFile.getEntry("word/media/image1.png");
+		return templateStr;
+	}
 
+	public void generateDocFile(String srcFileName, String s, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException {
+		ZipFile docxFile = new ZipFile(new File(srcFileName));
+		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
+		// ZipEntry imgFile = docxFile.getEntry("word/media/image1.png");
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		InputStream documentXMLIS1 = docxFile.getInputStream(documentXML);
 		Document doc = dbf.newDocumentBuilder().parse(documentXMLIS1);
