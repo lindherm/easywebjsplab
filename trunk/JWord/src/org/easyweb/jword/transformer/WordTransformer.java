@@ -87,7 +87,7 @@ public class WordTransformer {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		InputStream documentXMLIS1 = docxFile.getInputStream(documentXML);
 		Document doc = dbf.newDocumentBuilder().parse(documentXMLIS1);
-		Element docElement = doc.getDocumentElement();
+		/*Element docElement = doc.getDocumentElement();
 		// System.out.println(docElement.getTagName());
 		Element bodyElement = (Element) docElement.getElementsByTagName("w:body").item(0);
 		// System.out.println(bodyElement.getTagName());
@@ -97,7 +97,7 @@ public class WordTransformer {
 		// System.out.println(rElement.getTagName());
 		Element tElement = (Element) rElement.getElementsByTagName("w:t").item(0);
 		// System.out.println(tElement.getTagName());
-		// 转换
+*/		// 转换
 		Transformer t = TransformerFactory.newInstance().newTransformer();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		t.transform(new DOMSource(doc), new StreamResult(baos));
