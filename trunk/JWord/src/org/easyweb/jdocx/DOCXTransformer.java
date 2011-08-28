@@ -49,7 +49,7 @@ public class DOCXTransformer {
 			// 生成docx文件
 			generateDocFile(srcFileName, s, destFileName);
 		} else {
-			System.out.println("error!root cause :template must be xml document or .docx word file!");
+			System.out.println("error!template must be xml document or .docx word file!");
 		}
 		return null;
 	}
