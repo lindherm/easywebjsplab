@@ -56,12 +56,12 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
-		helloWorld.setName("hello,yes or not?这是啥？");
+		helloWorld.setName("hello,yes or not?这是啥？hehe");
 		helloWorld.setPass("测试englishi");
 		mapBeans.put("helloWorld", helloWorld);
 
 		SystemUser systemUser = new SystemUser();
-		systemUser.setUserName("肖利亚123");
+		systemUser.setUserName("肖利亚1234");
 		systemUser.setPassWord("52013一世");
 		mapBeans.put("systemUser", systemUser);
 		String s = "";
