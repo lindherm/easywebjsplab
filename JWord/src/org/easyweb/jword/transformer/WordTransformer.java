@@ -27,21 +27,49 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 public class WordTransformer {
+	// word 2003模板xml格式
+	public String transformOldWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, IllegalArgumentException, ClassNotFoundException, IllegalAccessException, InvocationTargetException {
+		// 读取xml模板文件
+		String templateStr = readDocTemplate(srcFileName);
+		// 遍历map替换值
+		String s = replaceContentWidthMap(templateStr, map);
+		
+		return s;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void transformWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		// 读取模板文件
-		String templateStr = readDocTemplate(srcFileName);
+		// 读取docx模板文件
+		String templateStr = readDocxTemplate(srcFileName);
 		// 遍历map替换值
 		String s = replaceContentWidthMap(templateStr, map);
 		// 生成docx文件
 		generateDocFile(srcFileName, s, destFileName);
 	}
 
+	// 读取xml模板
 	public String readDocTemplate(String srcFileName) throws ZipException, IOException {
+		String s = "";
+		// 读取模板中的document.xml文件
+		File file = new File(srcFileName);
+		FileInputStream fis=new FileInputStream(file);
+		InputStreamReader reader = new InputStreamReader(fis, "UTF-8");
+		BufferedReader br = new BufferedReader(reader);
+		String str = null;
+		// 按行读取模板文件
+		while ((str = br.readLine()) != null) {
+			s = s + str;
+		}
+		reader.close();
+		br.close();
+		return s;
+	}
+
+	// 读取docx模板
+	public String readDocxTemplate(String srcFileName) throws ZipException, IOException {
 		// 模板文件位置
 		ZipFile docxFile = new ZipFile(new File(srcFileName));
 		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
@@ -87,17 +115,18 @@ public class WordTransformer {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		InputStream documentXMLIS1 = docxFile.getInputStream(documentXML);
 		Document doc = dbf.newDocumentBuilder().parse(documentXMLIS1);
-		/*Element docElement = doc.getDocumentElement();
-		// System.out.println(docElement.getTagName());
-		Element bodyElement = (Element) docElement.getElementsByTagName("w:body").item(0);
-		// System.out.println(bodyElement.getTagName());
-		Element pElement = (Element) bodyElement.getElementsByTagName("w:p").item(0);
-		// System.out.println(pElement.getTagName());
-		Element rElement = (Element) pElement.getElementsByTagName("w:r").item(0);
-		// System.out.println(rElement.getTagName());
-		Element tElement = (Element) rElement.getElementsByTagName("w:t").item(0);
-		// System.out.println(tElement.getTagName());
-*/		// 转换
+		/*
+		 * Element docElement = doc.getDocumentElement(); //
+		 * System.out.println(docElement.getTagName()); Element bodyElement =
+		 * (Element) docElement.getElementsByTagName("w:body").item(0); //
+		 * System.out.println(bodyElement.getTagName()); Element pElement =
+		 * (Element) bodyElement.getElementsByTagName("w:p").item(0); //
+		 * System.out.println(pElement.getTagName()); Element rElement =
+		 * (Element) pElement.getElementsByTagName("w:r").item(0); //
+		 * System.out.println(rElement.getTagName()); Element tElement =
+		 * (Element) rElement.getElementsByTagName("w:t").item(0); //
+		 * System.out.println(tElement.getTagName());
+		 */// 转换
 		Transformer t = TransformerFactory.newInstance().newTransformer();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		t.transform(new DOMSource(doc), new StreamResult(baos));
