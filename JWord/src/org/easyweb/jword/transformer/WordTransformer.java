@@ -34,8 +34,7 @@ import org.xml.sax.SAXException;
 
 public class WordTransformer {
 	@SuppressWarnings("unchecked")
-	public void transformWORD(String srcFileName, Map map, HelloWorld helloWorld) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-
+	public void transformWORD(String srcFileName, Map map) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		// 模板文件位置
 		ZipFile docxFile = new ZipFile(new File(srcFileName));
 		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
@@ -58,40 +57,30 @@ public class WordTransformer {
 			for (int i = 0; i < method.length; i++) {
 				String methodName = method[i].getName();
 				if (methodName.startsWith("get")) {
-					String temp1 = entry.getKey().toString() + "." + methodName.substring(3).toLowerCase();
-					String temp = method[i].invoke(object, new Object[] {}).toString();
-					s = s.replaceAll(temp1, temp);
+					String filedName = methodName.substring(3);
+					String desStr = entry.getKey().toString() + "." + filedName.substring(0, 1).toLowerCase() + filedName.substring(1);
+					String replaceStr = method[i].invoke(object, new Object[] {}).toString();
+					s = s.replaceAll(desStr, replaceStr);
 				}
 			}
 		}
-
-		// 替换内容
-		/*
-		 * s = s.replaceAll("hello.name", helloWorld.getName()); s =
-		 * s.replaceAll("hello.pass", helloWorld.getPass());
-		 */
-		// s = s.replaceAll("test", "替换内容肖"); //
-		// System.out.println(s);
 		reader.close();
 		br.close();
-
 		// ZipEntry imgFile = docxFile.getEntry("word/media/image1.png");
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		InputStream documentXMLIS1 = docxFile.getInputStream(documentXML);
 		Document doc = dbf.newDocumentBuilder().parse(documentXMLIS1);
 		Element docElement = doc.getDocumentElement();
-		// assertEquals("w:document", docElement.getTagName());
+		// System.out.println(docElement.getTagName());
 		Element bodyElement = (Element) docElement.getElementsByTagName("w:body").item(0);
-		// assertEquals("w:body", bodyElement.getTagName());
+		// System.out.println(bodyElement.getTagName());
 		Element pElement = (Element) bodyElement.getElementsByTagName("w:p").item(0);
-		// assertEquals("w:p", pElement.getTagName());
+		// System.out.println(pElement.getTagName());
 		Element rElement = (Element) pElement.getElementsByTagName("w:r").item(0);
-		// assertEquals("w:r", rElement.getTagName());
+		// System.out.println(rElement.getTagName());
 		Element tElement = (Element) rElement.getElementsByTagName("w:t").item(0);
-		// assertEquals("w:t", tElement.getTagName());
-		// assertEquals("这是第一个测试文档", tElement.getTextContent());
-		// tElement.setTextContent("这是第一个用Java写的测试文档");
+		// System.out.println(tElement.getTagName());
 		// 转换
 		Transformer t = TransformerFactory.newInstance().newTransformer();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
