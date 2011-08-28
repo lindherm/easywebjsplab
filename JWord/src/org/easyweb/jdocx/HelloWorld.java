@@ -1,4 +1,4 @@
-package org.easyweb.jword;
+package org.easyweb.jdocx;
 
 public class HelloWorld {
 

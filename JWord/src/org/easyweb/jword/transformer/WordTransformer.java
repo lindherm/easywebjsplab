@@ -30,32 +30,35 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class WordTransformer {
-	// word 2003模板xml格式
-	public String transformOldWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, IllegalArgumentException, ClassNotFoundException, IllegalAccessException, InvocationTargetException {
-		// 读取xml模板文件
-		String templateStr = readDocTemplate(srcFileName);
-		// 遍历map替换值
-		String s = replaceContentWidthMap(templateStr, map);
-		
-		return s;
-	}
-
 	@SuppressWarnings("unchecked")
-	public void transformWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		// 读取docx模板文件
-		String templateStr = readDocxTemplate(srcFileName);
-		// 遍历map替换值
-		String s = replaceContentWidthMap(templateStr, map);
-		// 生成docx文件
-		generateDocFile(srcFileName, s, destFileName);
+	public String transformWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		File file = new File(srcFileName);
+		String fileName = file.getName();
+		int pos = fileName.lastIndexOf(".");
+		String ext = fileName.substring(pos + 1);
+		if (ext.equalsIgnoreCase("xml")) {
+			// 读取xml模板文件
+			String templateStr = readDocXmlTemplate(srcFileName);
+			// 遍历map替换值
+			String s = replaceContentWidthMap(templateStr, map);
+			return s;
+		} else if (ext.equalsIgnoreCase("docx")) {
+			// 读取docx模板文件
+			String templateStr = readDocxTemplate(srcFileName);
+			// 遍历map替换值
+			String s = replaceContentWidthMap(templateStr, map);
+			// 生成docx文件
+			generateDocFile(srcFileName, s, destFileName);
+		}
+		return null;
 	}
 
 	// 读取xml模板
-	public String readDocTemplate(String srcFileName) throws ZipException, IOException {
+	public String readDocXmlTemplate(String srcFileName) throws ZipException, IOException {
 		String s = "";
 		// 读取模板中的document.xml文件
 		File file = new File(srcFileName);
-		FileInputStream fis=new FileInputStream(file);
+		FileInputStream fis = new FileInputStream(file);
 		InputStreamReader reader = new InputStreamReader(fis, "UTF-8");
 		BufferedReader br = new BufferedReader(reader);
 		String str = null;

@@ -1,4 +1,4 @@
-package org.easyweb.jword;
+package org.easyweb.jdocx;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -9,8 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.easyweb.jword.transformer.WordTransformer;
+import org.xml.sax.SAXException;
 
 /**
  * Servlet implementation class for Servlet: TestDemo
@@ -63,13 +66,22 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		mapBeans.put("helloWorld", helloWorld);
 
 		SystemUser systemUser = new SystemUser();
-		systemUser.setUserName("肖利亚");
+		systemUser.setUserName("肖利亚123");
 		systemUser.setPassWord("52013一世");
 		mapBeans.put("systemUser", systemUser);
 		String s = "";
 		try {
-			s = transformer.transformOldWORD(srcFileName, mapBeans, destFileName);
+			s = transformer.transformWORD(srcFileName, mapBeans, destFileName);
 		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -82,7 +94,6 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		// 到处下载流到页面
 		response.setContentType("application/msword");
 		response.setHeader("Content-disposition", "attachment;" + "filename=word.doc");
