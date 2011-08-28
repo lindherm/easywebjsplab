@@ -1,18 +1,17 @@
 package org.easyweb.jword;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.easyweb.jword.transformer.WordTransformer;
+import org.xml.sax.SAXException;
 
 /**
  * Servlet implementation class for Servlet: TestDemo
@@ -49,28 +48,46 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 	 */
 	private final static String FILE_PATH = "/WEB-INF/template/";
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String fileName = "testtransformer.rtf";
-		File file = new File(request.getSession().getServletContext().getRealPath(FILE_PATH + "/" + fileName));
+	@SuppressWarnings("unchecked")
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		// TODO Auto-generated method stub String
+		String fileName = "c:/document.docx";
 		WordTransformer transformer = new WordTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
-		helloWorld.setName("xiaoliya");
-		helloWorld.setPass("5201314");
-		mapBeans.put("helloWorld", helloWorld);
-		String str = "";
+		helloWorld.setName("测试");
+		helloWorld.setPass("测试englishi");
+		mapBeans.put("hello", helloWorld);
+
 		try {
-			str = transformer.transformWORD(file, mapBeans);
-		} catch (Exception e) {
+			transformer.transformWORD(fileName, mapBeans,helloWorld);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	/*	
+		// 到处下载流到页面
 		response.setContentType("application/msword");
-		response.setHeader("Content-disposition", "attachment;" + "filename=word.word");
-		ServletOutputStream out = response.getOutputStream();
-		out.println(str);
-		OutputStreamWriter ow = new OutputStreamWriter(out);
-		ow.write(str);
-		ow.close();
+		response.setHeader("Content-disposition", "attachment;" + "filename=word.doc");
+		ServletOutputStream out = response.getOutputStream();*/
 	}
 }
