@@ -56,7 +56,7 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		WordTransformer transformer = new WordTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
-		helloWorld.setName("测试来了");
+		helloWorld.setName("hello,yes or not?");
 		helloWorld.setPass("测试englishi");
 		mapBeans.put("helloWorld", helloWorld);
 		
