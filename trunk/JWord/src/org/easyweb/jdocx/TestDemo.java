@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.easyweb.jword.transformer.WordTransformer;
 import org.xml.sax.SAXException;
 
 /**
