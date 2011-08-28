@@ -58,10 +58,15 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		HelloWorld helloWorld = new HelloWorld();
 		helloWorld.setName("测试");
 		helloWorld.setPass("测试englishi");
-		mapBeans.put("hello", helloWorld);
+		mapBeans.put("helloWorld", helloWorld);
 
+		SystemUser systemUser=new SystemUser();
+		systemUser.setUserName("肖利亚");
+		systemUser.setPassWord("52013一世");
+		mapBeans.put("systemUser", systemUser);
+		
 		try {
-			transformer.transformWORD(fileName, mapBeans,helloWorld);
+			transformer.transformWORD(fileName, mapBeans);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
