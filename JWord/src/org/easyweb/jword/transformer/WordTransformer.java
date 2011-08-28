@@ -26,15 +26,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.easyweb.jword.HelloWorld;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 public class WordTransformer {
 	@SuppressWarnings("unchecked")
-	public void transformWORD(String srcFileName, Map map) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void transformWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		// 模板文件位置
 		ZipFile docxFile = new ZipFile(new File(srcFileName));
 		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
@@ -48,7 +46,7 @@ public class WordTransformer {
 		while ((str = br.readLine()) != null) {
 			s = s + str;
 		}
-
+		// 遍历map替换值
 		for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
 			Entry entry = (Entry) it.next();
 			Object object = (Object) entry.getValue();
@@ -86,7 +84,7 @@ public class WordTransformer {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		t.transform(new DOMSource(doc), new StreamResult(baos));
 		// 目标文件地址
-		ZipOutputStream docxOutFile = new ZipOutputStream(new FileOutputStream("c:/response.docx"));
+		ZipOutputStream docxOutFile = new ZipOutputStream(new FileOutputStream(destFileName));
 		Enumeration<ZipEntry> entriesIter = (Enumeration<ZipEntry>) docxFile.entries();
 		while (entriesIter.hasMoreElements()) {
 			ZipEntry entry = entriesIter.nextElement();
