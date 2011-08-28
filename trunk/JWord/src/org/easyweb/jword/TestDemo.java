@@ -50,23 +50,23 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
 		// TODO Auto-generated method stub String
-		String fileName = "c:/document.docx";
+		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.docx";
+		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
 		WordTransformer transformer = new WordTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
-		helloWorld.setName("测试");
+		helloWorld.setName("测试来了");
 		helloWorld.setPass("测试englishi");
 		mapBeans.put("helloWorld", helloWorld);
-
-		SystemUser systemUser=new SystemUser();
+		
+		SystemUser systemUser = new SystemUser();
 		systemUser.setUserName("肖利亚");
 		systemUser.setPassWord("52013一世");
 		mapBeans.put("systemUser", systemUser);
-		
+
 		try {
-			transformer.transformWORD(fileName, mapBeans);
+			transformer.transformWORD(srcFileName, mapBeans, destFileName);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,10 +89,11 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	/*	
-		// 到处下载流到页面
-		response.setContentType("application/msword");
-		response.setHeader("Content-disposition", "attachment;" + "filename=word.doc");
-		ServletOutputStream out = response.getOutputStream();*/
+		/*
+		 * // 到处下载流到页面 response.setContentType("application/msword");
+		 * response.setHeader("Content-disposition", "attachment;" +
+		 * "filename=word.doc"); ServletOutputStream out =
+		 * response.getOutputStream();
+		 */
 	}
 }
