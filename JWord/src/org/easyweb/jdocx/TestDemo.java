@@ -51,13 +51,9 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub String
-		// String srcFileName =
-		// request.getSession().getServletContext().getRealPath(FILE_PATH) +
-		// "/document.docx";
 		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.xml";
 		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
-		WordTransformer transformer = new WordTransformer();
+		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
 		helloWorld.setName("hello,yes or not?这是啥？");
@@ -70,7 +66,7 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		mapBeans.put("systemUser", systemUser);
 		String s = "";
 		try {
-			s = transformer.transformWORD(srcFileName, mapBeans, destFileName);
+			s = transformer.transformDOCX(srcFileName, mapBeans, destFileName);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

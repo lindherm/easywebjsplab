@@ -18,7 +18,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -29,9 +28,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-public class WordTransformer {
+public class DOCXTransformer {
 	@SuppressWarnings("unchecked")
-	public String transformWORD(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public String transformDOCX(String srcFileName, Map map, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		File file = new File(srcFileName);
 		String fileName = file.getName();
 		int pos = fileName.lastIndexOf(".");
