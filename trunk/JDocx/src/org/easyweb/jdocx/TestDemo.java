@@ -14,6 +14,8 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 /**
  * Servlet implementation class for Servlet: TestDemo
  * 
@@ -91,7 +93,7 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 		}
 		// 到处下载流到页面
 		response.setContentType("application/msword");
-		response.setHeader("Content-disposition", "attachment;" + "filename=word.doc");
+		response.setHeader("Content-disposition", "attachment;filename=export.doc");
 		ServletOutputStream out = response.getOutputStream();
 		out.write(s.getBytes("UTF-8"));
 	}
