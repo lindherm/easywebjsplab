@@ -1,5 +1,7 @@
 package org.easyweb.jdocx;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -54,17 +56,18 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.xml";
+		//String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.docx";
 		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
 		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
-		helloWorld.setName("hello,yes or not?这是啥？hehe");
+		helloWorld.setName("hello,yes or not?这是啥啊？hehe");
 		helloWorld.setPass("测试englishi");
 		mapBeans.put("helloWorld", helloWorld);
 
 		SystemUser systemUser = new SystemUser();
 		systemUser.setUserName("肖利亚1234");
-		systemUser.setPassWord("52013一世");
+		systemUser.setPassWord("52013一世好");
 		mapBeans.put("systemUser", systemUser);
 		String s = "";
 		try {
@@ -92,9 +95,15 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 			e.printStackTrace();
 		}
 		// 到处下载流到页面
+		/*File file=new File(destFileName);
+		FileInputStream fis=new FileInputStream(file);
+		file.length();
+		byte[] bytes=new byte[(int)file.length()];
+		fis.read(bytes,0,bytes.length);*/
 		response.setContentType("application/msword");
 		response.setHeader("Content-disposition", "attachment;filename=export.doc");
 		ServletOutputStream out = response.getOutputStream();
 		out.write(s.getBytes("UTF-8"));
+		//out.write(bytes);
 	}
 }
