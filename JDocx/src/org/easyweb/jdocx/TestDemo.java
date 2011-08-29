@@ -16,8 +16,6 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 /**
  * Servlet implementation class for Servlet: TestDemo
  * 
