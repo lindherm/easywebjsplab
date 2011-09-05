@@ -55,7 +55,7 @@ public class DOCXTransformer {
 	}
 
 	// 读取xml模板
-	public String readDocXmlTemplate(String srcFileName) throws ZipException, IOException {
+	private String readDocXmlTemplate(String srcFileName) throws ZipException, IOException {
 		String s = "";
 		// 读取模板中的document.xml文件
 		File file = new File(srcFileName);
@@ -73,7 +73,7 @@ public class DOCXTransformer {
 	}
 
 	// 读取docx模板
-	public String readDocxTemplate(String srcFileName) throws ZipException, IOException {
+	private String readDocxTemplate(String srcFileName) throws ZipException, IOException {
 		// 模板文件位置
 		ZipFile docxFile = new ZipFile(new File(srcFileName));
 		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
@@ -93,26 +93,44 @@ public class DOCXTransformer {
 		return s;
 	}
 
-	public String replaceContentWidthMap(String templateStr, Map map) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	@SuppressWarnings("unchecked")
+	private String replaceContentWidthMap(String templateStr, Map map) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
 			Entry entry = (Entry) it.next();
 			Object object = (Object) entry.getValue();
-			Class c = Class.forName(object.getClass().getName());
-			Method method[] = c.getDeclaredMethods();
-			for (int i = 0; i < method.length; i++) {
-				String methodName = method[i].getName();
-				if (methodName.startsWith("get")) {
-					String filedName = methodName.substring(3);
-					String desStr = entry.getKey().toString() + "." + filedName.substring(0, 1).toLowerCase() + filedName.substring(1);
-					String replaceStr = method[i].invoke(object, new Object[] {}).toString();
-					templateStr = templateStr.replaceAll(desStr, replaceStr);
-				}
+			Class<?> c = object.getClass();
+			templateStr = replaceContentWithMap(entry, c, templateStr);
+
+			if (c.getGenericSuperclass() != null) {
+				Class<?> superClass = c.getSuperclass();
+				templateStr = replaceContentWithMap(entry, superClass, templateStr);
 			}
 		}
 		return templateStr;
 	}
 
-	public void generateDocFile(String srcFileName, String s, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException {
+	@SuppressWarnings( { "unchecked", "unused" })
+	private String replaceContentWithMap(Entry entry, Class<?> c, String templateStr) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		Object object = (Object) entry.getValue();
+		Method method[] = c.getDeclaredMethods();
+		for (int i = 0; i < method.length; i++) {
+			String methodName = method[i].getName();
+			if (methodName.startsWith("get")) {
+				String filedName = methodName.substring(3);
+				String desStr = entry.getKey().toString() + "." + filedName.substring(0, 1).toLowerCase() + filedName.substring(1);
+				Object o = method[i].invoke(object, new Object[] {});
+				String replaceStr = "";
+				if (o != null) {
+					replaceStr = o.toString();
+				}
+
+				templateStr = templateStr.replaceAll(desStr, replaceStr);
+			}
+		}
+		return templateStr;
+	}
+
+	private void generateDocFile(String srcFileName, String s, String destFileName) throws ZipException, IOException, SAXException, ParserConfigurationException, TransformerException {
 		ZipFile docxFile = new ZipFile(new File(srcFileName));
 		ZipEntry documentXML = docxFile.getEntry("word/document.xml");
 		// ZipEntry imgFile = docxFile.getEntry("word/media/image1.png");
