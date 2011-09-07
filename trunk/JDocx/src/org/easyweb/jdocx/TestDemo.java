@@ -54,54 +54,32 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.xml";
-		//String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.docx";
+		// String srcFileName =
+		// request.getSession().getServletContext().getRealPath(FILE_PATH) +
+		// "/document.docx";
 		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
 		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
 		helloWorld.setName("hello,yes or not?这是啥啊？hehe");
-		helloWorld.setPass("测试englishi");
+		helloWorld.setPass("测试englishi世好人不偿命");
 		mapBeans.put("helloWorld", helloWorld);
 
 		SystemUser systemUser = new SystemUser();
 		systemUser.setUserName("肖利亚1234");
-		systemUser.setPassWord("52013一世好");
+		systemUser.setPassWord("52013一世好人不偿命");
 		mapBeans.put("systemUser", systemUser);
-		String s = "";
-		try {
-			s = transformer.transformDOCX(srcFileName, mapBeans, destFileName);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String s = transformer.transformDOCX(srcFileName, mapBeans, destFileName);
 		// 到处下载流到页面
-		/*File file=new File(destFileName);
-		FileInputStream fis=new FileInputStream(file);
-		file.length();
-		byte[] bytes=new byte[(int)file.length()];
-		fis.read(bytes,0,bytes.length);*/
+		/*
+		 * File file=new File(destFileName); FileInputStream fis=new
+		 * FileInputStream(file); file.length(); byte[] bytes=new
+		 * byte[(int)file.length()]; fis.read(bytes,0,bytes.length);
+		 */
 		response.setContentType("application/msword");
-		response.setHeader("Content-disposition", "attachment;filename=export.doc");
+		response.setHeader("Content-disposition", "attachment;filename=" + new String("word导出".getBytes("gb2312"), "iso8859-1") + ".doc");
 		ServletOutputStream out = response.getOutputStream();
 		out.write(s.getBytes("UTF-8"));
-		//out.write(bytes);
+		// out.write(bytes);
 	}
 }
