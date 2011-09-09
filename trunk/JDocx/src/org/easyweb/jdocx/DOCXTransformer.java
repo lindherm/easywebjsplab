@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.ZipEntry;
@@ -25,6 +26,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.w3c.dom.Document;
 
 public class DOCXTransformer {
@@ -157,10 +162,41 @@ public class DOCXTransformer {
 					System.out.println("反射执行方法错误！");
 					e.printStackTrace();
 				}
-				templateStr = templateStr.replaceAll(desStr, replaceStr);
+				if (filedName.equals("ReplaceImageName")) {
+					templateStr = replaceImage(templateStr, replaceStr);
+				} else {
+					templateStr = templateStr.replaceAll(desStr, replaceStr);
+				}
 			}
 		}
 		return templateStr;
+	}
+
+	private String replaceImage(String templateStr, String replaceStr) {
+		org.dom4j.Document doc = null;
+		try {
+			doc = DocumentHelper.parseText(templateStr);
+			Element root = doc.getRootElement();
+			getAllElement(root);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return doc.asXML();
+	}
+
+	private void getAllElement(Element ele) {
+		List<Element> list = ele.elements();
+		for (Element element : list) {
+			if (element.getName().equals("binData")) {
+				element.setText("你大爷的！");
+			}
+			System.out.println(element.getPath() + "||" + element.getName() + "||" + element.getText());
+			System.out.println("***************************************************************************");
+			List<Element> list2 = element.elements();
+			if (list2.size() > 0) {
+				getAllElement(element);
+			}
+		}
 	}
 
 	private void generateDocFile(String srcFileName, String s, String destFileName) {
