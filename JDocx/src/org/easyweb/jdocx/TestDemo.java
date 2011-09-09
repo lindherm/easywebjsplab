@@ -1,20 +1,19 @@
 package org.easyweb.jdocx;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
-import org.xml.sax.SAXException;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 /**
  * Servlet implementation class for Servlet: TestDemo
@@ -53,15 +52,23 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/document.xml";
-		// String srcFileName =
-		// request.getSession().getServletContext().getRealPath(FILE_PATH) +
-		// "/document.docx";
+		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/hello.xml";
+		String imagePath = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/4-20-15810-20-363-26-20070920070459.jpg";
+		// 图片
+		BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
+		String imageFormat = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ImageIO.write(bufferedImage, imageFormat, bos);
+
+		byte[] imagebyte = bos.toByteArray();
+		String imageStr = new Base64Encoder().encode(imagebyte);
+		imageStr = imageStr;
 		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
 		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
-		helloWorld.setName("hello,yes or not?这是啥啊？hehe");
+		helloWorld.setReplaceImageName(imageStr);
 		helloWorld.setPass("测试englishi世好人不偿命");
 		mapBeans.put("helloWorld", helloWorld);
 

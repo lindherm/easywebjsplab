@@ -2,15 +2,15 @@ package org.easyweb.jdocx;
 
 public class HelloWorld {
 
-	String name;
+	String replaceImageName;
 	String pass;
 
-	public String getName() {
-		return name;
+	public String getReplaceImageName() {
+		return replaceImageName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setReplaceImageName(String replaceImageName) {
+		this.replaceImageName = replaceImageName;
 	}
 
 	public String getPass() {
