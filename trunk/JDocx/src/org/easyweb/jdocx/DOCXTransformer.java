@@ -177,24 +177,27 @@ public class DOCXTransformer {
 		try {
 			doc = DocumentHelper.parseText(templateStr);
 			Element root = doc.getRootElement();
-			getAllElement(root);
+			getAllElement(root, replaceStr);
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
 		return doc.asXML();
 	}
 
-	private void getAllElement(Element ele) {
+	private void getAllElement(Element ele, String replaceStr) {
 		List<Element> list = ele.elements();
 		for (Element element : list) {
 			if (element.getName().equals("binData")) {
-				element.setText("你大爷的！");
+				element.setText(replaceStr);
 			}
-			System.out.println(element.getPath() + "||" + element.getName() + "||" + element.getText());
-			System.out.println("***************************************************************************");
+			/*
+			 * System.out.println(element.getPath() + "||" + element.getName() +
+			 * "||" + element.getText());
+			 * System.out.println("***************************************************************************");
+			 */
 			List<Element> list2 = element.elements();
 			if (list2.size() > 0) {
-				getAllElement(element);
+				getAllElement(element, replaceStr);
 			}
 		}
 	}
