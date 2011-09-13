@@ -63,7 +63,6 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 
 		byte[] imagebyte = bos.toByteArray();
 		String imageStr = new Base64Encoder().encode(imagebyte);
-		imageStr = imageStr;
 		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
 		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
