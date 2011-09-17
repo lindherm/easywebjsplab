@@ -2,7 +2,6 @@ package org.easyweb.helloworld.action;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,6 +21,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.easyweb.helloworld.manager.HelloWorldManager;
 import org.easyweb.helloworld.model.HelloWorld;
+import org.easyweb.helloworld.vo.OutExcelBean;
 import org.easyweb.helloworld.vo.TreeNode;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -112,6 +112,8 @@ public class HelloWorldAction {
 		String templateFileName = request.getSession().getServletContext().getRealPath(TEMPLATE_PATH + "fixedsizelist.xls");
 		String destFileName = request.getSession().getServletContext().getRealPath(TEMPLATE_PATH + "destfixedsizelist.xls");
 		InputStream is=new FileInputStream(new File(templateFileName));
+		List<OutExcelBean> outExcelBeanList=new ArrayList<OutExcelBean>();
+		
 		List<HelloWorld> helloWorlds = new ArrayList<HelloWorld>();
 		HelloWorld helloWorld=new HelloWorld();
 		helloWorld.setId("1");
@@ -123,10 +125,32 @@ public class HelloWorldAction {
 		helloWorld1.setMenuName("你！");
 		helloWorld1.setParentid("789");
 		helloWorlds.add(helloWorld1);
+		List<HelloWorld> hList = new ArrayList<HelloWorld>();
+		HelloWorld helloWorld2=new HelloWorld();
+		helloWorld.setId("1");
+		helloWorld.setMenuName("你好！");
+		helloWorld.setParentid("234");
+		hList.add(helloWorld);
+		HelloWorld helloWorld3=new HelloWorld();
+		helloWorld1.setId("2");
+		helloWorld1.setMenuName("你！");
+		helloWorld1.setParentid("789");
+		hList.add(helloWorld1);
+		
+		
+		OutExcelBean outExcelBean=new OutExcelBean();
+		outExcelBean.setList(helloWorlds);
+		outExcelBeanList.add(outExcelBean);
+		
+		OutExcelBean outExcelBean1=new OutExcelBean();
+		outExcelBean1.setList(hList);
+		outExcelBeanList.add(outExcelBean1);
+		
 		Map beans = new HashMap();
-		beans.put("employee", helloWorlds);
+		beans.put("outExcelBeanList", outExcelBeanList);
+		
 		XLSTransformer transformer = new XLSTransformer();
-		transformer.markAsFixedSizeCollection("employee");
+		transformer.markAsFixedSizeCollection("outExcelBean.list");
 		Workbook workbook = null;
 		try {
 			workbook=transformer.transformXLS(is, beans);
