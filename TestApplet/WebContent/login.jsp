@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+http://blog.csdn.net/imcxin/article/details/6948967
 	<input type="button" onclick="go();" value="go">
 	<OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" width="0" height="0" codebase="http://java.sun.com/update/1.6.0/jinstall-6u13-windows-i586.cab#Version=1,6,0,0">
 		<PARAM NAME="codebase" VALUE="hello/">
