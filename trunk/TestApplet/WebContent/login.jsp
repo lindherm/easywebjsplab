@@ -7,9 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<input type="button" onclick="go();" value="go">
 	<OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" width="0" height="0" codebase="http://java.sun.com/update/1.6.0/jinstall-6u13-windows-i586.cab#Version=1,6,0,0">
-		<PARAM NAME="code" VALUE="HelloWorld.class">
 		<PARAM NAME="codebase" VALUE="hello/">
+		<PARAM NAME="archive" VALUE="TestDemo.jar">
+		<PARAM NAME="code" VALUE="HelloWorld.class">
 		<PARAM NAME="type" VALUE="application/x-java-applet;jpi-version=1.6.0">
 		<PARAM NAME="model" VALUE="models/HyaluronicAcid.xyz">
 		<PARAM NAME="scriptable" VALUE="true">
@@ -18,10 +20,13 @@
 		function getApplet() {
 			return document.applets[0];
 		}
-		var a = getApplet().getTimeStr() + "8687";
-		alert(a);
-		b = getApplet().isSex("xiao");
-		alert(b);
+		function go() {
+			var a = getApplet().getTimeStr() + "8687";
+			alert(a);
+			b = getApplet().isSex("xiao");
+			alert(b);
+			alert(getApplet().writeFile());
+		}
 	</script>
 </body>
 </html>
