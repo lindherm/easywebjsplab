@@ -90,7 +90,7 @@ public class DOCXTransformer {
 	// 读取docx模板
 	private String readDocxTemplate(String srcFileName) {
 		// 模板文件位置
-		String s = "";
+		StringBuilder sb=new StringBuilder();
 		try {
 			ZipFile docxFile = new ZipFile(new File(srcFileName));
 			ZipEntry documentXML = docxFile.getEntry("word/document.xml");
@@ -102,7 +102,7 @@ public class DOCXTransformer {
 			String str = null;
 			// 按行读取模板文件
 			while ((str = br.readLine()) != null) {
-				s = s + str;
+				sb.append(str);
 			}
 			documentXMLIS.close();
 			reader.close();
@@ -117,7 +117,7 @@ public class DOCXTransformer {
 			System.out.println("读取docx模板文件错误！");
 			e.printStackTrace();
 		}
-		return s;
+		return sb.toString();
 	}
 
 	@SuppressWarnings("unchecked")
