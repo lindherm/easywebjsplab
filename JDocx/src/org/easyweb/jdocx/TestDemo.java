@@ -52,8 +52,8 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/hello.xml";
-		String imagePath = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/4-20-15810-20-363-26-20070920070459.jpg";
+		String srcFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "\\document.docx";
+		String imagePath = request.getSession().getServletContext().getRealPath(FILE_PATH) + "\\4-20-15810-20-363-26-20070920070459.jpg";
 		// 图片
 		BufferedImage bufferedImage = ImageIO.read(new File(imagePath));
 		String imageFormat = imagePath.substring(imagePath.lastIndexOf(".") + 1);
@@ -63,7 +63,7 @@ public class TestDemo extends javax.servlet.http.HttpServlet implements javax.se
 
 		byte[] imagebyte = bos.toByteArray();
 		String imageStr = new Base64Encoder().encode(imagebyte);
-		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "/dest.docx";
+		String destFileName = request.getSession().getServletContext().getRealPath(FILE_PATH) + "\\dest.docx";
 		DOCXTransformer transformer = new DOCXTransformer();
 		Map mapBeans = new HashMap();
 		HelloWorld helloWorld = new HelloWorld();
