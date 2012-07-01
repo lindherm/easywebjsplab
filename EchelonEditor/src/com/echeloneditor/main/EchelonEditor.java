@@ -145,15 +145,14 @@ public class EchelonEditor {
 		toolBar.add(button);
 
 		JButton button_1 = new JButton();
+		button_1.setActionCommand("open");
 		button_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		button_1.setIcon(ImageHelper.loadImage("open.png"));
 		toolBar.add(button_1);
 
 		JButton btnNewButton = new JButton();
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnNewButton.setActionCommand("save");
+		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setIcon(ImageHelper.loadImage("save.png"));
 		toolBar.add(btnNewButton);
 

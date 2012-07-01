@@ -10,6 +10,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -32,6 +33,15 @@ public class FileAction {
 		detector.add(ASCIIDetector.getInstance()); // Fallback, see javadoc.
 	}
 
+	/**
+	 * 
+	 * @param filePath
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws UnsupportedCharsetException
+	 * @throws Exception
+	 */
 	public Map<String, String> open(String filePath) throws FileNotFoundException, IOException, UnsupportedCharsetException, Exception {
 		String fileContent = "";
 		Map<String, String> map = new HashMap<String, String>();
@@ -57,25 +67,19 @@ public class FileAction {
 	}
 
 	/**
-	 * 获取文件中最长的列
 	 * 
-	 * @param fileContent
+	 * @param filePath
+	 * @param FileContent
+	 * @param encode
 	 * @return
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
 	 */
-	public int getFileMaxColumn(String fileContent) {
-		int maxColumn = 0;
-		String[] fileLines = fileContent.split("\n");
-
-		for (String string : fileLines) {
-			if (maxColumn < string.length()) {
-				try {
-					maxColumn = string.getBytes("GB2312").length;
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return maxColumn;
+	public void save(String filePath,String fileContent,String encode) throws UnsupportedEncodingException, IOException {
+		File file=new File(filePath);
+		FileOutputStream fout=new FileOutputStream(file);
+		fout.write(fileContent.getBytes());
+		
+		fout.close();
 	}
 }

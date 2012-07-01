@@ -14,6 +14,7 @@ import com.echeloneditor.listeners.EditorPaneListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
+import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
 public class FileHander {
@@ -84,6 +85,18 @@ public class FileHander {
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+	}
+
+	public void saveFile(String filePath) {
+		// 打开文件
+		FileAction fileAction = new FileAction();
+		JEditorPane editorPane = SwingUtils.getEditorPane(tabbedPane);
+		try {
+			fileAction.save(filePath, editorPane.getText(), statusObject.getFileEncode().getText());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

@@ -7,11 +7,7 @@ import java.io.File;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
-
-import org.apache.log4j.Logger;
 
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.main.CloseableTabComponent;
@@ -19,8 +15,6 @@ import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
 public class SimpleFileChooseListener implements ActionListener {
-	// 日志
-	private final static Logger log = Logger.getLogger(SimpleFileChooseListener.class);
 	// 选项卡
 	public JTabbedPane tabbedPane;
 	public StatusObject statusObject;
@@ -34,15 +28,26 @@ public class SimpleFileChooseListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fileChooser = new JFileChooser();
-		int ret = fileChooser.showOpenDialog(null);
+		if (e.getActionCommand().endsWith("open")) {
+			int ret = fileChooser.showOpenDialog(null);
 
-		if (ret == JFileChooser.APPROVE_OPTION) {
-			// 获得选择的文件
-			File file = fileChooser.getSelectedFile();
-			if (file.isFile()) {
-				fileHander.openFileWithFilePath(file.getPath());
+			if (ret == JFileChooser.APPROVE_OPTION) {
+				// 获得选择的文件
+				File file = fileChooser.getSelectedFile();
+				if (file.isFile()) {
+					fileHander.openFileWithFilePath(file.getPath());
+				}
+			}
+		} else if (e.getActionCommand().endsWith("save")) {
+			int ret = fileChooser.showSaveDialog(null);
+
+			if (ret == JFileChooser.APPROVE_OPTION) {
+				// 获得选择的文件
+				File file = fileChooser.getSelectedFile();
+				fileHander.saveFile(file.getPath());
 			}
 		}
+
 	}
 
 	/**
