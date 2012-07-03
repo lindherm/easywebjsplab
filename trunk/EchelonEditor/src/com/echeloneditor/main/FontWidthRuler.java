@@ -14,7 +14,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
+import sun.util.logging.resources.logging;
+
 public class FontWidthRuler extends JPanel {
+	private static final Logger log=Logger.getLogger(FontWidthRuler.class);
 
 	private static final long serialVersionUID = 1L;
 	// 度量单位初始化
@@ -129,6 +134,7 @@ public class FontWidthRuler extends JPanel {
 	// 绘制标尺
 	@Override
 	protected void paintComponent(Graphics g) {
+		log.debug("paint ruler...");
 		super.paintComponent(g);
 		FontMetrics fontMetrics = editorPane.getFontMetrics(editorPane.getFont());
 		int charWidth = fontMetrics.charWidth('A');
@@ -214,5 +220,6 @@ public class FontWidthRuler extends JPanel {
 			g.drawLine(location, 0, location, SIZE - LONG_TICK-2);
 			g.drawString(text, location + 2, SIDE - LONG_TICK);
 		}
+		log.debug("paint ruler done.");
 	}
 }
