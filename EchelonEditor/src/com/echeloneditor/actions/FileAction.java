@@ -18,7 +18,11 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 public class FileAction {
+	private static final Logger log = Logger.getLogger(FileAction.class);
+
 	CodepageDetectorProxy detector = CodepageDetectorProxy.getInstance(); // A singleton.
 
 	public FileAction() {
@@ -43,6 +47,7 @@ public class FileAction {
 	 * @throws Exception
 	 */
 	public Map<String, String> open(String filePath) throws FileNotFoundException, IOException, UnsupportedCharsetException, Exception {
+		log.debug("open file...");
 		String fileContent = "";
 		Map<String, String> map = new HashMap<String, String>();
 		File file = new File(filePath);
@@ -63,6 +68,7 @@ public class FileAction {
 			fileContent = new String(b, "UTF-8");
 		}
 		map.put("fileContent", fileContent);
+		log.debug("open file done.");
 		return map;
 	}
 
@@ -75,11 +81,11 @@ public class FileAction {
 	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
-	public void save(String filePath,String fileContent,String encode) throws UnsupportedEncodingException, IOException {
-		File file=new File(filePath);
-		FileOutputStream fout=new FileOutputStream(file);
+	public void save(String filePath, String fileContent, String encode) throws UnsupportedEncodingException, IOException {
+		File file = new File(filePath);
+		FileOutputStream fout = new FileOutputStream(file);
 		fout.write(fileContent.getBytes());
-		
+
 		fout.close();
 	}
 }
