@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -13,10 +12,9 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
-
-import sun.util.logging.resources.logging;
 
 public class FontWidthRuler extends JPanel {
 	private static final Logger log=Logger.getLogger(FontWidthRuler.class);
@@ -66,10 +64,10 @@ public class FontWidthRuler extends JPanel {
 
 	private final int SIDE = 24;
 
-	public JEditorPane editorPane;
+	public JTextComponent editorPane;
 
 	// 创建尺子的构造函數
-	public FontWidthRuler(int orient, double preci, JEditorPane editorPane) {
+	public FontWidthRuler(int orient, double preci, JTextComponent editorPane) {
 		orientation = orient;
 		precision = preci;
 		nf.setMaximumFractionDigits(2);
