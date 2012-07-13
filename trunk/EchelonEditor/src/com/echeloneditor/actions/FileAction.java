@@ -47,7 +47,7 @@ public class FileAction {
 	 * @throws Exception
 	 */
 	public Map<String, String> open(String filePath) throws FileNotFoundException, IOException, UnsupportedCharsetException, Exception {
-		log.debug("open file...");
+		//log.debug("open file...");
 		String fileContent = "";
 		Map<String, String> map = new HashMap<String, String>();
 		File file = new File(filePath);
@@ -68,7 +68,7 @@ public class FileAction {
 			fileContent = new String(b, "UTF-8");
 		}
 		map.put("fileContent", fileContent);
-		log.debug("open file done.");
+		//log.debug("open file done.");
 		return map;
 	}
 
