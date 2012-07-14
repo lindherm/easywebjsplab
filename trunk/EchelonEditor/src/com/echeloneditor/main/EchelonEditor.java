@@ -14,7 +14,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -29,6 +28,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import jsyntaxpane.DefaultSyntaxKit;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.listeners.SimpleDragFileListener;
@@ -215,10 +216,10 @@ public class EchelonEditor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JEditorPane editorPane = SwingUtils.getEditorPane(tabbedPane);
-				Font font = editorPane.getFont();
+				RSyntaxTextArea textArea = SwingUtils.getSyntaxArea(tabbedPane);
+				Font font = textArea.getFont();
 
-				FontChooserDialog fontset = new FontChooserDialog(frmEcheloneditor, font, editorPane);
+				FontChooserDialog fontset = new FontChooserDialog(frmEcheloneditor, font, textArea);
 				fontset.setLocationRelativeTo(frmEcheloneditor);
 				fontset.setVisible(true);
 			}

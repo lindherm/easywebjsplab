@@ -5,7 +5,7 @@ import java.awt.FontMetrics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JEditorPane;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.SwingUtils;
@@ -26,7 +26,7 @@ public class EditorPaneListener implements MouseListener {
 		// TODO Auto-generated method stub
 		eventHander(e);
 
-		JEditorPane editorPane = (JEditorPane) e.getComponent();
+		RSyntaxTextArea editorPane = (RSyntaxTextArea) e.getComponent();
 		FontMetrics fontMetrics = editorPane.getFontMetrics(editorPane.getFont());
 		int unit = fontMetrics.charWidth('A');
 
@@ -46,7 +46,8 @@ public class EditorPaneListener implements MouseListener {
 		eventHander(e);
 
 		// 显示字符数
-		JEditorPane edp = (JEditorPane) e.getComponent();
+		Component component=e.getComponent();
+		RSyntaxTextArea edp = (RSyntaxTextArea) e.getComponent();
 		String selText = edp.getSelectedText();
 		if (selText == null) {
 			return;
