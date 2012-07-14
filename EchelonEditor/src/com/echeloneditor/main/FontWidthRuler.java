@@ -10,7 +10,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 

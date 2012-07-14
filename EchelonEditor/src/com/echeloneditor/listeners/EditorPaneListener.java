@@ -46,13 +46,13 @@ public class EditorPaneListener implements MouseListener {
 		eventHander(e);
 
 		// 显示字符数
-		Component component=e.getComponent();
 		RSyntaxTextArea edp = (RSyntaxTextArea) e.getComponent();
 		String selText = edp.getSelectedText();
 		if (selText == null) {
 			return;
 		}
 		selText = selText.replaceAll("\n", "");
+		selText = selText.replaceAll("\r", "");
 		int num = selText.length();
 		statusObject.getCarNum().setText("字符数：" + num);
 	}
