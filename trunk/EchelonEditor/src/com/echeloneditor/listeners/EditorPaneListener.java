@@ -5,6 +5,8 @@ import java.awt.FontMetrics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.SwingUtilities;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.main.FontWidthRuler;
@@ -70,11 +72,12 @@ public class EditorPaneListener implements MouseListener {
 	}
 
 	public void eventHander(MouseEvent e) {
-		// 画尺标
-		Component component2 = SwingUtils.getColumnHeader(e.getComponent());
-		FontWidthRuler fontWidthRuler = (FontWidthRuler) component2;
-		fontWidthRuler.addSpin(e.getX());
-		fontWidthRuler.repaint();
-
+		if (SwingUtilities.isLeftMouseButton(e)) {
+			// 画尺标
+			Component component2 = SwingUtils.getColumnHeader(e.getComponent());
+			FontWidthRuler fontWidthRuler = (FontWidthRuler) component2;
+			fontWidthRuler.addSpin(e.getX());
+			fontWidthRuler.repaint();
+		}
 	}
 }
