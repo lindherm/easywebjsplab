@@ -1,6 +1,7 @@
 package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -26,8 +27,6 @@ import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-import jsyntaxpane.DefaultSyntaxKit;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -98,8 +97,6 @@ public class EchelonEditor {
 		frmEcheloneditor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 窗口容器
 		Container container = frmEcheloneditor.getContentPane();
-		// jsyntaxpane初始化
-		DefaultSyntaxKit.initKit();
 
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
@@ -226,6 +223,26 @@ public class EchelonEditor {
 		});
 		menu_3.add(menuItem_5);
 		statusObject.setFontItem(menuItem_5);
+
+		JMenu menu_4 = new JMenu("编辑");
+		menuBar.add(menu_4);
+
+		JMenuItem menuItem_6 = new JMenuItem("查找");
+		menuItem_6.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
+		menuItem_6.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (tabbedPane.getTabCount()<=0) {
+					return;
+				}
+				Component component = tabbedPane.getSelectedComponent();
+				RSyntaxTextArea textArea = SwingUtils.getSyntaxArea(tabbedPane);
+				FindAndReplaceDialog findAndReplaceDialog = new FindAndReplaceDialog(textArea);
+				findAndReplaceDialog.setVisible(true);
+			}
+		});
+		menu_4.add(menuItem_6);
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
