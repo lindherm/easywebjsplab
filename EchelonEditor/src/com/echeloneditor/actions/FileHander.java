@@ -129,8 +129,6 @@ public class FileHander {
 		ruler.NeedPaint = true;
 		scrollPane.setColumnHeaderView(ruler);
 
-		HighlighterAction.install(editorPane);
-
 		scrollPane.setViewportView(editorPane);
 		// 设置编辑组件属性
 		editorPane.setContentType("text/plain");
