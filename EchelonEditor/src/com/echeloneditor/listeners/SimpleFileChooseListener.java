@@ -8,6 +8,8 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
 
+import sun.util.logging.resources.logging;
+
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.utils.SwingUtils;
@@ -88,27 +90,9 @@ public class SimpleFileChooseListener implements ActionListener {
 		String fileName = file.getName();
 		int pos = fileName.lastIndexOf(".");
 
-		String fileExt = fileName.substring(pos, fileName.length());
-		// 根据文件扩展名判断文件类型
-		if (fileExt.equalsIgnoreCase(".txt")) {
-			result = "text/plain";
-		} else if (fileExt.equalsIgnoreCase(".java")) {
-			result = "text/java";
-		} else if (fileExt.equalsIgnoreCase(".xml")) {
-			result = "text/xml";
-		} else if (fileExt.equalsIgnoreCase(".properties")) {
-			result = "text/properties";
-		} else if (fileExt.equalsIgnoreCase(".sql")) {
-			result = "text/sql";
-		} else if (fileExt.equalsIgnoreCase(".js")) {
-			result = "text/javascript";
-		} else if (fileExt.equalsIgnoreCase(".c")) {
-			result = "text/c";
-		} else if (fileExt.equalsIgnoreCase(".cpp")) {
-			result = "text/cpp";
-		} else {
-			result = "text/plain";
-		}
+		String fileExt = fileName.substring(pos+1, fileName.length());
+		result="text/"+fileExt;
+		System.out.println(result);
 		return result;
 	}
 }

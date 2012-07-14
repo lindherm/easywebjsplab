@@ -1,25 +1,29 @@
 package com.echeloneditor.actions;
 
-import java.awt.BorderLayout;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.echeloneditor.listeners.EditorPaneListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
+import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
@@ -49,30 +53,32 @@ public class FileHander {
 
 			String fileContentType = SimpleFileChooseListener.getFileContentType(file);
 
-			//JEditorPane editorPane = new JEditorPane();
-			//editorPane.addMouseListener(new EditorPaneListener(statusObject));
-			//JPanel cp = new JPanel(new BorderLayout());
+			RSyntaxTextArea textArea = SwingUtils.createTextArea();
+			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
+			textArea.setSyntaxEditingStyle(fileContentType);
+			textArea.addMouseListener(new EditorPaneListener(statusObject));
+			// textArea.addHyperlinkListener(this);
+			RTextScrollPane sp = new RTextScrollPane(textArea);
+			sp.setFoldIndicatorEnabled(true);
 
-		      RSyntaxTextArea textArea = new RSyntaxTextArea(20, 60);
-		      textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-		      textArea.setCodeFoldingEnabled(true);
-		      textArea.setAntiAliasingEnabled(true);
-		      RTextScrollPane sp = new RTextScrollPane(textArea);
-		      sp.setFoldIndicatorEnabled(true);
-		      //cp.add(sp);
+			Gutter gutter = sp.getGutter();
+			gutter.setBookmarkingEnabled(true);
+			ImageIcon ii = ImageHelper.loadImage("bookmark.png");
+			gutter.setBookmarkIcon(ii);
 
-			//JScrollPane scrollPane = new JScrollPane();
-
+			InputStream in = getClass().getResourceAsStream("eclipse.xml");
+			try {
+				Theme theme = Theme.load(in);
+				theme.apply(textArea);
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 			// 加入标尺
 			ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
 			ruler.setPreferredWidth(20000);
 			ruler.addSpin(3);
 			ruler.NeedPaint = true;
 			sp.setColumnHeaderView(ruler);
-			// 当前行高亮
-			//HighlighterAction.install(editorPane);
-
-			//sp.setViewportView(sp);
 
 			int tabCount = tabbedPane.getTabCount();
 			CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
@@ -85,14 +91,9 @@ public class FileHander {
 			tabbedPane.setSelectedComponent(sp);
 			// 设置选项卡title为打开文件的文件名
 			SimpleFileChooseListener.setTabbedPaneTitle(tabbedPane, file.getName());
-			//editorPane.setContentType(fileContentType);
-			//editorPane.setText(map.get("fileContent"));
-
 			textArea.setText(map.get("fileContent"));
 
 			statusObject.getFontItem().setEnabled(true);
-
-			//editorPane.requestFocusInWindow();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
