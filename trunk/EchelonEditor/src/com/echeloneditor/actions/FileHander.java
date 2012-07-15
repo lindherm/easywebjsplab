@@ -93,6 +93,7 @@ public class FileHander {
 			textArea.setText(map.get("fileContent"));
 
 			statusObject.getFontItem().setEnabled(true);
+			textArea.requestFocusInWindow();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
