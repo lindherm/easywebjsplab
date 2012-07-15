@@ -86,7 +86,7 @@ public class SwingUtils {
 	public static RSyntaxTextArea createTextArea() {
 		RSyntaxTextArea textArea = new RSyntaxTextArea(25, 70);
 		textArea.setCaretPosition(0);
-		textArea.requestFocusInWindow();
+		//textArea.requestFocusInWindow();
 		textArea.setMarkOccurrences(true);
 		textArea.setCodeFoldingEnabled(true);
 		textArea.setClearWhitespaceLinesEnabled(true);
