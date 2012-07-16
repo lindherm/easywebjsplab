@@ -41,7 +41,7 @@ public class SwingUtils {
 	 * @return
 	 */
 	public static RSyntaxTextArea getSyntaxArea(JTabbedPane tabbedPane) {
-		Component com = tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+		Component com = tabbedPane.getSelectedComponent();
 		if (com instanceof JScrollPane) {
 			Component[] component = ((JScrollPane) com).getComponents();
 			if (component[0] instanceof RSyntaxTextArea) {

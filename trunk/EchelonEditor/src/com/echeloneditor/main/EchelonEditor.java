@@ -217,7 +217,7 @@ public class EchelonEditor {
 				Font font = textArea.getFont();
 
 				FontChooserDialog fontset = new FontChooserDialog(frmEcheloneditor, font, textArea);
-				fontset.setLocationRelativeTo(frmEcheloneditor);
+				fontset.setLocationRelativeTo(textArea);
 				fontset.setVisible(true);
 			}
 		});
@@ -236,7 +236,6 @@ public class EchelonEditor {
 				if (tabbedPane.getTabCount()<=0) {
 					return;
 				}
-				Component component = tabbedPane.getSelectedComponent();
 				RSyntaxTextArea textArea = SwingUtils.getSyntaxArea(tabbedPane);
 				FindAndReplaceDialog findAndReplaceDialog = new FindAndReplaceDialog(textArea);
 				findAndReplaceDialog.setVisible(true);
