@@ -455,7 +455,7 @@ public class FontChooserDialog extends JDialog {
 	private void okOption(ActionEvent e) {
 		if (null != compoment) {
 			compoment.setFont(fetchFont());
-			//dispose();
+			dispose();
 		}
 	}
 
@@ -473,8 +473,7 @@ public class FontChooserDialog extends JDialog {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					setVisible(false);
-					//dispose();
+					dispose();
 				}
 			});
 		}
