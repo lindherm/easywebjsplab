@@ -1,7 +1,6 @@
 package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -217,7 +216,7 @@ public class EchelonEditor {
 				Font font = textArea.getFont();
 
 				FontChooserDialog fontset = new FontChooserDialog(frmEcheloneditor, font, textArea);
-				fontset.setLocationRelativeTo(textArea);
+				fontset.setLocationRelativeTo(frmEcheloneditor);
 				fontset.setVisible(true);
 			}
 		});
