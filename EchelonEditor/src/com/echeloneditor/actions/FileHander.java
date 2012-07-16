@@ -53,7 +53,6 @@ public class FileHander {
 			String fileContentType = SimpleFileChooseListener.getFileContentType(file);
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
-			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 			textArea.setSyntaxEditingStyle(fileContentType);
 			textArea.addMouseListener(new EditorPaneListener(statusObject));
 			// textArea.addHyperlinkListener(this);
@@ -92,6 +91,7 @@ public class FileHander {
 			SimpleFileChooseListener.setTabbedPaneTitle(tabbedPane, file.getName());
 			textArea.setText(map.get("fileContent"));
 
+			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 			statusObject.getFontItem().setEnabled(true);
 			textArea.requestFocusInWindow();
 		} catch (FileNotFoundException e1) {
