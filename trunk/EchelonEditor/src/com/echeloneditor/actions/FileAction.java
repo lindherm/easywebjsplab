@@ -61,6 +61,7 @@ public class FileAction {
 		in.read(b, 0, b.length);
 		// 文件编码
 		map.put("encode", charset.name());
+		log.debug("file charset:"+charset.name());
 		// 文件内容
 		if (!charset.name().isEmpty() && !charset.name().equals("void")) {
 			fileContent = new String(b, charset.name());
