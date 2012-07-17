@@ -207,6 +207,7 @@ public class EchelonEditor {
 		menuBar.add(menu_3);
 
 		JMenuItem menuItem_5 = new JMenuItem("字体");
+		menuItem_5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.ALT_MASK));
 		menuItem_5.setEnabled(false);
 		menuItem_5.addActionListener(new ActionListener() {
 
