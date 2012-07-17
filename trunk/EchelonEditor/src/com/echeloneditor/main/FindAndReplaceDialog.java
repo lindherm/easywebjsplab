@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
@@ -18,9 +19,11 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.JTextComponent;
 
+import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
+import com.echeloneditor.actions.FindAndReplaceAction;
 import com.echeloneditor.listeners.EscapeListener;
 
 /**
@@ -35,7 +38,7 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public JTextComponent textComponent;
+	public JTextComponent jTextComponent;
 
 	private JButton jBtnNext;
 	private JButton jBtnPrev;
@@ -59,7 +62,7 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 	 */
 	public FindAndReplaceDialog(JTextComponent text) {
 		super((JFrame) SwingUtilities.getRoot(text));
-		this.textComponent = text;
+		this.jTextComponent = text;
 
 		initComponents();
 		// textComponent.addCaretListener(this);
@@ -97,26 +100,13 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jBtnNext.setText(bundle.getString("ReplaceDialog.jBtnNext.text")); // NOI18N
 		jBtnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Object object=jCmbFind.getSelectedItem();
-				if (object==null||object.equals("")) {
+				Object object = jCmbFind.getSelectedItem();
+				if (object == null || object.equals("")) {
+					JOptionPane.showMessageDialog(null, "请输入要查找的字符！", "提示框", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 				String text = object.toString();
-
-				int start = textComponent.getSelectionEnd();
-				if (textComponent.getSelectionEnd() == textComponent.getSelectionStart()) {
-					start++;
-				}
-				if (start >= textComponent.getDocument().getLength()) {
-					start = textComponent.getDocument().getLength();
-				}
-				String searchIn = textComponent.getText().substring(start);
-				int pos = SearchEngine.getNextMatchPos(text, searchIn, true, jChkIgnoreCase.isSelected(), jChkWrap.isSelected());
-
-				if (pos != -1) {
-					textComponent.select(start + pos, start + pos + text.length());
-				}
-
+				FindAndReplaceAction.find(jTextComponent, text, true, jChkIgnoreCase.isSelected(), jChkWrap.isSelected());
 			}
 		});
 
@@ -124,33 +114,15 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jBtnPrev.setText(bundle.getString("ReplaceDialog.jBtnPrev.text")); // NOI18N
 		jBtnPrev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				Object object=jCmbFind.getSelectedItem();
-				if (object==null||object.equals("")) {
+				Object object = jCmbFind.getSelectedItem();
+				if (object == null || object.equals("")) {
+					JOptionPane.showMessageDialog(null, "请输入要查找的字符！", "提示框", JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
-				
+
 				String text = jCmbFind.getSelectedItem().toString();
 
-				int start = textComponent.getSelectionStart();
-				if (textComponent.getSelectionEnd() == textComponent.getSelectionStart()) {
-					start--;
-				}
-				if (start <= 0) {
-					start = 0;
-				}
-				String searchIn = textComponent.getText().substring(0, start);
-
-				System.out.println(text);
-				System.out.println(searchIn);
-
-				System.out.println(jChkIgnoreCase.isSelected());
-				
-				int pos = SearchEngine.getNextMatchPos(text, searchIn, false, jChkIgnoreCase.isSelected(), jChkWrap.isSelected());
-				System.out.println(pos);
-				if (pos != -1) {
-					textComponent.select(pos, pos + text.length());
-				}
-
+				FindAndReplaceAction.find(jTextComponent, text, false, jChkIgnoreCase.isSelected(), jChkWrap.isSelected());
 			}
 		});
 
@@ -188,7 +160,30 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jBtnReplace.setText(bundle.getString("ReplaceDialog.jBtnReplace.text")); // NOI18N
 		jBtnReplace.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				// jBtnReplaceActionPerformed(evt);
+				Object object = jCmbFind.getSelectedItem();
+				Object object2 = jCmbReplace.getSelectedItem();
+				if (object == null || object.equals("")) {
+					JOptionPane.showMessageDialog(null, "请输入要查找的字符！", "提示框", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+
+				if (object2 == null || object2.equals("")) {
+					object2 = "";
+				}
+				// Create an object defining our search parameters.
+				SearchContext context = new SearchContext();
+
+				context.setSearchFor(object.toString());
+				context.setReplaceWith(object2.toString());
+
+				context.setMatchCase(jChkIgnoreCase.isSelected());
+				context.setRegularExpression(jChkRegex.isSelected());
+				context.setWholeWord(jChkWrap.isSelected());
+				context.setSearchForward(true);
+
+				SearchEngine.replace((RTextArea) jTextComponent, context);
+
+				FindAndReplaceAction.find(jTextComponent, object.toString(), true, jChkIgnoreCase.isSelected(), jChkWrap.isSelected());
 			}
 		});
 
