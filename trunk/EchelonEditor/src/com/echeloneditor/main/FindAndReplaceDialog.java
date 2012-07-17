@@ -97,14 +97,11 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jBtnNext.setText(bundle.getString("ReplaceDialog.jBtnNext.text")); // NOI18N
 		jBtnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				// SearchContext context = new SearchContext();
-				String text = jCmbFind.getSelectedItem().toString();
-				if (text == null) {
+				Object object=jCmbFind.getSelectedItem();
+				if (object==null||object.equals("")) {
 					return;
 				}
-				/*
-				 * context.setSearchFor(text); context.setMatchCase(jChkIgnoreCase.isSelected()); context.setRegularExpression(jChkRegex.isSelected()); context.setSearchForward(true); context.setWholeWord(jChkWrap.isSelected());
-				 */
+				String text = object.toString();
 
 				int start = textComponent.getSelectionEnd();
 				if (textComponent.getSelectionEnd() == textComponent.getSelectionStart()) {
@@ -127,14 +124,12 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jBtnPrev.setText(bundle.getString("ReplaceDialog.jBtnPrev.text")); // NOI18N
 		jBtnPrev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				// SearchContext context = new SearchContext();
-				String text = jCmbFind.getSelectedItem().toString();
-				if (text == null) {
+				Object object=jCmbFind.getSelectedItem();
+				if (object==null||object.equals("")) {
 					return;
 				}
-				/*
-				 * context.setSearchFor(text); context.setMatchCase(jChkIgnoreCase.isSelected()); context.setRegularExpression(jChkRegex.isSelected()); context.setSearchForward(true); context.setWholeWord(jChkWrap.isSelected());
-				 */
+				
+				String text = jCmbFind.getSelectedItem().toString();
 
 				int start = textComponent.getSelectionStart();
 				if (textComponent.getSelectionEnd() == textComponent.getSelectionStart()) {
