@@ -180,14 +180,11 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 
 				if (jTglHighlight.isSelected()) {
 					((RSyntaxTextArea) jTextComponent).markAll(object.toString(), jChkIgnoreCase.isSelected(), jChkWrap.isSelected(), jChkRegex.isSelected());
-				} else {
-					Highlighter hilite = ((RSyntaxTextArea) jTextComponent).getHighlighter();
-					Highlighter.Highlight[] hilites = hilite.getHighlights();
-
-					for (int i = 0; i < hilites.length; i++) {
-						hilite.removeHighlight(hilites[i]);
-					}
-				}
+				}/*
+				 * else { Highlighter hilite = ((RSyntaxTextArea) jTextComponent).getHighlighter(); Highlighter.Highlight[] hilites = hilite.getHighlights();
+				 * 
+				 * for (int i = 0; i < hilites.length; i++) { hilite.removeHighlight(hilites[i]); } }
+				 */
 			}
 		});
 
