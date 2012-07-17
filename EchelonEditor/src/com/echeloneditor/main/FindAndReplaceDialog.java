@@ -17,8 +17,10 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextArea;
 import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
@@ -130,7 +132,28 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jBtnReplaceAll.setText(bundle.getString("ReplaceDialog.jBtnReplaceAll.text")); // NOI18N
 		jBtnReplaceAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				// jBtnReplaceAllActionPerformed(evt);
+				Object object = jCmbFind.getSelectedItem();
+				Object object2 = jCmbReplace.getSelectedItem();
+				if (object == null || object.equals("")) {
+					JOptionPane.showMessageDialog(null, "请输入要查找的字符！", "提示框", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+
+				if (object2 == null || object2.equals("")) {
+					object2 = "";
+				}
+				// Create an object defining our search parameters.
+				SearchContext context = new SearchContext();
+
+				context.setSearchFor(object.toString());
+				context.setReplaceWith(object2.toString());
+
+				context.setMatchCase(jChkIgnoreCase.isSelected());
+				context.setRegularExpression(jChkRegex.isSelected());
+				context.setWholeWord(jChkWrap.isSelected());
+				context.setSearchForward(true);
+
+				SearchEngine.replaceAll((RTextArea) jTextComponent, context);
 			}
 		});
 
@@ -148,7 +171,23 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		jTglHighlight.setText(bundle.getString("ReplaceDialog.jTglHighlight.text")); // NOI18N
 		jTglHighlight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				// jTglHighlightActionPerformed(evt);
+
+				Object object = jCmbFind.getSelectedItem();
+				if (object == null || object.equals("")) {
+					JOptionPane.showMessageDialog(null, "请输入要高亮的字符！", "提示框", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+
+				if (jTglHighlight.isSelected()) {
+					((RSyntaxTextArea) jTextComponent).markAll(object.toString(), jChkIgnoreCase.isSelected(), jChkWrap.isSelected(), jChkRegex.isSelected());
+				} else {
+					Highlighter hilite = ((RSyntaxTextArea) jTextComponent).getHighlighter();
+					Highlighter.Highlight[] hilites = hilite.getHighlights();
+
+					for (int i = 0; i < hilites.length; i++) {
+						hilite.removeHighlight(hilites[i]);
+					}
+				}
 			}
 		});
 
