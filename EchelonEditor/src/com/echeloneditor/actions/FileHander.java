@@ -93,6 +93,8 @@ public class FileHander {
 
 			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 			statusObject.getFontItem().setEnabled(true);
+
+			textArea.setCaretPosition(0);
 			textArea.requestFocusInWindow();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
@@ -158,6 +160,7 @@ public class FileHander {
 		textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 		statusObject.getFontItem().setEnabled(true);
 
+		textArea.setCaretPosition(0);
 		textArea.requestFocusInWindow();
 	}
 }
