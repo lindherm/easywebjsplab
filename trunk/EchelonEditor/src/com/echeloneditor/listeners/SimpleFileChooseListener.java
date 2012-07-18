@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import com.echeloneditor.actions.FileHander;
@@ -49,11 +50,17 @@ public class SimpleFileChooseListener implements ActionListener {
 					if (ret == JFileChooser.APPROVE_OPTION) {
 						// 获得选择的文件
 						File file = fileChooser.getSelectedFile();
-						fileHander.saveFile(file.getPath());
-						SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
-						closeableTabComponent.setFilePath(file.getPath());
-						closeableTabComponent.setFileEncode("utf-8");
-						closeableTabComponent.setFileSzie(String.valueOf(file.length()));
+						if (file.exists()) {
+							Object[] options = { "<html>是&nbsp;(<u>Y</u>)</html>", "<html>否&nbsp;(<u>N</u>)</html>" };
+							ret = JOptionPane.showOptionDialog(null, "文件已经存在，是否覆盖？", "信息框", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+							if (ret == JOptionPane.YES_OPTION) {
+								fileHander.saveFile(file.getPath());
+								SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
+								closeableTabComponent.setFilePath(file.getPath());
+								closeableTabComponent.setFileEncode("utf-8");
+								closeableTabComponent.setFileSzie(String.valueOf(file.length()));
+							}
+						}
 					}
 				} else {
 					fileHander.saveFile(filePath);
