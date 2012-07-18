@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -120,27 +121,46 @@ public class FileHander {
 	}
 
 	public void newFile() {
-		JEditorPane editorPane = new JEditorPane();
-		editorPane.addMouseListener(new EditorPaneListener(statusObject));
-		JScrollPane scrollPane = new JScrollPane();
+		RSyntaxTextArea textArea = SwingUtils.createTextArea();
+		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
+		textArea.addMouseListener(new EditorPaneListener(statusObject));
+		// textArea.addHyperlinkListener(this);
+		RTextScrollPane sp = new RTextScrollPane(textArea);
+		sp.setFoldIndicatorEnabled(true);
+
+		Gutter gutter = sp.getGutter();
+		gutter.setBookmarkingEnabled(true);
+		ImageIcon ii = ImageHelper.loadImage("bookmark.png");
+		gutter.setBookmarkIcon(ii);
+
+		InputStream in = getClass().getResourceAsStream("eclipse.xml");
+		try {
+			Theme theme = Theme.load(in);
+			theme.apply(textArea);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		// 加入标尺
-		ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, editorPane);
+		ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
 		ruler.setPreferredWidth(20000);
 		ruler.addSpin(3);
 		ruler.NeedPaint = true;
-		scrollPane.setColumnHeaderView(ruler);
+		sp.setColumnHeaderView(ruler);
 
-		scrollPane.setViewportView(editorPane);
-		// 设置编辑组件属性
-		editorPane.setContentType("text/plain");
 		int tabCount = tabbedPane.getTabCount();
-		tabbedPane.add("New Panel", scrollPane);
-		tabbedPane.setTitleAt(tabCount, "New Panel");
-		tabbedPane.setTabComponentAt(tabCount, new CloseableTabComponent(tabbedPane, statusObject));
-		tabbedPane.setSelectedComponent(scrollPane);
+		CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
+
+		tabbedPane.add("New Panel", sp);
+		tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
+
+		tabbedPane.setSelectedComponent(sp);
+		// 设置选项卡title为打开文件的文件名
+		SimpleFileChooseListener.setTabbedPaneTitle(tabbedPane, "New Panel");
+
+		textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 
 		statusObject.getFontItem().setEnabled(true);
 
-		editorPane.requestFocusInWindow();
+		textArea.requestFocusInWindow();
 	}
 }
