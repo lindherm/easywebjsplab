@@ -16,7 +16,7 @@ import javax.swing.text.JTextComponent;
 import org.apache.log4j.Logger;
 
 public class FontWidthRuler extends JPanel {
-	private static final Logger log=Logger.getLogger(FontWidthRuler.class);
+	private static final Logger log = Logger.getLogger(FontWidthRuler.class);
 
 	private static final long serialVersionUID = 1L;
 	// 度量单位初始化
@@ -131,7 +131,7 @@ public class FontWidthRuler extends JPanel {
 	// 绘制标尺
 	@Override
 	protected void paintComponent(Graphics g) {
-		//log.debug("paint ruler...");
+		// log.debug("paint ruler...");
 		super.paintComponent(g);
 		FontMetrics fontMetrics = editorPane.getFontMetrics(editorPane.getFont());
 		int charWidth = fontMetrics.charWidth('A');
@@ -177,8 +177,8 @@ public class FontWidthRuler extends JPanel {
 		}
 
 		// draw tick
-		for (i = start + 3; i < end; i += unit) {
-			if (i % (unit * 10) == 3) {
+		for (i = start; i < end; i += unit) {
+			if (i % (unit * 10) == 0) {
 				tickLength = LONG_TICK;
 				text = (type == PIXEL) ? Integer.toString(i / unit) : nf.format(i * precision);
 			} else {
@@ -205,18 +205,18 @@ public class FontWidthRuler extends JPanel {
 		}
 
 		// draw spin
-		//g.setColor(SPIN_COLOR);
+		// g.setColor(SPIN_COLOR);
 		for (i = 0; i < spinNumber; i++) {
 			int location = spinList.get(i);
 			if (location <= 0) {
 				location = 0;
 			}
-			location = (location / unit) * unit + 3;
+			location = (location / unit) * unit;
 			text = String.valueOf(location / unit);
 			g.drawLine(location - unit, 0, location + unit, 0);
-			g.drawLine(location, 0, location, SIZE - LONG_TICK-2);
+			g.drawLine(location, 0, location, SIZE - LONG_TICK - 2);
 			g.drawString(text, location + 2, SIDE - LONG_TICK);
 		}
-		//log.debug("paint ruler done.");
+		// log.debug("paint ruler done.");
 	}
 }
