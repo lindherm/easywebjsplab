@@ -9,7 +9,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
-import javax.swing.JEditorPane;
 import javax.swing.JTabbedPane;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -19,7 +18,6 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.echeloneditor.listeners.EditorPaneListener;
-import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
@@ -80,6 +78,7 @@ public class FileHander {
 
 			int tabCount = tabbedPane.getTabCount();
 			CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
+			closeableTabComponent.setFilePath(file.getPath());
 			closeableTabComponent.setFileEncode(encode);
 			closeableTabComponent.setFileSzie(fileSize);
 
@@ -154,9 +153,7 @@ public class FileHander {
 		tabbedPane.setSelectedComponent(sp);
 		// 设置选项卡title为打开文件的文件名
 		SwingUtils.setTabbedPaneTitle(tabbedPane, "New Panel");
-
 		textArea.setFont(new Font("宋体", Font.PLAIN, 12));
-
 		statusObject.getFontItem().setEnabled(true);
 
 		textArea.requestFocusInWindow();
