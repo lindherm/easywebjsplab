@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -13,7 +15,7 @@ import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
-public class EditorPaneListener implements MouseListener {
+public class EditorPaneListener implements MouseListener,DocumentListener{
 	public StatusObject statusObject;
 
 	public EditorPaneListener(StatusObject statusObject) {
@@ -79,5 +81,27 @@ public class EditorPaneListener implements MouseListener {
 			fontWidthRuler.addSpin(e.getX());
 			fontWidthRuler.repaint();
 		}
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		updateStatus(e);
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		updateStatus(e);
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		updateStatus(e);
+	}
+	
+	private void updateStatus(DocumentEvent e){
+		statusObject.getSaveBtn().setEnabled(true);
 	}
 }

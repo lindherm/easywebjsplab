@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.main.CloseableTabComponent;
+import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
 public class SimpleFileChooseListener implements ActionListener {
@@ -40,7 +41,8 @@ public class SimpleFileChooseListener implements ActionListener {
 			int tabCount = tabbedPane.getTabCount();
 			if (tabCount > 0) {
 				Component component = tabbedPane.getTabComponentAt(tabbedPane.getSelectedIndex());
-				String filePath = ((CloseableTabComponent) component).getFilePath();
+				CloseableTabComponent closeableTabComponent = (CloseableTabComponent) component;
+				String filePath = closeableTabComponent.getFilePath();
 				if (filePath == null || filePath.equals("")) {
 					int ret = fileChooser.showSaveDialog(null);
 
@@ -48,11 +50,19 @@ public class SimpleFileChooseListener implements ActionListener {
 						// 获得选择的文件
 						File file = fileChooser.getSelectedFile();
 						fileHander.saveFile(file.getPath());
+						SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
+						closeableTabComponent.setFilePath(file.getPath());
+						closeableTabComponent.setFileEncode("utf-8");
+						closeableTabComponent.setFileSzie(String.valueOf(file.length()));
 					}
 				} else {
 					fileHander.saveFile(filePath);
+					closeableTabComponent.setFileSzie(String.valueOf(new File(filePath).length()));
 				}
+				statusObject.getFileSize().setText("文件大小：" + closeableTabComponent.getFileSzie());
+				statusObject.getFileEncode().setText("文件编码：" + closeableTabComponent.getFileEncode());
 			}
+
 			statusObject.getSaveBtn().setEnabled(false);
 		}
 

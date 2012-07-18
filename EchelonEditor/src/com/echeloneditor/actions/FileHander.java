@@ -53,6 +53,7 @@ public class FileHander {
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
 			textArea.setSyntaxEditingStyle(fileContentType);
 			textArea.addMouseListener(new EditorPaneListener(statusObject));
+			textArea.getDocument().addDocumentListener(new EditorPaneListener(statusObject));
 			// textArea.addHyperlinkListener(this);
 			RTextScrollPane sp = new RTextScrollPane(textArea);
 			sp.setFoldIndicatorEnabled(true);
@@ -121,6 +122,7 @@ public class FileHander {
 		RSyntaxTextArea textArea = SwingUtils.createTextArea();
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
 		textArea.addMouseListener(new EditorPaneListener(statusObject));
+		textArea.getDocument().addDocumentListener(new EditorPaneListener(statusObject));
 		// textArea.addHyperlinkListener(this);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 		sp.setFoldIndicatorEnabled(true);
