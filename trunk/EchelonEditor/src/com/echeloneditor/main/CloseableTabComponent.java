@@ -18,6 +18,7 @@ import com.echeloneditor.vo.StatusObject;
 public class CloseableTabComponent extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	public String filePath = "";
 	public String fileEncode = "UTF-8";
 	public String fileSzie = "0";
 
@@ -28,7 +29,7 @@ public class CloseableTabComponent extends JPanel {
 	private JButton closeButton = null;
 	private JTabbedPane tabbedPane = null;
 
-	public CloseableTabComponent(JTabbedPane aTabbedPane,final StatusObject statusObject) {
+	public CloseableTabComponent(JTabbedPane aTabbedPane, final StatusObject statusObject) {
 		super(new BorderLayout());
 		tabbedPane = aTabbedPane;
 
@@ -54,14 +55,22 @@ public class CloseableTabComponent extends JPanel {
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
-				if(tabbedPane.getTabCount()<=0){
+				if (tabbedPane.getTabCount() <= 0) {
 					statusObject.getFontItem().setEnabled(false);
 				}
 			}
 		});
-		
+
 		add(titleLabel, BorderLayout.CENTER);
 		add(closeButton, BorderLayout.EAST);
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	public String getFileEncode() {

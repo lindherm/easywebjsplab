@@ -1,14 +1,33 @@
 package com.echeloneditor.vo;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
 public class StatusObject {
-	JLabel carNum;
+	JLabel charNum;
 	JLabel fileEncode;
 	JLabel fileSize;
 	
 	JMenuItem fontItem;
+	
+	JButton saveBtn;
+
+	public JButton getSaveBtn() {
+		return saveBtn;
+	}
+
+	public void setSaveBtn(JButton saveBtn) {
+		this.saveBtn = saveBtn;
+	}
+
+	public JLabel getCharNum() {
+		return charNum;
+	}
+
+	public void setCharNum(JLabel charNum) {
+		this.charNum = charNum;
+	}
 
 	public JMenuItem getFontItem() {
 		return fontItem;
@@ -16,14 +35,6 @@ public class StatusObject {
 
 	public void setFontItem(JMenuItem fontItem) {
 		this.fontItem = fontItem;
-	}
-
-	public JLabel getCarNum() {
-		return carNum;
-	}
-
-	public void setCarNum(JLabel carNum) {
-		this.carNum = carNum;
 	}
 
 	public JLabel getFileEncode() {

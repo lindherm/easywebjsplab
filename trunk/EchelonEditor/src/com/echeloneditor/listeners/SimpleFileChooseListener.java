@@ -1,5 +1,6 @@
 package com.echeloneditor.listeners;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
 
 import com.echeloneditor.actions.FileHander;
+import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.vo.StatusObject;
 
 public class SimpleFileChooseListener implements ActionListener {
@@ -35,13 +37,23 @@ public class SimpleFileChooseListener implements ActionListener {
 				}
 			}
 		} else if (e.getActionCommand().endsWith("save")) {
-			int ret = fileChooser.showSaveDialog(null);
+			int tabCount = tabbedPane.getTabCount();
+			if (tabCount > 0) {
+				Component component = tabbedPane.getTabComponentAt(tabbedPane.getSelectedIndex());
+				String filePath = ((CloseableTabComponent) component).getFilePath();
+				if (filePath == null || filePath.equals("")) {
+					int ret = fileChooser.showSaveDialog(null);
 
-			if (ret == JFileChooser.APPROVE_OPTION) {
-				// 获得选择的文件
-				File file = fileChooser.getSelectedFile();
-				fileHander.saveFile(file.getPath());
+					if (ret == JFileChooser.APPROVE_OPTION) {
+						// 获得选择的文件
+						File file = fileChooser.getSelectedFile();
+						fileHander.saveFile(file.getPath());
+					}
+				} else {
+					fileHander.saveFile(filePath);
+				}
 			}
+			statusObject.getSaveBtn().setEnabled(false);
 		}
 
 	}

@@ -115,7 +115,7 @@ public class EchelonEditor {
 		panel.add(fileEncodeLabel);
 
 		statusObject = new StatusObject();
-		statusObject.setCarNum(charNmLabel);
+		statusObject.setCharNum(charNmLabel);
 		statusObject.setFileEncode(fileEncodeLabel);
 		statusObject.setFileSize(fileSizeLabel);
 
@@ -149,9 +149,11 @@ public class EchelonEditor {
 
 		JButton btnNewButton = new JButton();
 		btnNewButton.setActionCommand("save");
-		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setIcon(ImageHelper.loadImage("save.png"));
 		toolBar.add(btnNewButton);
+		statusObject.setSaveBtn(btnNewButton);
+		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
+		btnNewButton.setEnabled(false);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmEcheloneditor.setJMenuBar(menuBar);
@@ -233,7 +235,7 @@ public class EchelonEditor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (tabbedPane.getTabCount()<=0) {
+				if (tabbedPane.getTabCount() <= 0) {
 					return;
 				}
 				RSyntaxTextArea textArea = SwingUtils.getSyntaxArea(tabbedPane);

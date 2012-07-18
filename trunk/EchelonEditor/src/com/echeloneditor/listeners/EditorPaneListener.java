@@ -33,7 +33,7 @@ public class EditorPaneListener implements MouseListener {
 		int unit = fontMetrics.charWidth('A');
 
 		int num = e.getX() / unit;
-		statusObject.getCarNum().setText("字符数：" + num + "/B");
+		statusObject.getCharNum().setText("字符数：" + num + "/B");
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class EditorPaneListener implements MouseListener {
 		selText = selText.replaceAll("\n", "");
 		selText = selText.replaceAll("\r", "");
 		int num = selText.length();
-		statusObject.getCarNum().setText("字符数：" + num);
+		statusObject.getCharNum().setText("字符数：" + num);
 	}
 
 	@Override
