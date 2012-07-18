@@ -2,6 +2,7 @@ package com.echeloneditor.utils;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.io.File;
 
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -11,6 +12,8 @@ import javax.swing.text.JTextComponent;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import com.echeloneditor.main.CloseableTabComponent;
+
 public class SwingUtils {
 	/**
 	 * 获取选项卡选中的jeditorpane
@@ -18,20 +21,20 @@ public class SwingUtils {
 	 * @param tabbedPane
 	 * @return
 	 */
-	public static JEditorPane getEditorPane(JTabbedPane tabbedPane) {
+	public static RSyntaxTextArea getRSyntaxTextArea(JTabbedPane tabbedPane) {
 		Component com = tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
 		if (com instanceof JScrollPane) {
 			Component[] component = ((JScrollPane) com).getComponents();
-			if (component[0] instanceof JEditorPane) {
-				return (JEditorPane) component[0];
+			if (component[0] instanceof RSyntaxTextArea) {
+				return (RSyntaxTextArea) component[0];
 			} else if (component[0] instanceof JViewport) {
 				Component[] component2 = ((JViewport) component[0]).getComponents();
-				if (component2[0] instanceof JEditorPane) {
-					return (JEditorPane) component2[0];
+				if (component2[0] instanceof RSyntaxTextArea) {
+					return (RSyntaxTextArea) component2[0];
 				}
 			}
 		}
-		return new JEditorPane();
+		return null;
 	}
 
 	/**
@@ -53,7 +56,7 @@ public class SwingUtils {
 				}
 			}
 		}
-		return new RSyntaxTextArea();
+		return null;
 	}
 
 	/**
@@ -86,11 +89,56 @@ public class SwingUtils {
 	public static RSyntaxTextArea createTextArea() {
 		RSyntaxTextArea textArea = new RSyntaxTextArea(25, 70);
 		textArea.setCaretPosition(0);
-		//textArea.requestFocusInWindow();
+		// textArea.requestFocusInWindow();
 		textArea.setMarkOccurrences(true);
 		textArea.setCodeFoldingEnabled(true);
 		textArea.setClearWhitespaceLinesEnabled(true);
 		textArea.setAntiAliasingEnabled(true);
 		return textArea;
+	}
+
+	/**
+	 * 设置焦点选项卡的标题
+	 */
+	public static void setTabbedPaneTitle(JTabbedPane tabbedPane, String fileName) {
+		tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileName);
+		Component componentl = tabbedPane.getTabComponentAt(tabbedPane.getSelectedIndex());
+		((CloseableTabComponent) componentl).titleLabel.setText(fileName + "  ");
+	}
+
+	/**
+	 * 获取编辑区内容
+	 * 
+	 * @param tabbedPane
+	 * @return
+	 */
+	public static String getContent(JTabbedPane tabbedPane) {
+		return SwingUtils.getRSyntaxTextArea(tabbedPane).getText();
+	}
+
+	/**
+	 * 设置编辑区内容
+	 * 
+	 * @param tabbedPane
+	 * @param text
+	 */
+	public static void setContent(JTabbedPane tabbedPane, String text) {
+		SwingUtils.getRSyntaxTextArea(tabbedPane).setText(text);
+	}
+
+	/**
+	 * 根据文件扩展名获取文件的内容类型
+	 * 
+	 * @param file
+	 */
+	public static String getFileContentType(File file) {
+		String result = "";
+		String fileName = file.getName();
+		int pos = fileName.lastIndexOf(".");
+
+		String fileExt = fileName.substring(pos + 1, fileName.length());
+		result = "text/" + fileExt;
+		System.out.println(result);
+		return result;
 	}
 }

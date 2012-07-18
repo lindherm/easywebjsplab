@@ -1,6 +1,5 @@
 package com.echeloneditor.listeners;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,11 +7,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
 
-import sun.util.logging.resources.logging;
-
 import com.echeloneditor.actions.FileHander;
-import com.echeloneditor.main.CloseableTabComponent;
-import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
 public class SimpleFileChooseListener implements ActionListener {
@@ -51,48 +46,4 @@ public class SimpleFileChooseListener implements ActionListener {
 
 	}
 
-	/**
-	 * 设置焦点选项卡的标题
-	 */
-	public static void setTabbedPaneTitle(JTabbedPane tabbedPane, String fileName) {
-		tabbedPane.setTitleAt(tabbedPane.getSelectedIndex(), fileName);
-		Component componentl = tabbedPane.getTabComponentAt(tabbedPane.getSelectedIndex());
-		((CloseableTabComponent) componentl).titleLabel.setText(fileName + "  ");
-	}
-
-	/**
-	 * 获取编辑区内容
-	 * 
-	 * @param tabbedPane
-	 * @return
-	 */
-	public static String getContent(JTabbedPane tabbedPane) {
-		return SwingUtils.getEditorPane(tabbedPane).getText();
-	}
-
-	/**
-	 * 设置编辑区内容
-	 * 
-	 * @param tabbedPane
-	 * @param text
-	 */
-	public static void setContent(JTabbedPane tabbedPane, String text) {
-		SwingUtils.getEditorPane(tabbedPane).setText(text);
-	}
-
-	/**
-	 * 根据文件扩展名获取文件的内容类型
-	 * 
-	 * @param file
-	 */
-	public static String getFileContentType(File file) {
-		String result = "";
-		String fileName = file.getName();
-		int pos = fileName.lastIndexOf(".");
-
-		String fileExt = fileName.substring(pos+1, fileName.length());
-		result="text/"+fileExt;
-		System.out.println(result);
-		return result;
-	}
 }

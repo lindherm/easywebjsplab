@@ -10,7 +10,6 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -51,7 +50,7 @@ public class FileHander {
 
 			File file = new File(filePath);
 
-			String fileContentType = SimpleFileChooseListener.getFileContentType(file);
+			String fileContentType = SwingUtils.getFileContentType(file);
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
 			textArea.setSyntaxEditingStyle(fileContentType);
@@ -89,7 +88,7 @@ public class FileHander {
 
 			tabbedPane.setSelectedComponent(sp);
 			// 设置选项卡title为打开文件的文件名
-			SimpleFileChooseListener.setTabbedPaneTitle(tabbedPane, file.getName());
+			SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
 			textArea.setText(map.get("fileContent"));
 
 			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
@@ -111,9 +110,8 @@ public class FileHander {
 	public void saveFile(String filePath) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
-		JEditorPane editorPane = SwingUtils.getEditorPane(tabbedPane);
 		try {
-			fileAction.save(filePath, editorPane.getText(), statusObject.getFileEncode().getText());
+			fileAction.save(filePath, SwingUtils.getContent(tabbedPane), statusObject.getFileEncode().getText());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -155,7 +153,7 @@ public class FileHander {
 
 		tabbedPane.setSelectedComponent(sp);
 		// 设置选项卡title为打开文件的文件名
-		SimpleFileChooseListener.setTabbedPaneTitle(tabbedPane, "New Panel");
+		SwingUtils.setTabbedPaneTitle(tabbedPane, "New Panel");
 
 		textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 
