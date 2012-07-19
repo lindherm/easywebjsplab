@@ -52,8 +52,8 @@ public class FileHander {
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
 			textArea.setSyntaxEditingStyle(fileContentType);
-			textArea.addMouseListener(new EditorPaneListener(statusObject));
-			textArea.getDocument().addDocumentListener(new EditorPaneListener(statusObject));
+			textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
+			textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
 			// textArea.addHyperlinkListener(this);
 			RTextScrollPane sp = new RTextScrollPane(textArea);
 			sp.setFoldIndicatorEnabled(true);
@@ -82,6 +82,7 @@ public class FileHander {
 			closeableTabComponent.setFilePath(file.getPath());
 			closeableTabComponent.setFileEncode(encode);
 			closeableTabComponent.setFileSzie(fileSize);
+			closeableTabComponent.setModify(false);
 
 			tabbedPane.add("New Panel", sp);
 			tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
@@ -93,6 +94,7 @@ public class FileHander {
 
 			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 			statusObject.getFontItem().setEnabled(true);
+			statusObject.getSaveBtn().setEnabled(false);
 
 			textArea.setCaretPosition(0);
 			textArea.requestFocusInWindow();
@@ -123,8 +125,8 @@ public class FileHander {
 	public void newFile() {
 		RSyntaxTextArea textArea = SwingUtils.createTextArea();
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-		textArea.addMouseListener(new EditorPaneListener(statusObject));
-		textArea.getDocument().addDocumentListener(new EditorPaneListener(statusObject));
+		textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
+		textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
 		// textArea.addHyperlinkListener(this);
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 		sp.setFoldIndicatorEnabled(true);

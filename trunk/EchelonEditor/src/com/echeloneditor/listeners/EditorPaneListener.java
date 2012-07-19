@@ -5,6 +5,7 @@ import java.awt.FontMetrics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,14 +16,13 @@ import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
-public class EditorPaneListener implements MouseListener,DocumentListener{
+public class EditorPaneListener implements MouseListener, DocumentListener {
+	public JTabbedPane tabbedPane;
 	public StatusObject statusObject;
 
-	public EditorPaneListener(StatusObject statusObject) {
+	public EditorPaneListener(JTabbedPane tabbedPane, StatusObject statusObject) {
+		this.tabbedPane = tabbedPane;
 		this.statusObject = statusObject;
-	}
-
-	public EditorPaneListener() {
 	}
 
 	@Override
@@ -100,8 +100,8 @@ public class EditorPaneListener implements MouseListener,DocumentListener{
 		// TODO Auto-generated method stub
 		updateStatus(e);
 	}
-	
-	private void updateStatus(DocumentEvent e){
+
+	private void updateStatus(DocumentEvent e) {
 		statusObject.getSaveBtn().setEnabled(true);
 	}
 }

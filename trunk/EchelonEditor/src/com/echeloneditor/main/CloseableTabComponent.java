@@ -21,6 +21,7 @@ public class CloseableTabComponent extends JPanel {
 	public String filePath = "";
 	public String fileEncode = "UTF-8";
 	public String fileSzie = "0";
+	public boolean modify = false;
 
 	private static ImageIcon closerImage = ImageHelper.loadImage("closer.gif");
 	private static ImageIcon closerRolloverImage = ImageHelper.loadImage("closer_rollover.gif");
@@ -64,6 +65,15 @@ public class CloseableTabComponent extends JPanel {
 		add(titleLabel, BorderLayout.CENTER);
 		add(closeButton, BorderLayout.EAST);
 	}
+	
+
+	public boolean isModify() {
+		return modify;
+	}
+
+	public void setModify(boolean modify) {
+		this.modify = modify;
+	}
 
 	public String getFilePath() {
 		return filePath;
@@ -88,5 +98,4 @@ public class CloseableTabComponent extends JPanel {
 	public void setFileSzie(String fileSzie) {
 		this.fileSzie = fileSzie;
 	}
-
 }
