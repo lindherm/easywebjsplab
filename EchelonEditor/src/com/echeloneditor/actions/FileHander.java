@@ -1,8 +1,6 @@
 package com.echeloneditor.actions;
 
 import java.awt.Font;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,13 +10,10 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
 
 import org.fife.rsta.ac.LanguageSupport;
 import org.fife.rsta.ac.LanguageSupportFactory;
 import org.fife.rsta.ac.java.JavaLanguageSupport;
-import org.fife.ui.autocomplete.AutoCompletion;
-import org.fife.ui.autocomplete.CompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -59,13 +54,7 @@ public class FileHander {
 			String fileContentType = SwingUtils.getFileContentType(file);
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
-			textArea.setSyntaxEditingStyle(fileContentType);
-			textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
-			textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
-			// textArea.addHyperlinkListener(this);
-			RTextScrollPane sp = new RTextScrollPane(textArea);
-			sp.setFoldIndicatorEnabled(true);
-
+			
 			LanguageSupportFactory lsf = LanguageSupportFactory.get();
 			LanguageSupport support = lsf.getSupportFor(SyntaxConstants.SYNTAX_STYLE_JAVA);
 			JavaLanguageSupport jls = (JavaLanguageSupport) support;
@@ -76,11 +65,16 @@ public class FileHander {
 			}
 			jls.setShowDescWindow(true);
 			jls.setParameterAssistanceEnabled(true);
-			lsf.register(textArea);
-			/*CompletionProvider provider = AutoCompleteAction.createCompletionProvider();
-			AutoCompletion ac = new AutoCompletion(provider);
-			ac.setTriggerKey(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_MASK));
-			ac.install(textArea);*/
+			jls.setAutoActivationEnabled(true);
+			
+			LanguageSupportFactory.get().register(textArea);
+			
+			textArea.setSyntaxEditingStyle(fileContentType);
+			textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
+			textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
+			// textArea.addHyperlinkListener(this);
+			RTextScrollPane sp = new RTextScrollPane(textArea);
+			sp.setFoldIndicatorEnabled(true);
 
 			Gutter gutter = sp.getGutter();
 			gutter.setBookmarkingEnabled(true);
