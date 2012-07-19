@@ -58,14 +58,22 @@ public class SimpleFileChooseListener implements ActionListener {
 								closeableTabComponent.setFilePath(file.getPath());
 								closeableTabComponent.setFileEncode("utf-8");
 								closeableTabComponent.setFileSzie(String.valueOf(file.length()));
+								closeableTabComponent.setModify(false);
 							}
 						}
 					}
 				} else {
-					fileHander.saveFile(filePath);
-					closeableTabComponent.setFileSzie(String.valueOf(new File(filePath).length()));
+					File file=new File(filePath);
+					if (file.canWrite()) {
+						fileHander.saveFile(filePath);
+						closeableTabComponent.setFileSzie(String.valueOf(new File(filePath).length()));
+						closeableTabComponent.setModify(false);
+					}else {
+						JOptionPane.showMessageDialog(null, "文件为只读，保存失败！");
+						return;
+					}
+					
 				}
-				closeableTabComponent.setModify(false);
 				statusObject.getFileSize().setText("文件大小：" + closeableTabComponent.getFileSzie());
 				statusObject.getFileEncode().setText("文件编码：" + closeableTabComponent.getFileEncode());
 			}
