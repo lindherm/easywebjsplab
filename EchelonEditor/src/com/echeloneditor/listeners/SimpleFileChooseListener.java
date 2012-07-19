@@ -58,7 +58,6 @@ public class SimpleFileChooseListener implements ActionListener {
 								closeableTabComponent.setFilePath(file.getPath());
 								closeableTabComponent.setFileEncode("utf-8");
 								closeableTabComponent.setFileSzie(String.valueOf(file.length()));
-								closeableTabComponent.setModify(false);
 							}
 						}
 					}
@@ -66,11 +65,13 @@ public class SimpleFileChooseListener implements ActionListener {
 					fileHander.saveFile(filePath);
 					closeableTabComponent.setFileSzie(String.valueOf(new File(filePath).length()));
 				}
+				closeableTabComponent.setModify(false);
 				statusObject.getFileSize().setText("文件大小：" + closeableTabComponent.getFileSzie());
 				statusObject.getFileEncode().setText("文件编码：" + closeableTabComponent.getFileEncode());
 			}
 
 			statusObject.getSaveBtn().setEnabled(false);
+			
 		}
 
 	}

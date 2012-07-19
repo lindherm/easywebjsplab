@@ -74,8 +74,7 @@ public class TabbedPaneChangeListener implements MouseListener {
 			String encode = closeableTabComponent.getFileEncode();
 			String fileSize = closeableTabComponent.getFileSzie();
 			boolean modify = closeableTabComponent.isModify();
-			if (encode != null) {
-				// log.debug("testencode:" + encode);
+			if (fileSize != null && !fileSize.equals("")) {
 				statusObject.getFileSize().setText("文件大小：" + fileSize);
 				statusObject.getFileEncode().setText("文件编码：" + encode);
 				statusObject.getSaveBtn().setEnabled(modify);

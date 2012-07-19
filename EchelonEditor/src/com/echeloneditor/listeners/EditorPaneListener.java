@@ -12,6 +12,7 @@ import javax.swing.event.DocumentListener;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
@@ -103,5 +104,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 
 	private void updateStatus(DocumentEvent e) {
 		statusObject.getSaveBtn().setEnabled(true);
+		CloseableTabComponent closeableTabComponent=SwingUtils.getCloseableTabComponent(tabbedPane);
+		closeableTabComponent.setModify(true);
 	}
 }

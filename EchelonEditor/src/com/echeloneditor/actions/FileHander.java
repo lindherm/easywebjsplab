@@ -82,7 +82,6 @@ public class FileHander {
 			closeableTabComponent.setFilePath(file.getPath());
 			closeableTabComponent.setFileEncode(encode);
 			closeableTabComponent.setFileSzie(fileSize);
-			closeableTabComponent.setModify(false);
 
 			tabbedPane.add("New Panel", sp);
 			tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
@@ -98,6 +97,7 @@ public class FileHander {
 
 			textArea.setCaretPosition(0);
 			textArea.requestFocusInWindow();
+			closeableTabComponent.setModify(false);
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -152,7 +152,9 @@ public class FileHander {
 
 		int tabCount = tabbedPane.getTabCount();
 		CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
-
+		closeableTabComponent.setFileEncode("UTF-8");
+		closeableTabComponent.setFileSzie("0");
+		closeableTabComponent.setModify(false);
 		tabbedPane.add("New Panel", sp);
 		tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
 
@@ -161,6 +163,7 @@ public class FileHander {
 		SwingUtils.setTabbedPaneTitle(tabbedPane, "New Panel");
 		textArea.setFont(new Font("宋体", Font.PLAIN, 12));
 		statusObject.getFontItem().setEnabled(true);
+		statusObject.getSaveBtn().setEnabled(false);
 
 		textArea.setCaretPosition(0);
 		textArea.requestFocusInWindow();
