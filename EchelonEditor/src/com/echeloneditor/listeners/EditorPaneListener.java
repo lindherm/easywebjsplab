@@ -14,6 +14,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
+import com.echeloneditor.main.PopupMenuUI;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
@@ -48,8 +49,11 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		eventHander(e);
-
+		if (SwingUtilities.isRightMouseButton(e)) {
+			PopupMenuUI popupMenuUI=new PopupMenuUI((RSyntaxTextArea)e.getComponent());
+			popupMenuUI.jPopupMenu.show(SwingUtils.getRSyntaxTextArea(tabbedPane),e.getX(), e.getY());
+		}
+		
 		// 显示字符数
 		RSyntaxTextArea edp = (RSyntaxTextArea) e.getComponent();
 		String selText = edp.getSelectedText();
