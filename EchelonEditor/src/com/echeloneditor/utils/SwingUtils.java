@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.io.File;
 
-import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
@@ -15,6 +14,13 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.echeloneditor.main.CloseableTabComponent;
 
 public class SwingUtils {
+
+	public static CloseableTabComponent getCloseableTabComponent(JTabbedPane tabbedPane) {
+		Component component = tabbedPane.getTabComponentAt(tabbedPane.getSelectedIndex());
+		CloseableTabComponent closeableTabComponent = (CloseableTabComponent) component;
+		return closeableTabComponent;
+	}
+
 	/**
 	 * 获取选项卡选中的jeditorpane
 	 * 

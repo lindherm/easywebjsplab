@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import com.echeloneditor.main.CloseableTabComponent;
+import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
 public class TabbedPaneChangeListener implements MouseListener {
@@ -69,13 +70,15 @@ public class TabbedPaneChangeListener implements MouseListener {
 		// TODO Auto-generated method stub
 		int tabCount = tabbedPane.getTabCount();
 		if (tabCount > 0) {
-			Component component = tabbedPane.getTabComponentAt(tabbedPane.getSelectedIndex());
-			String encode = ((CloseableTabComponent) component).getFileEncode();
-			String fileSize = ((CloseableTabComponent) component).getFileSzie();
+			CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+			String encode = closeableTabComponent.getFileEncode();
+			String fileSize = closeableTabComponent.getFileSzie();
+			boolean modify = closeableTabComponent.isModify();
 			if (encode != null) {
-				//log.debug("testencode:" + encode);
+				// log.debug("testencode:" + encode);
 				statusObject.getFileSize().setText("文件大小：" + fileSize);
 				statusObject.getFileEncode().setText("文件编码：" + encode);
+				statusObject.getSaveBtn().setEnabled(modify);
 			}
 		}
 	}
