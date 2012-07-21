@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import org.fife.ui.hex.swing.HexEditor;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.actions.FileHander;
@@ -154,6 +156,30 @@ public class EchelonEditor {
 		statusObject.setSaveBtn(btnNewButton);
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
+
+		JButton btnH = new JButton("");
+		btnH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HexEditor hexEditor = new HexEditor();
+				hexEditor.setCellEditable(true);
+				
+				int tabCount = tabbedPane.getTabCount();
+				CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+
+				try {
+					hexEditor.open(closeableTabComponent.getFilePath());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				tabbedPane.add("New Panel", hexEditor);
+				tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
+
+				tabbedPane.setSelectedComponent(hexEditor);
+			}
+		});
+		btnH.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/hex.PNG")));
+		toolBar.add(btnH);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmEcheloneditor.setJMenuBar(menuBar);
