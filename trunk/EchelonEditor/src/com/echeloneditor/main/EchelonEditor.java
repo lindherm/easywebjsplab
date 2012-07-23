@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,13 +28,11 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import org.fife.ui.hex.swing.HexEditor;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.listeners.SimpleDragFileListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
-import com.echeloneditor.listeners.SimpleHexEditorListener;
 import com.echeloneditor.listeners.SimpleJmenuItemListener;
 import com.echeloneditor.listeners.TabbedPaneChangeListener;
 import com.echeloneditor.utils.ImageHelper;
@@ -161,6 +157,7 @@ public class EchelonEditor {
 		btnNewButton.setEnabled(false);
 
 		JToggleButton btnH = new JToggleButton("");
+		btnH.setEnabled(false);
 		btnH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileHander fileHander = new FileHander(tabbedPane, statusObject);
