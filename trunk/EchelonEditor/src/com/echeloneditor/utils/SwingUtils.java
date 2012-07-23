@@ -3,12 +3,17 @@ package com.echeloneditor.utils;
 import java.awt.Component;
 import java.awt.Container;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.text.JTextComponent;
 
+import org.fife.ui.hex.ByteBuffer;
+import org.fife.ui.hex.swing.HexEditor;
+import org.fife.ui.hex.swing.HexTable;
+import org.fife.ui.hex.swing.HexTableModel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.main.CloseableTabComponent;
@@ -22,7 +27,7 @@ public class SwingUtils {
 	}
 
 	/**
-	 * 获取选项卡选中的jeditorpane
+	 * 获取选项卡选中的RSyntaxTextArea
 	 * 
 	 * @param tabbedPane
 	 * @return
@@ -49,18 +54,10 @@ public class SwingUtils {
 	 * @param tabbedPane
 	 * @return
 	 */
-	public static RSyntaxTextArea getSyntaxArea(JTabbedPane tabbedPane) {
-		Component com = tabbedPane.getSelectedComponent();
-		if (com instanceof JScrollPane) {
-			Component[] component = ((JScrollPane) com).getComponents();
-			if (component[0] instanceof RSyntaxTextArea) {
-				return (RSyntaxTextArea) component[0];
-			} else if (component[0] instanceof JViewport) {
-				Component[] component2 = ((JViewport) component[0]).getComponents();
-				if (component2[0] instanceof RSyntaxTextArea) {
-					return (RSyntaxTextArea) component2[0];
-				}
-			}
+	public static HexEditor getHexEditor(JTabbedPane tabbedPane) {
+		Component com = tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+		if (com instanceof HexEditor) {
+			return (HexEditor) com;
 		}
 		return null;
 	}
@@ -119,7 +116,29 @@ public class SwingUtils {
 	 * @return
 	 */
 	public static String getContent(JTabbedPane tabbedPane) {
-		return SwingUtils.getRSyntaxTextArea(tabbedPane).getText();
+		String text ="";
+		RSyntaxTextArea rSyntaxTextArea=SwingUtils.getRSyntaxTextArea(tabbedPane);
+		if (rSyntaxTextArea!=null) {
+			text=rSyntaxTextArea.getText();
+		}else {
+			HexEditor hexEditor=SwingUtils.getHexEditor(tabbedPane);
+			
+			CloseableTabComponent closeableTabComponent=SwingUtils.getCloseableTabComponent(tabbedPane);
+			
+			Component component=hexEditor.getViewport();
+			if (component instanceof JViewport) {
+				Component component2=((JViewport)component).getView();
+				HexTableModel hexTableModel=(HexTableModel)((HexTable)component2).getModel();
+				ByteBuffer byteBuffer=hexTableModel.getDoc();
+				try {
+					text=new String(byteBuffer.getBuffer(),closeableTabComponent.getFileEncode());
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return text;
 	}
 
 	/**

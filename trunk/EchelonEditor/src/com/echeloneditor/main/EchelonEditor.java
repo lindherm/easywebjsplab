@@ -21,8 +21,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -34,6 +36,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.listeners.SimpleDragFileListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
+import com.echeloneditor.listeners.SimpleHexEditorListener;
 import com.echeloneditor.listeners.SimpleJmenuItemListener;
 import com.echeloneditor.listeners.TabbedPaneChangeListener;
 import com.echeloneditor.utils.ImageHelper;
@@ -157,25 +160,31 @@ public class EchelonEditor {
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
 
-		JButton btnH = new JButton("");
+		JToggleButton btnH = new JToggleButton("");
 		btnH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				HexEditor hexEditor = new HexEditor();
-				hexEditor.setCellEditable(true);
-				
-				int tabCount = tabbedPane.getTabCount();
-				CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+				if (((JToggleButton)e.getSource()).isSelected()) {
+					HexEditor hexEditor = new HexEditor();
+					hexEditor.addHexEditorListener(new SimpleHexEditorListener(tabbedPane, statusObject));
+					hexEditor.setCellEditable(true);
+					
+					int tabCount = tabbedPane.getTabCount();
+					CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
 
-				try {
-					hexEditor.open(closeableTabComponent.getFilePath());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					try {
+						hexEditor.open(closeableTabComponent.getFilePath());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					tabbedPane.add("New Panel", hexEditor);
+					tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
+
+					tabbedPane.setSelectedComponent(hexEditor);
+				}else {
+					System.out.println("deselect");
 				}
-				tabbedPane.add("New Panel", hexEditor);
-				tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
-
-				tabbedPane.setSelectedComponent(hexEditor);
+				
 			}
 		});
 		btnH.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/hex.PNG")));
@@ -241,7 +250,7 @@ public class EchelonEditor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RSyntaxTextArea textArea = SwingUtils.getSyntaxArea(tabbedPane);
+				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
 				Font font = textArea.getFont();
 
 				FontChooserDialog fontset = new FontChooserDialog(frmEcheloneditor, font, textArea);
@@ -264,7 +273,7 @@ public class EchelonEditor {
 				if (tabbedPane.getTabCount() <= 0) {
 					return;
 				}
-				RSyntaxTextArea textArea = SwingUtils.getSyntaxArea(tabbedPane);
+				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
 				FindAndReplaceDialog findAndReplaceDialog = new FindAndReplaceDialog(textArea);
 				findAndReplaceDialog.setVisible(true);
 			}

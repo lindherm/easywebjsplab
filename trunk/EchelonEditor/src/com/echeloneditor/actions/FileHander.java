@@ -1,5 +1,6 @@
 package com.echeloneditor.actions;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +10,9 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 
 import org.fife.rsta.ac.LanguageSupport;
 import org.fife.rsta.ac.LanguageSupportFactory;
@@ -54,7 +57,7 @@ public class FileHander {
 			String fileContentType = SwingUtils.getFileContentType(file);
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
-			
+
 			LanguageSupportFactory lsf = LanguageSupportFactory.get();
 			LanguageSupport support = lsf.getSupportFor(SyntaxConstants.SYNTAX_STYLE_JAVA);
 			JavaLanguageSupport jls = (JavaLanguageSupport) support;
@@ -66,9 +69,9 @@ public class FileHander {
 			jls.setShowDescWindow(true);
 			jls.setParameterAssistanceEnabled(true);
 			jls.setAutoActivationEnabled(true);
-			
+
 			LanguageSupportFactory.get().register(textArea);
-			
+
 			textArea.setSyntaxEditingStyle(fileContentType);
 			textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
 			textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
