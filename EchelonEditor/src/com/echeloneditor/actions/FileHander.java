@@ -156,6 +156,8 @@ public class FileHander {
 		tabbedPane.setSelectedComponent(hexEditor);
 		
 		SwingUtils.setTabbedPaneTitle(tabbedPane, new File(closeableTabComponent1.getFilePath()).getName());
+		
+		statusObject.getSaveBtn().setEnabled(false);
 	}
 	
 	public void saveFile(String filePath) {
