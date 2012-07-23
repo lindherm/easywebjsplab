@@ -157,7 +157,6 @@ public class EchelonEditor {
 		btnNewButton.setEnabled(false);
 
 		JToggleButton btnH = new JToggleButton("");
-		btnH.setEnabled(false);
 		btnH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileHander fileHander = new FileHander(tabbedPane, statusObject);
