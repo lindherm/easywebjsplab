@@ -1,6 +1,5 @@
 package com.echeloneditor.actions;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,13 +9,12 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JViewport;
 
 import org.fife.rsta.ac.LanguageSupport;
 import org.fife.rsta.ac.LanguageSupportFactory;
 import org.fife.rsta.ac.java.JavaLanguageSupport;
+import org.fife.ui.hex.swing.HexEditor;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -24,6 +22,7 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.echeloneditor.listeners.EditorPaneListener;
+import com.echeloneditor.listeners.SimpleHexEditorListener;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
@@ -132,6 +131,33 @@ public class FileHander {
 		}
 	}
 
+	public void openHexFile(){
+		HexEditor hexEditor = new HexEditor();
+		hexEditor.addHexEditorListener(new SimpleHexEditorListener(tabbedPane, statusObject));
+		hexEditor.setCellEditable(true);
+
+		int tabCount = tabbedPane.getTabCount();
+		CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+
+		CloseableTabComponent closeableTabComponent1 = new CloseableTabComponent(tabbedPane, statusObject);
+		closeableTabComponent1.setFileEncode(closeableTabComponent.getFileEncode());
+		closeableTabComponent1.setFilePath(closeableTabComponent.getFilePath());
+		closeableTabComponent1.setFileSzie(closeableTabComponent.getFileSzie());
+		closeableTabComponent1.setModify(closeableTabComponent.isModify());
+
+		try {
+			hexEditor.open(closeableTabComponent.getFilePath());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		tabbedPane.add("New Panel", hexEditor);
+		tabbedPane.setTabComponentAt(tabCount, closeableTabComponent1);
+		tabbedPane.setSelectedComponent(hexEditor);
+		
+		SwingUtils.setTabbedPaneTitle(tabbedPane, new File(closeableTabComponent1.getFilePath()).getName());
+	}
+	
 	public void saveFile(String filePath) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
