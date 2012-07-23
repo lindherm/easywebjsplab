@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -21,7 +22,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
@@ -163,28 +163,15 @@ public class EchelonEditor {
 		JToggleButton btnH = new JToggleButton("");
 		btnH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (((JToggleButton)e.getSource()).isSelected()) {
-					HexEditor hexEditor = new HexEditor();
-					hexEditor.addHexEditorListener(new SimpleHexEditorListener(tabbedPane, statusObject));
-					hexEditor.setCellEditable(true);
-					
-					int tabCount = tabbedPane.getTabCount();
-					CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
-
-					try {
-						hexEditor.open(closeableTabComponent.getFilePath());
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					tabbedPane.add("New Panel", hexEditor);
-					tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
-
-					tabbedPane.setSelectedComponent(hexEditor);
-				}else {
-					System.out.println("deselect");
+				FileHander fileHander = new FileHander(tabbedPane, statusObject);
+				if (((JToggleButton) e.getSource()).isSelected()) {
+					fileHander.openHexFile();
+					tabbedPane.remove(tabbedPane.getSelectedIndex() - 1);
+				} else {
+					fileHander.openFileWithFilePath(SwingUtils.getCloseableTabComponent(tabbedPane).getFilePath());
+					tabbedPane.remove(tabbedPane.getSelectedIndex() - 1);
 				}
-				
+
 			}
 		});
 		btnH.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/hex.PNG")));
