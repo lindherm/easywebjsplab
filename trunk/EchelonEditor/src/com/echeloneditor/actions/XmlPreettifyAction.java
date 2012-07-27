@@ -1,14 +1,23 @@
 package com.echeloneditor.actions;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class XmlPreettifyAction {
 	/**
@@ -20,32 +29,51 @@ public class XmlPreettifyAction {
 	public static boolean format(RSyntaxTextArea rSyntaxTextArea) {
 		boolean isSuccess = false;
 		try {
-			Document doc = DocumentHelper.parseText(rSyntaxTextArea.getText());
-			StringWriter writer = new StringWriter();
-			OutputFormat format = OutputFormat.createPrettyPrint();
-			format.setEncoding("UTF-8");
-			// format.setIndent("    ");
-			format.setIndent(false);
-			format.setNewlines(false);
-			// 如果这个为true,那么空格和换行都被去掉，都在一行
-			format.setTrimText(false);
-			// 如果这个为true，那么element的起始和结束不对齐
-			format.setPadText(false);
-			// format.setLineSeparator(xmlfi.lineSeparator);
-
-			XMLWriter xmlwriter = new XMLWriter(writer, format);
-			xmlwriter.write(doc);
-
-			rSyntaxTextArea.setText(doc.asXML());
-			isSuccess = true;
-		} catch (DocumentException e) {
+			  StringWriter out = new StringWriter(rSyntaxTextArea.getDocument().getLength());
+	            StringReader reader = new StringReader(rSyntaxTextArea.getText());
+	            InputSource src = new InputSource(reader);
+	            Document doc = getDocBuilder().parse(src);
+	            //Setup indenting to "pretty print"
+	            getTransformer().transform(new DOMSource(doc), new StreamResult(out));
+	            rSyntaxTextArea.setText(out.toString());
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return isSuccess;
 	}
+	  public static Transformer getTransformer() {
+	            TransformerFactory tfactory = TransformerFactory.newInstance();
+	            
+	            Transformer transformer;
+	            try {
+	                transformer = tfactory.newTransformer();
+	            } catch (TransformerConfigurationException ex) {
+	                throw new IllegalArgumentException("Unable to create transformer. ", ex);
+	            }
+	        return transformer;
+	    }
+	  
+	  public static DocumentBuilderFactory getDocBuilderFactory() {
+		  DocumentBuilderFactory docBuilderFactory;
+	            docBuilderFactory = DocumentBuilderFactory.newInstance();
+	        return docBuilderFactory;
+	    }
+
+	    public static DocumentBuilder getDocBuilder() {
+	    	DocumentBuilder docBuilder;
+	            try {
+	                docBuilder = getDocBuilderFactory().newDocumentBuilder();
+	            } catch (ParserConfigurationException ex) {
+	                throw new IllegalArgumentException("Unable to create document builder", ex);
+	            }
+	        return docBuilder;
+	    }
 }
