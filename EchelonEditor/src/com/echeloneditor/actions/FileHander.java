@@ -2,6 +2,7 @@ package com.echeloneditor.actions;
 
 import java.awt.Font;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +28,6 @@ import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
-import com.echeloneditor.utils.TemplateHelper;
 import com.echeloneditor.vo.StatusObject;
 
 public class FileHander {
@@ -84,7 +84,7 @@ public class FileHander {
 			ImageIcon ii = ImageHelper.loadImage("bookmark.png");
 			gutter.setBookmarkIcon(ii);
 
-			InputStream in = TemplateHelper.load("eclipse.xml");
+			InputStream in = new FileInputStream(new File(System.getProperty("user.dir") + "/com/echeloneditor/resources/template/eclipse.xml"));
 			try {
 				Theme theme = Theme.load(in);
 				theme.apply(textArea);
