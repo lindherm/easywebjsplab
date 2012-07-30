@@ -40,7 +40,6 @@ import com.echeloneditor.utils.Config;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class EchelonEditor {
 
@@ -52,6 +51,10 @@ public class EchelonEditor {
 	 * Launch the application.
 	 */
 	public static void main(final String[] args) {
+		startApp(args);
+	}
+
+	public static void startApp(final String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -286,8 +289,7 @@ public class EchelonEditor {
 			@Override
 			public void actionPerformed(ActionEvent actionevent) {
 				// TODO Auto-generated method stub
-				FaceDialog fd = new FaceDialog(frmEcheloneditor);
-				// fd.setVisible(true);
+				new FaceDialog(frmEcheloneditor);
 			}
 		});
 		menu_5.add(menuItem_7);

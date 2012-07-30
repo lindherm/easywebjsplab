@@ -22,6 +22,9 @@ import javax.swing.event.ListSelectionListener;
 import com.echeloneditor.utils.Config;
 import com.echeloneditor.utils.SwingUtils;
 import com.jtattoo.plaf.AbstractLookAndFeel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class FaceDialog extends JDialog {
 	/**
@@ -39,7 +42,7 @@ public class FaceDialog extends JDialog {
 	private int selectedTheme = 0;
 	private ListSelectionListener themeListener = null;
 
-	public FaceDialog(JFrame frame) {
+	public FaceDialog(final JFrame frame) {
 		super(frame, "皮肤", true);
 		setIconImage(null);
 		getContentPane().setLayout(null);
@@ -128,8 +131,20 @@ public class FaceDialog extends JDialog {
 		JButton btnNewButton = new JButton("保存设置");
 		btnNewButton.setBounds(291, 349, 93, 23);
 		getContentPane().add(btnNewButton);
-		
+
 		JButton button = new JButton("恢复默认");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Config config = new Config();
+				config.setValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+				try {
+					SwingUtils.restart("EchelonEditor");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		button.setBounds(394, 349, 93, 23);
 		getContentPane().add(button);
 
