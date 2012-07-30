@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.JTextComponent;
@@ -24,6 +25,7 @@ import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 import com.echeloneditor.actions.FindAndReplaceAction;
+import com.echeloneditor.utils.Config;
 
 /**
  * A Find and Replace Dialog. The dialog will also act as a listener to Document changes so that all highlights are updated if the document is changed.
@@ -61,6 +63,15 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener {
 	public FindAndReplaceDialog(JTextComponent text) {
 		super((JFrame) SwingUtilities.getRoot(text));
 		this.jTextComponent = text;
+		
+		Config config = new Config();
+		// 设置皮肤
+		try {
+			UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		initComponents();
 		// textComponent.addCaretListener(this);

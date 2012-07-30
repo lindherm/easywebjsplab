@@ -2,12 +2,14 @@ package com.echeloneditor.utils;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Window;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import org.fife.ui.hex.ByteBuffer;
@@ -184,5 +186,14 @@ public class SwingUtils {
 		String fileExt = fileName.substring(pos + 1, fileName.length());
 		result = "text/" + fileExt;
 		return result;
+	}
+	
+	public static void updateUI(){
+		Window windows[] = Window.getWindows();
+		for (int i = 0; i < windows.length; i++) {
+			if (windows[i].isDisplayable()) {
+				SwingUtilities.updateComponentTreeUI(windows[i]);
+			}
+		}
 	}
 }

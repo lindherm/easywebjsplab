@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -23,7 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import com.echeloneditor.utils.Config;
 
 /**
  * 字体设置页面
@@ -290,6 +289,15 @@ public class FontChooserDialog extends JDialog {
 		super(owner);
 		this.compoment = compoment;
 		
+		Config config = new Config();
+		// 设置皮肤
+		try {
+			UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		initialize();
 
 		setResizable(false);
@@ -479,47 +487,4 @@ public class FontChooserDialog extends JDialog {
 		}
 		return btCancel;
 	}
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		final JFrame frame = new JFrame("Font Test");
-		frame.setSize(400, 300);
-		frame.getContentPane().setLayout(null);
-		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
-
-		JButton btShow = new JButton("设置字体");
-		btShow.setLocation(10, 10);
-		btShow.setSize(120, 23);
-
-		final RSyntaxTextArea txt = new RSyntaxTextArea("简体中文 AaBbCc");
-		txt.setLocation(10, 40);
-		txt.setSize(280, 130);
-		txt.setBorder(BorderFactory.createLineBorder(Color.gray));
-		frame.getContentPane().add(txt);
-
-		btShow.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Font font = txt.getFont();
-
-				FontChooserDialog fontset = new FontChooserDialog(frame, font, txt);
-				fontset.setLocationRelativeTo(frame);
-				fontset.setVisible(true);
-			}
-		});
-
-		frame.getContentPane().add(btShow);
-
-		frame.setVisible(true);
-
-	}
-
 }

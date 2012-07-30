@@ -6,6 +6,7 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -15,10 +16,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.echeloneditor.utils.Config;
 import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class FaceDialog extends JDialog {
@@ -26,7 +29,7 @@ public class FaceDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = -4181913088649787998L;
-	private static final String[] lafNames = new String[] { "Acryl", "Aero", "Aluminium", "Bernstein", "Fast", "Graphite", "HiFi", "Luna", "McWin", "Mint", "Noire", "Smart", "Texture"};
+	private static final String[] lafNames = new String[] { "Acryl", "Aero", "Aluminium", "Bernstein", "Fast", "Graphite", "HiFi", "Luna", "McWin", "Mint", "Noire", "Smart", "Texture" };
 
 	// The one and only instance of the sample application
 	private JList lafList = null;
@@ -41,6 +44,14 @@ public class FaceDialog extends JDialog {
 		super(frame, "皮肤", true);
 		setIconImage(null);
 		getContentPane().setLayout(null);
+
+		Config config = new Config();
+		try {
+			UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		lafListener = new ListSelectionListener() {
 
@@ -124,6 +135,10 @@ public class FaceDialog extends JDialog {
 		themeList = new JList();
 		scrollPane_1.setViewportView(themeList);
 
+		JButton btnNewButton = new JButton("保存设置");
+		btnNewButton.setBounds(374, 349, 93, 23);
+		getContentPane().add(btnNewButton);
+
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -132,7 +147,7 @@ public class FaceDialog extends JDialog {
 			}
 		});
 
-		setSize(600, 400);
+		setSize(600, 470);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -270,17 +285,4 @@ public class FaceDialog extends JDialog {
 			list.scrollRectToVisible(rect);
 		}
 	} // end scrollSelectedToVisible
-
-	public static void main(String[] args) {
-		try {
-			// Select the Look and Feel
-			UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
-
-			// Start the application
-			new FaceDialog(null);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-	}
 }
