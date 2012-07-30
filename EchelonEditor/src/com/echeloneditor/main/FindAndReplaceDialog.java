@@ -24,14 +24,13 @@ import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 import com.echeloneditor.actions.FindAndReplaceAction;
-import com.echeloneditor.listeners.EscapeListener;
 
 /**
  * A Find and Replace Dialog. The dialog will also act as a listener to Document changes so that all highlights are updated if the document is changed.
  * 
  * @author Ayman Al-Sairafi
  */
-public class FindAndReplaceDialog extends JDialog implements CaretListener, EscapeListener {
+public class FindAndReplaceDialog extends JDialog implements CaretListener {
 
 	/**
 	 * 
@@ -199,53 +198,11 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 		});
 
 		GroupLayout layout = new GroupLayout(getContentPane());
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(jLblFind)
-						.addComponent(jLblReplace))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(jCmbFind, 0, 289, Short.MAX_VALUE)
-						.addComponent(jCmbReplace, Alignment.TRAILING, 0, 289, Short.MAX_VALUE)
-						.addComponent(jChkRegex, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-						.addComponent(jChkWrap, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-						.addComponent(jChkIgnoreCase, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(jBtnReplace, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(jBtnNext, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-						.addComponent(jBtnPrev, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-						.addComponent(jBtnReplaceAll, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jLblFind)
-						.addComponent(jCmbFind, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jBtnNext))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jBtnPrev)
-						.addComponent(jCmbReplace, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(jLblReplace))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jBtnReplace)
-						.addComponent(jChkWrap, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-					.addGap(3)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(jChkRegex)
-						.addComponent(jBtnReplaceAll))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(jChkIgnoreCase)
-					.addContainerGap())
-		);
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.TRAILING).addGroup(
+				layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(Alignment.TRAILING).addComponent(jLblFind).addComponent(jLblReplace)).addPreferredGap(ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(jCmbFind, 0, 289, Short.MAX_VALUE).addComponent(jCmbReplace, Alignment.TRAILING, 0, 289, Short.MAX_VALUE).addComponent(jChkRegex, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE).addComponent(jChkWrap, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE).addComponent(jChkIgnoreCase, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)).addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(jBtnReplace, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jBtnNext, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE).addComponent(jBtnPrev, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE).addComponent(jBtnReplaceAll, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)).addContainerGap()));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(
+				layout.createSequentialGroup().addContainerGap().addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(jLblFind).addComponent(jCmbFind, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(jBtnNext)).addPreferredGap(ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(jBtnPrev).addComponent(jCmbReplace, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE).addComponent(jLblReplace)).addPreferredGap(ComponentPlacement.RELATED).addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(jBtnReplace).addComponent(jChkWrap, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)).addGap(3).addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(jChkRegex).addComponent(jBtnReplaceAll)).addPreferredGap(ComponentPlacement.RELATED).addComponent(jChkIgnoreCase).addContainerGap()));
 		getContentPane().setLayout(layout);
 
 		pack();
@@ -254,10 +211,5 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener, Esca
 	@Override
 	public void caretUpdate(CaretEvent e) {
 		// updateHighlights();
-	}
-
-	@Override
-	public void escapePressed() {
-		setVisible(false);
 	}
 }
