@@ -187,13 +187,20 @@ public class SwingUtils {
 		result = "text/" + fileExt;
 		return result;
 	}
-	
-	public static void updateUI(){
-		Window windows[] = Window.getWindows();
-		for (int i = 0; i < windows.length; i++) {
-			if (windows[i].isDisplayable()) {
-				SwingUtilities.updateComponentTreeUI(windows[i]);
+
+	public static void updateUI() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Window windows[] = Window.getWindows();
+				for (int i = 0; i < windows.length; i++) {
+					if (windows[i].isDisplayable()) {
+						SwingUtilities.updateComponentTreeUI(windows[i]);
+					}
+				}
 			}
-		}
+		});
 	}
 }

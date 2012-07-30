@@ -16,12 +16,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.echeloneditor.utils.Config;
+import com.echeloneditor.utils.SwingUtils;
 import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class FaceDialog extends JDialog {
@@ -136,8 +136,12 @@ public class FaceDialog extends JDialog {
 		scrollPane_1.setViewportView(themeList);
 
 		JButton btnNewButton = new JButton("保存设置");
-		btnNewButton.setBounds(374, 349, 93, 23);
+		btnNewButton.setBounds(291, 349, 93, 23);
 		getContentPane().add(btnNewButton);
+		
+		JButton button = new JButton("恢复默认");
+		button.setBounds(394, 349, 93, 23);
+		getContentPane().add(button);
 
 		addWindowListener(new WindowAdapter() {
 
@@ -217,12 +221,8 @@ public class FaceDialog extends JDialog {
 				UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
 				break;
 			}
-			Window windows[] = Window.getWindows();
-			for (int i = 0; i < windows.length; i++) {
-				if (windows[i].isDisplayable()) {
-					SwingUtilities.updateComponentTreeUI(windows[i]);
-				}
-			}
+
+			SwingUtils.updateUI();
 			if (loadThemes) {
 				fillThemeList();
 			}
