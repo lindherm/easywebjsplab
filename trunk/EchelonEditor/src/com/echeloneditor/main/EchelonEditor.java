@@ -26,6 +26,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -35,10 +36,11 @@ import com.echeloneditor.listeners.SimpleDragFileListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.listeners.SimpleJmenuItemListener;
 import com.echeloneditor.listeners.TabbedPaneChangeListener;
+import com.echeloneditor.utils.Config;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
-import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class EchelonEditor {
 
@@ -54,8 +56,17 @@ public class EchelonEditor {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Config config = new Config();
 					// 设置皮肤
-					UIManager.setLookAndFeel(new McWinLookAndFeel());
+					UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
+					SwingUtilities.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							SwingUtils.updateUI();
+						}
+					});
 					// 初始化窗体
 					EchelonEditor window = new EchelonEditor();
 					// 框体屏幕居中显示
@@ -265,18 +276,18 @@ public class EchelonEditor {
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
-		
+
 		JMenu menu_5 = new JMenu("皮肤");
 		menuBar.add(menu_5);
-		
+
 		JMenuItem menuItem_7 = new JMenuItem("皮肤");
 		menuItem_7.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent actionevent) {
 				// TODO Auto-generated method stub
-				FaceDialog fd=new FaceDialog(frmEcheloneditor);
-				fd.setVisible(true);
+				FaceDialog fd = new FaceDialog(frmEcheloneditor);
+				// fd.setVisible(true);
 			}
 		});
 		menu_5.add(menuItem_7);
