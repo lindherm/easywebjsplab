@@ -4,7 +4,9 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Window;
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -203,4 +205,20 @@ public class SwingUtils {
 			}
 		});
 	}
+
+	public static void restart(String appName) throws IOException {
+		// 用一条指定的命令去构造一个进程生成器
+		ProcessBuilder pb = new ProcessBuilder("java", "-jar", appName+".jar");
+		// 让这个进程的工作区空间改为F:\dist
+		// 这样的话,它就会去F:\dist目录下找Test.jar这个文件
+		//pb.directory(new File("F:\\dist"));
+		// 得到进程生成器的环境 变量,这个变量我们可以改,
+		// 改了以后也会反应到新起的进程里面去
+		//Map<String, String> map = pb.environment();
+		Process p = pb.start();
+		// 然后就可以对p做自己想做的事情了
+		// 自己这个时候就可以退出了
+		System.exit(0);
+	}
+
 }
