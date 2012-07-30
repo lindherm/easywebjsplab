@@ -129,6 +129,21 @@ public class FaceDialog extends JDialog {
 		scrollPane_1.setViewportView(themeList);
 
 		JButton btnNewButton = new JButton("保存设置");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String select=lafList.getSelectedValue().toString();
+				if (select.equals("Acryl")) {
+					Config config=new Config();
+					config.setValue("current_laf", "com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+					try {
+						SwingUtils.restart("EchelonEditor");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		btnNewButton.setBounds(291, 349, 93, 23);
 		getContentPane().add(btnNewButton);
 
