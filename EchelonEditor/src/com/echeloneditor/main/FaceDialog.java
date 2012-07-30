@@ -2,7 +2,6 @@ package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -44,15 +43,6 @@ public class FaceDialog extends JDialog {
 		super(frame, "皮肤", true);
 		setIconImage(null);
 		getContentPane().setLayout(null);
-
-		Config config = new Config();
-		try {
-			UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		lafListener = new ListSelectionListener() {
 
 			@Override
