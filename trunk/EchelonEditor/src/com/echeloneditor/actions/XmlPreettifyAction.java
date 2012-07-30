@@ -19,26 +19,19 @@ public class XmlPreettifyAction {
 	 */
 	public static boolean format(RSyntaxTextArea rSyntaxTextArea) {
 		boolean isSuccess = false;
+		Document document;
 		try {
-			System.out.println("before:"+rSyntaxTextArea.getText());
-			Document doc = DocumentHelper.parseText(rSyntaxTextArea.getText());
-			StringWriter writer = new StringWriter();
+			document = DocumentHelper.parseText(rSyntaxTextArea.getText());
+
 			OutputFormat format = OutputFormat.createPrettyPrint();
-			format.setEncoding("UTF-8");
-			// format.setIndent("    ");
-			format.setIndent(false);
-			format.setNewlines(false);
-			// 如果这个为true,那么空格和换行都被去掉，都在一行
-			format.setTrimText(false);
-			// 如果这个为true，那么element的起始和结束不对齐
-			format.setPadText(false);
-			// format.setLineSeparator(xmlfi.lineSeparator);
+			format.setIndent("\t");
+			format.setNewLineAfterDeclaration(false);
+			StringWriter stringWriter = new StringWriter();
+			XMLWriter writer = new XMLWriter(stringWriter, format);
+			writer.write(document);
+			rSyntaxTextArea.setText(stringWriter.toString());
+			writer.close();
 
-			XMLWriter xmlwriter = new XMLWriter(writer, format);
-			xmlwriter.write(doc);
-
-			rSyntaxTextArea.setText(doc.asXML());
-			System.out.println("after:"+doc.asXML());
 			isSuccess = true;
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block

@@ -6,16 +6,20 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JTabbedPane;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.actions.XmlPreettifyAction;
 import com.echeloneditor.utils.ImageHelper;
+import com.echeloneditor.utils.SwingUtils;
 
 public class PopupMenuUI {
+	public JTabbedPane tabbedPane;
 	public JPopupMenu jPopupMenu;
 
-	public PopupMenuUI(final RSyntaxTextArea rSyntaxTextArea) {
+	public PopupMenuUI(final JTabbedPane tabbedPane, final RSyntaxTextArea rSyntaxTextArea) {
+		this.tabbedPane = tabbedPane;
 		jPopupMenu = new JPopupMenu();
 
 		JMenuItem selectAllItem = new JMenuItem("全选");
@@ -65,11 +69,17 @@ public class PopupMenuUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				boolean Success=XmlPreettifyAction.format(rSyntaxTextArea);
-				if (!Success) {
-					JOptionPane.showMessageDialog(null, "格式化失败");
-					return;
+				CloseableTabComponent ctc = SwingUtils.getCloseableTabComponent(tabbedPane);
+				int pos = ctc.getFilePath().lastIndexOf(".");
+				String fileExt = ctc.getFilePath().substring(pos+1);
+				if (fileExt.equals("xml")) {
+					boolean Success = XmlPreettifyAction.format(rSyntaxTextArea);
+					if (!Success) {
+						JOptionPane.showMessageDialog(null, "格式化失败");
+						return;
+					}
 				}
+
 			}
 		});
 

@@ -50,7 +50,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (SwingUtilities.isRightMouseButton(e)) {
-			PopupMenuUI popupMenuUI=new PopupMenuUI((RSyntaxTextArea)e.getComponent());
+			PopupMenuUI popupMenuUI=new PopupMenuUI(tabbedPane,(RSyntaxTextArea)e.getComponent());
 			popupMenuUI.jPopupMenu.show(SwingUtils.getRSyntaxTextArea(tabbedPane),e.getX(), e.getY());
 		}
 		
