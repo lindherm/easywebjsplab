@@ -39,6 +39,7 @@ import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
+import javax.swing.JCheckBoxMenuItem;
 
 public class EchelonEditor {
 
@@ -265,6 +266,12 @@ public class EchelonEditor {
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
+		
+		JMenu menu_5 = new JMenu("皮肤");
+		menuBar.add(menu_5);
+		
+		JMenuItem menuItem_7 = new JMenuItem("皮肤");
+		menu_5.add(menuItem_7);
 
 		JMenu menu_2 = new JMenu("帮助");
 		menuBar.add(menu_2);
