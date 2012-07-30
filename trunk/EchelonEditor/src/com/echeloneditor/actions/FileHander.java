@@ -27,6 +27,7 @@ import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
+import com.echeloneditor.utils.TemplateHelper;
 import com.echeloneditor.vo.StatusObject;
 
 public class FileHander {
@@ -83,7 +84,7 @@ public class FileHander {
 			ImageIcon ii = ImageHelper.loadImage("bookmark.png");
 			gutter.setBookmarkIcon(ii);
 
-			InputStream in = getClass().getResourceAsStream("eclipse.xml");
+			InputStream in = TemplateHelper.load("eclipse.xml");
 			try {
 				Theme theme = Theme.load(in);
 				theme.apply(textArea);
@@ -131,7 +132,7 @@ public class FileHander {
 		}
 	}
 
-	public void openHexFile(){
+	public void openHexFile() {
 		HexEditor hexEditor = new HexEditor();
 		hexEditor.addHexEditorListener(new SimpleHexEditorListener(tabbedPane, statusObject));
 		hexEditor.setCellEditable(true);
@@ -154,12 +155,12 @@ public class FileHander {
 		tabbedPane.add("New Panel", hexEditor);
 		tabbedPane.setTabComponentAt(tabCount, closeableTabComponent1);
 		tabbedPane.setSelectedComponent(hexEditor);
-		
+
 		SwingUtils.setTabbedPaneTitle(tabbedPane, new File(closeableTabComponent1.getFilePath()).getName());
-		
+
 		statusObject.getSaveBtn().setEnabled(false);
 	}
-	
+
 	public void saveFile(String filePath) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
