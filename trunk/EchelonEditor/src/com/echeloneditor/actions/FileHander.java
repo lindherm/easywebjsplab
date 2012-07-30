@@ -186,7 +186,7 @@ public class FileHander {
 		ImageIcon ii = ImageHelper.loadImage("bookmark.png");
 		gutter.setBookmarkIcon(ii);
 
-		InputStream in = getClass().getResourceAsStream("eclipse.xml");
+		InputStream in = getClass().getResourceAsStream("/com/echeloneditor/resources/templates/eclipse.xml");
 		try {
 			Theme theme = Theme.load(in);
 			theme.apply(textArea);

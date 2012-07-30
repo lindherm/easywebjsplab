@@ -39,6 +39,7 @@ import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
+import com.jtattoo.plaf.texture.TextureLookAndFeel;
 
 public class EchelonEditor {
 
@@ -55,7 +56,7 @@ public class EchelonEditor {
 			public void run() {
 				try {
 					// 设置皮肤
-					UIManager.setLookAndFeel(new McWinLookAndFeel());
+					UIManager.setLookAndFeel(new TextureLookAndFeel());
 					// 初始化窗体
 					EchelonEditor window = new EchelonEditor();
 					// 框体屏幕居中显示
