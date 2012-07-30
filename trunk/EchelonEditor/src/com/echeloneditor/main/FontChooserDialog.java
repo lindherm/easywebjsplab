@@ -283,20 +283,11 @@ public class FontChooserDialog extends JDialog {
 
 	/**
 	 * @param owner
-	 * @wbp.parser.constructor
+	 * 
 	 */
 	public FontChooserDialog(Frame owner, Font oldFont, JTextComponent compoment) {
 		super(owner);
 		this.compoment = compoment;
-		
-		Config config = new Config();
-		// 设置皮肤
-		try {
-			UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		initialize();
 

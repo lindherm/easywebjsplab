@@ -63,15 +63,6 @@ public class FindAndReplaceDialog extends JDialog implements CaretListener {
 	public FindAndReplaceDialog(JTextComponent text) {
 		super((JFrame) SwingUtilities.getRoot(text));
 		this.jTextComponent = text;
-		
-		Config config = new Config();
-		// 设置皮肤
-		try {
-			UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		initComponents();
 		// textComponent.addCaretListener(this);
