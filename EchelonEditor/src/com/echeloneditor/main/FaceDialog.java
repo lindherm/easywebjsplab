@@ -26,7 +26,7 @@ public class FaceDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = -4181913088649787998L;
-	private static final String[] lafNames = new String[] { "Acryl", "Aero", "Aluminium", "Bernstein", "Fast", "Graphite", "HiFi", "Luna", "McWin", "Mint", "Noire", "Smart", "Texture" };
+	private static final String[] lafNames = new String[] { "Acryl", "Aero", "Aluminium", "Bernstein", "Fast", "Graphite", "HiFi", "Luna", "McWin", "Mint", "Noire", "Smart", "Texture"};
 
 	// The one and only instance of the sample application
 	private JList lafList = null;
