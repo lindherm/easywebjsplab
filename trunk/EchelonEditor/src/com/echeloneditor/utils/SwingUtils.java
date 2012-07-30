@@ -90,7 +90,7 @@ public class SwingUtils {
 	public static JScrollPane getScrollPane(JTextComponent editorPane) {
 		JScrollPane jScrollPane = null;
 		Container p = editorPane.getParent();
-		while (p != null) {
+		if (p != null) {
 			jScrollPane = (p instanceof JScrollPane) ? (JScrollPane) p : (JScrollPane) p.getParent();
 		}
 		return jScrollPane;
