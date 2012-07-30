@@ -12,8 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -25,7 +23,6 @@ import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
-import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 
 public class EditorPaneListener implements MouseListener, DocumentListener {
 	public JTabbedPane tabbedPane;
@@ -34,11 +31,6 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 	public RSyntaxTextArea rSyntaxTextArea;
 
 	public EditorPaneListener(final JTabbedPane tabbedPane, StatusObject statusObject) {
-		try {
-			UIManager.setLookAndFeel(new McWinLookAndFeel());
-		} catch (UnsupportedLookAndFeelException e1) {
-			e1.printStackTrace();
-		}
 		this.tabbedPane = tabbedPane;
 		this.statusObject = statusObject;
 
