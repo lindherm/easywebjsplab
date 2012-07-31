@@ -178,7 +178,7 @@ public class FaceDialog extends JDialog {
 		});
 
 		setSize(600, 470);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(frame);
 		setVisible(true);
 	}
 
