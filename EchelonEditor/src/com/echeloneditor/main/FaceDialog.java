@@ -131,9 +131,9 @@ public class FaceDialog extends JDialog {
 		JButton btnNewButton = new JButton("保存设置");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String select=lafList.getSelectedValue().toString();
+				String select = lafList.getSelectedValue().toString();
 				if (select.equals("Acryl")) {
-					Config config=new Config();
+					Config config = new Config();
 					config.setValue("current_laf", "com.jtattoo.plaf.acryl.AcrylLookAndFeel");
 					try {
 						SwingUtils.restart("EchelonEditor");
