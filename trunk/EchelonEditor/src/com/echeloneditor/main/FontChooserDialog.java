@@ -18,11 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.JTextComponent;
 
-import com.echeloneditor.utils.Config;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 /**
  * 字体设置页面
@@ -48,7 +47,7 @@ public class FontChooserDialog extends JDialog {
 	private JList listFontSize = null;
 	private JPanel panShow = null;
 	private JLabel labShow = null;
-	private JTextComponent compoment = null;
+	private RSyntaxTextArea rSyntaxTextArea = null;
 
 	/**
 	 * 字形信息
@@ -67,6 +66,28 @@ public class FontChooserDialog extends JDialog {
 	private JScrollPane spanFontModel = null;
 	private JButton btOK = null;
 	private JButton btCancel = null;
+
+	/**
+	 * @param owner
+	 * 
+	 */
+	public FontChooserDialog(Frame owner, Font oldFont, RSyntaxTextArea rSyntaxTextArea) {
+		super(owner);
+		this.rSyntaxTextArea = rSyntaxTextArea;
+
+		initialize();
+
+		setResizable(false);
+		makeFont(oldFont);
+	}
+
+	public FontChooserDialog(Frame owner, Font oldFont) {
+		super(owner);
+		initialize();
+
+		makeFont(oldFont);
+		setResizable(false);
+	}
 
 	/**
 	 * This method initializes panFont
@@ -153,8 +174,8 @@ public class FontChooserDialog extends JDialog {
 				public void valueChanged(javax.swing.event.ListSelectionEvent e) {
 					getTxtFontName().setText(getListFontName().getSelectedValue().toString());
 					updateShow();
-					if (null != compoment) {
-						compoment.setFont(fetchFont());
+					if (null != rSyntaxTextArea) {
+						rSyntaxTextArea.setFont(fetchFont());
 					}
 				}
 			});
@@ -195,8 +216,8 @@ public class FontChooserDialog extends JDialog {
 				public void valueChanged(javax.swing.event.ListSelectionEvent e) {
 					getTxtFontModel().setText(getListFontModel().getSelectedValue().toString());
 					updateShow();
-					if (null != compoment) {
-						compoment.setFont(fetchFont());
+					if (null != rSyntaxTextArea) {
+						rSyntaxTextArea.setFont(fetchFont());
 					}
 				}
 			});
@@ -250,8 +271,8 @@ public class FontChooserDialog extends JDialog {
 				public void valueChanged(javax.swing.event.ListSelectionEvent e) {
 					getTxtFontSize().setText(getListFontSize().getSelectedValue().toString());
 					updateShow();
-					if (null != compoment) {
-						compoment.setFont(fetchFont());
+					if (null != rSyntaxTextArea) {
+						rSyntaxTextArea.setFont(fetchFont());
 					}
 				}
 			});
@@ -279,28 +300,6 @@ public class FontChooserDialog extends JDialog {
 			labShow.setBorder(BorderFactory.createBevelBorder(1));
 		}
 		return panShow;
-	}
-
-	/**
-	 * @param owner
-	 * 
-	 */
-	public FontChooserDialog(Frame owner, Font oldFont, JTextComponent compoment) {
-		super(owner);
-		this.compoment = compoment;
-		
-		initialize();
-
-		setResizable(false);
-		makeFont(oldFont);
-	}
-
-	public FontChooserDialog(Frame owner, Font oldFont) {
-		super(owner);
-		initialize();
-
-		makeFont(oldFont);
-		setResizable(false);
 	}
 
 	/**
@@ -452,8 +451,8 @@ public class FontChooserDialog extends JDialog {
 	 * 确定操作-设置传进来的控件的字体
 	 */
 	private void okOption(ActionEvent e) {
-		if (null != compoment) {
-			compoment.setFont(fetchFont());
+		if (null != rSyntaxTextArea) {
+			rSyntaxTextArea.setFont(fetchFont());
 			dispose();
 		}
 	}
