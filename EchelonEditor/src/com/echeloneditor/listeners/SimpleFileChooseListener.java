@@ -52,34 +52,35 @@ public class SimpleFileChooseListener implements ActionListener {
 						if (file.exists()) {
 							Object[] options = { "<html>是&nbsp;(<u>Y</u>)</html>", "<html>否&nbsp;(<u>N</u>)</html>" };
 							ret = JOptionPane.showOptionDialog(null, "文件已经存在，是否覆盖？", "信息框", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-							if (ret == JOptionPane.YES_OPTION) {
-								fileHander.saveFile(file.getPath());
-								SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
-								closeableTabComponent.setFilePath(file.getPath());
-								closeableTabComponent.setFileEncode("utf-8");
-								closeableTabComponent.setFileSzie(String.valueOf(file.length()));
-								closeableTabComponent.setModify(false);
+							if (ret != JOptionPane.YES_OPTION) {
+								return;
 							}
 						}
+						fileHander.saveFile(file.getPath());
+						SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
+						closeableTabComponent.setFilePath(file.getPath());
+						closeableTabComponent.setFileEncode("utf-8");
+						closeableTabComponent.setFileSzie(String.valueOf(file.length()));
+						closeableTabComponent.setModify(false);
 					}
 				} else {
-					File file=new File(filePath);
+					File file = new File(filePath);
 					if (file.canWrite()) {
 						fileHander.saveFile(filePath);
 						closeableTabComponent.setFileSzie(String.valueOf(new File(filePath).length()));
 						closeableTabComponent.setModify(false);
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(null, "文件为只读，保存失败！");
 						return;
 					}
-					
+
 				}
 				statusObject.getFileSize().setText("文件大小：" + closeableTabComponent.getFileSzie());
 				statusObject.getFileEncode().setText("文件编码：" + closeableTabComponent.getFileEncode());
 			}
 
 			statusObject.getSaveBtn().setEnabled(false);
-			
+
 		}
 
 	}
