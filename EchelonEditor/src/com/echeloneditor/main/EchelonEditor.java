@@ -61,7 +61,15 @@ public class EchelonEditor {
 				try {
 					Config config = new Config();
 					// 设置皮肤
-					UIManager.setLookAndFeel(config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel"));
+					String currentLaf = config.getValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+					String currentTheme = config.getValue("current_theme", "Default");
+					String lafIndex = config.getValue("current_lafIndex", "0");
+
+					if (!currentTheme.equals("window")) {
+						SwingUtils.setTheme(Integer.parseInt(lafIndex), currentTheme);
+					}
+
+					UIManager.setLookAndFeel(currentLaf);
 					SwingUtilities.invokeLater(new Runnable() {
 
 						@Override

@@ -2,8 +2,11 @@ package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,9 +25,6 @@ import javax.swing.event.ListSelectionListener;
 import com.echeloneditor.utils.Config;
 import com.echeloneditor.utils.SwingUtils;
 import com.jtattoo.plaf.AbstractLookAndFeel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 public class FaceDialog extends JDialog {
 	/**
@@ -132,15 +132,20 @@ public class FaceDialog extends JDialog {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String select = lafList.getSelectedValue().toString();
-				if (select.equals("Acryl")) {
-					Config config = new Config();
-					config.setValue("current_laf", "com.jtattoo.plaf.acryl.AcrylLookAndFeel");
-					try {
-						SwingUtils.restart("EchelonEditor");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
+				String selectFace = "com.jtattoo.plaf." + select.toLowerCase() + "." + select + "LookAndFeel";
+				String selectTheme = themeList.getSelectedValue().toString();
+
+				Config config = new Config();
+				config.setValue("current_laf", selectFace);
+				config.setValue("current_theme", selectTheme);
+				config.setValue("current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
+				System.out.println(String.valueOf(lafList.getSelectedIndex()));
+				try {
+					SwingUtils.restart("EchelonEditor");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});
@@ -152,6 +157,7 @@ public class FaceDialog extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				Config config = new Config();
 				config.setValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+				config.setValue("current_theme", "window");
 				try {
 					SwingUtils.restart("EchelonEditor");
 				} catch (IOException e) {
