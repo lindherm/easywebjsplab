@@ -13,11 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
-import org.apache.log4j.Logger;
-
 public class FontWidthRuler extends JPanel {
-	private static final Logger log = Logger.getLogger(FontWidthRuler.class);
-
 	private static final long serialVersionUID = 1L;
 	// 度量单位初始化
 	public static final int PIXEL = 0;
