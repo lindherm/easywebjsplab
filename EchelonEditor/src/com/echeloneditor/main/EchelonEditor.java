@@ -228,13 +228,14 @@ public class EchelonEditor {
 
 		JMenuItem menuItem_3 = new JMenuItem("另存为");
 		menuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0));
-		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/save.png")));
+		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/SaveAs24.gif")));
 		menu.add(menuItem_3);
 
 		JSeparator separator_2 = new JSeparator();
 		menu.add(separator_2);
 
 		JMenuItem menuItem_4 = new JMenuItem("退出");
+		menuItem_4.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Remove24.gif")));
 		menuItem_4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		menuItem_4.addActionListener(new ActionListener() {
 
@@ -270,6 +271,7 @@ public class EchelonEditor {
 		menuBar.add(menu_4);
 
 		JMenuItem menuItem_6 = new JMenuItem("查找");
+		menuItem_6.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/find.png")));
 		menuItem_6.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
 		menuItem_6.addActionListener(new ActionListener() {
 
@@ -283,6 +285,50 @@ public class EchelonEditor {
 				findAndReplaceDialog.setVisible(true);
 			}
 		});
+		
+		JMenuItem menuItem_13 = new JMenuItem("撤销");
+		menuItem_13.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+		menuItem_13.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/undo.png")));
+		menu_4.add(menuItem_13);
+		
+		JMenuItem menuItem_14 = new JMenuItem("重做");
+		menuItem_14.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/redo.png")));
+		menuItem_14.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
+		menu_4.add(menuItem_14);
+		
+		JSeparator separator_5 = new JSeparator();
+		menu_4.add(separator_5);
+		
+		JMenuItem menuItem_8 = new JMenuItem("剪切");
+		menuItem_8.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+		menuItem_8.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/cut-to-clipboard.png")));
+		menu_4.add(menuItem_8);
+		
+		JMenuItem menuItem_9 = new JMenuItem("复制");
+		menuItem_9.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/copy-to-clipboard.png")));
+		menuItem_9.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+		menu_4.add(menuItem_9);
+		
+		JMenuItem menuItem_10 = new JMenuItem("粘贴");
+		menuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
+		menuItem_10.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/paste-from-clipboard.png")));
+		menu_4.add(menuItem_10);
+		
+		JMenuItem menuItem_11 = new JMenuItem("删除");
+		menuItem_11.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Delete16.gif")));
+		menuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
+		menu_4.add(menuItem_11);
+		
+		JSeparator separator_4 = new JSeparator();
+		menu_4.add(separator_4);
+		
+		JMenuItem menuItem_12 = new JMenuItem("全选");
+		menuItem_12.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/select-all.png")));
+		menuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+		menu_4.add(menuItem_12);
+		
+		JSeparator separator_3 = new JSeparator();
+		menu_4.add(separator_3);
 		menu_4.add(menuItem_6);
 
 		JMenu menu_1 = new JMenu("工具");
