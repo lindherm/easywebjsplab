@@ -21,7 +21,8 @@ public class SimpleJmenuItemListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equalsIgnoreCase("new")) {
+		String command=e.getActionCommand();
+		if (command.equalsIgnoreCase("new")) {
 			fileHander.newFile();
 		}
 	}

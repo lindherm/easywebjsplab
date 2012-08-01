@@ -212,6 +212,7 @@ public class EchelonEditor {
 
 		JMenuItem menuItem_1 = new JMenuItem("打开");
 		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+		menuItem_1.setActionCommand("open");
 		menuItem_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		menuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Open24.gif")));
 		menu.add(menuItem_1);
@@ -221,11 +222,15 @@ public class EchelonEditor {
 
 		JMenuItem menuItem_2 = new JMenuItem("保存");
 		menuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		menuItem_2.setActionCommand("save");
+		menuItem_2.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		menuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Save24.gif")));
 		menu.add(menuItem_2);
 
 		JMenuItem menuItem_3 = new JMenuItem("另存为");
 		menuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0));
+		menuItem_3.setActionCommand("saveas");
+		menuItem_3.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/SaveAs24.gif")));
 		menu.add(menuItem_3);
 
