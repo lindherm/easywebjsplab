@@ -2,16 +2,20 @@ package com.echeloneditor.listeners;
 
 import java.awt.Component;
 import java.awt.FontMetrics;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -25,11 +29,6 @@ import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
-import javax.swing.JSeparator;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import javax.swing.ImageIcon;
 
 public class EditorPaneListener implements MouseListener, DocumentListener {
 	public JTabbedPane tabbedPane;
@@ -146,12 +145,19 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 		menuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				if (rSyntaxTextArea==null) {
+					return;
+				}
 				int selectStart = rSyntaxTextArea.getSelectionStart();
 				if (selectStart < 0) {
 					return;
 				}
+				if (rSyntaxTextArea.getSelectedText() == null) {
+					return;
+				}
+				int len = rSyntaxTextArea.getSelectedText().length();
 				try {
-					rSyntaxTextArea.getDocument().remove(selectStart, rSyntaxTextArea.getSelectedText().length());
+					rSyntaxTextArea.getDocument().remove(selectStart, len);
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
