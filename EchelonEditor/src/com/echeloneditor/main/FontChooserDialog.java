@@ -19,9 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.JTextComponent;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+
+import com.echeloneditor.utils.Config;
 
 /**
  * 字体设置页面
@@ -69,6 +70,7 @@ public class FontChooserDialog extends JDialog {
 
 	/**
 	 * @param owner
+	 * @wbp.parser.constructor
 	 * 
 	 */
 	public FontChooserDialog(Frame owner, Font oldFont, RSyntaxTextArea rSyntaxTextArea) {
@@ -452,7 +454,11 @@ public class FontChooserDialog extends JDialog {
 	 */
 	private void okOption(ActionEvent e) {
 		if (null != rSyntaxTextArea) {
-			rSyntaxTextArea.setFont(fetchFont());
+			Config config = new Config();
+			Font font = fetchFont();
+
+			rSyntaxTextArea.setFont(font);
+			config.setValue("current_font", font.getFontName() + "|" + font.getStyle() + "|" + font.getSize());
 			dispose();
 		}
 	}
