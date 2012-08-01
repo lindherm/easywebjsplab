@@ -11,7 +11,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -84,7 +83,7 @@ public class FileAction {
 	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
-	public void save(String filePath, String fileContent, String encode) {
+	public void save(String filePath, String fileContent) {
 		File file = new File(filePath);
 		FileWriter fw = null;
 		BufferedWriter bw = null;
@@ -92,7 +91,7 @@ public class FileAction {
 			fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 
-			fileContent = new String(fileContent.getBytes(), encode);
+			fileContent = new String(fileContent.getBytes(), "UTF-8");
 
 			bw.write(fileContent);
 		} catch (IOException e) {
