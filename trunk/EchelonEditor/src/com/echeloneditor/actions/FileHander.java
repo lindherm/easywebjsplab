@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.fife.rsta.ac.LanguageSupport;
 import org.fife.rsta.ac.LanguageSupportFactory;
@@ -218,9 +219,16 @@ public class FileHander {
 		String res = config.getValue("current_font");
 
 		textArea.setFont(FontUtil.getFont(res));
-		statusObject.getFontItem().setEnabled(true);
-		statusObject.getSaveBtn().setEnabled(false);
-
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				statusObject.getFontItem().setEnabled(true);
+				statusObject.getSaveBtn().setEnabled(false);
+			}
+		});
+		
 		textArea.setCaretPosition(0);
 		textArea.requestFocusInWindow();
 	}
