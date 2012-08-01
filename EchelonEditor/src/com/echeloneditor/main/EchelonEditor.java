@@ -252,6 +252,9 @@ public class EchelonEditor {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (tabbedPane.getTabCount() <= 0) {
+					return;
+				}
 				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
 				Font font = textArea.getFont();
 
