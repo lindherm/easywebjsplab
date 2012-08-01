@@ -11,16 +11,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
-
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
 public class TabbedPaneChangeListener implements MouseListener {
-
-	private static final Logger log = Logger.getLogger(TabbedPaneChangeListener.class);
-
 	public JPopupMenu jPopupMenu;
 
 	private JTabbedPane tabbedPane;
@@ -36,7 +31,6 @@ public class TabbedPaneChangeListener implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.removeAll();
-				statusObject.getFontItem().setEnabled(false);
 			}
 		});
 		JMenuItem closeOther = new JMenuItem("关闭其他");

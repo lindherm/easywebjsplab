@@ -56,16 +56,12 @@ public class CloseableTabComponent extends JPanel {
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
-				if (tabbedPane.getTabCount() <= 0) {
-					statusObject.getFontItem().setEnabled(false);
-				}
 			}
 		});
 
 		add(titleLabel, BorderLayout.CENTER);
 		add(closeButton, BorderLayout.EAST);
 	}
-	
 
 	public boolean isModify() {
 		return modify;

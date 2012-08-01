@@ -8,9 +8,7 @@ public class StatusObject {
 	JLabel charNum;
 	JLabel fileEncode;
 	JLabel fileSize;
-	
-	JMenuItem fontItem;
-	
+
 	JButton saveBtn;
 
 	public JButton getSaveBtn() {
@@ -27,14 +25,6 @@ public class StatusObject {
 
 	public void setCharNum(JLabel charNum) {
 		this.charNum = charNum;
-	}
-
-	public JMenuItem getFontItem() {
-		return fontItem;
-	}
-
-	public void setFontItem(JMenuItem fontItem) {
-		this.fontItem = fontItem;
 	}
 
 	public JLabel getFileEncode() {
