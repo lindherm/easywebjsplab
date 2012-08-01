@@ -166,10 +166,7 @@ public class FileHander {
 	public void saveFile(String filePath) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
-
-		CloseableTabComponent ct = SwingUtils.getCloseableTabComponent(tabbedPane);
-		String fileEncode = ct.getFileEncode();
-		fileAction.save(filePath, SwingUtils.getContent(tabbedPane), fileEncode);
+		fileAction.save(filePath, SwingUtils.getContent(tabbedPane));
 
 	}
 
