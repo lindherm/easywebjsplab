@@ -25,6 +25,8 @@ import com.echeloneditor.listeners.EditorPaneListener;
 import com.echeloneditor.listeners.SimpleHexEditorListener;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
+import com.echeloneditor.utils.Config;
+import com.echeloneditor.utils.FontUtil;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
@@ -111,7 +113,10 @@ public class FileHander {
 			SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
 			textArea.setText(map.get("fileContent"));
 
-			textArea.setFont(new Font("宋体", Font.PLAIN, 12));
+			Config config = new Config();
+			String res = config.getValue("current_font");
+
+			textArea.setFont(FontUtil.getFont(res));
 			statusObject.getFontItem().setEnabled(true);
 			statusObject.getSaveBtn().setEnabled(false);
 
