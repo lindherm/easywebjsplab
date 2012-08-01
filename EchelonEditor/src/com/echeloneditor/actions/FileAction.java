@@ -7,10 +7,12 @@ import info.monitorenter.cpdetector.io.JChardetFacade;
 import info.monitorenter.cpdetector.io.ParsingDetector;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -47,7 +49,7 @@ public class FileAction {
 	 * @throws Exception
 	 */
 	public Map<String, String> open(String filePath) throws FileNotFoundException, IOException, UnsupportedCharsetException, Exception {
-		//log.debug("open file...");
+		// log.debug("open file...");
 		String fileContent = "";
 		Map<String, String> map = new HashMap<String, String>();
 		File file = new File(filePath);
@@ -61,7 +63,7 @@ public class FileAction {
 		in.read(b, 0, b.length);
 		// 文件编码
 		map.put("encode", charset.name());
-		log.debug("file charset:"+charset.name());
+		log.debug("file charset:" + charset.name());
 		// 文件内容
 		if (!charset.name().isEmpty() && !charset.name().equals("void")) {
 			fileContent = new String(b, charset.name());
@@ -69,7 +71,7 @@ public class FileAction {
 			fileContent = new String(b, "UTF-8");
 		}
 		map.put("fileContent", fileContent);
-		//log.debug("open file done.");
+		// log.debug("open file done.");
 		return map;
 	}
 
@@ -82,11 +84,34 @@ public class FileAction {
 	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
-	public void save(String filePath, String fileContent, String encode) throws UnsupportedEncodingException, IOException {
+	public void save(String filePath, String fileContent, String encode) {
 		File file = new File(filePath);
-		FileOutputStream fout = new FileOutputStream(file);
-		fout.write(fileContent.getBytes());
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		try {
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
 
-		fout.close();
+			fileContent = new String(fileContent.getBytes(), encode);
+
+			bw.write(fileContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if (bw != null) {
+					bw.close();
+				}
+				if (fw != null) {
+					fw.close();
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 }
