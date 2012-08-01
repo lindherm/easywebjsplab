@@ -2,7 +2,6 @@ package com.echeloneditor.vo;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 
 public class StatusObject {
 	JLabel charNum;

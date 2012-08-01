@@ -1,6 +1,5 @@
 package com.echeloneditor.listeners;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,12 +22,13 @@ public class SimpleFileChooseListener implements ActionListener {
 	public SimpleFileChooseListener(JTabbedPane tabbedPane, StatusObject statusObject) {
 		this.tabbedPane = tabbedPane;
 		this.statusObject = statusObject;
-		fileHander = new FileHander(this.tabbedPane, this.statusObject);
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		fileHander = new FileHander(tabbedPane,statusObject);
+		
 		JFileChooser fileChooser = new JFileChooser();
-		if (e.getActionCommand().endsWith("open")) {
+		if (e.getActionCommand().equals("open")) {
 			int ret = fileChooser.showOpenDialog(null);
 
 			if (ret == JFileChooser.APPROVE_OPTION) {
@@ -38,7 +38,7 @@ public class SimpleFileChooseListener implements ActionListener {
 					fileHander.openFileWithFilePath(file.getPath());
 				}
 			}
-		} else if (e.getActionCommand().endsWith("save")) {
+		} else if (e.getActionCommand().equals("save")) {
 			int tabCount = tabbedPane.getTabCount();
 			if (tabCount > 0) {
 				CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);

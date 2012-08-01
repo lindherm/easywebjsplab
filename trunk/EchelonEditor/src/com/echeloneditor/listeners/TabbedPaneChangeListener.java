@@ -31,6 +31,7 @@ public class TabbedPaneChangeListener implements MouseListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.removeAll();
+				statusObject.getSaveBtn().setEnabled(false);
 			}
 		});
 		JMenuItem closeOther = new JMenuItem("关闭其他");
