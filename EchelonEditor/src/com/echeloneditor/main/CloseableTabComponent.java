@@ -56,6 +56,9 @@ public class CloseableTabComponent extends JPanel {
 		closeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
+				if (tabbedPane.getTabCount() <= 0) {
+					statusObject.getSaveBtn().setEnabled(false);
+				}
 			}
 		});
 
