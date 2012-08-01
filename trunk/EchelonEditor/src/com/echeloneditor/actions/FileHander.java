@@ -1,6 +1,5 @@
 package com.echeloneditor.actions;
 
-import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -168,12 +167,11 @@ public class FileHander {
 	public void saveFile(String filePath) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
-		try {
-			fileAction.save(filePath, SwingUtils.getContent(tabbedPane), statusObject.getFileEncode().getText());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		CloseableTabComponent ct = SwingUtils.getCloseableTabComponent(tabbedPane);
+		String fileEncode = ct.getFileEncode();
+		fileAction.save(filePath, SwingUtils.getContent(tabbedPane), fileEncode);
+
 	}
 
 	public void newFile() {
@@ -215,7 +213,11 @@ public class FileHander {
 		tabbedPane.setSelectedComponent(sp);
 		// 设置选项卡title为打开文件的文件名
 		SwingUtils.setTabbedPaneTitle(tabbedPane, "New Panel");
-		textArea.setFont(new Font("宋体", Font.PLAIN, 12));
+
+		Config config = new Config();
+		String res = config.getValue("current_font");
+
+		textArea.setFont(FontUtil.getFont(res));
 		statusObject.getFontItem().setEnabled(true);
 		statusObject.getSaveBtn().setEnabled(false);
 
