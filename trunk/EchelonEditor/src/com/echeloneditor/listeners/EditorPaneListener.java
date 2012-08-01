@@ -2,6 +2,7 @@ package com.echeloneditor.listeners;
 
 import java.awt.Component;
 import java.awt.FontMetrics;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -23,6 +25,11 @@ import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
+import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import javax.swing.ImageIcon;
 
 public class EditorPaneListener implements MouseListener, DocumentListener {
 	public JTabbedPane tabbedPane;
@@ -35,19 +42,9 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 		this.statusObject = statusObject;
 
 		jPopupMenu = new JPopupMenu();
-		JMenuItem selectAllItem = new JMenuItem("全选");
-		selectAllItem.setIcon(ImageHelper.loadImage("select-all.png"));
-		selectAllItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
-				rSyntaxTextArea.selectAll();
-			}
-		});
 
 		JMenuItem cutItem = new JMenuItem("剪切");
+		cutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 		cutItem.setIcon(ImageHelper.loadImage("cut-to-clipboard.png"));
 		cutItem.addActionListener(new ActionListener() {
 
@@ -59,6 +56,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 			}
 		});
 		JMenuItem copyItem = new JMenuItem("复制");
+		copyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
 		copyItem.setIcon(ImageHelper.loadImage("copy-to-clipboard.png"));
 		copyItem.addActionListener(new ActionListener() {
 
@@ -70,6 +68,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 			}
 		});
 		JMenuItem pasteItem = new JMenuItem("粘贴");
+		pasteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
 		pasteItem.setIcon(ImageHelper.loadImage("paste-from-clipboard.png"));
 		pasteItem.addActionListener(new ActionListener() {
 
@@ -81,6 +80,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 			}
 		});
 		JMenuItem formatItem = new JMenuItem("格式化");
+		formatItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 		formatItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -102,10 +102,70 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 			}
 		});
 
-		jPopupMenu.add(selectAllItem);
+		JMenuItem menuItem = new JMenuItem("撤销");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.undoLastAction();
+			}
+		});
+		menuItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/undo.png")));
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+		jPopupMenu.add(menuItem);
+
+		JMenuItem menuItem_1 = new JMenuItem("重做");
+		menuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.redoLastAction();
+			}
+		});
+		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
+		menuItem_1.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/redo.png")));
+		jPopupMenu.add(menuItem_1);
+
+		JSeparator separator = new JSeparator();
+		jPopupMenu.add(separator);
 		jPopupMenu.add(cutItem);
 		jPopupMenu.add(copyItem);
 		jPopupMenu.add(pasteItem);
+		JMenuItem selectAllItem = new JMenuItem("全选");
+		selectAllItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+		selectAllItem.setIcon(ImageHelper.loadImage("select-all.png"));
+		selectAllItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.selectAll();
+			}
+		});
+
+		JMenuItem menuItem_2 = new JMenuItem("删除");
+		menuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				int selectStart = rSyntaxTextArea.getSelectionStart();
+				if (selectStart < 0) {
+					return;
+				}
+				try {
+					rSyntaxTextArea.getDocument().remove(selectStart, rSyntaxTextArea.getSelectedText().length());
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		menuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
+		menuItem_2.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/toolbarButtonGraphics/general/Delete16.gif")));
+		jPopupMenu.add(menuItem_2);
+
+		JSeparator separator_1 = new JSeparator();
+		jPopupMenu.add(separator_1);
+
+		jPopupMenu.add(selectAllItem);
 		jPopupMenu.addSeparator();
 		jPopupMenu.add(formatItem);
 	}
