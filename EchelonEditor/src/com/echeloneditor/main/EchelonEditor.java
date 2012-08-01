@@ -261,7 +261,6 @@ public class EchelonEditor {
 			}
 		});
 		menu_3.add(menuItem_5);
-		statusObject.setFontItem(menuItem_5);
 
 		JMenu menu_4 = new JMenu("编辑");
 		menuBar.add(menu_4);
