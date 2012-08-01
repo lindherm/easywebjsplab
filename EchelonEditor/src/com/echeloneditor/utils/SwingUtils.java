@@ -57,6 +57,9 @@ public class SwingUtils {
 	 */
 	public static RSyntaxTextArea getRSyntaxTextArea(JTabbedPane tabbedPane) {
 		RSyntaxTextArea rSyntaxTextArea = null;
+		if (tabbedPane.getSelectedIndex() == -1) {
+			return null;
+		}
 		Component com = tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
 		if (com instanceof JScrollPane) {
 			Component[] component = ((JScrollPane) com).getComponents();
@@ -222,6 +225,7 @@ public class SwingUtils {
 
 	/**
 	 * setTheme
+	 * 
 	 * @param lafIndex
 	 * @param theme
 	 */

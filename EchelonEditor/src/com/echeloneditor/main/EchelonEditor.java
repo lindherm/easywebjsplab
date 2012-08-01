@@ -28,6 +28,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
@@ -285,11 +286,23 @@ public class EchelonEditor {
 		});
 
 		JMenuItem menuItem_13 = new JMenuItem("撤销");
+		menuItem_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.undoLastAction();
+			}
+		});
 		menuItem_13.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
 		menuItem_13.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/undo.png")));
 		menu_4.add(menuItem_13);
 
 		JMenuItem menuItem_14 = new JMenuItem("重做");
+		menuItem_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.redoLastAction();
+			}
+		});
 		menuItem_14.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/redo.png")));
 		menuItem_14.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_14);
@@ -298,21 +311,61 @@ public class EchelonEditor {
 		menu_4.add(separator_5);
 
 		JMenuItem menuItem_8 = new JMenuItem("剪切");
+		menuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.cut();
+			}
+		});
 		menuItem_8.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
 		menuItem_8.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/cut-to-clipboard.png")));
 		menu_4.add(menuItem_8);
 
 		JMenuItem menuItem_9 = new JMenuItem("复制");
+		menuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.copy();
+			}
+		});
 		menuItem_9.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/copy-to-clipboard.png")));
 		menuItem_9.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_9);
 
 		JMenuItem menuItem_10 = new JMenuItem("粘贴");
+		menuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.paste();
+			}
+		});
 		menuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
 		menuItem_10.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/paste-from-clipboard.png")));
 		menu_4.add(menuItem_10);
 
 		JMenuItem menuItem_11 = new JMenuItem("删除");
+		menuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				if (rSyntaxTextArea == null) {
+					return;
+				}
+				int selectStart = rSyntaxTextArea.getSelectionStart();
+				if (selectStart < 0) {
+					return;
+				}
+				if (rSyntaxTextArea.getSelectedText() == null) {
+					return;
+				}
+				int len = rSyntaxTextArea.getSelectedText().length();
+				try {
+					rSyntaxTextArea.getDocument().remove(selectStart, len);
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		menuItem_11.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Delete16.gif")));
 		menuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 		menu_4.add(menuItem_11);
@@ -321,6 +374,12 @@ public class EchelonEditor {
 		menu_4.add(separator_4);
 
 		JMenuItem menuItem_12 = new JMenuItem("全选");
+		menuItem_12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				rSyntaxTextArea.selectAll();
+			}
+		});
 		menuItem_12.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/select-all.png")));
 		menuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_12);
