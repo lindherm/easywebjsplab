@@ -10,12 +10,12 @@ public class Config {
 	private Properties propertie;
 	private FileInputStream inputFile;
 	private FileOutputStream outputFile;
-	public static String configPath = System.getProperty("user.dir") + "\\resources\\config.properties";
+	public static String configPath = System.getProperty("user.dir") + "\\resources\\";
 
 	public Config() {
 		propertie = new Properties();
 		try {
-			inputFile = new FileInputStream(configPath);
+			inputFile = new FileInputStream(configPath+"laf_config.properties");
 			propertie.load(inputFile);
 			inputFile.close();
 		} catch (FileNotFoundException ex) {
@@ -26,10 +26,10 @@ public class Config {
 
 	}
 
-	public Config(String filePath) {
+	public Config(String fileName) {
 		propertie = new Properties();
 		try {
-			inputFile = new FileInputStream(filePath);
+			inputFile = new FileInputStream(configPath+fileName);
 			propertie.load(inputFile);
 			inputFile.close();
 		} catch (FileNotFoundException ex) {

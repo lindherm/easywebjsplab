@@ -58,7 +58,7 @@ public class FileHander {
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
 
-			LanguageSupportFactory lsf = LanguageSupportFactory.get();
+			/*LanguageSupportFactory lsf = LanguageSupportFactory.get();
 			LanguageSupport support = lsf.getSupportFor(SyntaxConstants.SYNTAX_STYLE_JAVA);
 			JavaLanguageSupport jls = (JavaLanguageSupport) support;
 			try {
@@ -68,8 +68,8 @@ public class FileHander {
 			}
 			jls.setShowDescWindow(true);
 			jls.setParameterAssistanceEnabled(true);
-			jls.setAutoActivationEnabled(true);
-
+			jls.setAutoActivationEnabled(true);*/
+			
 			LanguageSupportFactory.get().register(textArea);
 
 			textArea.setSyntaxEditingStyle(fileContentType);
