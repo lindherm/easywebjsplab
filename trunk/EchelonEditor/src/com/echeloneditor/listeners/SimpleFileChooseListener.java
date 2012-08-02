@@ -26,6 +26,9 @@ public class SimpleFileChooseListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		fileHander = new FileHander(tabbedPane, statusObject);
+		CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+		String filePath = closeableTabComponent.getFilePath();
+		String fileEncode = closeableTabComponent.getFileEncode();
 
 		String command = e.getActionCommand();
 
@@ -43,8 +46,7 @@ public class SimpleFileChooseListener implements ActionListener {
 		} else if (command.equals("save")) {
 			int tabCount = tabbedPane.getTabCount();
 			if (tabCount > 0) {
-				CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
-				String filePath = closeableTabComponent.getFilePath();
+
 				if (filePath == null || filePath.equals("")) {
 					int ret = fileChooser.showSaveDialog(null);
 
@@ -58,7 +60,7 @@ public class SimpleFileChooseListener implements ActionListener {
 								return;
 							}
 						}
-						fileHander.saveFile(file.getPath());
+						fileHander.saveFile(file.getPath(), fileEncode);
 						SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
 						closeableTabComponent.setFilePath(file.getPath());
 						closeableTabComponent.setFileEncode("utf-8");
@@ -68,7 +70,7 @@ public class SimpleFileChooseListener implements ActionListener {
 				} else {
 					File file = new File(filePath);
 					if (file.canWrite()) {
-						fileHander.saveFile(filePath);
+						fileHander.saveFile(filePath, fileEncode);
 						closeableTabComponent.setFileSzie(String.valueOf(new File(filePath).length()));
 						closeableTabComponent.setModify(false);
 					} else {
@@ -95,7 +97,7 @@ public class SimpleFileChooseListener implements ActionListener {
 						return;
 					}
 				}
-				fileHander.saveFile(file.getPath());
+				fileHander.saveFile(file.getPath(), fileEncode);
 				// SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
 				// closeableTabComponent.setFilePath(file.getPath());
 				// closeableTabComponent.setFileEncode("utf-8");

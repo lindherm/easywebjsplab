@@ -163,10 +163,14 @@ public class FileHander {
 		statusObject.getSaveBtn().setEnabled(false);
 	}
 
-	public void saveFile(String filePath) {
+	public void saveFile(String filePath, String fileEncode) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
-		fileAction.save(filePath, SwingUtils.getContent(tabbedPane));
+		try {
+			fileAction.save(filePath, SwingUtils.getContent(tabbedPane), fileEncode);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
