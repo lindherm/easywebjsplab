@@ -5,15 +5,19 @@ import info.monitorenter.cpdetector.io.ByteOrderMarkDetector;
 import info.monitorenter.cpdetector.io.CodepageDetectorProxy;
 import info.monitorenter.cpdetector.io.JChardetFacade;
 import info.monitorenter.cpdetector.io.ParsingDetector;
+import info.monitorenter.cpdetector.io.UnicodeDetector;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.HashMap;
@@ -31,11 +35,12 @@ public class FileAction {
 		// This one is quick if we deal with unicode codepages:
 		detector.add(new ByteOrderMarkDetector());
 		// The first instance delegated to tries to detect the meta charset attribut in html pages.
-		detector.add(new ParsingDetector(false)); // be verbose about parsing.
+		detector.add(new ParsingDetector(true)); // be verbose about parsing.
 		// This one does the tricks of exclusion and frequency detection, if first implementation is
 		// unsuccessful:
 		detector.add(JChardetFacade.getInstance()); // Another singleton.
 		detector.add(ASCIIDetector.getInstance()); // Fallback, see javadoc.
+		detector.add(UnicodeDetector.getInstance()); // Fallback, see javadoc.
 	}
 
 	/**
@@ -47,8 +52,7 @@ public class FileAction {
 	 * @throws UnsupportedCharsetException
 	 * @throws Exception
 	 */
-	public Map<String, String> open(String filePath) throws FileNotFoundException, IOException, UnsupportedCharsetException, Exception {
-		// log.debug("open file...");
+	public Map<String, String> open(String filePath) throws IOException, FileNotFoundException, UnsupportedEncodingException {
 		String fileContent = "";
 		Map<String, String> map = new HashMap<String, String>();
 		File file = new File(filePath);
@@ -57,16 +61,18 @@ public class FileAction {
 
 		Charset charset = detector.detectCodepage(file.toURL());
 
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-		byte[] b = new byte[in.available()];
-		in.read(b, 0, b.length);
+		FileInputStream fis = new FileInputStream(file);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		byte[] b = new byte[bis.available()];
+		bis.read(b, 0, b.length);
 		// 文件编码
 		map.put("encode", charset.name());
-		log.debug("file charset:" + charset.name());
 		// 文件内容
 		if (!charset.name().isEmpty() && !charset.name().equals("void")) {
 			fileContent = new String(b, charset.name());
+			log.debug("detect file's charset:" + charset.name());
 		} else {
+			log.debug("detect return void ,default charset:" + charset.name());
 			fileContent = new String(b, "UTF-8");
 		}
 		map.put("fileContent", fileContent);
@@ -80,37 +86,42 @@ public class FileAction {
 	 * @param FileContent
 	 * @param encode
 	 * @return
+	 * @throws Exception
 	 * @throws UnsupportedEncodingException
 	 * @throws IOException
 	 */
-	public void save(String filePath, String fileContent) {
-		File file = new File(filePath);
-		FileWriter fw = null;
-		BufferedWriter bw = null;
+	public void save(String filePath, String fileContent, String encode) throws IOException {
+		File file = null;
+		OutputStream os = null;
+		OutputStreamWriter osw = null;
+		Writer writer = null;
 		try {
-			fw = new FileWriter(file);
-			bw = new BufferedWriter(fw);
-
-			fileContent = new String(fileContent.getBytes(), "UTF-8");
-
-			bw.write(fileContent);
+			// 创建文件
+			file = new File(filePath);
+			// 文件输出流
+			os = new FileOutputStream(file);
+			// 字符流通向字节流的桥梁
+			osw = new OutputStreamWriter(os, encode);
+			// 缓冲区
+			writer = new BufferedWriter(osw);
+			// 将字符写到文件中
+			writer.write(fileContent);
+			// 刷新缓冲区
+			writer.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new IOException(e.getMessage());
 		} finally {
-
-			try {
-				if (bw != null) {
-					bw.close();
-				}
-				if (fw != null) {
-					fw.close();
-				}
-
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (os != null) {
+				os.close();
 			}
 
+			if (osw != null) {
+				osw.close();
+			}
+
+			if (writer != null) {
+				writer.close();
+			}
 		}
 	}
 }
