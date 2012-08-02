@@ -13,6 +13,7 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
+import org.apache.log4j.Logger;
 import org.fife.ui.hex.ByteBuffer;
 import org.fife.ui.hex.swing.HexEditor;
 import org.fife.ui.hex.swing.HexTable;
@@ -22,6 +23,8 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.echeloneditor.main.CloseableTabComponent;
 
 public class SwingUtils {
+	private static final Logger log = Logger.getLogger(SwingUtils.class);
+
 	/**
 	 * get the select closeableTabComponent use the indicate by the tabbedpane
 	 * 
@@ -182,13 +185,16 @@ public class SwingUtils {
 	 * 
 	 * @param file
 	 */
-	public static String getFileContentType(File file) {
+	public static String getFileContentType(String fileName) {
 		String result = "";
-		String fileName = file.getName();
-		int pos = fileName.lastIndexOf(".");
+		Config config = new Config("ext2type_config.properties");
 
+		int pos = fileName.lastIndexOf(".");
 		String fileExt = fileName.substring(pos + 1, fileName.length());
-		result = "text/" + fileExt;
+
+		result = config.getValue(fileExt, "text/plain");
+
+		log.debug("syntaxstyle:" + result);
 		return result;
 	}
 
