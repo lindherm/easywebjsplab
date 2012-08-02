@@ -52,7 +52,7 @@ public class FileHander {
 
 			File file = new File(filePath);
 
-			String fileContentType = SwingUtils.getFileContentType(file);
+			String fileContentType = SwingUtils.getFileContentType(file.getName());
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
 
