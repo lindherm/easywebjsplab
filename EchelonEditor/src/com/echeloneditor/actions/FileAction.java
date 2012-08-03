@@ -75,8 +75,8 @@ public class FileAction {
 			log.debug("detect return void ,default charset:" + charset.name());
 			fileContent = new String(b, "UTF-8");
 		}
-		
-		//fileContent=fileContent.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", "\r\n");
+
+		fileContent = fileContent.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
 		map.put("fileContent", fileContent);
 		// log.debug("open file done.");
 		return map;
@@ -98,8 +98,8 @@ public class FileAction {
 		OutputStreamWriter osw = null;
 		Writer writer = null;
 		try {
-			//修改文件的换行符统一到windows下
-			fileContent=fileContent.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", "\r\n");
+			// 修改文件的换行符统一到windows下
+			fileContent = fileContent.replaceAll("\r\n", "\n").replaceAll("\r", "\n").replaceAll("\n", "\r\n");
 			// 创建文件
 			file = new File(filePath);
 			// 文件输出流
