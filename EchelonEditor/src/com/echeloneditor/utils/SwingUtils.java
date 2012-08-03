@@ -3,7 +3,6 @@ package com.echeloneditor.utils;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Window;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
