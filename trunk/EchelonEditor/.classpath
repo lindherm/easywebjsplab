@@ -5,12 +5,14 @@
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/chardet-1.0.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/cpdetector_1.0.10.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RSyntaxTextArea"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/jlfgr-1_0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RSTALanguageSupport"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/HexEditor"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JTattoo"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/dom4j-2.0.0-ALPHA-2.jar"/>
+	<classpathentry kind="lib" path="/AutoComplete/dist/autocomplete.jar"/>
+	<classpathentry kind="lib" path="/HexEditor/dist/HexEditor.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/language_support.jar"/>
+	<classpathentry kind="lib" path="/RSyntaxTextArea/dist/rsyntaxtextarea.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/js-14.jar"/>
+	<classpathentry kind="lib" path="/JTattoo/dist/JTattoo.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
