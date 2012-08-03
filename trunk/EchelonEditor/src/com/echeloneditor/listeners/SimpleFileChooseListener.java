@@ -26,10 +26,6 @@ public class SimpleFileChooseListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		fileHander = new FileHander(tabbedPane, statusObject);
-		CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
-		String filePath = closeableTabComponent.getFilePath();
-		String fileEncode = closeableTabComponent.getFileEncode();
-
 		String command = e.getActionCommand();
 
 		JFileChooser fileChooser = new JFileChooser();
@@ -44,6 +40,9 @@ public class SimpleFileChooseListener implements ActionListener {
 				}
 			}
 		} else if (command.equals("save")) {
+			CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+			String filePath = closeableTabComponent.getFilePath();
+			String fileEncode = closeableTabComponent.getFileEncode();
 			int tabCount = tabbedPane.getTabCount();
 			if (tabCount > 0) {
 
@@ -84,7 +83,8 @@ public class SimpleFileChooseListener implements ActionListener {
 			}
 
 		} else if (command.equalsIgnoreCase("saveas")) {
-			// CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+			CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
+			String fileEncode = closeableTabComponent.getFileEncode();
 			int ret = fileChooser.showSaveDialog(null);
 
 			if (ret == JFileChooser.APPROVE_OPTION) {
