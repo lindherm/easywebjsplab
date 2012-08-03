@@ -15,7 +15,7 @@ public class Config {
 	public Config() {
 		propertie = new Properties();
 		try {
-			inputFile = new FileInputStream(configPath+"laf_config.properties");
+			inputFile = new FileInputStream(configPath + "laf_config.properties");
 			propertie.load(inputFile);
 			inputFile.close();
 		} catch (FileNotFoundException ex) {
@@ -29,7 +29,7 @@ public class Config {
 	public Config(String fileName) {
 		propertie = new Properties();
 		try {
-			inputFile = new FileInputStream(configPath+fileName);
+			inputFile = new FileInputStream(configPath + fileName);
 			propertie.load(inputFile);
 			inputFile.close();
 		} catch (FileNotFoundException ex) {
@@ -77,7 +77,7 @@ public class Config {
 		propertie.setProperty(key, value);
 
 		try {
-			outputFile = new FileOutputStream(configPath);
+			outputFile = new FileOutputStream(configPath + "laf_config.properties");
 			propertie.store(outputFile, null);
 			outputFile.close();
 			return true;
