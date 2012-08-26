@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.JTextComponent;
@@ -25,7 +24,6 @@ import org.fife.ui.rtextarea.SearchContext;
 import org.fife.ui.rtextarea.SearchEngine;
 
 import com.echeloneditor.actions.FindAndReplaceAction;
-import com.echeloneditor.utils.Config;
 
 /**
  * A Find and Replace Dialog. The dialog will also act as a listener to Document changes so that all highlights are updated if the document is changed.
