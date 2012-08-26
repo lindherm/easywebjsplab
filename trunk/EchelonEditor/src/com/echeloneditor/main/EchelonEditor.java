@@ -29,10 +29,12 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.actions.FileHander;
+import com.echeloneditor.actions.FindAndReplaceAction;
 import com.echeloneditor.listeners.SimpleDragFileListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.listeners.SimpleJmenuItemListener;
@@ -388,10 +390,21 @@ public class EchelonEditor {
 		menuItem_12.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/select-all.png")));
 		menuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_12);
-
 		JSeparator separator_3 = new JSeparator();
 		menu_4.add(separator_3);
 		menu_4.add(menuItem_6);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("快速查找");
+		mntmNewMenuItem.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Search16.gif")));
+		mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JTextComponent com=SwingUtils.getRSyntaxTextArea(tabbedPane);
+				String targetStr=com.getSelectedText();
+				FindAndReplaceAction.find(com, targetStr, true, true, false);
+			}
+		});
+		menu_4.add(mntmNewMenuItem);
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
