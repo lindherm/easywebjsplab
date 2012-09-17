@@ -92,7 +92,7 @@ public class ClientSocket {
 		String dataue = "10114002400100328E019173E02D7856942963C7680057EA0010032FA4D388B4A81B777C47CBD8087D0F4DA0032FE47870EA7EB10364ED1628065C01201";
 		String datatm="1007500251010032000000000000F0030000000000000F030032BDBAC27997687C311B5E891FF402440D";
 		String datats="1007700260010032F4A5EF84139E7D0E843EF7F46A22FA7E010032158FC26B00AE19D56B17669D71DDB7ED";
-		String data50="10089002710033X8B28258792DC5BA807F74CB6CBD456A000488486AA02DFC34E9EA74BBCED5D700A0FB0A905ED9734C1E0";
+		String data50="10090002710033X8B28258792DC5BA807F74CB6CBD456A000488486AA02DFC34E9EA74BBCED5D700A0FB0A905ED9734C1E0";
 		String dataa6="1007800280070033X611FD44000B483F0ECBD9D5E85D8C1A00033X6E4748602C6937E7C3565DA21446A7C8X";
 		/*
 		 * try { datas=""; //datas = InetAddress.getLocalHost() + Thread.currentThread().getName() + "_3213465413612313213213210"; } catch (UnknownHostException e1) { // TODO Auto-generated catch block e1.printStackTrace(); }
@@ -100,7 +100,8 @@ public class ClientSocket {
 		ClientSocket clientSocket = new ClientSocket();
 		// System.out.println(Thread.currentThread().getName() + " send:" + datas);
 		try {
-			String receive = clientSocket.sendSynMsg("10.0.73.14:5055", dataue.getBytes());
+			System.out.println(data50);
+			String receive = clientSocket.sendSynMsg("10.0.73.14:5050", dataa6.getBytes());
 			// System.out.println(Thread.currentThread().getName() + " receive:" + receive);
 			System.out.println(receive);
 		} catch (Exception e) {
