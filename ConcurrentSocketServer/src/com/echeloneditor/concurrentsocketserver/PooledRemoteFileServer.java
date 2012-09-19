@@ -22,6 +22,8 @@ public class PooledRemoteFileServer {
 			Socket incomingConnection = null;
 			while (true) {
 				incomingConnection = server.accept();
+				incomingConnection.setKeepAlive(true);
+				incomingConnection.setSoTimeout(0);
 				handleConnection(incomingConnection);
 			}
 		} catch (BindException e) {
@@ -43,7 +45,7 @@ public class PooledRemoteFileServer {
 	}
 
 	public static void main(String args[]) {
-		PooledRemoteFileServer server = new PooledRemoteFileServer(1001, 3);
+		PooledRemoteFileServer server = new PooledRemoteFileServer(8, 1);
 		server.setUpHandlers();
 		server.acceptConnections();
 	}
