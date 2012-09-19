@@ -1,7 +1,5 @@
 package com.echeloneditor.concurrentsocketserver;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -17,24 +15,31 @@ public class PooledConnectionHandler implements Runnable {
 
 	public void handleConnection() {
 		try {
+
 			OutputStream out = connection.getOutputStream();
 			InputStream in = connection.getInputStream();
 			byte[] bytes = new byte[1024];
 
-			if (in.read(bytes) > 0) {
+			while (in.read(bytes) > 0) {
 				String receive = new String(bytes);
 				int pos = receive.lastIndexOf('0');
 				receive = receive.substring(0, pos);
-				out.write(receive.getBytes());
+				String msg = "12345678510000303033383632313436323239333430303030303034353444323131313232303136353030303030313046303030303030";
+				out.write(msg.getBytes());
 				out.flush();
 				System.out.println(Thread.currentThread().getName() + ":" + receive);
 			}
-			out.close();
-			in.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("");
-		} catch (IOException e) {
-			System.out.println("" + e);
+		/*	out.close();
+			in.close();*/
+
+			/*
+			 * PrintWriter streamWriter = new PrintWriter(connection.getOutputStream()); BufferedReader streamReader = new BufferedReader(new InputStreamReader(connection.getInputStream())); //String fileToRead = streamReader.readLine(); //BufferedReader fileReader = new BufferedReader(new FileReader(fileToRead)); String line = null; while (true) { if ((line = streamReader.readLine()) != null){ streamWriter.println(line); streamWriter.flush(); } }
+			 * 
+			 * //fileReader.close(); //streamWriter.close(); //streamReader.close();
+			 */
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
