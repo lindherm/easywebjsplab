@@ -87,9 +87,6 @@ public class JTattooUtilities {
     }
 
     public static boolean isLeftToRight(Component c) {
-        if (c == null) {
-            return true;
-        }
         return c.getComponentOrientation().isLeftToRight();
     }
 
@@ -145,14 +142,14 @@ public class JTattooUtilities {
     }
 
     public static Container getRootContainer(Component c) {
-        if (c == null) {
-            return null;
+        if (c != null) {
+            Container parent = c.getParent();
+            while ((parent != null) && !(parent instanceof JPopupMenu) && !(parent instanceof JInternalFrame) && !(parent instanceof Window) && (parent.getParent() != null)) {
+                parent = parent.getParent();
+            }
+            return parent;
         }
-        Container parent = c.getParent();
-        while ((parent != null) && !(parent instanceof JPopupMenu) && !(parent instanceof JInternalFrame) && !(parent instanceof Window) && (parent.getParent() != null)) {
-            parent = parent.getParent();
-        }
-        return parent;
+        return null;
     }
 
     public static Dimension getFrameSize(Component c) {

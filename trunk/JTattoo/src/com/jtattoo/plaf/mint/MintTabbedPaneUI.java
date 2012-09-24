@@ -4,8 +4,11 @@
  */
 package com.jtattoo.plaf.mint;
 
+import com.jtattoo.plaf.AbstractLookAndFeel;
 import com.jtattoo.plaf.BaseTabbedPaneUI;
+import java.awt.Graphics;
 import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
 import javax.swing.plaf.ComponentUI;
 
 /**
@@ -22,20 +25,18 @@ public class MintTabbedPaneUI extends BaseTabbedPaneUI {
         tabAreaInsets.bottom = 6;
     }
 
-//    protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
-//        if (isContentOpaque()) {
-//            g.setColor(AbstractLookAndFeel.getTabAreaBackgroundColor());
-//            int tabAreaHeight = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-//            int tabAreaWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-//            if (tabPlacement == JTabbedPane.TOP || tabPlacement == JTabbedPane.LEFT) {
-//                g.fillRect(x, y, tabAreaWidth, tabAreaHeight);
-//            } else if (tabPlacement == JTabbedPane.BOTTOM) {
-//                g.fillRect(x, h - tabAreaHeight + 1, w, tabAreaHeight);
-//            } else {
-//                g.fillRect(w - tabAreaWidth + 1, y, tabAreaWidth, h);
-//            }
-//        }
-//        super.paintContentBorder(g, tabPlacement, selectedIndex, x, y, w, h);
-//    }
+    protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+        g.setColor(AbstractLookAndFeel.getTabAreaBackgroundColor());
+        int tabAreaHeight = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
+        int tabAreaWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
+        if (tabPlacement == JTabbedPane.TOP || tabPlacement == JTabbedPane.LEFT) {
+            g.fillRect(x, y, tabAreaWidth, tabAreaHeight);
+        } else if (tabPlacement == JTabbedPane.BOTTOM) {
+            g.fillRect(x, h - tabAreaHeight + 1, w, tabAreaHeight);
+        } else {
+            g.fillRect(w - tabAreaWidth + 1, y, tabAreaWidth, h);
+        }
+        super.paintContentBorder(g, tabPlacement, selectedIndex, x, y, w, h);
+    }
 
 }

@@ -14,6 +14,10 @@ import javax.swing.Icon;
  * @author Michael Hagen
  */
 public class AeroIcons extends BaseIcons {
+    private static Icon iconIcon = null;
+    private static Icon maxIcon = null;
+    private static Icon minIcon = null;
+    private static Icon closeIcon = null;
     
     public static Icon getIconIcon() {
         if (iconIcon == null)

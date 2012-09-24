@@ -9,7 +9,6 @@ import com.jtattoo.plaf.*;
 import java.awt.*;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
 import javax.swing.text.View;
 
 /**
@@ -47,11 +46,6 @@ public class AeroTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected void paintText(Graphics g, int tabPlacement, Font font, FontMetrics metrics, int tabIndex, String title, Rectangle textRect, boolean isSelected) {
-        Color backColor = tabPane.getBackgroundAt(tabIndex);
-        if (!(backColor instanceof UIResource)) {
-            super.paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
-            return;
-        }
         g.setFont(font);
         View v = getTextViewForTab(tabIndex);
         if (v != null) {

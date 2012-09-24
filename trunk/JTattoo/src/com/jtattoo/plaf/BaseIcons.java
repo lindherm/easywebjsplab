@@ -13,93 +13,45 @@ import javax.swing.*;
  */
 public class BaseIcons {
 
-    protected static Icon comboBoxIcon = null;
-    protected static Icon checkBoxIcon = null;
-    protected static Icon menuCheckBoxIcon = null;
-    protected static Icon radioButtonIcon = null;
-    protected static Icon menuRadioButtonIcon = null;
-    protected static Icon optionPaneErrorIcon = null;
-    protected static Icon optionPaneWarningIcon = null;
-    protected static Icon optionPaneInformationIcon = null;
-    protected static Icon optionPaneQuestionIcon = null;
-    protected static Icon fileChooserDetailViewIcon = null;
-    protected static Icon fileChooserHomeFolderIcon = null;
-    protected static Icon fileChooserListViewIcon = null;
-    protected static Icon fileChooserNewFolderIcon = null;
-    protected static Icon fileChooserUpFolderIcon = null;
-    protected static Icon treeComputerIcon = null;
-    protected static Icon treeFloppyDriveIcon = null;
-    protected static Icon treeHardDriveIcon = null;
-    protected static Icon treeFolderIcon = null;
-    protected static Icon treeLeafIcon = null;
-    protected static Icon treeOpenIcon = null;
-    protected static Icon treeClosedIcon = null;
-    protected static Icon paletteCloseIcon = null;
-    protected static Icon menuIcon = null;
-    protected static Icon iconIcon = null;
-    protected static Icon maxIcon = null;
-    protected static Icon minIcon = null;
-    protected static Icon closeIcon = null;
-    protected static Icon upArrowIcon = null;
-    protected static Icon downArrowIcon = null;
-    protected static Icon leftArrowIcon = null;
-    protected static Icon rightArrowIcon = null;
-    protected static Icon menuArrowIcon = null;
-    protected static Icon splitterUpArrowIcon = null;
-    protected static Icon splitterDownArrowIcon = null;
-    protected static Icon splitterLeftArrowIcon = null;
-    protected static Icon splitterRightArrowIcon = null;
-    protected static Icon splitterHorBumpIcon = null;
-    protected static Icon splitterVerBumpIcon = null;
-    protected static Icon thumbHorIcon = null;
-    protected static Icon thumbVerIcon = null;
-    protected static Icon thumbHorIconRollover = null;
-    protected static Icon thumbVerIconRollover = null;
-
-    public static void initDefaults() {
-        comboBoxIcon = null;
-        checkBoxIcon = null;
-        menuCheckBoxIcon = null;
-        radioButtonIcon = null;
-        menuRadioButtonIcon = null;
-        optionPaneErrorIcon = null;
-        optionPaneWarningIcon = null;
-        optionPaneInformationIcon = null;
-        optionPaneQuestionIcon = null;
-        fileChooserDetailViewIcon = null;
-        fileChooserHomeFolderIcon = null;
-        fileChooserListViewIcon = null;
-        fileChooserNewFolderIcon = null;
-        fileChooserUpFolderIcon = null;
-        treeComputerIcon = null;
-        treeFloppyDriveIcon = null;
-        treeHardDriveIcon = null;
-        treeFolderIcon = null;
-        treeLeafIcon = null;
-        treeOpenIcon = null;
-        treeClosedIcon = null;
-        paletteCloseIcon = null;
-        menuIcon = null;
-        iconIcon = null;
-        maxIcon = null;
-        minIcon = null;
-        closeIcon = null;
-        upArrowIcon = null;
-        downArrowIcon = null;
-        leftArrowIcon = null;
-        rightArrowIcon = null;
-        menuArrowIcon = null;
-        splitterUpArrowIcon = null;
-        splitterDownArrowIcon = null;
-        splitterLeftArrowIcon = null;
-        splitterRightArrowIcon = null;
-        splitterHorBumpIcon = null;
-        splitterVerBumpIcon = null;
-        thumbHorIcon = null;
-        thumbVerIcon = null;
-        thumbHorIconRollover = null;
-        thumbVerIconRollover = null;
-    }
+    private static Icon checkBoxIcon = null;
+    private static Icon radioButtonIcon = null;
+    private static Icon optionPaneErrorIcon = null;
+    private static Icon optionPaneWarningIcon = null;
+    private static Icon optionPaneInformationIcon = null;
+    private static Icon optionPaneQuestionIcon = null;
+    private static Icon fileChooserDetailViewIcon = null;
+    private static Icon fileChooserHomeFolderIcon = null;
+    private static Icon fileChooserListViewIcon = null;
+    private static Icon fileChooserNewFolderIcon = null;
+    private static Icon fileChooserUpFolderIcon = null;
+    private static Icon treeComputerIcon = null;
+    private static Icon treeFloppyDriveIcon = null;
+    private static Icon treeHardDriveIcon = null;
+    private static Icon treeFolderIcon = null;
+    private static Icon treeLeafIcon = null;
+    private static Icon treeOpenIcon = null;
+    private static Icon treeClosedIcon = null;
+    private static Icon paletteCloseIcon = null;
+    private static Icon menuIcon = null;
+    private static Icon iconIcon = null;
+    private static Icon maxIcon = null;
+    private static Icon minIcon = null;
+    private static Icon closeIcon = null;
+    private static Icon upArrowIcon = null;
+    private static Icon downArrowIcon = null;
+    private static Icon leftArrowIcon = null;
+    private static Icon rightArrowIcon = null;
+    private static Icon menuArrowIcon = null;
+    private static Icon splitterUpArrowIcon = null;
+    private static Icon splitterDownArrowIcon = null;
+    private static Icon splitterLeftArrowIcon = null;
+    private static Icon splitterRightArrowIcon = null;
+    private static Icon splitterHorBumpIcon = null;
+    private static Icon splitterVerBumpIcon = null;
+    private static Icon thumbHorIcon = null;
+    private static Icon thumbVerIcon = null;
+    private static Icon thumbHorIconRollover = null;
+    private static Icon thumbVerIconRollover = null;
 
     public static Icon getRadioButtonIcon() {
         if (radioButtonIcon == null) {
@@ -284,23 +236,17 @@ public class BaseIcons {
     // MenuIcons
     public static Icon getMenuArrowIcon() {
         if (menuArrowIcon == null) {
-            menuArrowIcon = new LazyMenuArrowImageIcon("icons/MenuRightArrow.gif", "icons/MenuLeftArrow.gif");
+            menuArrowIcon = new LazyImageIcon("icons/MenuArrow.gif");
         }
         return menuArrowIcon;
     }
 
     public static Icon getMenuCheckBoxIcon() {
-        if (menuCheckBoxIcon == null) {
-            menuCheckBoxIcon = new CheckBoxIcon();
-        }
-        return menuCheckBoxIcon;
+        return getCheckBoxIcon();
     }
 
     public static Icon getMenuRadioButtonIcon() {
-        if (menuRadioButtonIcon == null) {
-            menuRadioButtonIcon = new RadioButtonIcon();
-        }
-        return menuRadioButtonIcon;
+        return getRadioButtonIcon();
     }
 
     // ArrowIcons
@@ -413,6 +359,7 @@ public class BaseIcons {
         private static Icon checkIcon = new LazyImageIcon("icons/CheckSymbol.gif");
         private static Icon checkIconDisabled = new LazyImageIcon("icons/CheckSymbolDisabled.gif");
         private static Icon checkPressedIcon = new LazyImageIcon("icons/CheckPressedSymbol.gif");
+
         private static final int WIDTH = 15;
         private static final int HEIGHT = 15;
 
@@ -552,7 +499,7 @@ public class BaseIcons {
                 g.setColor(ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 40));
                 g2D.drawOval(x, y, WIDTH, HEIGHT);
             }
-
+            
             if (model.isSelected()) {
                 if (b.isEnabled()) {
                     g.setColor(Color.black);
@@ -619,7 +566,7 @@ public class BaseIcons {
 
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Graphics2D g2D = (Graphics2D) g;
-            g2D.translate(insets.left, insets.top);
+            g.translate(insets.left, insets.top);
             int w = c.getWidth() - insets.left - insets.right;
             int h = c.getHeight() - insets.top - insets.bottom;
             boolean active = JTattooUtilities.isActive((JComponent) c);
@@ -635,8 +582,7 @@ public class BaseIcons {
             int lw = (w / 12) + 1;
             int dx = (w / 5) + 2;
             int dy = dx;
-
-            Stroke savedStroke = g2D.getStroke();
+            Stroke stroke = g2D.getStroke();
             g2D.setStroke(new BasicStroke(lw, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             if (shadowColor != null) {
                 if (!active) {
@@ -648,8 +594,8 @@ public class BaseIcons {
             }
             g2D.setColor(color);
             g2D.drawLine(dx, h - dy - 1, w - dx, h - dy - 1);
-            g2D.setStroke(savedStroke);
-            g2D.translate(-insets.left, -insets.top);
+            g2D.setStroke(stroke);
+            g.translate(-insets.left, -insets.top);
         }
     }
 
@@ -699,7 +645,7 @@ public class BaseIcons {
 
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Graphics2D g2D = (Graphics2D) g;
-            g2D.translate(insets.left, insets.top);
+            g.translate(insets.left, insets.top);
             int w = c.getWidth() - insets.left - insets.right;
             int h = c.getHeight() - insets.top - insets.bottom;
             boolean active = JTattooUtilities.isActive((JComponent) c);
@@ -716,7 +662,7 @@ public class BaseIcons {
             int dx = (w / 5) + 1;
             int dy = (h / 5) + 2;
 
-            Stroke savedStroke = g2D.getStroke();
+            Stroke stroke = g2D.getStroke();
             g2D.setStroke(new BasicStroke(lw, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             if (shadowColor != null) {
                 if (!active) {
@@ -730,9 +676,8 @@ public class BaseIcons {
             g2D.setColor(color);
             g2D.drawRect(dx, dy, w - (2 * dx), h - (2 * dy));
             g2D.drawLine(dx + 1, dy + lw, w - dx, dy + lw);
-
-            g2D.setStroke(savedStroke);
-            g2D.translate(-insets.left, -insets.top);
+            g2D.setStroke(stroke);
+            g.translate(-insets.left, -insets.top);
         }
     }
 
@@ -782,7 +727,7 @@ public class BaseIcons {
 
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Graphics2D g2D = (Graphics2D) g;
-            g2D.translate(insets.left, insets.top);
+            g.translate(insets.left, insets.top);
             int w = c.getWidth() - insets.left - insets.right;
             int h = c.getHeight() - insets.top - insets.bottom;
 
@@ -791,7 +736,7 @@ public class BaseIcons {
 
             w = Math.min(w, h) - 6;
             h = w;
-
+            
             int x1 = 3;
             int y1 = 3;
             int w1 = w - delta;
@@ -817,18 +762,17 @@ public class BaseIcons {
                 }
             }
 
-            Shape savedClip = g2D.getClip();
-            Stroke savedStroke = g2D.getStroke();
+            Stroke stroke = g2D.getStroke();
             g2D.setStroke(new BasicStroke(lw, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            Area clipArea = new Area(savedClip);
+            Shape clipShape = g.getClip();
+            Area clipArea = new Area(clipShape);
             clipArea.subtract(new Area(new Rectangle2D.Double(x2, y2, w2, h2)));
             g2D.setClip(clipArea);
             paintRect(g2D, x1, y1, w1, h1, lw, ic, sc);
-            g2D.setClip(savedClip);
+            g2D.setClip(clipShape);
             paintRect(g2D, x2, y2, w2, h2, lw, ic, sc);
-
-            g2D.setStroke(savedStroke);
-            g2D.translate(-insets.left, -insets.top);
+            g2D.setStroke(stroke);
+            g.translate(-insets.left, -insets.top);
         }
 
         private void paintRect(Graphics2D g2D, int x, int y, int w, int h, int lw, Color iconColor, Color shadowColor) {
@@ -890,7 +834,7 @@ public class BaseIcons {
 
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Graphics2D g2D = (Graphics2D) g;
-            g2D.translate(insets.left, insets.top);
+            g.translate(insets.left, insets.top);
             int w = c.getWidth() - insets.left - insets.right;
             int h = c.getHeight() - insets.top - insets.bottom;
             boolean active = JTattooUtilities.isActive((JComponent) c);
@@ -907,10 +851,9 @@ public class BaseIcons {
             int dx = (w / 5) + 2;
             int dy = dx;
 
-            Stroke savedStroke = g2D.getStroke();
+            Stroke stroke = g2D.getStroke();
             Object savedRederingHint = g2D.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
             g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
             g2D.setStroke(new BasicStroke(lw, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
             if (shadowColor != null) {
                 if (!active) {
@@ -924,10 +867,9 @@ public class BaseIcons {
             g2D.setColor(color);
             g2D.drawLine(dx, dy, w - dx, h - dy);
             g2D.drawLine(w - dx, dy, dx, h - dy);
-
-            g2D.setStroke(savedStroke);
+            g2D.setStroke(stroke);
             g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, savedRederingHint);
-            g2D.translate(-insets.left, -insets.top);
+            g.translate(-insets.left, -insets.top);
         }
     }
 }

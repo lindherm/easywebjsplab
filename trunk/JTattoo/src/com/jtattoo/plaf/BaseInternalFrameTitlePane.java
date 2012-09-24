@@ -32,7 +32,6 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
     protected Icon paletteCloseIcon;
     protected int paletteTitleHeight;
     protected int buttonsWidth = 0;
-    protected JPanel customTitlePanel;
 
     public BaseInternalFrameTitlePane(JInternalFrame f) {
         super(f);
@@ -47,19 +46,6 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
         minIcon = UIManager.getIcon("InternalFrame.minimizeIcon");
         maxIcon = UIManager.getIcon("InternalFrame.maximizeIcon");
         closeIcon = UIManager.getIcon("InternalFrame.closeIcon");
-    }
-
-    public void setCustomizedTitlePanel(JPanel panel) {
-        if (customTitlePanel != null) {
-            remove(customTitlePanel);
-            customTitlePanel = null;
-        }
-        if (panel != null) {
-            customTitlePanel = panel;
-            add(customTitlePanel);
-        }
-        revalidate();
-        repaint();
     }
 
     protected void createButtons() {
@@ -206,7 +192,7 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
             xOffset += leftToRight ? icon.getIconWidth() + 5 : -5;
             titleWidth -= icon.getIconWidth() + 5;
         }
-
+        
         g.setFont(getFont());
         FontMetrics fm = g.getFontMetrics();
         String frameTitle = JTattooUtilities.getClippedText(frame.getTitle(), fm, titleWidth);
@@ -217,13 +203,6 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
         }
         if (AbstractLookAndFeel.getTheme().isMacStyleWindowDecorationOn()) {
             xOffset = Math.max(buttonsWidth + 5, (width - titleLength) / 2);
-        }
-        if (AbstractLookAndFeel.getTheme().isMacStyleWindowDecorationOn()) {
-            if (customTitlePanel == null) {
-                xOffset = Math.max(buttonsWidth + 5, (width - titleLength) / 2);
-            } else {
-                xOffset = buttonsWidth + 5;
-            }
         }
         paintText(g, xOffset, yOffset, frameTitle);
         paintBorder(g);
@@ -289,12 +268,14 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
 
             int height = paletteTitleHeight;
             if (!isPalette) {
+                int fontHeight = fm.getHeight() + 7;
                 Icon icon = frame.getFrameIcon();
-                if (icon == null) {
-                    height = Math.max(fm.getHeight() + 6, 16);
-                } else {
-                    height = Math.max(fm.getHeight() + 6, Math.min(icon.getIconHeight(), 24));
+                int iconHeight = 0;
+                if (icon != null) {
+                    iconHeight = Math.min(icon.getIconHeight(), 18);
                 }
+                iconHeight += 5;
+                height = Math.max(fontHeight, iconHeight);
             }
             return new Dimension(width, height);
         }
@@ -306,7 +287,7 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
                 layoutDefault(c);
             }
         }
-
+        
         public void layoutDefault(Container c) {
             boolean leftToRight = JTattooUtilities.isLeftToRight(frame);
 
@@ -321,19 +302,6 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
             int x = leftToRight ? w - spacing : 0;
             int y = Math.max(0, ((h - buttonHeight) / 2) - 1);
 
-            int cpx = 0;
-            int cpy = 0;
-            int cpw = w;
-            int cph = h;
-
-            Icon icon = frame.getFrameIcon();
-            if (icon != null) {
-                cpx = 10 + icon.getIconWidth();
-                cpw -= cpx;
-            } else {
-                cpx = 5;
-                cpw -= 5;
-            }
             if (frame.isClosable()) {
                 x += leftToRight ? -buttonWidth : spacing;
                 closeButton.setBounds(x, y, buttonWidth, buttonHeight);
@@ -359,29 +327,11 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
             }
 
             buttonsWidth = leftToRight ? w - x : x;
-
-            if (customTitlePanel != null) {
-                if (!leftToRight) {
-                    cpx += buttonsWidth;
-                }
-                cpw -= buttonsWidth;
-                Graphics g = getGraphics();
-                if (g != null) {
-                    FontMetrics fm = g.getFontMetrics();
-                    int tw = SwingUtilities.computeStringWidth(fm, JTattooUtilities.getClippedText(frame.getTitle(), fm, cpw));
-                    if (leftToRight) {
-                        cpx += tw;
-                    }
-                    cpw -= tw;
-                }
-                customTitlePanel.setBounds(cpx, cpy, cpw, cph);
-            }
         }
-
+        
         private void layoutMacStyle(Container c) {
             int spacing = getHorSpacing();
             int h = getHeight();
-            int w = getWidth();
 
             // assumes all buttons have the same dimensions these dimensions include the borders
             int buttonHeight = h - getVerSpacing();
@@ -389,11 +339,6 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
 
             int x = 0;
             int y = Math.max(0, ((h - buttonHeight) / 2) - 1);
-
-            int cpx = 0;
-            int cpy = 0;
-            int cpw = w;
-            int cph = h;
 
             if (frame.isClosable()) {
                 closeButton.setBounds(x, y, buttonWidth, buttonHeight);
@@ -407,25 +352,8 @@ public class BaseInternalFrameTitlePane extends BasicInternalFrameTitlePane impl
                 iconButton.setBounds(x, y, buttonWidth, buttonHeight);
                 x += spacing + buttonWidth;
             }
-            Icon icon = frame.getFrameIcon();
-            if (icon != null) {
-                cpw -= 10 + icon.getIconWidth();
-            }
 
             buttonsWidth = x;
-
-            if (customTitlePanel != null) {
-                cpx += buttonsWidth + 5;
-                cpw -= buttonsWidth + 5;
-                Graphics g = getGraphics();
-                if (g != null) {
-                    FontMetrics fm = g.getFontMetrics();
-                    int tw = SwingUtilities.computeStringWidth(fm, JTattooUtilities.getClippedText(frame.getTitle(), fm, cpw));
-                    cpx += tw;
-                    cpw -= tw;
-                }
-                customTitlePanel.setBounds(cpx, cpy, cpw, cph);
-            }
         }
     } // end class BaseTitlePaneLayout
 }

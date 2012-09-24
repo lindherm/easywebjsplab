@@ -6,6 +6,8 @@ package com.jtattoo.plaf;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.plaf.BorderUIResource;
@@ -16,27 +18,23 @@ import javax.swing.plaf.UIResource;
  */
 public class BaseBorders {
 
-    protected static Border buttonBorder = null;
-    protected static Border focusFrameBorder = null;
-    protected static Border textFieldBorder = null;
-    protected static Border spinnerBorder = null;
-    protected static Border comboBoxBorder = null;
-    protected static Border progressBarBorder = null;
-    protected static Border tableHeaderBorder = null;
-    protected static Border popupMenuBorder = null;
-    protected static Border menuItemBorder = null;
-    protected static Border toolBarBorder = null;
-    protected static Border toolButtonBorder = null;
-    protected static Border rolloverToolButtonBorder = null;
-    protected static Border internalFrameBorder = null;
-    protected static Border paletteBorder = null;
-    protected static Border scrollPaneBorder = null;
-    protected static Border tableScrollPaneBorder = null;
-    protected static Border tabbedPaneBorder = null;
-    protected static Border desktopIconBorder = null;
+    private static Border focusFrameBorder = null;
+    private static Border textFieldBorder = null;
+    private static Border spinnerBorder = null;
+    private static Border comboBoxBorder = null;
+    private static Border progressBarBorder = null;
+    private static Border tableHeaderBorder = null;
+    private static Border popupMenuBorder = null;
+    private static Border menuItemBorder = null;
+    private static Border toolBarBorder = null;
+    private static Border toolButtonBorder = null;
+    private static Border paletteBorder = null;
+    private static Border scrollPaneBorder = null;
+    private static Border tableScrollPaneBorder = null;
+    private static Border tabbedPaneBorder = null;
+    private static Border desktopIconBorder = null;
 
     public static void initDefaults() {
-        buttonBorder = null;
         textFieldBorder = null;
         spinnerBorder = null;
         comboBoxBorder = null;
@@ -46,9 +44,7 @@ public class BaseBorders {
         menuItemBorder = null;
         toolBarBorder = null;
         toolButtonBorder = null;
-        rolloverToolButtonBorder = null;
         paletteBorder = null;
-        internalFrameBorder = null;
         scrollPaneBorder = null;
         tableScrollPaneBorder = null;
         tabbedPaneBorder = null;
@@ -110,9 +106,9 @@ public class BaseBorders {
     public static Border getPopupMenuBorder() {
         if (popupMenuBorder == null) {
             if (AbstractLookAndFeel.getTheme().isMenuOpaque()) {
-                popupMenuBorder = new BasePopupMenuBorder();
+                popupMenuBorder = new PopupMenuBorder();
             } else {
-                popupMenuBorder = new BasePopupMenuShadowBorder();
+                popupMenuBorder = new PopupMenuShadowBorder();
             }
         }
         return popupMenuBorder;
@@ -340,147 +336,71 @@ public class BaseBorders {
 
     } // class ScrollPaneBorder
 
-    public static class BasePopupMenuBorder extends AbstractBorder implements UIResource {
+    public static class PopupMenuBorder extends AbstractBorder implements UIResource {
 
-        protected static Font logoFont;
-        protected static Insets leftLogoInsets;
-        protected static Insets rightLogoInsets;
-        protected static Insets insets;
-        protected static int shadowSize;
-
-        public BasePopupMenuBorder() {
-            logoFont = new Font("Dialog", Font.BOLD, 12);
-            leftLogoInsets = new Insets(2, 18, 1, 1);
-            rightLogoInsets = new Insets(2, 2, 1, 18);
-            insets = new Insets(2, 1, 1, 1);
-            shadowSize = 0;
-        }
-        
-        public boolean isMenuBarPopup(Component c) {
-            boolean menuBarPopup = false;
-            if (c instanceof JPopupMenu) {
-                JPopupMenu pm = (JPopupMenu) c;
-                if (pm.getInvoker() != null) {
-                    menuBarPopup = (pm.getInvoker().getParent() instanceof JMenuBar);
-                }
-            }
-            return menuBarPopup;
-        }
+        protected static final Font logoFont = new Font("Dialog", Font.BOLD, 12);
+        protected Insets logoInsets = new Insets(2, 18, 1, 1);
+        protected Insets insets = new Insets(2, 1, 1, 1);
 
         public boolean hasLogo(Component c) {
             return ((AbstractLookAndFeel.getTheme().getLogoString() != null) && (AbstractLookAndFeel.getTheme().getLogoString().length() > 0));
         }
 
-        public Color getLogoColorHi() {
-            return Color.white;
-        }
-        
-        public Color getLogoColorLo() {
-            return ColorHelper.darker(AbstractLookAndFeel.getTheme().getMenuSelectionBackgroundColor(), 20);
-        }
-        
-        public void paintLogo(Component c, Graphics g, int x, int y, int w, int h) {
-            if (hasLogo(c)) {
-                Graphics2D g2D = (Graphics2D)g;
-                
-                Font savedFont = g2D.getFont();
-                g.setFont(logoFont);
-                
-                FontMetrics fm = g2D.getFontMetrics();
-                String logo = JTattooUtilities.getClippedText(AbstractLookAndFeel.getTheme().getLogoString(), fm, h - 16);
+        public void paintLogo(Graphics2D g2D, int w, int h) {
+            BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D imageGraphics = image.createGraphics();
+            Color logoColor = AbstractLookAndFeel.getTheme().getMenuSelectionBackgroundColor();
+            imageGraphics.setColor(logoColor);
+            imageGraphics.fillRect(0, 0, w, h);
 
-                AffineTransform savedTransform = g2D.getTransform();
-                
-                Color fc = getLogoColorHi();
-                Color bc = getLogoColorLo();
-                
-                if (JTattooUtilities.isLeftToRight(c)) {
-                    g2D.translate(fm.getAscent() + 1, h - shadowSize - 4);
-                    g2D.rotate(Math.toRadians(-90));
-                    g2D.setColor(bc);
-                    JTattooUtilities.drawString((JComponent)c, g, logo, 0, 1);
-                    g2D.setColor(fc);
-                    JTattooUtilities.drawString((JComponent)c, g, logo, 1, 0);
-                } else {
-                    g2D.translate(w - shadowSize - 4, h - shadowSize - 4);
-                    g2D.rotate(Math.toRadians(-90));
-                    g2D.setColor(bc);
-                    JTattooUtilities.drawString((JComponent)c, g, logo, 0, 1);
-                    g2D.setColor(fc);
-                    JTattooUtilities.drawString((JComponent)c, g, logo, 1, 0);
-                }
-                
-                g2D.setTransform(savedTransform);
-                g2D.setFont(savedFont);
-            }
+            imageGraphics.setFont(logoFont);
+            FontMetrics fm = imageGraphics.getFontMetrics();
+            AffineTransform at = new AffineTransform();
+            at.setToRotation(Math.PI + (Math.PI / 2.0));
+            imageGraphics.setTransform(at);
+            int xs = -h + 4;
+            int ys = fm.getAscent() + 2;
+
+            String logo = JTattooUtilities.getClippedText(AbstractLookAndFeel.getTheme().getLogoString(), fm, h - 16);
+
+            imageGraphics.setColor(ColorHelper.darker(logoColor, 20));
+            imageGraphics.drawString(logo, xs - 1, ys + 1);
+
+            imageGraphics.setColor(Color.white);
+            imageGraphics.drawString(logo, xs, ys);
+
+            Rectangle2D r2D = new Rectangle2D.Double(0, 0, w, h);
+            TexturePaint texturePaint = new TexturePaint(image, r2D);
+            g2D.setPaint(texturePaint);
+            g2D.fillRect(0, 0, w, h);
         }
-        
+
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
+            int dx = getBorderInsets(c).left;
             Color logoColor = AbstractLookAndFeel.getMenuSelectionBackgroundColor();
+            Color menuColor = AbstractLookAndFeel.getMenuBackgroundColor();
             Color borderColorLo = AbstractLookAndFeel.getFrameColor();
             Color borderColorHi = ColorHelper.brighter(AbstractLookAndFeel.getMenuSelectionBackgroundColor(), 50);
             g.setColor(logoColor);
-            if (JTattooUtilities.isLeftToRight(c)) {
-                int dx = getBorderInsets(c).left;
-                g.fillRect(x, y, dx - 1, h - 1);
-                paintLogo(c, g, x, y, w, h);
-                // - highlight 
-                g.setColor(ColorHelper.brighter(AbstractLookAndFeel.getMenuBackgroundColor(), 40));
-                g.drawLine(x + dx, y + 1, x + w - 2, y + 1);
-                g.setColor(borderColorHi);
-                g.drawLine(x + 1, y, x + 1, y + h - 2);
-                // - outer frame
-                g.setColor(borderColorLo);
-                if (isMenuBarPopup(c)) {
-                    // top
-                    g.drawLine(x + dx - 1, y, x + w, y);
-                    // left
-                    g.drawLine(x, y, x, y + h - 1);
-                    // bottom
-                    g.drawLine(x, y + h - 1, x + w, y + h - 1);
-                    // right
-                    g.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 1);
-                } else {
-                    g.drawRect(x, y, w - 1, h - 1);
-                }
-                // - logo separator
-                g.drawLine(x + dx - 1, y + 1, x + dx - 1, y + h - 1);
-            } else {
-                int dx = getBorderInsets(c).right;
-                g.fillRect(x + w - dx, y, dx, h - 1);
-                paintLogo(c, g, x, y, w, h);
-                // - highlight 
-                g.setColor(ColorHelper.brighter(AbstractLookAndFeel.getMenuBackgroundColor(), 40));
-                g.drawLine(x + 1, y + 1, x + w - dx - 1, y + 1);
-                g.drawLine(x + 1, y + 1, x + 1, y + h - 2);
-                // - outer frame
-                g.setColor(borderColorLo);
-                if (isMenuBarPopup(c)) {
-                    // top
-                    g.drawLine(x, y, x + w - dx, y);
-                    // left
-                    g.drawLine(x, y, x, y + h - 1);
-                    // bottom
-                    g.drawLine(x, y + h - 1, x + w, y + h - 1);
-                    // right
-                    g.drawLine(x + w - 1, y, x + w - 1, y + h - 1);
-                } else {
-                    g.drawRect(x, y, w - 1, h - 1);
-                }
-                // - logo separator
-                g.drawLine(x + w - dx, y + 1, x + w - dx, y + h - 1);
+            g.fillRect(x, y, dx - 1, h - 1);
+            if (hasLogo(c)) {
+                paintLogo((Graphics2D) g, dx, h);
             }
+            g.setColor(borderColorHi);
+            g.drawLine(x + 1, y + 1, x + dx, y + 1);
+            g.drawLine(x + 1, y + 1, x + 1, y + h - 1);
+            g.setColor(ColorHelper.brighter(menuColor, 50.0));
+            g.drawLine(x + dx, y + 1, x + w - 2, y + 1);
+            g.setColor(borderColorLo);
+            g.drawLine(x + dx - 1, y + 1, x + dx - 1, y + h - 1);
+            g.drawRect(x, y, w - 1, h - 1);
         }
 
         public Insets getBorderInsets(Component c) {
             if (hasLogo(c)) {
-                if (JTattooUtilities.isLeftToRight(c)) {
-                    return new Insets(leftLogoInsets.top, leftLogoInsets.left, leftLogoInsets.bottom + shadowSize, leftLogoInsets.right + shadowSize);
-                } else {
-                    return new Insets(rightLogoInsets.top, rightLogoInsets.left, rightLogoInsets.bottom + shadowSize, rightLogoInsets.right + shadowSize);
-                }
+                return new Insets(logoInsets.top, logoInsets.left, logoInsets.bottom, logoInsets.right);
             } else {
-                return new Insets(insets.top, insets.left, insets.bottom + shadowSize, insets.right + shadowSize);
+                return new Insets(insets.top, insets.left, insets.bottom, insets.right);
             }
         }
 
@@ -495,71 +415,39 @@ public class BaseBorders {
 
     } // class PopupMenuBorder
 
-    public static class BasePopupMenuShadowBorder extends BasePopupMenuBorder {
+    public static class PopupMenuShadowBorder extends PopupMenuBorder {
 
-        public BasePopupMenuShadowBorder() {
-            shadowSize = 3;
+        private static final int shadowSize = 3;
+
+        public PopupMenuShadowBorder() {
+            logoInsets = new Insets(2, 18, shadowSize + 1, shadowSize + 1);
+            insets = new Insets(2, 1, shadowSize + 1, shadowSize + 1);
         }
 
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             Graphics2D g2D = (Graphics2D) g;
             Composite composite = g2D.getComposite();
-            AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, AbstractLookAndFeel.getTheme().getMenuAlpha());
+            AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f);
             g2D.setComposite(alpha);
+            int dx = getBorderInsets(c).left;
             Color logoColor = AbstractLookAndFeel.getTheme().getMenuSelectionBackgroundColor();
             Color borderColorLo = AbstractLookAndFeel.getFrameColor();
             Color borderColorHi = ColorHelper.brighter(AbstractLookAndFeel.getMenuSelectionBackgroundColor(), 50);
             g.setColor(logoColor);
-            if (JTattooUtilities.isLeftToRight(c)) {
-                int dx = getBorderInsets(c).left;
-                g.fillRect(x, y, dx - 1, h - 1 - shadowSize);
-                paintLogo(c, g, x, y, w, h);
-                // - highlight 
-                g.setColor(ColorHelper.brighter(AbstractLookAndFeel.getMenuBackgroundColor(), 40));
-                g.drawLine(x + dx, y + 1, x + w - shadowSize - 2, y + 1);
-                g.setColor(borderColorHi);
-                g.drawLine(x + 1, y, x + 1, y + h - shadowSize - 2);
-                // - outer frame
-                g.setColor(borderColorLo);
-                if (isMenuBarPopup(c)) {
-                    // top
-                    g.drawLine(x + dx - 1, y, x + w - shadowSize - 1, y);
-                    // left
-                    g.drawLine(x, y, x, y + h - shadowSize - 1);
-                    // bottom
-                    g.drawLine(x, y + h - shadowSize - 1, x + w - shadowSize - 1, y + h - shadowSize - 1);
-                    // right
-                    g.drawLine(x + w - shadowSize - 1, y + 1, x + w - shadowSize - 1, y + h - shadowSize - 1);
-                } else {
-                    g.drawRect(x, y, w - shadowSize - 1, h - shadowSize - 1);
-                }
-                // - logo separator
-                g.drawLine(x + dx - 1, y + 1, x + dx - 1, y + h - shadowSize - 1);
-            } else {
-                int dx = getBorderInsets(c).right - shadowSize;
-                g.fillRect(x + w - dx - shadowSize, y, dx - 1, h - 1 - shadowSize);
-                paintLogo(c, g, x, y, w, h);
-                // - highlight 
-                g.setColor(ColorHelper.brighter(AbstractLookAndFeel.getMenuBackgroundColor(), 40));
-                g.drawLine(x + 1, y + 1, x + w - dx - shadowSize - 1, y + 1);
-                g.drawLine(x + 1, y + 1, x + 1, y + h - shadowSize - 2);
-                // - outer frame
-                g.setColor(borderColorLo);
-                if (isMenuBarPopup(c)) {
-                    // top
-                    g.drawLine(x, y, x + w - dx - shadowSize, y);
-                    // left
-                    g.drawLine(x, y, x, y + h - shadowSize - 1);
-                    // bottom
-                    g.drawLine(x, y + h - shadowSize - 1, x + w - shadowSize - 1, y + h - shadowSize - 1);
-                    // right
-                    g.drawLine(x + w - shadowSize - 1, y, x + w - shadowSize - 1, y + h - shadowSize - 1);
-                } else {
-                    g.drawRect(x, y, w - shadowSize - 1, h - shadowSize - 1);
-                }
-                // - logo separator
-                g.drawLine(x + w - dx - shadowSize, y + 1, x + w - dx - shadowSize, y + h - shadowSize - 1);
+            g.fillRect(x, y, dx - 1, h - 1 - shadowSize);
+            if (hasLogo(c)) {
+                paintLogo(g2D, dx, h - shadowSize);
             }
+            alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, AbstractLookAndFeel.getTheme().getMenuAlpha());
+            g2D.setComposite(alpha);
+            g.setColor(borderColorHi);
+            g.drawLine(x + 1, y + 1, x + dx, y + 1);
+            g.drawLine(x + 1, y + 1, x + 1, y + h - shadowSize - 1);
+            g.setColor(Color.white);
+            g.drawLine(x + dx, y + 1, x + w - 2, y + 1);
+            g.setColor(borderColorLo);
+            g.drawLine(x + dx - 1, y + 1, x + dx - 1, y + h - shadowSize - 1);
+            g.drawRect(x, y, w - shadowSize - 1, h - shadowSize - 1);
 
             // paint the shadow
             g2D.setColor(Color.black);
@@ -574,7 +462,6 @@ public class BaseBorders {
 
             g2D.setComposite(composite);
         }
-        
     } // class PopupMenuShadowBorder
 
     public static class MenuItemBorder extends AbstractBorder implements UIResource {
@@ -594,7 +481,7 @@ public class BaseBorders {
                     g.drawLine(x + w - 1, y + 1, x + w - 1, y + h - 1);
                     g.setColor(borderColorHi);
                     g.drawLine(x + 1, y + 1, x + w - 2, y + 1);
-                    g.drawLine(x + 1, y + 1, x + 1, y + h - 1);
+                    g.drawLine(x + 1, y + 1, x + 1, y + h - 2);
                 }
             } else {
                 if (model.isArmed() || (c instanceof JMenu && model.isSelected())) {
