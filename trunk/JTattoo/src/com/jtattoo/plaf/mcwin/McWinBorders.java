@@ -16,10 +16,6 @@ import javax.swing.plaf.UIResource;
  */
 public class McWinBorders extends BaseBorders {
 
-    private static Border buttonBorder = null;
-    private static Border rolloverToolButtonBorder = null;
-    private static Border internalFrameBorder = null;
-
     //------------------------------------------------------------------------------------
     // Lazy access methods
     //------------------------------------------------------------------------------------

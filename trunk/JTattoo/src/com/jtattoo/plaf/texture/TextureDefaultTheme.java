@@ -32,6 +32,7 @@ public class TextureDefaultTheme extends AbstractTheme {
         super.setUpColor();
 
         menuOpaque = false;
+        menuAlpha = 1.0f;
         showFocusFrame = true;
         textShadow = true;
 

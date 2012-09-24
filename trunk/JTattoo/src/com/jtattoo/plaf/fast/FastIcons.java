@@ -10,4 +10,5 @@ import com.jtattoo.plaf.BaseIcons;
  * @author Michael Hagen
  */
 public class FastIcons extends BaseIcons {
+    
 }

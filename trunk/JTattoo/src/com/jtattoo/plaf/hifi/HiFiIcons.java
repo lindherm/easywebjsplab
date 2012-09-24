@@ -17,29 +17,6 @@ import javax.swing.plaf.UIResource;
  */
 public class HiFiIcons extends BaseIcons {
 
-    private static Icon iconIcon = null;
-    private static Icon maxIcon = null;
-    private static Icon minIcon = null;
-    private static Icon closeIcon = null;
-    private static Icon radioButtonIcon = null;
-    private static Icon checkBoxIcon = null;
-    private static Icon treeOpenIcon = null;
-    private static Icon treeClosedIcon = null;
-    private static Icon upArrowIcon = null;
-    private static Icon downArrowIcon = null;
-    private static Icon leftArrowIcon = null;
-    private static Icon rightArrowIcon = null;
-    private static Icon splitterUpArrowIcon = null;
-    private static Icon splitterDownArrowIcon = null;
-    private static Icon splitterLeftArrowIcon = null;
-    private static Icon splitterRightArrowIcon = null;
-    private static Icon splitterHorBumpIcon = null;
-    private static Icon splitterVerBumpIcon = null;
-    private static Icon thumbHorIcon = null;
-    private static Icon thumbVerIcon = null;
-    private static Icon thumbHorIconRollover = null;
-    private static Icon thumbVerIconRollover = null;
-
     public static Icon getIconIcon() {
         if (iconIcon == null) {
             Color iconColor = AbstractLookAndFeel.getTheme().getWindowIconColor();
@@ -109,7 +86,10 @@ public class HiFiIcons extends BaseIcons {
     }
 
     public static Icon getMenuArrowIcon() {
-        return getRightArrowIcon();
+        if (menuArrowIcon == null) {
+            menuArrowIcon = new LazyMenuArrowImageIcon("hifi/icons/RightArrow.gif", "hifi/icons/LeftArrow.gif");
+        }
+        return menuArrowIcon;
     }
 
     public static Icon getComboBoxIcon() {
@@ -206,13 +186,13 @@ public class HiFiIcons extends BaseIcons {
 
             g.translate(x, y);
 
-            JCheckBox cb = (JCheckBox) c;
-            ButtonModel model = cb.getModel();
+            AbstractButton button = (AbstractButton) c;
+            ButtonModel model = button.getModel();
             Graphics2D g2D = (Graphics2D) g;
 
-            boolean isRollover = cb.isRolloverEnabled() && model.isRollover();
+            boolean isRollover = button.isRolloverEnabled() && model.isRollover();
             Color colors[] = null;
-            if (cb.isEnabled()) {
+            if (button.isEnabled()) {
                 if (isRollover) {
                     colors = AbstractLookAndFeel.getTheme().getRolloverColors();
                 } else if (model.isPressed()) {
@@ -284,11 +264,11 @@ public class HiFiIcons extends BaseIcons {
             }
 
             Graphics2D g2D = (Graphics2D) g;
-            JRadioButton rb = (JRadioButton) c;
-            ButtonModel model = rb.getModel();
-            boolean isRollover = rb.isRolloverEnabled() && model.isRollover();
+            AbstractButton button = (AbstractButton) c;
+            ButtonModel model = button.getModel();
+            boolean isRollover = button.isRolloverEnabled() && model.isRollover();
             Color colors[] = null;
-            if (rb.isEnabled()) {
+            if (button.isEnabled()) {
                 if (model.isPressed()) {
                     colors = AbstractLookAndFeel.getTheme().getPressedColors();
                 } else if (isRollover) {

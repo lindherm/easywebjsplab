@@ -14,12 +14,6 @@ import javax.swing.JButton;
  */
 public class LunaIcons extends BaseIcons {
 
-    private static Icon iconIcon = null;
-    private static Icon maxIcon = null;
-    private static Icon minIcon = null;
-    private static Icon closeIcon = null;
-    private static Icon comboBoxIcon;
-
     public static Icon getComboBoxIcon() {
         if (comboBoxIcon == null) {
             comboBoxIcon = new LazyImageIcon("luna/icons/DownArrow.gif");

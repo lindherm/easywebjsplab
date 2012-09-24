@@ -24,8 +24,13 @@ public class McWinTabbedPaneUI extends BaseTabbedPaneUI {
 
     public void installDefaults() {
         super.installDefaults();
+        tabAreaInsets.bottom = 5;
     }
-
+    
+    protected boolean isContentOpaque() {
+        return false;
+    }
+    
     protected Color[] getContentBorderColors(int tabPlacement) {
         Color controlColorLight = AbstractLookAndFeel.getTheme().getControlColorLight();
         if (!controlColorLight.equals(new ColorUIResource(106, 150, 192))) {

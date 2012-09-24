@@ -15,15 +15,6 @@ import javax.swing.plaf.UIResource;
  */
 public class BernsteinIcons extends BaseIcons {
 
-    private static Icon radioButtonIcon;
-    private static Icon checkBoxIcon;
-    private static Icon thumbIcon = null;
-    private static Icon thumbIconRollover = null;
-    private static Icon splitterUpArrowIcon = null;
-    private static Icon splitterDownArrowIcon = null;
-    private static Icon splitterLeftArrowIcon = null;
-    private static Icon splitterRightArrowIcon = null;
-
     public static Icon getRadioButtonIcon() {
         if (radioButtonIcon == null) {
             radioButtonIcon = new RadioButtonIcon();
@@ -39,31 +30,31 @@ public class BernsteinIcons extends BaseIcons {
     }
 
     public static Icon getThumbHorIcon() {
-        if (thumbIcon == null) {
-            thumbIcon = new LazyImageIcon("bernstein/icons/radio.gif");
+        if (thumbHorIcon == null) {
+            thumbHorIcon = new LazyImageIcon("bernstein/icons/radio.gif");
         }
-        return thumbIcon;
+        return thumbHorIcon;
     }
 
     public static Icon getThumbVerIcon() {
-        if (thumbIcon == null) {
-            thumbIcon = new LazyImageIcon("bernstein/icons/radio.gif");
+        if (thumbVerIcon == null) {
+            thumbVerIcon = new LazyImageIcon("bernstein/icons/radio.gif");
         }
-        return thumbIcon;
+        return thumbVerIcon;
     }
 
     public static Icon getThumbHorIconRollover() {
-        if (thumbIconRollover == null) {
-            thumbIconRollover = new LazyImageIcon("bernstein/icons/radio_rollover.gif");
+        if (thumbHorIconRollover == null) {
+            thumbHorIconRollover = new LazyImageIcon("bernstein/icons/radio_rollover.gif");
         }
-        return thumbIconRollover;
+        return thumbHorIconRollover;
     }
 
     public static Icon getThumbVerIconRollover() {
-        if (thumbIconRollover == null) {
-            thumbIconRollover = new LazyImageIcon("bernstein/icons/radio_rollover.gif");
+        if (thumbVerIconRollover == null) {
+            thumbVerIconRollover = new LazyImageIcon("bernstein/icons/radio_rollover.gif");
         }
-        return thumbIconRollover;
+        return thumbVerIconRollover;
     }
 
     public static Icon getSplitterUpArrowIcon() {
@@ -119,19 +110,19 @@ public class BernsteinIcons extends BaseIcons {
             if (!JTattooUtilities.isLeftToRight(c)) {
                 x += 2;
             }
-            JCheckBox cb = (JCheckBox) c;
-            ButtonModel model = cb.getModel();
-            if (cb.isEnabled()) {
+            AbstractButton button = (AbstractButton) c;
+            ButtonModel model = button.getModel();
+            if (button.isEnabled()) {
                 if (model.isPressed() && model.isArmed()) {
                     checkPressedIcon.paintIcon(c, g, x, y);
                 } else if (model.isSelected()) {
-                    if (cb.isRolloverEnabled() && model.isRollover() && !model.isArmed()) {
+                    if (button.isRolloverEnabled() && model.isRollover() && !model.isArmed()) {
                         checkRolloverSelectedIcon.paintIcon(c, g, x, y);
                     } else {
                         checkSelectedIcon.paintIcon(c, g, x, y);
                     }
                 } else {
-                    if (cb.isRolloverEnabled() && model.isRollover() && !model.isArmed()) {
+                    if (button.isRolloverEnabled() && model.isRollover() && !model.isArmed()) {
                         checkRolloverIcon.paintIcon(c, g, x, y);
                     } else {
                         checkIcon.paintIcon(c, g, x, y);
@@ -179,17 +170,17 @@ public class BernsteinIcons extends BaseIcons {
             if (!JTattooUtilities.isLeftToRight(c)) {
                 x += 2;
             }
-            JRadioButton rb = (JRadioButton) c;
-            ButtonModel model = rb.getModel();
-            if (rb.isEnabled()) {
+            AbstractButton button = (AbstractButton) c;
+            ButtonModel model = button.getModel();
+            if (button.isEnabled()) {
                 if (model.isSelected()) {
-                    if (rb.isRolloverEnabled() && model.isRollover()) {
+                    if (button.isRolloverEnabled() && model.isRollover()) {
                         radioRolloverSelectedIcon.paintIcon(c, g, x, y);
                     } else {
                         radioSelectedIcon.paintIcon(c, g, x, y);
                     }
                 } else {
-                    if (rb.isRolloverEnabled() && model.isRollover()) {
+                    if (button.isRolloverEnabled() && model.isRollover()) {
                         radioRolloverIcon.paintIcon(c, g, x, y);
                     } else {
                         radioIcon.paintIcon(c, g, x, y);

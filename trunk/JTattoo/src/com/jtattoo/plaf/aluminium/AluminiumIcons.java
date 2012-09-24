@@ -14,19 +14,6 @@ import javax.swing.Icon;
  */
 public class AluminiumIcons extends BaseIcons {
 
-    private static Icon iconIcon = null;
-    private static Icon maxIcon = null;
-    private static Icon minIcon = null;
-    private static Icon closeIcon = null;
-    private static Icon thumbHorIcon = null;
-    private static Icon thumbHorIconRollover = null;
-    private static Icon thumbVerIcon = null;
-    private static Icon thumbVerIconRollover = null;
-    private static Icon splitterUpArrowIcon = null;
-    private static Icon splitterDownArrowIcon = null;
-    private static Icon splitterLeftArrowIcon = null;
-    private static Icon splitterRightArrowIcon = null;
-
     public static Icon getIconIcon() {
         if (iconIcon == null) {
             Color iconColor = AbstractLookAndFeel.getTheme().getWindowIconColor();

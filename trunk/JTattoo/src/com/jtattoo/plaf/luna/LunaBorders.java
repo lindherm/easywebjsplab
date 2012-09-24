@@ -16,14 +16,6 @@ import javax.swing.plaf.UIResource;
  * @author Michael Hagen
  */
 public class LunaBorders extends BaseBorders {
-    private static Border textFieldBorder = null;
-    private static Border comboBoxBorder = null;
-    private static Border scrollPaneBorder = null;
-    private static Border tableScrollPaneBorder = null;
-    private static Border buttonBorder = null;
-    private static Border rolloverToolButtonBorder = null;
-    private static Border internalFrameBorder = null;
-    private static Border tableHeaderBorder = null;
 
     //------------------------------------------------------------------------------------
     // Lazy access methods
@@ -100,7 +92,6 @@ public class LunaBorders extends BaseBorders {
         private static final Color defaultColorHi = new Color(220, 230, 245);
         private static final Color defaultColorMed = new Color(212, 224, 243);
         private static final Color defaultColorLo = new Color(200, 215, 240);
-
         private static final Insets insets = new Insets(3, 6, 3, 6);
 
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
@@ -237,7 +228,6 @@ public class LunaBorders extends BaseBorders {
             borderInsets.bottom = insets.bottom;
             return borderInsets;
         }
-
     } // class ComboBoxBorder
 
     public static class TextFieldBorder extends AbstractBorder implements UIResource {
@@ -263,16 +253,13 @@ public class LunaBorders extends BaseBorders {
             borderInsets.bottom = insets.bottom;
             return borderInsets;
         }
-
     } // class TextFieldBorder
 
     public static class ScrollPaneBorder extends AbstractBorder implements UIResource {
 
         private static final Color fieldBorderColor = new Color(127, 157, 185);
-
         private static final Insets insets = new Insets(2, 2, 2, 2);
         private static final Insets tableInsets = new Insets(1, 1, 1, 1);
-
         private boolean tableBorder = false;
 
         public ScrollPaneBorder(boolean tableBorder) {
@@ -302,7 +289,6 @@ public class LunaBorders extends BaseBorders {
             borderInsets.bottom = ins.bottom;
             return borderInsets;
         }
-
     } // class ScrollPaneBorder
 
     public static class InternalFrameBorder extends BaseInternalFrameBorder {
@@ -367,8 +353,6 @@ public class LunaBorders extends BaseBorders {
             borderInsets.bottom = insets.bottom;
             return borderInsets;
         }
-
     } // class TableHeaderBorder
-
 } // class LunaBorders
 

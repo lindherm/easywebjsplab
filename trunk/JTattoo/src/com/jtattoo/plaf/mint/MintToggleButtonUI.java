@@ -52,7 +52,6 @@ public class MintToggleButtonUI extends BaseToggleButtonUI {
             g2D.setClip(area);
             JTattooUtilities.fillHorGradient(g, colors, 0, 0, width, height);
             g2D.setClip(savedClip);
-            //JTattooUtilities.drawRound3DBorder(g, Color.red, Color.blue, 0, 0, width, height, height / 2);
             JTattooUtilities.drawRound3DBorder(g, ColorHelper.darker(frameColor, 5), ColorHelper.brighter(frameColor, 80), 0, 0, width, height);
             JTattooUtilities.drawRound3DBorder(g, ColorHelper.darker(frameColor, 20), ColorHelper.brighter(frameColor, 10), 1, 1, width - 2, height - 2);
             return;
