@@ -31,7 +31,7 @@ public class BernsteinTabbedPaneUI extends BaseTabbedPaneUI {
         tabAreaInsets.bottom = 6;
     }
 
-    protected boolean isContentOpaque() {
+    protected boolean isOpaque() {
         return false;
     }
 

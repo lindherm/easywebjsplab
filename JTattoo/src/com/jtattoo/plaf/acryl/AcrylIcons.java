@@ -16,6 +16,19 @@ import javax.swing.plaf.ColorUIResource;
  */
 public class AcrylIcons extends BaseIcons {
 
+    private static Icon iconIcon = null;
+    private static Icon maxIcon = null;
+    private static Icon minIcon = null;
+    private static Icon closeIcon = null;
+    private static Icon treeOpenIcon = null;
+    private static Icon treeClosedIcon = null;
+    private static Icon radioButtonIcon = null;
+    private static Icon checkBoxIcon = null;
+    private static Icon thumbHorIcon = null;
+    private static Icon thumbHorIconRollover = null;
+    private static Icon thumbVerIcon = null;
+    private static Icon thumbVerIconRollover = null;
+
     public static Icon getIconIcon() {
         if (iconIcon == null) {
             iconIcon = new TitleButtonIcon(TitleButtonIcon.ICON_ICON_TYP);

@@ -29,28 +29,24 @@ public class LazyImageIcon implements Icon {
     }
 
     public int getIconHeight() {
-        Icon ico = getIcon();
-        if (ico != null) {
-            return ico.getIconHeight();
-        } else {
+        if (getIcon() != null)
+            return getIcon().getIconHeight();
+        else
             return 16;
-        }
     }
 
     public int getIconWidth() {
-        Icon ico = getIcon();
-        if (ico != null) {
-            return ico.getIconWidth();
-        } else {
+        if (getIcon() != null)
+            return getIcon().getIconWidth();
+        else
             return 16;
-        }
     }
 
     public void paintIcon(Component c, Graphics g, int x, int y) {
-        Icon ico = getIcon();
-        if (ico != null) {
-            ico.paintIcon(c, g, x, y);
-        } else {
+        if (getIcon() != null) {
+            getIcon().paintIcon(c, g, x, y);
+        }
+        else {
             g.setColor(Color.red);
             g.fillRect(x, y, 16, 16);
             g.setColor(Color.white);
@@ -58,5 +54,6 @@ public class LazyImageIcon implements Icon {
             g.drawLine(x + 15, y, x, y + 15);
         }
     }
+
 
 }

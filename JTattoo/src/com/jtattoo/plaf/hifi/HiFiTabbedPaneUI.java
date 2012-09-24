@@ -8,7 +8,6 @@ import com.jtattoo.plaf.*;
 import java.awt.*;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
 import javax.swing.text.View;
 
 /**
@@ -20,27 +19,17 @@ public class HiFiTabbedPaneUI extends BaseTabbedPaneUI {
         return new HiFiTabbedPaneUI();
     }
 
-    protected boolean isContentOpaque() {
-        return false;
-    }
-    
     protected Color[] getContentBorderColors(int tabPlacement) {
         Color SEP_COLORS[] = {
             ColorHelper.darker(AbstractLookAndFeel.getBackgroundColor(), 40),
             ColorHelper.brighter(AbstractLookAndFeel.getBackgroundColor(), 20),
             ColorHelper.darker(AbstractLookAndFeel.getBackgroundColor(), 20),
             ColorHelper.darker(AbstractLookAndFeel.getBackgroundColor(), 40),
-            ColorHelper.darker(AbstractLookAndFeel.getBackgroundColor(), 60),
         };
         return SEP_COLORS;
     }
 
     protected void paintText(Graphics g, int tabPlacement, Font font, FontMetrics metrics, int tabIndex, String title, Rectangle textRect, boolean isSelected) {
-        Color backColor = tabPane.getBackgroundAt(tabIndex);
-        if (!(backColor instanceof UIResource)) {
-            super.paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
-            return;
-        }
         g.setFont(font);
         View v = getTextViewForTab(tabIndex);
         if (v != null) {
@@ -85,4 +74,15 @@ public class HiFiTabbedPaneUI extends BaseTabbedPaneUI {
         }
     }
 
+    protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+        HiFiUtils.fillComponent(g, tabPane);
+        super.paintContentBorder(g, tabPlacement, selectedIndex, x, y, w, h);
+    }
+
+    protected void paintRoundedTopTabBorder(int tabIndex, Graphics g, int x1, int y1, int x2, int y2, boolean isSelected) {
+        super.paintRoundedTopTabBorder(tabIndex, g, x1, y1, x2, y2, isSelected);
+        g.setColor(tabAreaBackground);
+        g.drawLine(x1 + 1, y1 + 1, x1 + 1, y1 + 1);
+        g.drawLine(x2 - 1, y1 + 1, x2 - 1, y1 + 1);
+    }
 }

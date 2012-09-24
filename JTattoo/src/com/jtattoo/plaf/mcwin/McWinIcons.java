@@ -38,6 +38,15 @@ public class McWinIcons extends BaseIcons {
     private static Icon CLOSER_10x10 = new LazyImageIcon("mcwin/icons/closer_10x10.png");
     private static Icon CLOSER_12x12 = new LazyImageIcon("mcwin/icons/closer_12x12.png");
 
+    private static Icon iconIcon = null;
+    private static Icon maxIcon = null;
+    private static Icon minIcon = null;
+    private static Icon closeIcon = null;
+    private static Icon radioButtonIcon;
+    private static Icon checkBoxIcon;
+    private static Icon thumbIcon = null;
+    private static Icon thumbIconRollover = null;
+
     public static Icon getIconIcon() {
         if (iconIcon == null) {
             iconIcon = new IconIcon();
@@ -81,31 +90,31 @@ public class McWinIcons extends BaseIcons {
     }
 
     public static Icon getThumbHorIcon() {
-        if (thumbHorIcon == null) {
-            thumbHorIcon = new ThumbIcon(false);
+        if (thumbIcon == null) {
+            thumbIcon = new ThumbIcon(false);
         }
-        return thumbHorIcon;
+        return thumbIcon;
     }
 
     public static Icon getThumbVerIcon() {
-        if (thumbVerIcon == null) {
-            thumbVerIcon = new ThumbIcon(false);
+        if (thumbIcon == null) {
+            thumbIcon = new ThumbIcon(false);
         }
-        return thumbVerIcon;
+        return thumbIcon;
     }
 
     public static Icon getThumbHorIconRollover() {
-        if (thumbHorIconRollover == null) {
-            thumbHorIconRollover = new ThumbIcon(true);
+        if (thumbIconRollover == null) {
+            thumbIconRollover = new ThumbIcon(true);
         }
-        return thumbHorIconRollover;
+        return thumbIconRollover;
     }
 
     public static Icon getThumbVerIconRollover() {
-        if (thumbVerIconRollover == null) {
-            thumbVerIconRollover = new ThumbIcon(true);
+        if (thumbIconRollover == null) {
+            thumbIconRollover = new ThumbIcon(true);
         }
-        return thumbVerIconRollover;
+        return thumbIconRollover;
     }
 
 //--------------------------------------------------------------------------------------------------------
@@ -312,15 +321,15 @@ public class McWinIcons extends BaseIcons {
             if (!JTattooUtilities.isLeftToRight(c)) {
                 x += 3;
             }
-            AbstractButton button = (AbstractButton) c;
-            ButtonModel model = button.getModel();
+            JCheckBox cb = (JCheckBox) c;
+            ButtonModel model = cb.getModel();
             Color colors[] = null;
-            if (button.isEnabled()) {
-                if (button.isRolloverEnabled() && model.isRollover()) {
+            if (cb.isEnabled()) {
+                if (cb.isRolloverEnabled() && model.isRollover()) {
                     colors = AbstractLookAndFeel.getTheme().getRolloverColors();
-                } else if (!JTattooUtilities.isFrameActive(button)) {
+                } else if (!JTattooUtilities.isFrameActive(cb)) {
                     colors = AbstractLookAndFeel.getTheme().getInActiveColors();
-                } else if (button.isSelected()) {
+                } else if (cb.isSelected()) {
                     colors = AbstractLookAndFeel.getTheme().getDefaultColors();
                 } else {
                     colors = AbstractLookAndFeel.getTheme().getButtonColors();
@@ -334,7 +343,7 @@ public class McWinIcons extends BaseIcons {
                 g.setColor(ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 20));
                 g.drawRect(x, y, WIDTH, HEIGHT);
             }
-            if (button.isEnabled() && !model.isRollover() && !model.isPressed() && !model.isSelected()) {
+            if (cb.isEnabled() && !model.isRollover() && !model.isPressed() && !model.isSelected()) {
                 g.setColor(Color.white);
                 g.drawLine(x + 1, y + 1, x + 1, y + HEIGHT - 2);
                 g.drawLine(x + WIDTH - 1, y + 1, x + WIDTH - 1, y + HEIGHT - 2);
@@ -375,15 +384,15 @@ public class McWinIcons extends BaseIcons {
                 x += 3;
             }
             Graphics2D g2D = (Graphics2D) g;
-            AbstractButton button = (AbstractButton) c;
-            ButtonModel model = button.getModel();
+            JRadioButton cb = (JRadioButton) c;
+            ButtonModel model = cb.getModel();
             Color colors[] = null;
-            if (button.isEnabled()) {
-                if (button.isRolloverEnabled() && model.isRollover() && !model.isArmed()) {
+            if (cb.isEnabled()) {
+                if (cb.isRolloverEnabled() && model.isRollover() && !model.isArmed()) {
                     colors = AbstractLookAndFeel.getTheme().getRolloverColors();
-                } else if (!JTattooUtilities.isFrameActive(button)) {
+                } else if (!JTattooUtilities.isFrameActive(cb)) {
                     colors = AbstractLookAndFeel.getTheme().getInActiveColors();
-                } else if (button.isSelected()) {
+                } else if (cb.isSelected()) {
                     colors = AbstractLookAndFeel.getTheme().getDefaultColors();
                 } else {
                     colors = AbstractLookAndFeel.getTheme().getButtonColors();
@@ -399,7 +408,7 @@ public class McWinIcons extends BaseIcons {
             JTattooUtilities.fillHorGradient(g, colors, x, y, WIDTH, HEIGHT);
             g2D.setClip(savedClip);
 
-            if (button.isEnabled()) {
+            if (cb.isEnabled()) {
                 g2D.setColor(AbstractLookAndFeel.getFrameColor());
             } else {
                 g2D.setColor(ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 20));

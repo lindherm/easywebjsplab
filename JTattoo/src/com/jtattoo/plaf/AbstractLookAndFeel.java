@@ -84,7 +84,6 @@ abstract public class AbstractLookAndFeel extends MetalLookAndFeel {
         super.initComponentDefaults(table);
 
         BaseBorders.initDefaults();
-        BaseIcons.initDefaults();
 
         Object textFieldBorder = getBorderFactory().getTextFieldBorder();
         Object comboBoxBorder = getBorderFactory().getComboBoxBorder();

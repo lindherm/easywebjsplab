@@ -25,7 +25,7 @@ public class AluminiumTabbedPaneUI extends BaseTabbedPaneUI {
     public void installDefaults() {
         super.installDefaults();
         tabAreaInsets = new Insets(2, 6, 2, 6);
-        contentBorderInsets = new Insets(0, 0, 0, 0);
+        contentBorderInsets = new Insets(1, 1, 0, 0);
     }
 
     protected Font getTabFont(boolean isSelected) {
@@ -37,18 +37,18 @@ public class AluminiumTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected Color[] getTabColors(int tabIndex, boolean isSelected) {
-        Color backColor = tabPane.getBackgroundAt(tabIndex);
-        if ((backColor instanceof UIResource) && isSelected) {
+        if (isSelected) {
             if (tabPane.getTabPlacement() == BOTTOM) {
                 return BOTTOM_SELECTED_TAB_COLORS;
             } else {
                 return TOP_SELECTED_TAB_COLORS;
             }
-        } 
-        return super.getTabColors(tabIndex, isSelected);
+        } else {
+            return super.getTabColors(tabIndex, isSelected);
+        }
     }
 
-    protected boolean isContentOpaque() {
+    protected boolean isOpaque() {
         return false;
     }
 
@@ -57,11 +57,6 @@ public class AluminiumTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-        Color backColor = tabPane.getBackgroundAt(tabIndex);
-        if (!(backColor instanceof UIResource)) {
-            super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
-            return;
-        }
         if (JTattooUtilities.isMac()) {
             if (isSelected) {
                 Color colorArr[] = getTabColors(tabIndex, isSelected);
@@ -92,7 +87,7 @@ public class AluminiumTabbedPaneUI extends BaseTabbedPaneUI {
                     else if (tabPlacement == LEFT)
                         AluminiumUtils.fillComponent(g, tabPane, x + 1, y + 1, w + 1, h - 1);
                     else if (tabPlacement == BOTTOM)
-                        AluminiumUtils.fillComponent(g, tabPane, x + 1, y - 2, w - 1, h + 1);
+                        AluminiumUtils.fillComponent(g, tabPane, x + 1, y - 1, w - 1, h + 1);
                     else
                         AluminiumUtils.fillComponent(g, tabPane, x - 1, y + 1, w + 1, h - 1);
                 }
