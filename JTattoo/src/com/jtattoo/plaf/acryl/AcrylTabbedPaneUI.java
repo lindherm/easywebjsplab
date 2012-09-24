@@ -7,8 +7,7 @@ package com.jtattoo.plaf.acryl;
 import com.jtattoo.plaf.*;
 import java.awt.*;
 import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
+import javax.swing.plaf.*;
 import javax.swing.text.View;
 
 /**
@@ -40,7 +39,8 @@ public class AcrylTabbedPaneUI extends BaseTabbedPaneUI {
                 }
             } else {
                 if (isSelected) {
-                    colorArr = AbstractLookAndFeel.getTheme().getDefaultColors();
+                    //colorArr = AbstractLookAndFeel.getTheme().getDefaultColors();
+                    colorArr = ColorHelper.createColorArr(ColorHelper.brighter(backColor, 60), backColor, 20);
                 } else if (tabIndex == rolloverIndex && isEnabled) {
                     colorArr = AbstractLookAndFeel.getTheme().getRolloverColors();
                 } else {
@@ -58,7 +58,8 @@ public class AcrylTabbedPaneUI extends BaseTabbedPaneUI {
             AcrylLookAndFeel.getControlColorLight(),
             ColorHelper.brighter(AcrylLookAndFeel.getControlColorDark(), 20),
             AcrylLookAndFeel.getControlColorDark(),
-            ColorHelper.darker(AcrylLookAndFeel.getControlColorDark(), 20)};
+            ColorHelper.darker(AcrylLookAndFeel.getControlColorDark(), 20)
+        };
         return SEP_COLORS;
     }
 
@@ -67,25 +68,20 @@ public class AcrylTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected Color getSelectedBorderColor(int tabIndex) {
-        return AbstractLookAndFeel.getFrameColor();
-    }
-
-    protected Color getLoBorderColor(int tabIndex) {
-        return ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 50);
-    }
-
-    protected Color getHiBorderColor(int tabIndex) {
-        if (tabIndex == tabPane.getSelectedIndex()) {
-            return ColorHelper.darker(super.getHiBorderColor(tabIndex), 50);
-        } else {
-            return super.getHiBorderColor(tabIndex);
-        }
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource) {
+            return AbstractLookAndFeel.getFrameColor();
+        } 
+        return super.getSelectedBorderColor(tabIndex);
     }
 
     protected Color getGapColor(int tabIndex) {
-        if (tabIndex == tabPane.getSelectedIndex()) {
-            Color colors[] = AbstractLookAndFeel.getTheme().getDefaultColors();
-            return colors[colors.length - 1];
+        if ((tabIndex >= 0) && (tabIndex < tabPane.getTabCount())) {
+            Color backColor = tabPane.getBackgroundAt(tabIndex);
+            if ((backColor instanceof ColorUIResource) && (tabIndex == tabPane.getSelectedIndex())) {
+                Color colors[] = AbstractLookAndFeel.getTheme().getDefaultColors();
+                return colors[colors.length - 1];
+            }
         }
         return super.getGapColor(tabIndex);
     }
@@ -99,6 +95,11 @@ public class AcrylTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected void paintText(Graphics g, int tabPlacement, Font font, FontMetrics metrics, int tabIndex, String title, Rectangle textRect, boolean isSelected) {
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (!(backColor instanceof UIResource)) {
+            super.paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
+            return;
+        }
         g.setFont(font);
         View v = getTextViewForTab(tabIndex);
         if (v != null) {

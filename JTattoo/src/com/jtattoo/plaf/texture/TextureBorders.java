@@ -6,9 +6,6 @@ package com.jtattoo.plaf.texture;
 
 import com.jtattoo.plaf.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
@@ -18,13 +15,6 @@ import javax.swing.plaf.UIResource;
  * @author Michael Hagen
  */
 public class TextureBorders extends BaseBorders {
-
-    private static Border buttonBorder = null;
-    private static Border rolloverToolButtonBorder = null;
-    private static Border menuItemBorder = null;
-    private static Border popupMenuBorder = null;
-    private static Border internalFrameBorder = null;
-    private static Border toolBarBorder = null;
 
 //------------------------------------------------------------------------------------
 // Lazy access methods
@@ -56,7 +46,7 @@ public class TextureBorders extends BaseBorders {
 
     public static Border getPopupMenuBorder() {
         if (popupMenuBorder == null) {
-            popupMenuBorder = new PopupMenuTextureBorder();
+            popupMenuBorder = new PopupMenuBorder();
         }
         return popupMenuBorder;
     }
@@ -198,95 +188,80 @@ public class TextureBorders extends BaseBorders {
         }
     } // class RolloverToolButtonBorder
 
-    public static class PopupMenuTextureBorder extends PopupMenuBorder {
+    public static class PopupMenuBorder extends BasePopupMenuBorder {
 
-        private static final int shadowSize = 4;
         private static final float shadowAlpha[] = {0.6f, 0.4f, 0.2f, 0.1f};
 
-        public PopupMenuTextureBorder() {
-            logoInsets = new Insets(1, 18, shadowSize + 1, shadowSize + 1);
-            insets = new Insets(1, 1, shadowSize + 1, shadowSize + 1);
+        public PopupMenuBorder() {
+            shadowSize = 4;
+            leftLogoInsets = new Insets(1, 18, 1, 1);
+            rightLogoInsets = new Insets(1, 1, 1, 18);
+            insets = new Insets(1, 1, 1, 1);
         }
 
         public boolean hasLogo(Component c) {
-            boolean menuBarPopup = false;
-            if (c instanceof JPopupMenu) {
-                JPopupMenu pm = (JPopupMenu) c;
-                if (pm.getInvoker() != null) {
-                    menuBarPopup = (pm.getInvoker().getParent() instanceof JMenuBar);
-                }
-            }
-            return (menuBarPopup && (AbstractLookAndFeel.getTheme().getLogoString() != null) && (AbstractLookAndFeel.getTheme().getLogoString().length() > 0));
-        }
-
-        public void paintLogo(Component c, Graphics2D g2D, int w, int h) {
-            BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D imageGraphics = image.createGraphics();
-
-            if (AbstractLookAndFeel.getTheme().isDarkTexture()) {
-                TextureUtils.fillComponent(imageGraphics, c, TextureUtils.ROLLOVER_TEXTURE_TYPE);
-            } else {
-                imageGraphics.setColor(AbstractLookAndFeel.getTheme().getMenuSelectionBackgroundColor());
-                imageGraphics.fillRect(0, 0, w, h);
-            }
-
-            imageGraphics.setFont(logoFont);
-            FontMetrics fm = imageGraphics.getFontMetrics();
-            AffineTransform at = new AffineTransform();
-            at.setToRotation(Math.PI + (Math.PI / 2.0));
-            imageGraphics.setTransform(at);
-            int xs = -h + 6;
-            int ys = fm.getAscent();
-
-            String logo = JTattooUtilities.getClippedText(AbstractLookAndFeel.getTheme().getLogoString(), fm, h - 16);
-
-            Color fc = ColorHelper.brighter(AbstractLookAndFeel.getTheme().getMenuSelectionForegroundColor(), 20);
-            if (ColorHelper.getGrayValue(fc) < 164) {
-                imageGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
-                imageGraphics.setColor(new Color(220, 220, 220));
-                imageGraphics.drawString(logo, xs, ys + 1);
-            }
-            imageGraphics.setColor(fc);
-            imageGraphics.drawString(logo, xs, ys);
-
-            Rectangle2D r2D = new Rectangle2D.Double(0, 0, w, h);
-            TexturePaint texturePaint = new TexturePaint(image, r2D);
-            g2D.setPaint(texturePaint);
-            g2D.fillRect(0, 0, w, h);
+            return (isMenuBarPopup(c) && (AbstractLookAndFeel.getTheme().getLogoString() != null) && (AbstractLookAndFeel.getTheme().getLogoString().length() > 0));
         }
 
         public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
             Graphics2D g2D = (Graphics2D) g;
-            Composite savedComposite = g2D.getComposite();
+            Color logoColor = AbstractLookAndFeel.getTheme().getMenuSelectionBackgroundColor();
             Color frameColor = AbstractLookAndFeel.getFrameColor();
             g.setColor(frameColor);
-            // Top
-            boolean menuBarPopup = false;
-            if (c instanceof JPopupMenu) {
-                JPopupMenu pm = (JPopupMenu) c;
-                if (pm.getInvoker() != null) {
-                    menuBarPopup = (pm.getInvoker().getParent() instanceof JMenuBar);
-                }
-            }
-            if (menuBarPopup) {
-                if (hasLogo(c)) {
-                    g.setFont(c.getFont().deriveFont(Font.BOLD));
-                    paintLogo(c, g2D, getBorderInsets(c).left, h - shadowSize);
+            if (JTattooUtilities.isLeftToRight(c)) {
+                int dx = getBorderInsets(c).left;
+                // Top
+                if (isMenuBarPopup(c)) {
+                    if (hasLogo(c)) {
+                        if (AbstractLookAndFeel.getTheme().isDarkTexture()) {
+                            TextureUtils.fillComponent(g, c, x, y, dx, h - 1 - shadowSize, TextureUtils.ROLLOVER_TEXTURE_TYPE);
+                        } else {
+                            g.setColor(logoColor);
+                            g.fillRect(x, y, dx, h - 1 - shadowSize);
+                        }
+                    }
+                    paintLogo(c, g, x, y, w, h);
                     g.setColor(frameColor);
+                    g.drawLine(x + dx, y, x + w - shadowSize - 1, y);
+                } else {
+                    g.drawLine(x, y, x + w - shadowSize - 1, y);
                 }
-                g.drawLine(x + getBorderInsets(c).left, y, x + w - shadowSize - 1, y);
-            } else {
-                g.drawLine(x, y, x + w - shadowSize - 1, y);
-            }
 
-            // Left
-            g.drawLine(x, y, x, y + h - shadowSize - 1);
-            // Bottom
-            g.drawLine(x, y + h - shadowSize - 1, x + w - shadowSize - 1, y + h - shadowSize - 1);
-            // Right
-            g.drawLine(x + w - shadowSize - 1, y, x + w - shadowSize - 1, y + h - shadowSize - 1);
+                // Left
+                g.drawLine(x, y, x, y + h - shadowSize - 1);
+                // Bottom
+                g.drawLine(x, y + h - shadowSize - 1, x + w - shadowSize - 1, y + h - shadowSize - 1);
+                // Right
+                g.drawLine(x + w - shadowSize - 1, y, x + w - shadowSize - 1, y + h - shadowSize - 1);
+            } else {
+                int dx = getBorderInsets(c).right - shadowSize;
+                // Top
+                if (isMenuBarPopup(c)) {
+                    if (hasLogo(c)) {
+                        if (AbstractLookAndFeel.getTheme().isDarkTexture()) {
+                            TextureUtils.fillComponent(g, c, x + w - dx - shadowSize, y, dx - 1, h - 1 - shadowSize, TextureUtils.ROLLOVER_TEXTURE_TYPE);
+                        } else {
+                            g.setColor(logoColor);
+                            g.fillRect(x + w - dx - shadowSize, y, dx - 1, h - 1 - shadowSize);
+                        }
+                    }
+                    paintLogo(c, g, x, y, w, h);
+                    g.setColor(frameColor);
+                    g.drawLine(x, y, x + w - dx - shadowSize - 1, y);
+                } else {
+                    g.drawLine(x, y, x + w - shadowSize - 1, y);
+                }
+
+                // Left
+                g.drawLine(x, y, x, y + h - shadowSize - 1);
+                // Bottom
+                g.drawLine(x, y + h - shadowSize - 1, x + w - shadowSize - 1, y + h - shadowSize - 1);
+                // Right
+                g.drawLine(x + w - shadowSize - 1, y, x + w - shadowSize - 1, y + h - shadowSize - 1);
+            }
 
             // paint the shadow
+            Composite savedComposite = g2D.getComposite();
             g2D.setColor(Color.black);
             for (int i = 0; i < shadowSize; i++) {
                 AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, shadowAlpha[i]);
@@ -452,7 +427,7 @@ public class TextureBorders extends BaseBorders {
             g2D.setComposite(savedComposite);
         }
     } // class InternalFrameBorder
-    
+
     public static class ToolBarBorder extends AbstractBorder implements UIResource, SwingConstants {
 
         private static final LazyImageIcon HOR_RUBBER_ICON = new LazyImageIcon("texture/icons/HorRubber.gif");
@@ -503,8 +478,6 @@ public class TextureBorders extends BaseBorders {
             borderInsets.bottom = insets.bottom;
             return borderInsets;
         }
-
     } // class ToolBarBorder
-    
 } // class TextureBorders
 

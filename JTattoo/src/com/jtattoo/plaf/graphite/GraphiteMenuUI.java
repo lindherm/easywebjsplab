@@ -25,7 +25,7 @@ public class GraphiteMenuUI extends BaseMenuUI {
             if (model.isRollover() || model.isArmed() || (c instanceof JMenu && model.isSelected())) {
                 JTattooUtilities.fillHorGradient(g, AbstractLookAndFeel.getTheme().getMenuSelectionColors(), x, y, w, h);
             }
-            if (model.isRollover()) {
+            if (model.isRollover() && !model.isSelected()) {
                 Color colArr[] = AbstractLookAndFeel.getTheme().getMenuSelectionColors();
                 Color frameColor = ColorHelper.darker(colArr[colArr.length - 1], 5);
                 g.setColor(frameColor);

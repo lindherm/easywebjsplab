@@ -15,11 +15,6 @@ import javax.swing.plaf.UIResource;
  */
 public class FastBorders extends BaseBorders {
 
-    private static Border buttonBorder;
-    private static Border toolButtonBorder;
-    private static Border rolloverToolButtonBorder;
-    private static Border internalFrameBorder;
-
 //------------------------------------------------------------------------------------
 // Lazy access methods
 //------------------------------------------------------------------------------------

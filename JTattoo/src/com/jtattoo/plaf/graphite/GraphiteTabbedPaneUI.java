@@ -9,6 +9,7 @@ import com.jtattoo.plaf.*;
 import java.awt.*;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.text.View;
 
@@ -29,19 +30,33 @@ public class GraphiteTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected Color getSelectedBorderColor(int tabIndex) {
-        return AbstractLookAndFeel.getControlColorDark();
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource) {
+            return AbstractLookAndFeel.getControlColorDark();
+        } 
+        return super.getSelectedBorderColor(tabIndex);
     }
 
     protected Color getLoBorderColor(int tabIndex) {
-        return ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 30);
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if ((backColor instanceof UIResource) || (tabIndex == rolloverIndex)) {
+            if (tabIndex == tabPane.getSelectedIndex()) {
+                return getSelectedBorderColor(tabIndex);
+            }
+            return ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 30);
+        }
+        return super.getLoBorderColor(tabIndex);
     }
 
-    protected Color getHiBorderColor(int tabIndex) {
-        if (tabIndex == tabPane.getSelectedIndex()) {
-            return ColorHelper.brighter(AbstractLookAndFeel.getControlColorLight(), 10);
-        } else {
-            return ColorHelper.brighter(AbstractLookAndFeel.getButtonColorLight(), 10);
-        }
+    protected Color getLoGapBorderColor(int tabIndex) {
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource) {
+            if (tabIndex == tabPane.getSelectedIndex()) {
+                return getSelectedBorderColor(tabIndex);
+            }
+            return ColorHelper.brighter(AbstractLookAndFeel.getFrameColor(), 30);
+        } 
+        return ColorHelper.darker(backColor, 20);
     }
 
     protected Color[] getContentBorderColors(int tabPlacement) {
@@ -64,6 +79,11 @@ public class GraphiteTabbedPaneUI extends BaseTabbedPaneUI {
     }
 
     protected void paintText(Graphics g, int tabPlacement, Font font, FontMetrics metrics, int tabIndex, String title, Rectangle textRect, boolean isSelected) {
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (!(backColor instanceof UIResource)) {
+            super.paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
+            return;
+        }
         g.setFont(font);
         View v = getTextViewForTab(tabIndex);
         if (v != null) {

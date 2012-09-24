@@ -16,11 +16,6 @@ import javax.swing.Icon;
  */
 public class GraphiteIcons extends BaseIcons {
 
-    private static Icon iconIcon = null;
-    private static Icon maxIcon = null;
-    private static Icon minIcon = null;
-    private static Icon closeIcon = null;
-
     public static Icon getIconIcon() {
         if (iconIcon == null) {
             Color iconColor = AbstractLookAndFeel.getTheme().getWindowIconColor();

@@ -14,17 +14,6 @@ import javax.swing.Icon;
  */
 public class TextureIcons extends BaseIcons {
 
-    private static Icon iconIcon = null;
-    private static Icon maxIcon = null;
-    private static Icon minIcon = null;
-    private static Icon closeIcon = null;
-    private static Icon splitterHorBumpIcon = null;
-    private static Icon splitterVerBumpIcon = null;
-    private static Icon thumbHorIcon = null;
-    private static Icon thumbVerIcon = null;
-    private static Icon thumbHorIconRollover = null;
-    private static Icon thumbVerIconRollover = null;
-
     public static void setUp() {
         iconIcon = null;
         maxIcon = null;

@@ -17,10 +17,6 @@ import javax.swing.plaf.UIResource;
  */
 public class AeroBorders extends BaseBorders {
 
-    private static Border buttonBorder;
-    private static Border rolloverToolButtonBorder;
-    private static Border internalFrameBorder;
-    
     //------------------------------------------------------------------------------------
     // Lazy access methods
     //------------------------------------------------------------------------------------

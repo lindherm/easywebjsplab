@@ -64,7 +64,7 @@ public class BaseMenuUI extends BasicMenuUI {
                 }
                 g.setColor(backColor);
                 g.fillRect(x, y, w, h);
-                if (paintRolloverBorder && model.isRollover()) {
+                if (paintRolloverBorder && model.isRollover() && !model.isSelected()) {
                     backColor = ColorHelper.darker(backColor, 20);
                     g.setColor(backColor);
                     g.drawRect(x, y, w - 1, h - 1);

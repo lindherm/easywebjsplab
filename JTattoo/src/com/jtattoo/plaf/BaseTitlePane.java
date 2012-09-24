@@ -614,8 +614,8 @@ public class BaseTitlePane extends JComponent {
 
             int cpx = 0;
             int cpy = 0;
-            int cpw = getWidth();
-            int cph = getHeight();
+            int cpw = w;
+            int cph = h;
 
             if (menuBar != null) {
                 int mw = menuBar.getPreferredSize().width;
@@ -687,6 +687,11 @@ public class BaseTitlePane extends JComponent {
             int x = 0;
             int y = Math.max(0, ((h - buttonHeight) / 2) - 1);
 
+            int cpx = 0;
+            int cpy = 0;
+            int cpw = w;
+            int cph = h;
+
             if (closeButton != null) {
                 closeButton.setBounds(x, y, buttonWidth, buttonHeight);
                 x += buttonWidth + spacing;
@@ -704,11 +709,6 @@ public class BaseTitlePane extends JComponent {
 
             buttonsWidth = x;
 
-            int cpx = 0;
-            int cpy = 0;
-            int cpw = w;
-            int cph = h;
-
             if (menuBar != null) {
                 int mw = menuBar.getPreferredSize().width;
                 int mh = menuBar.getPreferredSize().height;
@@ -717,8 +717,8 @@ public class BaseTitlePane extends JComponent {
             }
 
             if (customTitlePanel != null) {
-                cpx += buttonsWidth;
-                cpw -= buttonsWidth;
+                cpx += buttonsWidth + 5;
+                cpw -= buttonsWidth + 5;
                 Graphics g = getGraphics();
                 if (g != null) {
                     FontMetrics fm = g.getFontMetrics();

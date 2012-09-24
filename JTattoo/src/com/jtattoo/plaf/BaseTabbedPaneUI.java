@@ -483,10 +483,22 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         SwingUtilities.replaceUIInputMap(tabPane, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, mnemonicInputMap);
     }
 
-    protected boolean isOpaque() {
-        return true;
+    protected boolean isContentOpaque() {
+        boolean opaque = true;
+        if (UIManager.get("TabbedPane.contentOpaque") != null) {
+            opaque = UIManager.getBoolean("TabbedPane.contentOpaque") || tabPane.isOpaque();
+        }
+        return opaque;
     }
 
+    protected boolean isTabOpaque() {
+        boolean opaque = true;
+        if (UIManager.get("TabbedPane.tabsOpaque") != null) {
+            opaque = UIManager.getBoolean("TabbedPane.tabsOpaque");
+        }
+        return opaque;
+    }
+    
     protected boolean hasInnerBorder() {
         return false;
     }
@@ -511,7 +523,8 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                 }
             } else {
                 if (isSelected) {
-                    colorArr = AbstractLookAndFeel.getTheme().getSelectedColors();
+                    //colorArr = AbstractLookAndFeel.getTheme().getSelectedColors();
+                    colorArr = ColorHelper.createColorArr(ColorHelper.brighter(backColor, 60), backColor, 20);
                 } else if (tabIndex == rolloverIndex && isEnabled) {
                     colorArr = AbstractLookAndFeel.getTheme().getRolloverColors();
                 } else {
@@ -523,22 +536,47 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
     protected Color getSelectedBorderColor(int tabIndex) {
-        return getLoBorderColor(tabIndex);
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource) {
+            return AbstractLookAndFeel.getControlDarkShadow();
+        } else {
+            return ColorHelper.darker(backColor, 20);
+        }
     }
 
     protected Color getLoBorderColor(int tabIndex) {
-        return AbstractLookAndFeel.getControlDarkShadow();
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource || ((tabIndex == rolloverIndex) && (tabIndex != tabPane.getSelectedIndex()))) {
+            return AbstractLookAndFeel.getControlDarkShadow();
+        } else {
+            return ColorHelper.darker(backColor, 20);
+        }
+    }
+    
+    protected Color getLoGapBorderColor(int tabIndex) {
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource) {
+            return AbstractLookAndFeel.getControlDarkShadow();
+        } else {
+            return ColorHelper.darker(backColor, 20);
+        }
     }
 
     protected Color getHiBorderColor(int tabIndex) {
-        if (tabPane.getBackgroundAt(tabIndex) instanceof ColorUIResource) {
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource || ((tabIndex == rolloverIndex) && (tabIndex != tabPane.getSelectedIndex()))) {
             return AbstractLookAndFeel.getControlHighlight();
         } else {
-            if (tabIndex == tabPane.getSelectedIndex() || tabIndex == rolloverIndex) {
-                return AbstractLookAndFeel.getControlHighlight();
-            } else {
-                return ColorHelper.brighter(tabPane.getBackgroundAt(tabIndex), 20);
-            }
+            return ColorHelper.brighter(backColor, 20);
+        }
+    }
+    
+    protected Color getHiGapBorderColor(int tabIndex) {
+        Color backColor = tabPane.getBackgroundAt(tabIndex);
+        if (backColor instanceof UIResource) {
+            return AbstractLookAndFeel.getControlHighlight();
+        } else {
+            return ColorHelper.brighter(backColor, 20);
         }
     }
 
@@ -566,9 +604,9 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                 }
             } else {
                 if (tabIndex == tabPane.getSelectedIndex()) {
-                    tabColors = AbstractLookAndFeel.getTheme().getSelectedColors();
+                    return backColor;
                 } else {
-                    tabColors = ColorHelper.createColorArr(ColorHelper.brighter(backColor, 40), ColorHelper.darker(backColor, 10), 20);
+                    return ColorHelper.darker(backColor, 10);
                 }
             }
             return tabColors[tabColors.length - 1];
@@ -930,7 +968,12 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
             if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
                 if (isSelected) {
-                    g.setColor(AbstractLookAndFeel.getSelectionForegroundColor());
+                    Color backColor = tabPane.getBackgroundAt(tabIndex);
+                    if (backColor instanceof UIResource) {
+                        g.setColor(AbstractLookAndFeel.getSelectionForegroundColor());
+                    } else {
+                        g.setColor(tabPane.getForegroundAt(tabIndex));
+                    }
                 } else {
                     g.setColor(tabPane.getForegroundAt(tabIndex));
                 }
@@ -1060,6 +1103,8 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
     protected void paintLeftTabBorder(int tabIndex, Graphics g, int x1, int y1, int x2, int y2, boolean isSelected) {
+        Graphics2D g2D = (Graphics2D)g;
+        
         int tc = tabPane.getTabCount();
         int currentRun = getRunForTab(tc, tabIndex);
         int lastIndex = lastTabInRun(tc, currentRun);
@@ -1084,9 +1129,13 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         }
 
         g.setColor(hiColor);
-        g.drawLine(x1 + GAP, y1 + 1, x2 - 1, y1 + 1);
+        Composite savedComposite = g2D.getComposite();
+        AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
+        g2D.setComposite(alpha);
+        g.drawLine(x1 + GAP + 1, y1 + 1, x2 - 1, y1 + 1);
         g.drawLine(x1 + GAP, y1 + 1, x1 + 1, y1 + GAP);
         g.drawLine(x1 + 1, y1 + GAP + 1, x1 + 1, y2 - 1);
+        g2D.setComposite(savedComposite);
 
         // paint gap
         int gapTabIndex = getTabAtLocation(x1 + 2, y1 - 2);
@@ -1097,17 +1146,21 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         }
 
         if ((tabIndex != firstIndex) || (currentRun != (runCount - 1))) {
+            loColor = getLoGapBorderColor(gapTabIndex);
             g.setColor(loColor);
-            g.drawLine(x1, y1, x1, y1 + GAP);
+            g.drawLine(x1, y1, x1, y1 + GAP - 1);
             if (tabIndex != firstIndex) {
-                g.setColor(getHiBorderColor(tabIndex - 1));
+                g2D.setComposite(alpha);
+                hiColor = getHiGapBorderColor(gapTabIndex);
+                g.setColor(hiColor);
                 g.drawLine(x1 + 1, y1, x1 + 1, y1 + GAP - 2);
+                g2D.setComposite(savedComposite);
             }
         }
     }
 
     protected void paintRoundedBottomTabBorder(int tabIndex, Graphics g, int x1, int y1, int x2, int y2, boolean isSelected) {
-        int currentRun = getRunForTab(tabPane.getTabCount(), tabIndex);
+        //int currentRun = getRunForTab(tabPane.getTabCount(), tabIndex);
         Graphics2D g2D = (Graphics2D) g;
         Object savedRederingHint = g2D.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
         g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -1171,6 +1224,8 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
     }
 
     protected void paintRightTabBorder(int tabIndex, Graphics g, int x1, int y1, int x2, int y2, boolean isSelected) {
+        Graphics2D g2D = (Graphics2D)g;
+        
         int tc = tabPane.getTabCount();
         int currentRun = getRunForTab(tc, tabIndex);
         int lastIndex = lastTabInRun(tc, currentRun);
@@ -1192,9 +1247,15 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         } else {
             g.drawLine(x2, y2, x1, y2);
         }
+        
+        Composite savedComposite = g2D.getComposite();
+        AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f);
+        g2D.setComposite(alpha);
         g.setColor(hiColor);
-        g.drawLine(x1 + 1, y1 + 1, x2 - GAP, y1 + 1);
+        g.drawLine(x1, y1 + 1, x2 - GAP - 1, y1 + 1);
         g.drawLine(x2 - GAP, y1 + 1, x2 - 1, y1 + GAP);
+        g2D.setComposite(savedComposite);
+        
         // paint gap
         int gapTabIndex = getTabAtLocation(x1 + 2, y1 - 2);
         Color gapColor = getGapColor(gapTabIndex);
@@ -1202,77 +1263,81 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
         for (int i = 0; i < GAP; i++) {
             g.drawLine(x2 - GAP + i + 1, y1 + i, x2, y1 + i);
         }
+        
         if ((tabIndex != firstIndex) || (currentRun != (runCount - 1))) {
+            loColor = getLoGapBorderColor(gapTabIndex);
             g.setColor(loColor);
-            g.drawLine(x2, y1, x2, y1 + GAP);
+            g.drawLine(x2, y1, x2, y1 + GAP - 1);
         }
     }
 
     protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-        Graphics2D g2D = (Graphics2D) g;
-        Shape savedClip = g.getClip();
-        Area orgClipArea = new Area(savedClip);
-        Color colorArr[] = getTabColors(tabIndex, isSelected);
-        int d = 2 * GAP;
-        switch (tabPlacement) {
-            case TOP:
-            default:
-                if (isSelected) {
-                    Area clipArea = new Area(new RoundRectangle2D.Double(x, y, w , h + 4, d, d));
-                    Area rectArea = new Area(new Rectangle2D.Double(x, y, w, h + 1));
-                    clipArea.intersect(rectArea);
-                    clipArea.intersect(orgClipArea);
-                    g2D.setClip(clipArea);
-                    JTattooUtilities.fillHorGradient(g, colorArr, x, y, w, h + 4);
-                    g2D.setClip(savedClip);
-                } else {
-                    Area clipArea = new Area(new RoundRectangle2D.Double(x, y, w, h + 4, d, d));
-                    Area rectArea = new Area(new Rectangle2D.Double(x, y, w, h));
-                    clipArea.intersect(rectArea);
-                    clipArea.intersect(orgClipArea);
-                    g2D.setClip(clipArea);
-                    JTattooUtilities.fillHorGradient(g, colorArr, x, y, w, h + 4);
-                    g2D.setClip(savedClip);
-                }
-                break;
-            case LEFT:
-                if (isSelected) {
-                    JTattooUtilities.fillHorGradient(g, colorArr, x + 1, y + 1, w + 1, h - 1);
-                } else {
-                    JTattooUtilities.fillHorGradient(g, colorArr, x + 1, y + 1, w - 1, h - 1);
-                }
-                break;
-            case BOTTOM:
-                if (isSelected) {
-                    Area clipArea = new Area(new RoundRectangle2D.Double(x, y - 4, w, h + 4, d, d));
-                    Area rectArea = new Area(new Rectangle2D.Double(x, y - 1, w, h + 1));
-                    clipArea.intersect(rectArea);
-                    clipArea.intersect(orgClipArea);
-                    g2D.setClip(clipArea);
-                    JTattooUtilities.fillHorGradient(g, colorArr, x, y - 4, w, h + 4);
-                    g2D.setClip(savedClip);
-                } else {
-                    Area clipArea = new Area(new RoundRectangle2D.Double(x, y - 4, w, h + 4, d, d));
-                    Area rectArea = new Area(new Rectangle2D.Double(x, y, w, h));
-                    clipArea.intersect(rectArea);
-                    clipArea.intersect(orgClipArea);
-                    g2D.setClip(clipArea);
-                    JTattooUtilities.fillHorGradient(g, colorArr, x, y - 4, w, h + 4);
-                    g2D.setClip(savedClip);
-                }
-                break;
-            case RIGHT:
-                if (isSelected) {
-                    JTattooUtilities.fillHorGradient(g, colorArr, x - 1, y + 1, w + 1, h - 1);
-                } else {
-                    JTattooUtilities.fillHorGradient(g, colorArr, x, y + 1, w + 1, h - 1);
-                }
-                break;
+        if (isTabOpaque() || isSelected) {
+            Graphics2D g2D = (Graphics2D) g;
+            Shape savedClip = g.getClip();
+            Area orgClipArea = new Area(savedClip);
+            Color colorArr[] = getTabColors(tabIndex, isSelected);
+            int d = 2 * GAP;
+            switch (tabPlacement) {
+                case TOP:
+                default:
+                    if (isSelected) {
+                        Area clipArea = new Area(new RoundRectangle2D.Double(x, y, w , h + 4, d, d));
+                        Area rectArea = new Area(new Rectangle2D.Double(x, y, w, h + 2));
+                        clipArea.intersect(rectArea);
+                        clipArea.intersect(orgClipArea);
+                        g2D.setClip(clipArea);
+                        JTattooUtilities.fillHorGradient(g, colorArr, x, y, w, h + 4);
+                        g2D.setClip(savedClip);
+                    } else {
+                        Area clipArea = new Area(new RoundRectangle2D.Double(x, y, w, h + 4, d, d));
+                        Area rectArea = new Area(new Rectangle2D.Double(x, y, w, h));
+                        clipArea.intersect(rectArea);
+                        clipArea.intersect(orgClipArea);
+                        g2D.setClip(clipArea);
+                        JTattooUtilities.fillHorGradient(g, colorArr, x, y, w, h + 4);
+                        g2D.setClip(savedClip);
+                    }
+                    break;
+                case LEFT:
+                    if (isSelected) {
+                        JTattooUtilities.fillHorGradient(g, colorArr, x + 1, y + 1, w + 1, h - 1);
+                    } else {
+                        JTattooUtilities.fillHorGradient(g, colorArr, x + 1, y + 1, w - 1, h - 1);
+                    }
+                    break;
+                case BOTTOM:
+                    if (isSelected) {
+                        Area clipArea = new Area(new RoundRectangle2D.Double(x, y - 4, w, h + 4, d, d));
+                        Area rectArea = new Area(new Rectangle2D.Double(x, y - 2, w, h + 1));
+                        clipArea.intersect(rectArea);
+                        clipArea.intersect(orgClipArea);
+                        g2D.setClip(clipArea);
+                        JTattooUtilities.fillHorGradient(g, colorArr, x, y - 4, w, h + 4);
+                        g2D.setClip(savedClip);
+                    } else {
+                        Area clipArea = new Area(new RoundRectangle2D.Double(x, y - 4, w, h + 4, d, d));
+                        Area rectArea = new Area(new Rectangle2D.Double(x, y, w, h));
+                        clipArea.intersect(rectArea);
+                        clipArea.intersect(orgClipArea);
+                        g2D.setClip(clipArea);
+                        JTattooUtilities.fillHorGradient(g, colorArr, x, y - 4, w, h + 4);
+                        g2D.setClip(savedClip);
+                    }
+                    break;
+                case RIGHT:
+                    if (isSelected) {
+                        JTattooUtilities.fillHorGradient(g, colorArr, x - 2, y + 1, w + 2, h - 1);
+                    } else {
+                        JTattooUtilities.fillHorGradient(g, colorArr, x, y + 1, w + 1, h - 1);
+                    }
+                    break;
+            }
         }
     }
 
     protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
-        if (isOpaque()) {
+        if (isContentOpaque()) {
             g.setColor(tabAreaBackground);
             g.fillRect(0, 0, tabPane.getWidth(), tabPane.getHeight());
         }
@@ -1310,7 +1375,7 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                     int tabAreaWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
                     int x1 = x + tabAreaWidth + bi.left - 2;
                     int y1 = y + bi.top - 1;
-                    int x2 = w - bi.right;
+                    //int x2 = w - bi.right;
                     int y2 = y1 + h - bi.top - bi.bottom + 1;
                     int ws = w - tabAreaWidth - bi.left - bi.right + 2;
                     int hs = h - bi.top - bi.bottom + 1;
@@ -1322,7 +1387,6 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                     } else {
                         g.drawRect(x1, y1, ws, hs);
                         g.setColor(hiColor);
-                        g.drawLine(x1 + 1, y1 + 1, x2 - 1, y1 + 1);
                         g.drawLine(x1 + 1, y1 + 1, x1 + 1, y2 - 1);
                     }
                     break;
@@ -1364,8 +1428,7 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
                     } else {
                         g.drawRect(x1, y1, ws, hs);
                         g.setColor(hiColor);
-                        g.drawLine(x1 + 1, y1 + 1, x2 - 1, y1 + 1);
-                        g.drawLine(x1 + 1, y1 + 1, x1 + 1, y2 - 1);
+                        g.drawLine(x2 - 1, y1 + 1, x2 - 1, y2 - 1);
                     }
                     break;
                 }
@@ -3389,6 +3452,7 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
         public ScrollableTabViewport() {
             setScrollMode(SIMPLE_SCROLL_MODE);
+            setOpaque(false);
         }
     }
 
@@ -3396,6 +3460,7 @@ public class BaseTabbedPaneUI extends TabbedPaneUI implements SwingConstants {
 
         public ScrollableTabPanel() {
             setLayout(null);
+            setOpaque(false);
         }
 
         public void paintComponent(Graphics g) {

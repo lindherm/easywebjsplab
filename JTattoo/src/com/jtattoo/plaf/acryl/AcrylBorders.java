@@ -17,15 +17,6 @@ import javax.swing.plaf.UIResource;
  */
 public class AcrylBorders extends BaseBorders {
 
-    private static Border textFieldBorder = null;
-    private static Border spinnerBorder = null;
-    private static Border comboBoxBorder = null;
-    private static Border scrollPaneBorder = null;
-    private static Border tableScrollPaneBorder = null;
-    private static Border buttonBorder = null;
-    private static Border rolloverToolButtonBorder = null;
-    private static Border internalFrameBorder = null;
-
     //------------------------------------------------------------------------------------
     // Lazy access methods
     //------------------------------------------------------------------------------------

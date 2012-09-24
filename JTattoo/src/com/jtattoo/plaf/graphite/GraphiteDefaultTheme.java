@@ -5,8 +5,7 @@
 
 package com.jtattoo.plaf.graphite;
 
-import com.jtattoo.plaf.AbstractTheme;
-import com.jtattoo.plaf.ColorHelper;
+import com.jtattoo.plaf.*;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.plaf.ColorUIResource;

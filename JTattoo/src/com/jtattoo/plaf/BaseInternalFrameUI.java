@@ -61,6 +61,10 @@ public class BaseInternalFrameUI extends BasicInternalFrameUI {
         return titlePane;
     }
 
+    public BaseInternalFrameTitlePane getTitlePane() {
+        return (BaseInternalFrameTitlePane)titlePane;
+    }
+
     public void setPalette(boolean isPalette) {
         if (isPalette) {
             frame.setBorder(UIManager.getBorder("InternalFrame.paletteBorder"));

@@ -16,13 +16,6 @@ import javax.swing.plaf.UIResource;
  */
 public class HiFiBorders extends BaseBorders {
 
-    private static Border buttonBorder = null;
-    private static Border rolloverToolButtonBorder = null;
-    private static Border internalFrameBorder = null;
-    private static Border scrollPaneBorder = null;
-    private static Border tableScrollPaneBorder = null;
-    private static Border toolBarBorder = null;
-
     //------------------------------------------------------------------------------------
     // Lazy access methods
     //------------------------------------------------------------------------------------
@@ -311,8 +304,6 @@ public class HiFiBorders extends BaseBorders {
             borderInsets.bottom = insets.bottom;
             return borderInsets;
         }
-
     } // class ToolBarBorder
-
 } // class HiFiBorders
 
