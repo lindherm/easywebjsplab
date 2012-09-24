@@ -48,8 +48,16 @@
 		<jar destfile="${dist-dir}/JTattoo.jar">
 			<fileset dir="${class-dir}" />
 			<fileset dir="${source-dir}">
+				<include name="com/jtattoo/plaf/texture/**/*.gif" />
 				<include name="com/jtattoo/plaf/texture/**/*.jpg" />
-				<include name="com/jtattoo/plaf/acryl/**/*.jpg" />
+				<include name="com/jtattoo/plaf/acryl/**/*.gif" />
+				<include name="com/jtattoo/plaf/aluminium/**/*.gif" />
+				<include name="com/jtattoo/plaf/bernstein/**/*.gif" />
+				<include name="com/jtattoo/plaf/hifi/**/*.gif" />
+				<include name="com/jtattoo/plaf/luna/**/*.gif" />
+				<include name="com/jtattoo/plaf/mcwin/**/*.gif" />
+				<include name="com/jtattoo/plaf/mint/**/*.gif" />
+				<include name="com/jtattoo/plaf/icons/**/*.gif" />
 			</fileset>
 			<manifest>
 				<attribute name="Specification-Title" value="JTattoo" />
