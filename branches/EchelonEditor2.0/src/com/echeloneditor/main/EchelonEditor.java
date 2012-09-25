@@ -157,22 +157,6 @@ public class EchelonEditor {
 		JToolBar toolBar = new JToolBar();
 		panel_1.add(toolBar, BorderLayout.NORTH);
 
-		JButton button = new JButton();
-		button.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Add24.gif")));
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FileHander fileHander = new FileHander(tabbedPane, statusObject);
-				fileHander.newFile();
-			}
-		});
-		toolBar.add(button);
-
-		JButton button_1 = new JButton();
-		button_1.setActionCommand("open");
-		button_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		button_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Open24.gif")));
-		toolBar.add(button_1);
-
 		JButton btnNewButton = new JButton();
 		btnNewButton.setActionCommand("save");
 		btnNewButton.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Save24.gif")));
@@ -181,43 +165,12 @@ public class EchelonEditor {
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
 
-		JToggleButton btnH = new JToggleButton("");
-		btnH.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FileHander fileHander = new FileHander(tabbedPane, statusObject);
-				if (((JToggleButton) e.getSource()).isSelected()) {
-					fileHander.openHexFile();
-					tabbedPane.remove(tabbedPane.getSelectedIndex() - 1);
-				} else {
-					fileHander.openFileWithFilePath(SwingUtils.getCloseableTabComponent(tabbedPane).getFilePath());
-					tabbedPane.remove(tabbedPane.getSelectedIndex() - 1);
-				}
-
-			}
-		});
-		btnH.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/hex.PNG")));
-		toolBar.add(btnH);
-
 		JMenuBar menuBar = new JMenuBar();
 		frmEcheloneditor.setJMenuBar(menuBar);
 
 		JMenu menu = new JMenu("文件");
 		menu.setMnemonic('F');
 		menuBar.add(menu);
-
-		JMenuItem menuItem = new JMenuItem("新建");
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
-		menuItem.setActionCommand("new");
-		menuItem.addActionListener(new SimpleJmenuItemListener(tabbedPane, statusObject));
-		menuItem.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Add24.gif")));
-		menu.add(menuItem);
-
-		JMenuItem menuItem_1 = new JMenuItem("打开");
-		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
-		menuItem_1.setActionCommand("open");
-		menuItem_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		menuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Open24.gif")));
-		menu.add(menuItem_1);
 
 		JSeparator separator_1 = new JSeparator();
 		menu.add(separator_1);
@@ -405,23 +358,6 @@ public class EchelonEditor {
 			}
 		});
 		menu_4.add(mntmNewMenuItem);
-
-		JMenu menu_1 = new JMenu("工具");
-		menuBar.add(menu_1);
-
-		JMenu menu_5 = new JMenu("皮肤");
-		menuBar.add(menu_5);
-
-		JMenuItem menuItem_7 = new JMenuItem("皮肤");
-		menuItem_7.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent actionevent) {
-				// TODO Auto-generated method stub
-				new FaceDialog(frmEcheloneditor);
-			}
-		});
-		menu_5.add(menuItem_7);
 
 		JMenu menu_2 = new JMenu("帮助");
 		menuBar.add(menu_2);
