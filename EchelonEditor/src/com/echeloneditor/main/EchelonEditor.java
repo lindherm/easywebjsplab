@@ -21,6 +21,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -148,7 +149,7 @@ public class EchelonEditor {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.addMouseListener(new TabbedPaneChangeListener(tabbedPane, statusObject));
-		frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		//frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel_1 = new JPanel();
 		frmEcheloneditor.getContentPane().add(panel_1, BorderLayout.NORTH);
@@ -233,6 +234,12 @@ public class EchelonEditor {
 		menuItem_3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0));
 		menuItem_3.setActionCommand("saveas");
 		menuItem_3.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(0.2);
+		splitPane.setRightComponent(tabbedPane);
+		splitPane.setLeftComponent(new JLabel("tree"));
+		frmEcheloneditor.getContentPane().add(splitPane, BorderLayout.CENTER);
 		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/SaveAs24.gif")));
 		menu.add(menuItem_3);
 
