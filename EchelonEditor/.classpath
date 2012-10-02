@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/antlr-2.7.4.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/chardet-1.0.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/cpdetector_1.0.10.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/jlfgr-1_0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/dom4j-2.0.0-ALPHA-2.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/autocomplete.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/js-14.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/language_support.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/rsyntaxtextarea.jar"/>
+	<classpathentry kind="lib" path="/HexEditor/dist/HexEditor.jar"/>
+	<classpathentry kind="lib" path="/JTattoo/JTattoo.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
