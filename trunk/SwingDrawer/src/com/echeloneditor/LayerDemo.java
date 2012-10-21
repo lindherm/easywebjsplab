@@ -1,4 +1,4 @@
-package com.EchelonEditor;
+package com.echeloneditor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,6 +25,12 @@ import twaver.network.TNetwork;
 
 public class LayerDemo extends DemoPane {
 
+	private TDataBox box;
+	private TNetwork network;
+	private TDataBox tableBox;
+	public DataBoxQuickFinder layerFinder;
+	private boolean boxSelectionChange;
+	private boolean tableBoxSelectionChange;
 	/**
 	 * 
 	 */
@@ -45,19 +51,19 @@ public class LayerDemo extends DemoPane {
 	}
 
 	private void initBox() {
-		Object gradientObj[] = EnumTypeManager.getInstance().getEnumTypes("twaver.gradient");
+		/*Object gradientObj[] = EnumTypeManager.getInstance().getEnumTypes("twaver.gradient");
 		Object shapeObj[] = EnumTypeManager.getInstance().getEnumTypes("twaver.shape");
 		int size = shapeObj.length;
 		for (int i = 0; i < size; i++) {
 			EnumType shape = (EnumType) shapeObj[i];
 			EnumType gradient = (EnumType) gradientObj[(int) ((double) gradientObj.length * Math.random())];
-			String layerId = shape.getValue().toString();
-			Layer layer = new Layer(layerId);
+			String layerId = shape.getValue().toString();*/
+			Layer layer = new Layer("image");
 			box.getLayerModel().addLayer(layer);
-			layer.setAlpha((float) ((double) (int) (Math.random() * 4D) / 10D + 0.69999999999999996D));
-			layer.setName(shape.getDisplayName());
+			layer.setAlpha(0.5f);
+			layer.setName("luqingqing");
 			layer.setMovable(true);
-			Color gradientColor = Color.WHITE;
+			/*Color gradientColor = Color.WHITE;
 			Color fillColor = TWaverUtil.getRandomColor();
 			boolean isGradient = true;
 			String stroke = "solid.thinnest";
@@ -74,32 +80,34 @@ public class LayerDemo extends DemoPane {
 			else if (i % size == 16)
 				stroke = "dash.dot.dot.thinnest";
 			else if (i % size == 19)
-				stroke = "dash.dot.thinnest";
-			Color outlineColor = TWaverUtil.getRandomColor();
-			layer.putClientProperty("custom.draw.shape.factory", shape.getValue());
+				stroke = "dash.dot.thinnest";*/
+			//Color outlineColor = TWaverUtil.getRandomColor();
+			/*layer.putClientProperty("custom.draw.shape.factory", shape.getValue());
 			layer.putClientProperty("custom.draw.gradient.factory", gradient.getValue());
 			layer.putClientProperty("custom.draw.fill.color", fillColor);
 			layer.putClientProperty("custom.draw.gradient", new Boolean(isGradient));
 			layer.putClientProperty("custom.draw.gradient.color", gradientColor);
-			layer.putClientProperty("custom.draw.outline.stroke", stroke);
-			layer.putClientProperty("custom.draw.outline.color", outlineColor);
-			for (int j = 0; j < 4; j++) {
+			layer.putClientProperty("custom.draw.outline.stroke", stroke);*/
+			//layer.putClientProperty("custom.draw.outline.color", outlineColor);
+			//for (int j = 0; j < 4; j++) {
 				ResizableNode element = new ResizableNode();
-				element.setSize(80, 80);
-				element.setLayerID(layerId);
-				element.putCustomDraw(true);
-				element.putCustomDrawShapeFactory(((Integer) (Integer) shape.getValue()).intValue());
+				element.setImage("/com/echeloneditor/test.jpg");
+				//element.setIcon("test.jpg");
+				//element.setSize(80, 80);
+				element.setLayerID(layer.getID());
+				//element.putCustomDraw(true);
+				/*element.putCustomDrawShapeFactory(((Integer) (Integer) shape.getValue()).intValue());
 				element.putCustomDrawGradientFactory(((Integer) (Integer) gradient.getValue()).intValue());
 				element.putCustomDrawFillColor(fillColor);
 				element.putCustomDrawGradient(isGradient);
 				element.putCustomDrawGradientColor(gradientColor);
-				element.putCustomDrawOutlineColor(outlineColor);
-				element.setLocation(Math.random() * 800D, Math.random() * 500D);
-				element.putCustomDrawOutlineStroke(stroke);
+				element.putCustomDrawOutlineColor(outlineColor);*/
+				element.setLocation(50,50);
+				//element.putCustomDrawOutlineStroke(stroke);
 				box.addElement(element);
-			}
+			//}
 
-		}
+		//}
 
 	}
 
@@ -134,7 +142,7 @@ public class LayerDemo extends DemoPane {
 			public void selectionChanged(DataBoxSelectionEvent e) {
 				if (boxSelectionChange && tableBoxSelectionChange) {
 					boxSelectionChange = false;
-					
+
 					java.util.List list = box.getSelectionModel().getAllSelectedElement();
 					int size = list.size();
 					java.util.List selectList = new ArrayList();
@@ -268,12 +276,4 @@ public class LayerDemo extends DemoPane {
 		}
 
 	}
-
-	private TDataBox box;
-	private TNetwork network;
-	private TDataBox tableBox;
-	public DataBoxQuickFinder layerFinder;
-	private boolean boxSelectionChange;
-	private boolean tableBoxSelectionChange;
-
 }
