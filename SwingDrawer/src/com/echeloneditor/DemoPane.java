@@ -1,4 +1,4 @@
-package com.EchelonEditor;
+package com.echeloneditor;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
