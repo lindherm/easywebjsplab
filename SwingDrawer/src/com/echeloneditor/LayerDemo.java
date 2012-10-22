@@ -13,14 +13,14 @@ import twaver.DataBoxQuickFinder;
 import twaver.DataBoxSelectionEvent;
 import twaver.DataBoxSelectionListener;
 import twaver.Element;
-import twaver.EnumType;
-import twaver.EnumTypeManager;
 import twaver.Layer;
 import twaver.Node;
 import twaver.ResizableFilter;
 import twaver.ResizableNode;
 import twaver.TDataBox;
+import twaver.TWaverConst;
 import twaver.TWaverUtil;
+import twaver.network.NetworkToolBarFactory;
 import twaver.network.TNetwork;
 
 public class LayerDemo extends DemoPane {
@@ -39,6 +39,9 @@ public class LayerDemo extends DemoPane {
 	public LayerDemo() {
 		box = new TDataBox();
 		network = new TNetwork(box);
+		network.setToolbarByName(TWaverConst.EDITOR_TOOLBAR);
+		//or
+		network.setToolbar(NetworkToolBarFactory.getToolBar(TWaverConst.EDITOR_TOOLBAR, network));
 		tableBox = new TDataBox();
 		boxSelectionChange = true;
 		tableBoxSelectionChange = true;
@@ -105,9 +108,31 @@ public class LayerDemo extends DemoPane {
 				element.setLocation(50,50);
 				//element.putCustomDrawOutlineStroke(stroke);
 				box.addElement(element);
-			//}
-
-		//}
+				
+				
+				
+				Layer layer1 = new Layer("lay1");
+				box.getLayerModel().addLayer(layer1);
+				layer1.setAlpha(1f);
+				layer1.setName("luqingqing1");
+				layer1.setMovable(true);
+				
+				ResizableNode element1 = new ResizableNode();
+				//element1.setImage("/com/echeloneditor/test.jpg");
+				//element.setIcon("test.jpg");
+				element1.setSize(80, 80);
+				element1.setLayerID(layer1.getID());
+				element1.putCustomDraw(true);
+				element1.putCustomDrawShapeFactory(TWaverConst.SHAPE_DIAMOND);
+				element1.putCustomDrawGradientFactory(TWaverConst.GRADIENT_LINE_SE);
+				element1.putCustomDrawFillColor(Color.blue);
+				element1.putCustomDrawGradient(true);
+				element1.putCustomDrawGradientColor(Color.cyan);
+				element1.putCustomDrawOutlineColor(Color.BLACK);
+				element1.setLocation(290,50);
+				element1.putCustomDrawOutlineStroke(TWaverConst.STROKE_DASH_THICKEST);
+				box.addElement(element1);
+				
 
 	}
 
