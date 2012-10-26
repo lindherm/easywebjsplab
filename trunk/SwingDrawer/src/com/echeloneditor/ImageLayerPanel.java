@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-public class MainPanel extends JPanel implements MouseListener, MouseMotionListener {
+public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotionListener {
 	/**
 	 * 
 	 */
@@ -44,7 +44,7 @@ public class MainPanel extends JPanel implements MouseListener, MouseMotionListe
 
 	boolean isSelected = false;
 
-	public MainPanel(ImageIcon imageIcon) {
+	public ImageLayerPanel(ImageIcon imageIcon) {
 		this.imageIcon = imageIcon;
 		this.setBounds(100, 100, imageIcon.getIconWidth(),imageIcon.getIconHeight());
 		
