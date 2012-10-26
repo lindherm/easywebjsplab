@@ -1,12 +1,9 @@
 package com.echeloneditor;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.SwingUtilities;
-
-import twaver.TWaverUtil;
 
 public class SwingDrawer extends JFrame {  
 	
@@ -17,14 +14,16 @@ public class SwingDrawer extends JFrame {
 
 	public SwingDrawer(){
 		//this.setUndecorated(true);
-    	this.setTitle("TWaver Layout Demos");
-    	Container container=this.getContentPane();
-    	container.setLayout(new BorderLayout());
-    	container.add(new LayerDemo(), BorderLayout.CENTER);    	
+		this.setTitle("SwingDrawer");
+		ImageIcon imageIcon = new ImageIcon(System.getProperty("user.dir") + "/hao.png");
+		MainPanel mainPanel = new MainPanel(imageIcon);
+		// this.setUndecorated(true);
+		JLayeredPane jlp = this.getLayeredPane();
+
+		jlp.add(mainPanel, new Integer(1));
+
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	this.setSize(1024, 768);
-    	//this.setLocationRelativeTo(null);
-    	TWaverUtil.centerWindow(this);		
 	}
 	
 	public static void main(String[] args) {
