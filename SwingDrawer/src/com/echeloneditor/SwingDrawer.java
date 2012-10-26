@@ -16,7 +16,7 @@ public class SwingDrawer extends JFrame {
 		//this.setUndecorated(true);
 		this.setTitle("SwingDrawer");
 		ImageIcon imageIcon = new ImageIcon(System.getProperty("user.dir") + "/hao.png");
-		MainPanel mainPanel = new MainPanel(imageIcon);
+		ImageLayerPanel mainPanel = new ImageLayerPanel(imageIcon);
 		// this.setUndecorated(true);
 		JLayeredPane jlp = this.getLayeredPane();
 
