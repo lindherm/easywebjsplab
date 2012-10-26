@@ -23,7 +23,8 @@ public class SwingDrawer extends JFrame {
 		jlp.add(mainPanel, new Integer(1));
 
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	this.setSize(1024, 768);
+    	this.setSize(800, 600);
+    	this.setLocationRelativeTo(null);
 	}
 	
 	public static void main(String[] args) {
