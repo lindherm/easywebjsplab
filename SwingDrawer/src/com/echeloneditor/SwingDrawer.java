@@ -5,6 +5,7 @@ import java.awt.Component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -37,6 +38,9 @@ public class SwingDrawer extends JFrame implements MouseListener{
 		JButton button = new JButton("打开图片");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
+				JFileChooser jFileChooser=new JFileChooser(".");
+				//jFileChooser.showOpenDialog(JFileChooser.OPEN_DIALOG)
+				
 				ImageIcon imageIcon = new ImageIcon(System.getProperty("user.dir") + "/hao.png");
 				LayeredPanel layeredPanel = new LayeredPanel(imageIcon);
 				JLayeredPane jlp = sd.getLayeredPane();
