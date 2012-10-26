@@ -17,12 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class LayeredPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public Point point = new Point(0, 0); // 坐标点
+	public int type=0;
 
 	int x1, y1;
 
@@ -43,12 +44,33 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 	private JLabel west = null;
 
 	ImageIcon imageIcon = null;
+	
+	
 
 	boolean isSelected = false;
 
-	public ImageLayerPanel(ImageIcon imageIcon) {
-		this.imageIcon = imageIcon;
-		this.setBounds(0, 0, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+	public LayeredPanel(Object object) {
+		this.setOpaque(false);
+		if (object instanceof ImageIcon) {
+			type=0;
+			this.imageIcon = (ImageIcon)object;
+			int imageWidth=imageIcon.getIconWidth();
+			int imageHeight=imageIcon.getIconHeight();
+			
+			if (imageIcon.getIconWidth()>800) {
+				imageWidth=800;
+			}
+			if (imageIcon.getIconHeight()>600) {
+				imageHeight=600;
+			}
+			this.setBounds(0,50, imageWidth, imageHeight);
+		}else if (object instanceof JLabel) {
+			type=1;
+			JLabel label = (JLabel)object;
+			System.out.println(label.getText());
+			this.setBounds(0,50, 100, 20);
+		}
+		
 
 		x1 = this.getWidth();
 		y1 = this.getHeight();
@@ -296,7 +318,12 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+		if (type==0) {
+			g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+		}else if (type==1) {
+			g.drawString("你好中國人国人", 10, 10);
+		}
+		
 	}
 
 	@Override
