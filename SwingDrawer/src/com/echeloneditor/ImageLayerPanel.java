@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -15,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotionListener {
+public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	/**
 	 * 
 	 */
@@ -46,12 +48,11 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 
 	public ImageLayerPanel(ImageIcon imageIcon) {
 		this.imageIcon = imageIcon;
-		this.setBounds(100, 100, imageIcon.getIconWidth(),imageIcon.getIconHeight());
-		
-		System.out.println(imageIcon.getIconWidth());
+		this.setBounds(0, 0, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+
 		x1 = this.getWidth();
 		y1 = this.getHeight();
-		
+
 		northWest = new JLabel();
 		northWest.setText("");
 		northWest.setBorder(new LineBorder(Color.BLACK, 1));
@@ -121,6 +122,7 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 		this.setMinimumSize(new Dimension(20, 20));
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+		this.addKeyListener(this);
 
 		this.add(northWest, null);
 		this.add(north, null);
@@ -132,27 +134,40 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 		this.add(west, null);
 	}
 
-
 	public void mouseClicked(MouseEvent e) {
-		point = SwingUtilities.convertPoint(this, e.getPoint(), this.getParent()); // 得到当前坐标点
-		isSelected = true;
-		//this.setBorder(new LineBorder(Color.BLACK, 4));
-		northWest.setVisible(true);
-		north.setVisible(true);
-		northEast.setVisible(true);
-		east.setVisible(true);
-		southEast.setVisible(true);
-		south.setVisible(true);
-		southWest.setVisible(true);
-		west.setVisible(true);
-		this.repaint();
+		if (isSelected) {
+			if (e.getComponent() != this) {
+				northWest.setVisible(false);
+				north.setVisible(false);
+				northEast.setVisible(false);
+				east.setVisible(false);
+				southEast.setVisible(false);
+				south.setVisible(false);
+				southWest.setVisible(false);
+				west.setVisible(false);
+				this.repaint();
+			}
+		} else {
+			isSelected = true;
+			// this.setBorder(new LineBorder(Color.BLACK, 4));
+			northWest.setVisible(true);
+			north.setVisible(true);
+			northEast.setVisible(true);
+			east.setVisible(true);
+			southEast.setVisible(true);
+			south.setVisible(true);
+			southWest.setVisible(true);
+			west.setVisible(true);
+			this.repaint();
+			this.requestFocus();
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		point = SwingUtilities.convertPoint(this, e.getPoint(), this.getParent()); // 得到当前坐标点
+		this.requestFocus();
 	}
-
 
 	public void mouseReleased(MouseEvent e) {
 		if (isSelected) {
@@ -162,7 +177,6 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 		}
 
 	}
-
 
 	public void mouseEntered(MouseEvent e) {
 		if (isSelected) {
@@ -182,16 +196,16 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 				setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
 			} else if (e.getComponent() == west) {
 				setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
-			} 
+			}
 		}
 	}
 
 	public void mouseExited(MouseEvent e) {
+
 	}
 
-
 	public void mouseDragged(MouseEvent e) {
-		
+
 		if (isSelected) {
 			int type = getCursor().getType();
 			int x, y, w, h;
@@ -283,5 +297,48 @@ public class ImageLayerPanel extends JPanel implements MouseListener, MouseMotio
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent keyevent) {
+		if (keyevent.getComponent() == this) {
+			int keyCode = keyevent.getKeyCode();
+			Point newPoint = new Point();
+			switch (keyCode) {
+			case KeyEvent.VK_LEFT:
+				newPoint = new Point((int) point.getX() - 1, (int) point.getY());
+				break;
+			case KeyEvent.VK_RIGHT:
+				newPoint = new Point((int) point.getX() + 1, (int) point.getY());
+				break;
+			case KeyEvent.VK_UP:
+				newPoint = new Point((int) point.getX(), (int) point.getY() - 1);
+				break;
+			case KeyEvent.VK_DOWN:
+				newPoint = new Point((int) point.getX(), (int) point.getY() + 1);
+				break;
+
+			default:
+				newPoint = point;
+				break;
+			}
+			this.setLocation(this.getX() + (newPoint.x - point.x), this.getY() + (newPoint.y - point.y)); // 设置标签图片的新位置
+			point = newPoint; // 更改坐标点
+		}
+		System.out.println("1:" + keyevent.getKeyChar());
+		System.out.println("2:" + keyevent.getKeyCode());
+		System.out.println("3:" + keyevent.getKeyLocation());
+	}
+
+	@Override
+	public void keyReleased(KeyEvent keyevent) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent keyevent) {
+		// TODO Auto-generated method stub
+
 	}
 }
