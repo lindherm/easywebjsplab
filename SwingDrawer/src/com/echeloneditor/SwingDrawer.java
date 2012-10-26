@@ -2,6 +2,11 @@ package com.echeloneditor;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,10 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SwingDrawer extends JFrame implements MouseListener{
 	static SwingDrawer sd = new SwingDrawer();
@@ -38,13 +41,19 @@ public class SwingDrawer extends JFrame implements MouseListener{
 		JButton button = new JButton("打开图片");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
-				JFileChooser jFileChooser=new JFileChooser(".");
-				//jFileChooser.showOpenDialog(JFileChooser.OPEN_DIALOG)
-				
-				ImageIcon imageIcon = new ImageIcon(System.getProperty("user.dir") + "/hao.png");
-				LayeredPanel layeredPanel = new LayeredPanel(imageIcon);
-				JLayeredPane jlp = sd.getLayeredPane();
-				jlp.add(layeredPanel, index++);
+				JFileChooser fileChooser=new JFileChooser(".");
+				fileChooser.setMultiSelectionEnabled(false);
+				FileFilter filter = new FileNameExtensionFilter("image file", "jpg", "jpeg","png","bmp","gif");
+				fileChooser.addChoosableFileFilter(filter);
+
+				int ret=fileChooser.showOpenDialog(sd);
+				if (ret==JFileChooser.APPROVE_OPTION) {
+					File file=fileChooser.getSelectedFile();
+					ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
+					LayeredPanel layeredPanel = new LayeredPanel(imageIcon);
+					JLayeredPane jlp = sd.getLayeredPane();
+					jlp.add(layeredPanel, index++);
+				}
 			}
 		});
 		toolBar.add(button);
