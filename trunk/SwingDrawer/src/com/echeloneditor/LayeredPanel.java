@@ -1,6 +1,7 @@
 package com.echeloneditor;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -13,6 +14,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
@@ -23,7 +25,7 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	private static final long serialVersionUID = 1L;
 	public Point point = new Point(0, 0); // 坐标点
-	public int type=0;
+	public int type = 0;
 
 	int x1, y1;
 
@@ -44,33 +46,30 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 	private JLabel west = null;
 
 	ImageIcon imageIcon = null;
-	
-	
 
 	boolean isSelected = false;
 
 	public LayeredPanel(Object object) {
 		this.setOpaque(false);
 		if (object instanceof ImageIcon) {
-			type=0;
-			this.imageIcon = (ImageIcon)object;
-			int imageWidth=imageIcon.getIconWidth();
-			int imageHeight=imageIcon.getIconHeight();
-			
-			if (imageIcon.getIconWidth()>800) {
-				imageWidth=800;
+			type = 0;
+			this.imageIcon = (ImageIcon) object;
+			int imageWidth = imageIcon.getIconWidth();
+			int imageHeight = imageIcon.getIconHeight();
+
+			if (imageIcon.getIconWidth() > 800) {
+				imageWidth = 800;
 			}
-			if (imageIcon.getIconHeight()>600) {
-				imageHeight=600;
+			if (imageIcon.getIconHeight() > 600) {
+				imageHeight = 600;
 			}
-			this.setBounds(0,50, imageWidth, imageHeight);
-		}else if (object instanceof JLabel) {
-			type=1;
-			JLabel label = (JLabel)object;
+			this.setBounds(0, 50, imageWidth, imageHeight);
+		} else if (object instanceof JLabel) {
+			type = 1;
+			JLabel label = (JLabel) object;
 			System.out.println(label.getText());
-			this.setBounds(0,50, 100, 20);
+			this.setBounds(0, 50, 100, 20);
 		}
-		
 
 		x1 = this.getWidth();
 		y1 = this.getHeight();
@@ -157,32 +156,22 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (isSelected) {
-			if (e.getComponent() != this) {
-				northWest.setVisible(false);
-				north.setVisible(false);
-				northEast.setVisible(false);
-				east.setVisible(false);
-				southEast.setVisible(false);
-				south.setVisible(false);
-				southWest.setVisible(false);
-				west.setVisible(false);
-				this.repaint();
-			}
-		} else {
-			isSelected = true;
-			// this.setBorder(new LineBorder(Color.BLACK, 4));
-			northWest.setVisible(true);
-			north.setVisible(true);
-			northEast.setVisible(true);
-			east.setVisible(true);
-			southEast.setVisible(true);
-			south.setVisible(true);
-			southWest.setVisible(true);
-			west.setVisible(true);
-			this.repaint();
-			this.requestFocus();
+		Component component = this.getParent();
+		if (component instanceof JLayeredPane) {
+			JLayeredPane jlp = ((JLayeredPane) component);
+			jlp.moveToFront(this);
 		}
+		isSelected = true;
+		northWest.setVisible(true);
+		north.setVisible(true);
+		northEast.setVisible(true);
+		east.setVisible(true);
+		southEast.setVisible(true);
+		south.setVisible(true);
+		southWest.setVisible(true);
+		west.setVisible(true);
+		this.repaint();
+		this.requestFocus();
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -318,12 +307,12 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (type==0) {
+		if (type == 0) {
 			g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
-		}else if (type==1) {
+		} else if (type == 1) {
 			g.drawString("你好中國人国人", 10, 10);
 		}
-		
+
 	}
 
 	@Override
@@ -367,5 +356,18 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 	public void keyTyped(KeyEvent keyevent) {
 		// TODO Auto-generated method stub
 
+	}
+	public void hideLayer(){
+		if (isSelected) {
+			northWest.setVisible(false);
+			north.setVisible(false);
+			northEast.setVisible(false);
+			east.setVisible(false);
+			southEast.setVisible(false);
+			south.setVisible(false);
+			southWest.setVisible(false);
+			west.setVisible(false);
+			this.repaint();
+		}
 	}
 }
