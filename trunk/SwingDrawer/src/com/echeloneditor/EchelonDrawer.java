@@ -19,8 +19,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class SwingDrawer extends JFrame implements MouseListener{
-	static SwingDrawer sd = new SwingDrawer();
+public class EchelonDrawer extends JFrame implements MouseListener{
+	static EchelonDrawer sd = new EchelonDrawer();
 	static int index = 0;
 
 	/**
@@ -28,7 +28,7 @@ public class SwingDrawer extends JFrame implements MouseListener{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public SwingDrawer() {
+	public EchelonDrawer() {
 		// this.setUndecorated(true);
 		this.setTitle("SwingDrawer");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,8 +90,8 @@ public class SwingDrawer extends JFrame implements MouseListener{
 	public void mouseClicked(MouseEvent mouseevent) {
 		// TODO Auto-generated method stub
 		Component component=mouseevent.getComponent();
-		if (component instanceof SwingDrawer) {
-			SwingDrawer swingDrawer=(SwingDrawer)component;
+		if (component instanceof EchelonDrawer) {
+			EchelonDrawer swingDrawer=(EchelonDrawer)component;
 			Component[] component2=swingDrawer.getLayeredPane().getComponents();
 			for (Component component3 : component2) {
 				if (component3 instanceof LayeredPanel) {
