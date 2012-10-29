@@ -21,9 +21,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.echeloneditor.utils.ImageHelper;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
-public class EchelonDrawer extends JFrame implements MouseListener{
+public class EchelonDrawer extends JFrame implements MouseListener {
 	static EchelonDrawer sd = new EchelonDrawer();
 	static int index = 0;
 
@@ -33,6 +34,7 @@ public class EchelonDrawer extends JFrame implements MouseListener{
 	private static final long serialVersionUID = 1L;
 
 	public EchelonDrawer() {
+		this.setIconImage(ImageHelper.loadImage("logo.png").getImage());
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e) {
@@ -51,14 +53,14 @@ public class EchelonDrawer extends JFrame implements MouseListener{
 		JButton button = new JButton("打开图片");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
-				JFileChooser fileChooser=new JFileChooser(".");
+				JFileChooser fileChooser = new JFileChooser(".");
 				fileChooser.setMultiSelectionEnabled(false);
-				FileFilter filter = new FileNameExtensionFilter("image file", "jpg", "jpeg","png","bmp","gif");
+				FileFilter filter = new FileNameExtensionFilter("image file", "jpg", "jpeg", "png", "bmp", "gif");
 				fileChooser.addChoosableFileFilter(filter);
 
-				int ret=fileChooser.showOpenDialog(sd);
-				if (ret==JFileChooser.APPROVE_OPTION) {
-					File file=fileChooser.getSelectedFile();
+				int ret = fileChooser.showOpenDialog(sd);
+				if (ret == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
 					ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
 					LayeredPanel layeredPanel = new LayeredPanel(imageIcon);
 					JLayeredPane jlp = sd.getLayeredPane();
@@ -84,7 +86,7 @@ public class EchelonDrawer extends JFrame implements MouseListener{
 
 		JButton button_3 = new JButton("自定义图像");
 		toolBar.add(button_3);
-		
+
 		this.addMouseListener(this);
 	}
 
@@ -99,13 +101,13 @@ public class EchelonDrawer extends JFrame implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent mouseevent) {
 		// TODO Auto-generated method stub
-		Component component=mouseevent.getComponent();
+		Component component = mouseevent.getComponent();
 		if (component instanceof EchelonDrawer) {
-			EchelonDrawer swingDrawer=(EchelonDrawer)component;
-			Component[] component2=swingDrawer.getLayeredPane().getComponents();
+			EchelonDrawer swingDrawer = (EchelonDrawer) component;
+			Component[] component2 = swingDrawer.getLayeredPane().getComponents();
 			for (Component component3 : component2) {
 				if (component3 instanceof LayeredPanel) {
-					((LayeredPanel)component3).hideLayer();
+					((LayeredPanel) component3).hideLayer();
 				}
 			}
 		}
@@ -114,24 +116,24 @@ public class EchelonDrawer extends JFrame implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent mouseevent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent mouseevent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent mouseevent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent mouseevent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
