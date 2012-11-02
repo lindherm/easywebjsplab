@@ -16,13 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.echeloneditor.utils.ImageHelper;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class EchelonDrawer extends JFrame implements MouseListener {
 	static int index = 0;
@@ -34,12 +31,6 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 
 	public EchelonDrawer() {
 		this.setIconImage(ImageHelper.loadImage("logo.png").getImage());
-		try {
-			UIManager.setLookAndFeel(new WindowsLookAndFeel());
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		// this.setUndecorated(true);
 		this.setTitle("SwingDrawer");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
