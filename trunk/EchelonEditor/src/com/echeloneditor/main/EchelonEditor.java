@@ -21,6 +21,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -44,7 +45,6 @@ import com.echeloneditor.utils.Config;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
-import javax.swing.JSplitPane;
 
 public class EchelonEditor {
 
