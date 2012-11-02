@@ -25,7 +25,6 @@ import com.echeloneditor.utils.ImageHelper;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 public class EchelonDrawer extends JFrame implements MouseListener {
-	static EchelonDrawer sd = new EchelonDrawer();
 	static int index = 0;
 
 	/**
@@ -58,12 +57,15 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 				FileFilter filter = new FileNameExtensionFilter("image file", "jpg", "jpeg", "png", "bmp", "gif");
 				fileChooser.addChoosableFileFilter(filter);
 
-				int ret = fileChooser.showOpenDialog(sd);
+				Component component = (Component) actionevent.getSource();
+				Component component2 = SwingUtilities.getRoot(component);
+
+				int ret = fileChooser.showOpenDialog(component2);
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
 					ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
 					LayeredPanel layeredPanel = new LayeredPanel(imageIcon);
-					JLayeredPane jlp = sd.getLayeredPane();
+					JLayeredPane jlp = ((EchelonDrawer) component2).getLayeredPane();
 					jlp.add(layeredPanel, index++);
 				}
 			}
@@ -73,9 +75,11 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		JButton button_1 = new JButton("创建文字");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
+				Component component = (Component) actionevent.getSource();
+				Component component2 = SwingUtilities.getRoot(component);
 				JLabel cLabel = new JLabel("你好");
 				LayeredPanel layeredPanel = new LayeredPanel(cLabel);
-				JLayeredPane jlp = sd.getLayeredPane();
+				JLayeredPane jlp = ((EchelonDrawer) component2).getLayeredPane();
 				jlp.add(layeredPanel, index++);
 			}
 		});
@@ -93,7 +97,7 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				sd.setVisible(true);
+				new EchelonDrawer().setVisible(true);
 			}
 		});
 	}
