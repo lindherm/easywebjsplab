@@ -33,7 +33,7 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		this.setIconImage(ImageHelper.loadImage("logo.png").getImage());
 		// this.setUndecorated(true);
 		this.setTitle("SwingDrawer");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
 
