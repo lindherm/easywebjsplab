@@ -33,6 +33,7 @@ import javax.swing.text.JTextComponent;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import com.echeloneditor.EchelonDrawer;
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.actions.FindAndReplaceAction;
 import com.echeloneditor.listeners.SimpleDragFileListener;
@@ -410,6 +411,23 @@ public class EchelonEditor {
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
+		
+		JMenuItem menuItem_15 = new JMenuItem("绘图工具");
+		menuItem_15.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.invokeLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						EchelonDrawer ed=new EchelonDrawer();
+						ed.setVisible(true);
+					}
+				});
+			
+			}
+		});
+		menu_1.add(menuItem_15);
 
 		JMenu menu_5 = new JMenu("皮肤");
 		menuBar.add(menu_5);

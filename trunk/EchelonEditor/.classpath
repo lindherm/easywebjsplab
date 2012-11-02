@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/rsyntaxtextarea.jar"/>
 	<classpathentry kind="lib" path="/HexEditor/dist/HexEditor.jar"/>
 	<classpathentry kind="lib" path="/JTattoo/dist/JTattoo.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EchelonDrawer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
