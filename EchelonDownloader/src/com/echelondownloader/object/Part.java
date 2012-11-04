@@ -5,13 +5,13 @@ import java.util.UUID;
 
 public class Part implements Serializable {
 
-	//ÏÂÔØµÄ¿ªÊ¼Î»ÖÃ
+	//ä¸‹è½½çš„å¼€å§‹ä½ç½®
 	private int begin;
-	//Õâ¸öpartÎÄ¼şµÄ³¤¶È
+	//è¿™ä¸ªpartæ–‡ä»¶çš„é•¿åº¦
 	private int length;
-	//ÒÑ¾­ÏÂÔØµÄÎÄ¼ş³¤¶È
+	//å·²ç»ä¸‹è½½çš„æ–‡ä»¶é•¿åº¦
 	private int currentLength;
-	//Ã¿¸öPart¶ÔÓ¦µÄÎÄ¼ş
+	//æ¯ä¸ªPartå¯¹åº”çš„æ–‡ä»¶
 	private String partName;
 
 	public Part(int begin, int length, int currentLength) {

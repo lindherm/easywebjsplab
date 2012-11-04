@@ -9,24 +9,24 @@ import com.echelondownloader.object.Resource;
 public interface TaskState extends Serializable {
 
 	/**
-	 * ·µ»Ø¸Ã×´Ì¬ÏÂµÄÍ¼Æ¬
+	 * è¿”å›è¯¥çŠ¶æ€ä¸‹çš„å›¾ç‰‡
 	 * @return
 	 */
 	ImageIcon getIcon();
 	
 	/**
-	 * ·µ»Ø×´Ì¬µÄ×Ö·û´®
+	 * è¿”å›çŠ¶æ€çš„å­—ç¬¦ä¸²
 	 * @return
 	 */
 	String getState();
 	
 	/**
-	 * ¸Ã×´Ì¬³õÊ¼»¯Ö´ĞĞµÄ·½·¨
+	 * è¯¥çŠ¶æ€åˆå§‹åŒ–æ‰§è¡Œçš„æ–¹æ³•
 	 */
 	void init(Resource resource);
 	
 	/**
-	 * ¸Ã×´Ì¬½áÊøÊ±Ö´ĞĞµÄ·½·¨
+	 * è¯¥çŠ¶æ€ç»“æŸæ—¶æ‰§è¡Œçš„æ–¹æ³•
 	 */
 	void destory(Resource resouse);
 }

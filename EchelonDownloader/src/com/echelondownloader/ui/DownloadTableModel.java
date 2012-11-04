@@ -13,15 +13,15 @@ public class DownloadTableModel extends DefaultTableModel {
 	private List<Resource> resources;
 	
 	public final static String ID_COLUMN = "id";
-	public final static String STATE_COLUMN = "×´Ì¬";
-	public final static String FILE_NAME_COLUMN = "ÎÄ¼şÃû³Æ";
-	public final static String FILE_SIZE_COLUMN = "ÎÄ¼ş´óĞ¡";
-//	public final static String DOWNLOAD_DATE_COLUMN = "ÏÂÔØÈÕÆÚ";
-	public final static String PLAN_COLUMN = "½ø¶È";
-	public final static String SPEED_COLUMN = "ÏÂÔØËÙ¶È";
-	public final static String HAS_DOWN_COLUMN = "ÒÑÏÂÔØ";
-	public final static String COST_TIME_COLUMN = "ÒÑÓÃÊ±¼ä";
-	public final static String SPARE_TIME_COLUMN = "Ê£ÓàÊ±¼ä";
+	public final static String STATE_COLUMN = "çŠ¶æ€";
+	public final static String FILE_NAME_COLUMN = "æ–‡ä»¶åç§°";
+	public final static String FILE_SIZE_COLUMN = "æ–‡ä»¶å¤§å°";
+//	public final static String DOWNLOAD_DATE_COLUMN = "ä¸‹è½½æ—¥æœŸ";
+	public final static String PLAN_COLUMN = "è¿›åº¦";
+	public final static String SPEED_COLUMN = "ä¸‹è½½é€Ÿåº¦";
+	public final static String HAS_DOWN_COLUMN = "å·²ä¸‹è½½";
+	public final static String COST_TIME_COLUMN = "å·²ç”¨æ—¶é—´";
+	public final static String SPARE_TIME_COLUMN = "å‰©ä½™æ—¶é—´";
 	
 	private static final String[] columnNames = {
 		ID_COLUMN,
@@ -83,9 +83,9 @@ public class DownloadTableModel extends DefaultTableModel {
 		} else if (columnName.equals(HAS_DOWN_COLUMN)) {
 			return r.getCurrentLength() / 1024;
 		} else if (columnName.equals(COST_TIME_COLUMN)) {
-			return r.getCostTime() + " Ãë";
+			return r.getCostTime() + " ç§’";
 		} else if (columnName.equals(SPARE_TIME_COLUMN)) {
-			return r.getSpareTime() + " Ãë";
+			return r.getSpareTime() + " ç§’";
 		} else if (columnName.equals(ID_COLUMN)) {
 			return r.getId();
 		}

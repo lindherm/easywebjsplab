@@ -3,8 +3,8 @@ package com.echelondownloader;
 import com.echelondownloader.thread.DownloadHandler;
 
 public class ContextHolder {
-	//ÏÂÔØ¹¤¾ßÉÏÏÂÎÄ
+	//ä¸‹è½½å·¥å…·ä¸Šä¸‹æ–‡
 	public static DownloadContext ctx = new DownloadContext();
-	//ÏÂÔØ´¦ÀíÀà
+	//ä¸‹è½½å¤„ç†ç±»
 	public static DownloadHandler dh = new DownloadHandler();
 }

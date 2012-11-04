@@ -5,13 +5,13 @@ import javax.swing.ImageIcon;
 public interface DownloadNode {
 
 	/**
-	 * 获得名字
+	 * 鑾峰緱鍚嶅瓧
 	 * @return
 	 */
 	String getText();
 	
 	/**
-	 * 返回对应图标
+	 * 杩斿洖瀵瑰簲鍥炬爣
 	 * @return
 	 */
 	ImageIcon getImageIcon();

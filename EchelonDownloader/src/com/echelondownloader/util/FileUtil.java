@@ -11,7 +11,7 @@ public class FileUtil {
 	public final static File SERIALIZABLE_FILE = new File("serializable.txt");
 	
 	/**
-	 * É¾³ı¸ÃÏÂÔØÎÄ¼şµÄ.partÎÄ¼ş, 
+	 * åˆ é™¤è¯¥ä¸‹è½½æ–‡ä»¶çš„.partæ–‡ä»¶, 
 	 * @param file
 	 */
 	public static void deletePartFiles(Resource resource) {
@@ -19,7 +19,7 @@ public class FileUtil {
 		for (Part part : parts) {
 			File partFile = new File(getPartFilePath(resource, part));
 			if (!partFile.exists()) continue;
-			//Ö»ÒªÓĞÒ»·İÎÄ¼şÉ¾³ıÊ§°Ü, ÔÙµİ¹éÉ¾³ı, Ö±µ½¿ÉÒÔÉ¾³ıÎªÖ¹
+			//åªè¦æœ‰ä¸€ä»½æ–‡ä»¶åˆ é™¤å¤±è´¥, å†é€’å½’åˆ é™¤, ç›´åˆ°å¯ä»¥åˆ é™¤ä¸ºæ­¢
 			if (partFile.delete() == false) {
 				deletePartFiles(resource);
 			}
@@ -35,7 +35,7 @@ public class FileUtil {
 	}
 	
 	/**
-	 * µÃµ½.partÎÄ¼şµÄ¾ø¶ÔÂ·¾¶
+	 * å¾—åˆ°.partæ–‡ä»¶çš„ç»å¯¹è·¯å¾„
 	 * @param resource
 	 * @param part
 	 * @return

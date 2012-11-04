@@ -12,7 +12,7 @@ public class DownloadTable extends JTable {
 
 	public void refresh() {
 		DownloadTableModel tableModel = (DownloadTableModel)this.getModel();
-		//Í¨Öª¼àÌıÆ÷, ÔÚ·¶Î§ÄÚ¼ÓÈëÊı¾İ
+		//é€šçŸ¥ç›‘å¬å™¨, åœ¨èŒƒå›´å†…åŠ å…¥æ•°æ®
 		tableModel.fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
 		setTableFace();
 	}
@@ -20,7 +20,7 @@ public class DownloadTable extends JTable {
 	public void setTableFace() {
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		this.setRowHeight(25);
-		//ÉèÖÃÁĞ¿í
+		//è®¾ç½®åˆ—å®½
 		this.getColumn(DownloadTableModel.ID_COLUMN).setMinWidth(0);
 		this.getColumn(DownloadTableModel.ID_COLUMN).setMaxWidth(0);
 		this.getColumn(DownloadTableModel.STATE_COLUMN).setMaxWidth(40);
@@ -31,7 +31,7 @@ public class DownloadTable extends JTable {
 		this.getColumn(DownloadTableModel.HAS_DOWN_COLUMN).setMinWidth(50);
 		this.getColumn(DownloadTableModel.COST_TIME_COLUMN).setMinWidth(50);
 		this.getColumn(DownloadTableModel.SPARE_TIME_COLUMN).setMinWidth(50);
-		//ÉèÖÃµ¥Ôª¸ñäÖÈ¾
+		//è®¾ç½®å•å…ƒæ ¼æ¸²æŸ“
 		this.getColumn(DownloadTableModel.STATE_COLUMN).setCellRenderer(
 				new DownloadTableCellRenderer());
 		this.getColumn(DownloadTableModel.FILE_NAME_COLUMN).setCellRenderer(
@@ -48,7 +48,7 @@ public class DownloadTable extends JTable {
 				new DownloadTableCellRenderer());
 		this.getColumn(DownloadTableModel.SPARE_TIME_COLUMN).setCellRenderer(
 				new DownloadTableCellRenderer());
-		//È¥µô±í¸ñµÄÏß
+		//å»æ‰è¡¨æ ¼çš„çº¿
 		setShowVerticalLines(false);
 	}
 	

@@ -19,17 +19,17 @@ import com.echelondownloader.state.TaskState;
 
 public class DownloadContext implements Serializable {
 
-	//×î´óÏß³ÌÊı
+	//æœ€å¤§çº¿ç¨‹æ•°
 	public static final int MAX_THREAD_COUNT = 5;
 	
-	//ÏÂÔØÈÎÎñ×´Ì¬µÄ¸÷¸öÊµÏÖÀà
+	//ä¸‹è½½ä»»åŠ¡çŠ¶æ€çš„å„ä¸ªå®ç°ç±»
 	public static Connecting CONNECTION = new Connecting();
 	public static Downloading DOWNLOADING = new Downloading();
 	public static Failed FAILED = new Failed();
 	public static Finished FINISHED = new Finished();
 	public static Pause PAUSE = new Pause();
 	
-	//µ±Ç°ÏÂÔØ³ÌĞòÖĞËùÓĞµÄÈÎÎñ
+	//å½“å‰ä¸‹è½½ç¨‹åºä¸­æ‰€æœ‰çš„ä»»åŠ¡
 	public List<Resource> resources = new ArrayList<Resource>();
 	
 	public List<Resource> getFaileds() {
@@ -55,7 +55,7 @@ public class DownloadContext implements Serializable {
 	}
 	
 	/**
-	 * ¸ù¾İIDÈ¥µ±Ç°µÄ×ÊÔ´¼¯ºÏÖĞ²éÕÒÏàÓ¦µÄ×ÊÔ´
+	 * æ ¹æ®IDå»å½“å‰çš„èµ„æºé›†åˆä¸­æŸ¥æ‰¾ç›¸åº”çš„èµ„æº
 	 * @param id
 	 * @return
 	 */

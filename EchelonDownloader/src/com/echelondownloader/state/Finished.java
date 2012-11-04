@@ -22,9 +22,9 @@ public class Finished extends AbstractState {
 	}
 
 	public void init(Resource resource) {
-		//É¾³ıÁÙÊ±ÎÄ¼ş
+		//åˆ é™¤ä¸´æ—¶æ–‡ä»¶
 		FileUtil.deletePartFiles(resource);
-		//×ÊÔ´ÏÂÔØÍê³ÉºóÈ¡ÏûÈÎÎñ
+		//èµ„æºä¸‹è½½å®Œæˆåå–æ¶ˆä»»åŠ¡
 		ContextHolder.dh.stopTimer(resource);
 	}
 	

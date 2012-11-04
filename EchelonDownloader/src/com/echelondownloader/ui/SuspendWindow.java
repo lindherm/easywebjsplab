@@ -26,18 +26,18 @@ public class SuspendWindow extends JWindow {
 
 	private BufferedImage img = ImageUtil.getImage(ImageUtil.SUSPEND_IMAGE_PATH);
 	
-	//Êó±êÔÚĞü¸¡´°ÖĞµÄ×ø±ê
+	//é¼ æ ‡åœ¨æ‚¬æµ®çª—ä¸­çš„åæ ‡
 	private int x;
 	private int y;
 	
 	private JPopupMenu popupMenu = new JPopupMenu();
 	
-	private JMenuItem openItem = new JMenuItem("´ò¿ª/¹Ø±Õ", ImageUtil.SUSPEND_OPEN_IAMGE);
-	private JMenuItem newItem = new JMenuItem("ĞÂ½¨ÏÂÔØÈÎÎñ", ImageUtil.SUSPEND_NEW_IAMGE);
-	private JMenuItem startItem = new JMenuItem("¿ªÊ¼È«²¿ÈÎÎñ", ImageUtil.SUSPEND_START_IAMGE);
-	private JMenuItem pauseItem = new JMenuItem("ÔİÍ£È«²¿ÈÎÎñ", ImageUtil.SUSPEND_PAUSE_IAMGE);
-	private JMenuItem removeItem = new JMenuItem("É¾³ıÍê³ÉÈÎÎñ", ImageUtil.SUSPEND_REMOVE_IAMGE);
-	private JMenuItem quitItem = new JMenuItem("ÍË³ö", ImageUtil.SUSPEND_QUIT_IAMGE);
+	private JMenuItem openItem = new JMenuItem("æ‰“å¼€/å…³é—­", ImageUtil.SUSPEND_OPEN_IAMGE);
+	private JMenuItem newItem = new JMenuItem("æ–°å»ºä¸‹è½½ä»»åŠ¡", ImageUtil.SUSPEND_NEW_IAMGE);
+	private JMenuItem startItem = new JMenuItem("å¼€å§‹å…¨éƒ¨ä»»åŠ¡", ImageUtil.SUSPEND_START_IAMGE);
+	private JMenuItem pauseItem = new JMenuItem("æš‚åœå…¨éƒ¨ä»»åŠ¡", ImageUtil.SUSPEND_PAUSE_IAMGE);
+	private JMenuItem removeItem = new JMenuItem("åˆ é™¤å®Œæˆä»»åŠ¡", ImageUtil.SUSPEND_REMOVE_IAMGE);
+	private JMenuItem quitItem = new JMenuItem("é€€å‡º", ImageUtil.SUSPEND_QUIT_IAMGE);
 	
 	private MainFrame mainFrame;
 	
@@ -104,7 +104,7 @@ public class SuspendWindow extends JWindow {
 	private void initListeners() {
 		this.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
-	            //»ñµÃµ±Ç°Êó±êÔÚÆÁÄ»ÖĞµÄ×ø±ê
+	            //è·å¾—å½“å‰é¼ æ ‡åœ¨å±å¹•ä¸­çš„åæ ‡
 	            int xScreen = e.getXOnScreen();
 	            int yScreen = e.getYOnScreen();
 	            setLocation(xScreen - x, yScreen - y);

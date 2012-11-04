@@ -21,7 +21,7 @@ public class Pause extends AbstractState {
 
 	@Override
 	public void init(Resource resource) {
-		//×ÊÔ´ÔİÍ£ºóÈ¡ÏûÈÎÎñ
+		//èµ„æºæš‚åœåå–æ¶ˆä»»åŠ¡
 		ContextHolder.dh.stopTimer(resource);
 	}
 

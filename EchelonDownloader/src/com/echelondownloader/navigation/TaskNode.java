@@ -11,7 +11,7 @@ public class TaskNode implements DownloadNode {
 	}
 
 	public String getText() {
-		return "ÈÎÎñ";
+		return "ä»»åŠ¡";
 	}
 
 }
