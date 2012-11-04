@@ -11,7 +11,7 @@ public class DownloadingNode implements DownloadNode {
 	}
 
 	public String getText() {
-		return "ÕıÔÚÏÂÔØ";
+		return "æ­£åœ¨ä¸‹è½½";
 	}
 
 }

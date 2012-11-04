@@ -28,30 +28,30 @@ public class DownloadHandler {
 	
 	public void doDownload(Resource r) {
 		try {
-			//ÉèÖÃÏÂÔØÈÕÆÚ
+			//è®¾ç½®ä¸‹è½½æ—¥æœŸ
 			if (r.getDownloadDate() == null) r.setDownloadDate(new Date());
 			r.setState(DownloadContext.CONNECTION);
-			//¼ÆËã³öÃ¿Ò»¿éµÄ´óĞ¡
+			//è®¡ç®—å‡ºæ¯ä¸€å—çš„å¤§å°
 			int partLength = r.getSize() / r.getThreadSize() + 1;
-			//Ê±¼ä¼ÆËãÈÎÎñ
+			//æ—¶é—´è®¡ç®—ä»»åŠ¡
 			CountTimeTask timeTask = new CountTimeTask(r);
 			Timer timer = new Timer();
 			timer.schedule(timeTask, 0, 1000);
-			//½«Timer¶ÔÏó·Åµ½MapÖĞ, keyÎª¸Ã×ÊÔ´µÄid
+			//å°†Timerå¯¹è±¡æ”¾åˆ°Mapä¸­, keyä¸ºè¯¥èµ„æºçš„id
 			timers.put(r.getId(), timer);
 			for (int i = 0; i < r.getThreadSize(); i++) {
 				int length = partLength;
-				//Èç¹ûÊÇ×îºóÒ»¿é, ÔòÊ¹ÓÃ×ÜÊıÀ´¼õÈ¥Ç°Ãæ¿éµÄ×ÜºÍ
+				//å¦‚æœæ˜¯æœ€åä¸€å—, åˆ™ä½¿ç”¨æ€»æ•°æ¥å‡å»å‰é¢å—çš„æ€»å’Œ
 				if (i == (r.getThreadSize() - 1)) {
 					length = r.getSize() - i * partLength;
 				}
-				//´´½¨¸÷¸öPart¶ÔÏó
+				//åˆ›å»ºå„ä¸ªPartå¯¹è±¡
 				Part p = new Part((i * partLength), length, 0);
 				r.getParts().add(p);
 				RandomAccessFile rav = new RandomAccessFile(r.getFilePath() + 
 						File.separator + p.getPartName(), "rw");
 				DownloadThread t = new DownloadThread(r, rav, p);
-				//ÉèÖÃÏß³ÌÓÅÏÈ¼¶
+				//è®¾ç½®çº¿ç¨‹ä¼˜å…ˆçº§
 				t.setPriority(6);
 				t.start();
 			}
@@ -67,7 +67,7 @@ public class DownloadHandler {
 			CountTimeTask timeTask = new CountTimeTask(r);
 			Timer timer = new Timer();
 			timer.schedule(timeTask, 0, 1000);
-			//½«Timer¶ÔÏó·Åµ½MapÖĞ, keyÎª¸Ã×ÊÔ´µÄid
+			//å°†Timerå¯¹è±¡æ”¾åˆ°Mapä¸­, keyä¸ºè¯¥èµ„æºçš„id
 			timers.put(r.getId(), timer);
 			for (int i = 0; i < r.getParts().size(); i++) {
 				Part p = r.getParts().get(i);
@@ -82,7 +82,7 @@ public class DownloadHandler {
 		}
 	}
 	
-	//¼ÆËãÊ±¼äÈÎÎñ
+	//è®¡ç®—æ—¶é—´ä»»åŠ¡
 	class CountTimeTask extends TimerTask {
 		private Resource r;
 		public CountTimeTask(Resource r) {

@@ -18,37 +18,37 @@ import com.echelondownloader.util.FileUtil;
 
 public class Resource implements Serializable {
 
-	//±êÊ¶¸Ã×ÊÔ´µÄid
+	//æ ‡è¯†è¯¥èµ„æºçš„id
 	private String id;
-	//×ÊÔ´µØÖ·
+	//èµ„æºåœ°å€
 	private String url;
-	//×ÊÔ´±£´æÂ·¾¶
+	//èµ„æºä¿å­˜è·¯å¾„
 	private String filePath;
-	//×ÊÔ´ÏÂÔØºóµÄÃû³Æ
+	//èµ„æºä¸‹è½½åçš„åç§°
 	private String fileName;
-	//×ÊÔ´Ãû³Æ
+	//èµ„æºåç§°
 	private String sourceName;
-	//×ÊÔ´ÏÂÔØºóµÄÎÄ¼ş¶ÔÏó
+	//èµ„æºä¸‹è½½åçš„æ–‡ä»¶å¯¹è±¡
 	private File saveFile;
-	//×´Ì¬
+	//çŠ¶æ€
 	private TaskState state;
-	//ÎÄ¼ş´óĞ¡
+	//æ–‡ä»¶å¤§å°
 	private int size = -1;
-	//ÏÂÔØÈÕÆÚ
+	//ä¸‹è½½æ—¥æœŸ
 	private Date downloadDate;
-	//½ø¶È
+	//è¿›åº¦
 	private float progress;
-	//ÏÂÔØËÙ¶È
+	//ä¸‹è½½é€Ÿåº¦
 	private float speed;
-	//Ê¹ÓÃµÄÊ±¼ä
+	//ä½¿ç”¨çš„æ—¶é—´
 	private int costTime;
-	//Ê£ÏÂµÄÊ±¼ä
+	//å‰©ä¸‹çš„æ—¶é—´
 	private int spareTime;
-	//ÎÄ¼şËù²ğ·ÖµÄ¿é
+	//æ–‡ä»¶æ‰€æ‹†åˆ†çš„å—
 	private List<Part> parts;
-	//ÏÂÔØµÄÏß³ÌÊı
+	//ä¸‹è½½çš„çº¿ç¨‹æ•°
 	private int threadSize;
-	//ÉÏÒ»´ÎÏÂÔØµÄ´óĞ¡
+	//ä¸Šä¸€æ¬¡ä¸‹è½½çš„å¤§å°
 	private int preLength;
 	
 	public Resource(String url, String filePath, String fileName, int threadSize) {
@@ -97,12 +97,12 @@ public class Resource implements Serializable {
 
 	public void setState(TaskState state) {
 		if (this.state != null) {
-			//ÅĞ¶Ï²ÎÊıµÄ×´Ì¬Óë±¾¶ÔÏóµÄ×´Ì¬ÊÇ·ñÒ»ÖÂ
+			//åˆ¤æ–­å‚æ•°çš„çŠ¶æ€ä¸æœ¬å¯¹è±¡çš„çŠ¶æ€æ˜¯å¦ä¸€è‡´
 			if (!this.state.equals(state)) {
-				//Á½¸ö×´Ì¬Ò»ÖÂ, ²»ĞèÒª½øĞĞÈÎºÎ¶¯×÷, ²»Ò»ÖÂ, Ö´ĞĞ¸Ã×´Ì¬µÄ·½·¨
-				//Ö´ĞĞÔ­À´×´Ì¬µÄÏú»Ù·½·¨
+				//ä¸¤ä¸ªçŠ¶æ€ä¸€è‡´, ä¸éœ€è¦è¿›è¡Œä»»ä½•åŠ¨ä½œ, ä¸ä¸€è‡´, æ‰§è¡Œè¯¥çŠ¶æ€çš„æ–¹æ³•
+				//æ‰§è¡ŒåŸæ¥çŠ¶æ€çš„é”€æ¯æ–¹æ³•
 				this.state.destory(this);
-				//Ö´ĞĞĞÂ×´Ì¬µÄinit·½·¨
+				//æ‰§è¡Œæ–°çŠ¶æ€çš„initæ–¹æ³•
 				state.init(this);
 			}
 		}
@@ -110,19 +110,19 @@ public class Resource implements Serializable {
 	}
 
 	/**
-	 * ·µ»ØÎÄ¼ş´óĞ¡
+	 * è¿”å›æ–‡ä»¶å¤§å°
 	 * @return
 	 */
 	public int getSize() {
 		try {
-			//½øĞĞÒ»´ÎÎÄ¼şÁ¬½Ó
+			//è¿›è¡Œä¸€æ¬¡æ–‡ä»¶è¿æ¥
 			URL resourceURL = new URL(this.url);
-			//ÅĞ¶ÏÖ®Ç°ÊÇ·ñÒÑ¾­È¡¹ıÎÄ¼ş´óĞ¡
+			//åˆ¤æ–­ä¹‹å‰æ˜¯å¦å·²ç»å–è¿‡æ–‡ä»¶å¤§å°
 			if (this.size == -1) {
 				HttpURLConnection urlConnection = (HttpURLConnection)resourceURL.openConnection();
 				urlConnection.connect();
 				this.size = urlConnection.getContentLength();
-				//È¡µÃÎÄ¼ş´óĞ¡ºó·µ»Ø
+				//å–å¾—æ–‡ä»¶å¤§å°åè¿”å›
 				urlConnection.disconnect();
 			}
 		} catch (Exception e) {
@@ -145,22 +145,22 @@ public class Resource implements Serializable {
 	}
 	
 	/**
-	 * ·µ»ØÏÂÔØËÙ¶È, ĞèÒªµÃµ½È«²¿ÒÑÏÂÔØµÄ³¤¶È
+	 * è¿”å›ä¸‹è½½é€Ÿåº¦, éœ€è¦å¾—åˆ°å…¨éƒ¨å·²ä¸‹è½½çš„é•¿åº¦
 	 * @return
 	 */
 	public float getSpeed() {
-		//µÃµ½µ±Ç°ËùÓĞ¿éÏÂÔØµÄ´óĞ¡
+		//å¾—åˆ°å½“å‰æ‰€æœ‰å—ä¸‹è½½çš„å¤§å°
 		int currentLength = getCurrentLength();
-		//½«µ±Ç°ÏÂÔØµÄ³¤¶È¼õÈ¥Ç°Ò»´ÎÏÂÔØµÄ³¤¶È, µÃµ½×ÜÏÂÔØÁ¿²¢¼ÆËã³öËÙ¶È
+		//å°†å½“å‰ä¸‹è½½çš„é•¿åº¦å‡å»å‰ä¸€æ¬¡ä¸‹è½½çš„é•¿åº¦, å¾—åˆ°æ€»ä¸‹è½½é‡å¹¶è®¡ç®—å‡ºé€Ÿåº¦
 		speed = (currentLength - preLength) / 1024.0f;
-		//½«µ±Ç°ÏÂÔØµÄ³¤¶ÈÉèÖÃÎªÇ°Ò»´ÎÏÂÔØµÄ³¤¶È(±¾´ÎËÙ¶È¼ÆËãÒÑ¾­Íê³É)
+		//å°†å½“å‰ä¸‹è½½çš„é•¿åº¦è®¾ç½®ä¸ºå‰ä¸€æ¬¡ä¸‹è½½çš„é•¿åº¦(æœ¬æ¬¡é€Ÿåº¦è®¡ç®—å·²ç»å®Œæˆ)
 		preLength = currentLength;
 		speed = Math.round(speed * 100) / 100.0f;
 		return speed;
 	}
 	
 	/**
-	 * µÃµ½¸Ã×ÊÔ´ÒÑ¾­ÏÂÔØµÄ³¤¶È(¼ÆËãËùÓĞ¿éµÄ³¤¶È)
+	 * å¾—åˆ°è¯¥èµ„æºå·²ç»ä¸‹è½½çš„é•¿åº¦(è®¡ç®—æ‰€æœ‰å—çš„é•¿åº¦)
 	 * @return
 	 */
 	public int getCurrentLength() {
@@ -184,7 +184,7 @@ public class Resource implements Serializable {
 	}
 
 	public int getSpareTime() {
-		//µÃµ½Ê£Óà³¤¶È
+		//å¾—åˆ°å‰©ä½™é•¿åº¦
 		int spareSize = getSize() - getCurrentLength();
 		if (this.speed == 0) return this.spareTime; 
 		return (spareSize / (int)this.speed) / 1000;

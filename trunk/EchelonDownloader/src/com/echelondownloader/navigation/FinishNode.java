@@ -11,7 +11,7 @@ public class FinishNode implements DownloadNode {
 	}
 
 	public String getText() {
-		return "ÏÂÔØÍê³É";
+		return "ä¸‹è½½å®Œæˆ";
 	}
 
 }

@@ -12,7 +12,7 @@ public class NavigationTree extends JTree {
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.setCellRenderer(new NavigationTreeCellRender());
-		//Õ¹¿ªµÚÒ»²ã½Úµã
+		//å±•å¼€ç¬¬ä¸€å±‚èŠ‚ç‚¹
 		for (int i = 0; i < root.getChildCount(); i++) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)root.getChildAt(i);
 			this.expandPath(new TreePath(node.getPath()));

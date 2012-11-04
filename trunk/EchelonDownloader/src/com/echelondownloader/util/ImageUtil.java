@@ -8,51 +8,51 @@ import javax.swing.ImageIcon;
 
 public class ImageUtil {
 
-	//ÈÎÎñ½ÚµãÍ¼Æ¬
+	//ä»»åŠ¡èŠ‚ç‚¹å›¾ç‰‡
 	public static final ImageIcon TASK_NODE_IMAGE = new ImageIcon("images/nav/flashget.gif");
 	
-	//ÏÂÔØÍê³É½ÚµãÍ¼Æ¬
+	//ä¸‹è½½å®ŒæˆèŠ‚ç‚¹å›¾ç‰‡
 	public static final ImageIcon FINISH_NODE_IMAGE = new ImageIcon("images/nav/finish.gif");
 	
-	//ÏÂÔØÊ§°Ü½ÚµãÍ¼Æ¬
+	//ä¸‹è½½å¤±è´¥èŠ‚ç‚¹å›¾ç‰‡
 	public static final ImageIcon FAIL_NODE_IMAGE = new ImageIcon("images/nav/fail.gif");
 	
-	//ÏÂÔØÍê³ÉµÄ½Úµã
+	//ä¸‹è½½å®Œæˆçš„èŠ‚ç‚¹
 	public static final ImageIcon DOWNLOADING_NODE_IMAGE = new ImageIcon("images/nav/downloading.gif");
 	
-	//ÕıÔÚÏÂÔØ×´Ì¬Í¼Æ¬
+	//æ­£åœ¨ä¸‹è½½çŠ¶æ€å›¾ç‰‡
 	public static final ImageIcon DOWNLOADING_IMAGE = new ImageIcon("images/state/downloading.gif");
 	
-	//ÕıÔÚÁ¬½Ó×ÊÔ´µÄÍ¼Æ¬
+	//æ­£åœ¨è¿æ¥èµ„æºçš„å›¾ç‰‡
 	public static final ImageIcon CONNECTING_IMAGE = new ImageIcon("images/state/connecting.gif");
 
-	//ÏÂÔØÍê³ÉµÄÍ¼Æ¬
+	//ä¸‹è½½å®Œæˆçš„å›¾ç‰‡
 	public static final ImageIcon FINISHED_IMAGE = new ImageIcon("images/state/finished.gif");
 	
-	//²»ÄÜÁ¬½ÓµÄÍ¼Æ¬
+	//ä¸èƒ½è¿æ¥çš„å›¾ç‰‡
 	public static final ImageIcon FAILED_IMAGE = new ImageIcon("images/state/failed.gif");
 	
-	//ÔİÍ£ÏÂÔØµÄÍ¼Æ¬
+	//æš‚åœä¸‹è½½çš„å›¾ç‰‡
 	public static final ImageIcon PAUSE_IMAGE = new ImageIcon("images/state/pause.gif");
 	
 	public static final String SUSPEND_IMAGE_PATH = "images/flashget.gif";
-	//Ğü¸¡´ò¿ªÖ÷´°Ìå²Ëµ¥
+	//æ‚¬æµ®æ‰“å¼€ä¸»çª—ä½“èœå•
 	public static final ImageIcon SUSPEND_OPEN_IAMGE = new ImageIcon("images/suspend/open.gif");
-	//Ğü¸¡ĞÂÈÎÎñ²Ëµ¥
+	//æ‚¬æµ®æ–°ä»»åŠ¡èœå•
 	public static final ImageIcon SUSPEND_NEW_IAMGE = new ImageIcon("images/suspend/add.gif");
-	//Ğü¸¡¿ªÊ¼ÈÎÎñ²Ëµ¥
+	//æ‚¬æµ®å¼€å§‹ä»»åŠ¡èœå•
 	public static final ImageIcon SUSPEND_START_IAMGE = new ImageIcon("images/suspend/start.gif");
-	//Ğü¸¡ÔİÍ£ÈÎÎñ²Ëµ¥
+	//æ‚¬æµ®æš‚åœä»»åŠ¡èœå•
 	public static final ImageIcon SUSPEND_PAUSE_IAMGE = new ImageIcon("images/suspend/pause.gif");
-	//É¾³ıÒÑÍê³ÉÈÎÎñ
+	//åˆ é™¤å·²å®Œæˆä»»åŠ¡
 	public static final ImageIcon SUSPEND_REMOVE_IAMGE = new ImageIcon("images/suspend/remove.gif");
-	//ÍË³ö²Ëµ¥
+	//é€€å‡ºèœå•
 	public static final ImageIcon SUSPEND_QUIT_IAMGE = new ImageIcon("images/suspend/quit.gif");
-	//¹¤¾ßÀ¸Í¼Æ¬
+	//å·¥å…·æ å›¾ç‰‡
 	public static final String TRAY_ICON_PATH = "images/flashget-trayicon.gif";
 	
 	/**
-	 * ·µ»ØĞü¸¡Í¼Æ¬
+	 * è¿”å›æ‚¬æµ®å›¾ç‰‡
 	 * @return
 	 */
 	public static BufferedImage getImage(String path) {

@@ -25,55 +25,55 @@ import com.echelondownloader.util.FileUtil;
 
 public class NewTaskFrame extends JFrame {
 
-	//ÏÂÔØµØÖ·
-	private JLabel addressLabel = new JLabel("ÏÂÔØµØÖ·: ");
+	//ä¸‹è½½åœ°å€
+	private JLabel addressLabel = new JLabel("ä¸‹è½½åœ°å€: ");
 	private JTextField address = new JTextField(30);
 	
-	//ÌáÊ¾µÄJLabel
+	//æç¤ºçš„JLabel
 	private JLabel warnLabel = new JLabel(" ");
 	
-	//±£´æÂ·¾¶
-	private JLabel targetLabel = new JLabel("±£´æÄ¿Â¼: ");
+	//ä¿å­˜è·¯å¾„
+	private JLabel targetLabel = new JLabel("ä¿å­˜ç›®å½•: ");
 	private JTextField target = new JTextField(getDefaultFolder(), 22);
 		
-	//Ïß³ÌÊı
-	private JLabel threadCountLabel = new JLabel("Ïß³ÌÊı: ");
+	//çº¿ç¨‹æ•°
+	private JLabel threadCountLabel = new JLabel("çº¿ç¨‹æ•°: ");
 	private JComboBox threadCount;
-	private JButton targetSelectButton = new JButton("Ñ¡ÔñÄ¿Â¼");
+	private JButton targetSelectButton = new JButton("é€‰æ‹©ç›®å½•");
 	
-	//ÎÄ¼şÃû
-	private JLabel saveFileNameLabel = new JLabel("Áí´æÎÄ¼şÃû: ");
+	//æ–‡ä»¶å
+	private JLabel saveFileNameLabel = new JLabel("å¦å­˜æ–‡ä»¶å: ");
 	private JTextField saveFileName = new JTextField(5);
 	
-	//°´Å¥
-	private JButton confirmButton = new JButton("È·¶¨");
-	private JButton cancelButton = new JButton("È¡Ïû");
+	//æŒ‰é’®
+	private JButton confirmButton = new JButton("ç¡®å®š");
+	private JButton cancelButton = new JButton("å–æ¶ˆ");
 	
 	private FolderChooser folderChooser;
 		
 	public NewTaskFrame() {
-		//´´½¨Ïß³ÌÏÂÀ­
+		//åˆ›å»ºçº¿ç¨‹ä¸‹æ‹‰
 		createThreadCountSelect();
 		this.targetSelectButton.setFont(new Font(null, Font.PLAIN, 12));
 		this.target.setEditable(false);
-		//ĞÅÏ¢ÌáÊ¾µÄJLabel
+		//ä¿¡æ¯æç¤ºçš„JLabel
 		Box warnBox = Box.createHorizontalBox();
 		warnBox.add(this.warnLabel);
-		//ÏÂÔØµØÖ·Box
+		//ä¸‹è½½åœ°å€Box
 		Box addressBox = Box.createHorizontalBox();
 		addressBox.add(Box.createHorizontalStrut(50));
 		addressBox.add(this.addressLabel);
 		addressBox.add(Box.createHorizontalStrut(20));
 		addressBox.add(this.address);
 		addressBox.add(Box.createHorizontalStrut(50));
-		//ÏÂÔØÎÄ¼ş±£´æÄ¿Â¼
+		//ä¸‹è½½æ–‡ä»¶ä¿å­˜ç›®å½•
 		Box targetBox = Box.createHorizontalBox();
 		targetBox.add(Box.createHorizontalStrut(50));
 		targetBox.add(this.targetLabel);
 		targetBox.add(Box.createHorizontalStrut(20));
 		targetBox.add(this.target);		
 		targetBox.add(Box.createHorizontalStrut(50));
-		//Áí´æÎÄ¼şÃûºÍÄ¿Â¼Ñ¡Ôñ°´Å¥
+		//å¦å­˜æ–‡ä»¶åå’Œç›®å½•é€‰æ‹©æŒ‰é’®
 		Box selectFolderBox = Box.createHorizontalBox();
 		selectFolderBox.add(Box.createHorizontalStrut(50));
 		selectFolderBox.add(this.saveFileNameLabel);
@@ -82,21 +82,21 @@ public class NewTaskFrame extends JFrame {
 		selectFolderBox.add(Box.createHorizontalStrut(50));
 		selectFolderBox.add(this.targetSelectButton);
 		selectFolderBox.add(Box.createHorizontalStrut(50));
-		//Ïß³ÌÑ¡Ôñ
+		//çº¿ç¨‹é€‰æ‹©
 		Box threadBox = Box.createHorizontalBox();
 		threadBox.add(Box.createHorizontalStrut(50));
 		threadBox.add(this.threadCountLabel);
 		threadBox.add(Box.createHorizontalStrut(33));
 		threadBox.add(this.threadCount);
 		threadBox.add(Box.createHorizontalStrut(330));
-		//°´Å¥Box
+		//æŒ‰é’®Box
 		Box buttonBox = Box.createHorizontalBox();
 		buttonBox.add(Box.createHorizontalStrut(70));
 		buttonBox.add(this.confirmButton);
 		buttonBox.add(Box.createHorizontalStrut(40));
 		buttonBox.add(this.cancelButton);
 		buttonBox.add(Box.createHorizontalStrut(50));
-		//Ö÷²¼¾ÖBox
+		//ä¸»å¸ƒå±€Box
 		Box mainBox = Box.createVerticalBox();
 		mainBox.add(Box.createVerticalStrut(10));
 		mainBox.add(warnBox);
@@ -111,14 +111,14 @@ public class NewTaskFrame extends JFrame {
 		mainBox.add(Box.createVerticalStrut(20));
 		mainBox.add(buttonBox);
 		mainBox.add(Box.createVerticalStrut(20));
-		//µÃµ½ÆÁÄ»´óĞ¡
+		//å¾—åˆ°å±å¹•å¤§å°
 		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(screen.width/4, screen.height/4);
 		
 		this.add(mainBox);
-		this.setTitle("ĞÂ½¨ÏÂÔØÈÎÎñ");
+		this.setTitle("æ–°å»ºä¸‹è½½ä»»åŠ¡");
 		this.pack();
-		//³õÊ¼»¯°´Å¥¼àÌıÆ÷
+		//åˆå§‹åŒ–æŒ‰é’®ç›‘å¬å™¨
 		initLinsteners();
 	}
 	
@@ -153,7 +153,7 @@ public class NewTaskFrame extends JFrame {
 	
 	private void confirm() {
 		if (getSaveFileName() == null) {
-			this.warnLabel.setText("ÇëÊäÈëÕıÈ·µÄÎÄ¼şÃû");
+			this.warnLabel.setText("è¯·è¾“å…¥æ­£ç¡®çš„æ–‡ä»¶å");
 			return;
 		}
 		this.warnLabel.setText(" ");
@@ -163,7 +163,7 @@ public class NewTaskFrame extends JFrame {
 		this.setVisible(false);
 	}
 	
-	//¸ù¾İ½çÃæÊäÈë´´½¨Resource¶ÔÏó
+	//æ ¹æ®ç•Œé¢è¾“å…¥åˆ›å»ºResourceå¯¹è±¡
 	private Resource createResource() {
 		String url = this.address.getText();
 		String filePath = this.target.getText();
@@ -173,7 +173,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * Èç¹û±£´æµÄÎÄ¼şÃû³ÆÎª¿Õ, Ôò´ÓurlÖĞ½ØÈ¡ÎÄ¼şÃû³Æ
+	 * å¦‚æœä¿å­˜çš„æ–‡ä»¶åç§°ä¸ºç©º, åˆ™ä»urlä¸­æˆªå–æ–‡ä»¶åç§°
 	 * @return
 	 */
 	private String getSaveFileName() {
@@ -186,7 +186,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * ÉèÖÃÁí´æÎªÃû³ÆµÄÖµ
+	 * è®¾ç½®å¦å­˜ä¸ºåç§°çš„å€¼
 	 */
 	private void setSaveFileName() {
 		saveFileName.setText("");
@@ -194,7 +194,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * ´´½¨Ïß³ÌÏÂÀ­
+	 * åˆ›å»ºçº¿ç¨‹ä¸‹æ‹‰
 	 */
 	private void createThreadCountSelect() {
 		this.threadCount = new JComboBox();
@@ -204,7 +204,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * ´ò¿ªÎÄ¼şÑ¡ÔñÆ÷
+	 * æ‰“å¼€æ–‡ä»¶é€‰æ‹©å™¨
 	 */
 	private void openFolderChooser() {
 		if (this.folderChooser == null) {
@@ -218,7 +218,7 @@ public class NewTaskFrame extends JFrame {
 	}
 	
 	/**
-	 * Ñ¡ÔñÄ¿Â¼ºóÖ´ĞĞµÄ·½·¨
+	 * é€‰æ‹©ç›®å½•åæ‰§è¡Œçš„æ–¹æ³•
 	 * @param filePath
 	 */
 	public void selectFolder(String filePath) {
@@ -234,7 +234,7 @@ public class NewTaskFrame extends JFrame {
 		
 		public void approveSelection() {
 			super.approveSelection();
-			//ÉèÖÃµ±Ç°´ò¿ªµÄÄ¿Â¼ÎªÄ¬ÈÏÄ¿Â¼
+			//è®¾ç½®å½“å‰æ‰“å¼€çš„ç›®å½•ä¸ºé»˜è®¤ç›®å½•
 			this.setCurrentDirectory(this.getSelectedFile());
 			selectFolder(this.getSelectedFile().getAbsolutePath());
 		}

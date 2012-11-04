@@ -11,7 +11,7 @@ public class FailNode implements DownloadNode {
 	}
 
 	public String getText() {
-		return "ÏÂÔØÊ§°Ü";
+		return "ä¸‹è½½å¤±è´¥";
 	}
 
 }

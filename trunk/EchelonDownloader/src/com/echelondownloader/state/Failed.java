@@ -23,8 +23,8 @@ public class Failed extends AbstractState {
 	@Override
 	public void init(Resource resource) {
 		System.out.println(resource.getSaveFile().getAbsolutePath());
-		System.out.println("±»Í£Ö¹ÁË");
-		//µ±ÈÎÎñ±»ÉèÖÃÎª²»¿ÉÏÂÔØÊ±, Í£Ö¹Ê±¼ä¼ÆËãÆ÷
+		System.out.println("è¢«åœæ­¢äº†");
+		//å½“ä»»åŠ¡è¢«è®¾ç½®ä¸ºä¸å¯ä¸‹è½½æ—¶, åœæ­¢æ—¶é—´è®¡ç®—å™¨
 		ContextHolder.dh.stopTimer(resource);		
 	}
 

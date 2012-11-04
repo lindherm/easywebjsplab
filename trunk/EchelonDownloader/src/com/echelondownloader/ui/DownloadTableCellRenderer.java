@@ -13,13 +13,13 @@ public class DownloadTableCellRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		//ÅĞ¶ÏÊÇ·ñĞèÒªÏÔÊ¾Í¼Æ¬
+		//åˆ¤æ–­æ˜¯å¦éœ€è¦æ˜¾ç¤ºå›¾ç‰‡
 		if (value instanceof Icon) this.setIcon((Icon)value);
 		else this.setText(value.toString());
-		//ÅĞ¶ÏÊÇ·ñÑ¡ÖĞ
+		//åˆ¤æ–­æ˜¯å¦é€‰ä¸­
 		if (isSelected) super.setBackground(table.getSelectionBackground());
 		else setBackground(table.getBackground());
-		//ÉèÖÃ¾ÓÖĞ
+		//è®¾ç½®å±…ä¸­
 		this.setHorizontalAlignment(JLabel.CENTER);
 		this.setToolTipText(value.toString());
 		return this;

@@ -17,11 +17,11 @@ public class NavigationTreeCellRender extends DefaultTreeCellRenderer {
 			boolean hasFocus) {
 		super.getTreeCellRendererComponent(tree, value, sel, 
 				expanded, leaf, row, hasFocus);
-		//µÃµ½Ê÷½Úµã
+		//å¾—åˆ°æ ‘èŠ‚ç‚¹
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
-		//µÃµ½½Úµã¶ÔÏó
+		//å¾—åˆ°èŠ‚ç‚¹å¯¹è±¡
 		DownloadNode obj = (DownloadNode)node.getUserObject();
-		//ÉèÖÃÎÄ±¾ÓëÍ¼Æ¬
+		//è®¾ç½®æ–‡æœ¬ä¸å›¾ç‰‡
 		if (obj != null) {
 			this.setIcon(obj.getImageIcon());
 			this.setText(obj.getText());
