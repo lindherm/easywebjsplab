@@ -41,20 +41,21 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		JButton button = new JButton("打开图片");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
+				//打开选择对话框
 				JFileChooser fileChooser = new JFileChooser(".");
 				fileChooser.setMultiSelectionEnabled(false);
 				FileFilter filter = new FileNameExtensionFilter("image file", "jpg", "jpeg", "png", "bmp", "gif");
 				fileChooser.addChoosableFileFilter(filter);
-
+				//获取事件源的根组件
 				Component component = (Component) actionevent.getSource();
-				Component component2 = SwingUtilities.getRoot(component);
+				Component parentComponent = SwingUtilities.getRoot(component);
 
-				int ret = fileChooser.showOpenDialog(component2);
+				int ret = fileChooser.showOpenDialog(parentComponent);
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
 					ImageIcon imageIcon = new ImageIcon(file.getAbsolutePath());
 					LayeredPanel layeredPanel = new LayeredPanel(imageIcon);
-					JLayeredPane jlp = ((EchelonDrawer) component2).getLayeredPane();
+					JLayeredPane jlp = ((EchelonDrawer) parentComponent).getLayeredPane();
 					jlp.add(layeredPanel, index++);
 				}
 			}
@@ -65,10 +66,10 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
 				Component component = (Component) actionevent.getSource();
-				Component component2 = SwingUtilities.getRoot(component);
+				Component parentComponent = SwingUtilities.getRoot(component);
 				JLabel cLabel = new JLabel("你好");
 				LayeredPanel layeredPanel = new LayeredPanel(cLabel);
-				JLayeredPane jlp = ((EchelonDrawer) component2).getLayeredPane();
+				JLayeredPane jlp = ((EchelonDrawer) parentComponent).getLayeredPane();
 				jlp.add(layeredPanel, index++);
 			}
 		});
