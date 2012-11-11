@@ -52,10 +52,10 @@ public class PublicTransportationQueryTool {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmPublictransportationquerytool = new JFrame();
+		//frmPublictransportationquerytool = new JFrame();
 		frmPublictransportationquerytool.setTitle("PublicTransportationQueryTool");
 		frmPublictransportationquerytool.setBounds(0, 0, 1024, 768);
-		//frmPublictransportationquerytool.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPublictransportationquerytool.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPublictransportationquerytool.setLocationRelativeTo(null);
 		JPanel panel = new JPanel();
 		frmPublictransportationquerytool.getContentPane().add(panel, BorderLayout.NORTH);
