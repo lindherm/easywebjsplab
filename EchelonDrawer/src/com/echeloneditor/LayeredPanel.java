@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -24,8 +26,18 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public String charText="";
+	public Font font=null;
+	
+	
 	public Point point = new Point(0, 0); // 坐标点
-	public int type = 0;
+	
+	public int layerType = 0;
+	
+	public static final int LAYERED_TYPE_IMAGE=0;
+	public static final int LAYERED_TYPE_CHAR=1;
+	public static final int LAYERED_TYPE_LINE=2;
 
 	int x1, y1;
 
@@ -49,31 +61,40 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 
 	boolean isSelected = false;
 
-	public LayeredPanel(Object object) {
-		this.setOpaque(false);
-		if (object instanceof ImageIcon) {
-			type = 0;
-			this.imageIcon = (ImageIcon) object;
-			int imageWidth = imageIcon.getIconWidth();
-			int imageHeight = imageIcon.getIconHeight();
+	public LayeredPanel(ImageIcon imageIcon) {
+		layerType = LAYERED_TYPE_IMAGE;
+		this.imageIcon = imageIcon;
+		int imageWidth = imageIcon.getIconWidth();
+		int imageHeight = imageIcon.getIconHeight();
 
-			if (imageIcon.getIconWidth() > 800) {
-				imageWidth = 800;
-			}
-			if (imageIcon.getIconHeight() > 600) {
-				imageHeight = 600;
-			}
-			this.setBounds(0, 50, imageWidth, imageHeight);
-		} else if (object instanceof JLabel) {
-			type = 1;
-			JLabel label = (JLabel) object;
-			System.out.println(label.getText());
-			this.setBounds(0, 50, 100, 20);
+		if (imageIcon.getIconWidth() > 800) {
+			imageWidth = 800;
 		}
+		if (imageIcon.getIconHeight() > 600) {
+			imageHeight = 600;
+		}
+		this.setBounds(0, 50, imageWidth, imageHeight);
 
 		x1 = this.getWidth();
 		y1 = this.getHeight();
+		
+		//创建模块边框
+		createPanelBorder();
+	}
+	public LayeredPanel(String charText,Font font) {
+		FontMetrics fontMetrics=this.getFontMetrics(this.getFont());
+		this.setBounds(50, 50, width, height);
 
+		x1 = this.getWidth();
+		y1 = this.getHeight();
+		
+		//创建模块边框
+		createPanelBorder();
+	}
+	/**
+	 * 创建模块边框
+	 */
+	public void createPanelBorder(){
 		northWest = new JLabel();
 		northWest.setText("");
 		northWest.setBorder(new LineBorder(Color.BLACK, 1));
@@ -307,9 +328,9 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (type == 0) {
+		if (layerType == LayeredPanel.LAYERED_TYPE_IMAGE) {
 			g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
-		} else if (type == 1) {
+		} else if (layerType == LayeredPanel.LAYERED_TYPE_CHAR) {
 			g.drawString("你好中國人国人", 10, 10);
 		}
 
