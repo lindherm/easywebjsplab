@@ -67,10 +67,10 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 			public void actionPerformed(ActionEvent actionevent) {
 				Component component = (Component) actionevent.getSource();
 				Component parentComponent = SwingUtilities.getRoot(component);
-				JLabel cLabel = new JLabel("你好");
-				LayeredPanel layeredPanel = new LayeredPanel(cLabel);
+				//JLabel cLabel = new JLabel("你好");
+				//LayeredPanel layeredPanel = new LayeredPanel(cLabel);
 				JLayeredPane jlp = ((EchelonDrawer) parentComponent).getLayeredPane();
-				jlp.add(layeredPanel, index++);
+				//jlp.add(layeredPanel, index++);
 			}
 		});
 		toolBar.add(button_1);
