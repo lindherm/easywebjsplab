@@ -93,7 +93,7 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 		int strWidth=charWidth*charText.getBytes().length;
 		
 		
-		this.setBounds(50, 50, strWidth, charHeight);
+		this.setBounds(50, 50, strWidth+10, charHeight+10);
 
 		x1 = this.getWidth();
 		y1 = this.getHeight();
@@ -342,7 +342,7 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 			g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
 		} else if (layerType == LayeredPanel.LAYERED_TYPE_CHAR) {
 			g.setFont(font);
-			g.drawString(charText, 5, 10);
+			g.drawString(charText, 5, 25);
 		}
 
 	}
