@@ -82,8 +82,18 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 		createPanelBorder();
 	}
 	public LayeredPanel(String charText,Font font) {
-		FontMetrics fontMetrics=this.getFontMetrics(this.getFont());
-		this.setBounds(50, 50, width, height);
+		layerType = LAYERED_TYPE_CHAR;
+		this.charText=charText;
+		this.font=font;
+		FontMetrics fontMetrics=this.getFontMetrics(font);
+		
+		int charWidth=fontMetrics.charWidth('H');
+		int charHeight=fontMetrics.getHeight();
+		
+		int strWidth=charWidth*charText.getBytes().length;
+		
+		
+		this.setBounds(50, 50, strWidth, charHeight);
 
 		x1 = this.getWidth();
 		y1 = this.getHeight();
@@ -331,7 +341,8 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 		if (layerType == LayeredPanel.LAYERED_TYPE_IMAGE) {
 			g.drawImage(this.imageIcon.getImage(), 5, 5, this.getWidth() - 10, this.getHeight() - 10, this);
 		} else if (layerType == LayeredPanel.LAYERED_TYPE_CHAR) {
-			g.drawString("你好中國人国人", 10, 10);
+			g.setFont(font);
+			g.drawString(charText, 5, 10);
 		}
 
 	}

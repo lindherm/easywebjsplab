@@ -2,6 +2,7 @@ package com.echeloneditor;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -68,9 +69,9 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 				Component component = (Component) actionevent.getSource();
 				Component parentComponent = SwingUtilities.getRoot(component);
 				//JLabel cLabel = new JLabel("你好");
-				//LayeredPanel layeredPanel = new LayeredPanel(cLabel);
+				LayeredPanel layeredPanel = new LayeredPanel("zhongguoren",new Font("宋体", Font.BOLD, 28));
 				JLayeredPane jlp = ((EchelonDrawer) parentComponent).getLayeredPane();
-				//jlp.add(layeredPanel, index++);
+				jlp.add(layeredPanel, index++);
 			}
 		});
 		toolBar.add(button_1);
