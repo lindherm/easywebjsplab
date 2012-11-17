@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
@@ -31,6 +30,7 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	public EchelonDrawer() {
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setIconImage(ImageHelper.loadImage("logo.png").getImage());
 		this.setTitle("EchelonDrawer");
 		this.setSize(800, 600);
