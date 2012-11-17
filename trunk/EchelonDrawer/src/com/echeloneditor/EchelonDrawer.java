@@ -39,7 +39,7 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		JToolBar toolBar = new JToolBar();
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 
-		JButton button = new JButton("打开图片");
+		JButton button = new JButton("图片");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
 				//打开选择对话框
@@ -63,7 +63,7 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		});
 		toolBar.add(button);
 
-		JButton button_1 = new JButton("创建文字");
+		JButton button_1 = new JButton("文字");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionevent) {
 				Component component = (Component) actionevent.getSource();
@@ -76,10 +76,10 @@ public class EchelonDrawer extends JFrame implements MouseListener {
 		});
 		toolBar.add(button_1);
 
-		JButton button_2 = new JButton("画横线");
+		JButton button_2 = new JButton("画线");
 		toolBar.add(button_2);
 
-		JButton button_3 = new JButton("自定义图像");
+		JButton button_3 = new JButton("自定义");
 		toolBar.add(button_3);
 
 		this.addMouseListener(this);
