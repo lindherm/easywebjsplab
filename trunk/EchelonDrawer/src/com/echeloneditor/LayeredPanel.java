@@ -21,11 +21,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class LayeredPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public SimplePopupMenu simplePopupMenu=null;
 	
 	public String charText="";
 	public Font font=null;
@@ -217,7 +221,13 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 		}
-
+		if (SwingUtilities.isRightMouseButton(e)) {
+			Component component = (Component) e.getSource();
+			Component parentComponent = SwingUtilities.getRoot(component);
+			EchelonDrawer echelonDrawer = (EchelonDrawer) parentComponent;
+			simplePopupMenu=new SimplePopupMenu(echelonDrawer,(LayeredPanel)component);
+			simplePopupMenu.show(this, e.getX(), e.getY());
+		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -373,9 +383,7 @@ public class LayeredPanel extends JPanel implements MouseListener, MouseMotionLi
 			this.setLocation(this.getX() + (newPoint.x - point.x), this.getY() + (newPoint.y - point.y)); // 设置标签图片的新位置
 			point = newPoint; // 更改坐标点
 		}
-		System.out.println("1:" + keyevent.getKeyChar());
-		System.out.println("2:" + keyevent.getKeyCode());
-		System.out.println("3:" + keyevent.getKeyLocation());
+		
 	}
 
 	@Override
