@@ -6,14 +6,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-/**
- * 
- * @ClassName SessionSocket
- * @Description socket通信会话类,功能是简化scoket通信过程， 用户只需要继承本类实现几个事件处理方法即可完成scoket通信， 使用灵活，可控性强，每个阶段都可以控制，扩展性强，详细使用 方法可以参考demo
- * @author 狂奔的蜗牛 672308444@163.com
- * @date 2011-9-16 上午10:30:31
- * 
- */
 public abstract class SessionSocket implements Runnable {
 	/**
 	 * 所有会话列表

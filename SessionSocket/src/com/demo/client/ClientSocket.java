@@ -17,7 +17,7 @@ public class ClientSocket extends SessionSocket {
 	public static void main(String args[]) {
 		Socket socket;
 		try {
-			socket = new Socket("10.0.73.14", 5050);
+			socket = new Socket("10.0.73.14", 3002);
 			ClientSocket clientSocket = new ClientSocket(socket);
 			// 启动ClientSocket线程
 			clientSocket.start();
