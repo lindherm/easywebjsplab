@@ -22,5 +22,11 @@ public class TestDemo {
 		System.out.println(new String(getmsg));
 		
 		System.out.println(SessionClient.getSession().size());
+		
+		sessionClient.closeAll();
+		
+		getmsg = sessionClient.send("test".getBytes(), "go");
+
+		System.out.println(new String(getmsg));
 	}
 }
