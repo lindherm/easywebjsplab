@@ -8,17 +8,19 @@ public class TestDemo {
 		SessionClient sessionClient = new SessionClient("hello", "127.0.0.1", 3002);
 		TcpConnector tcpConnector = new TcpConnector("127.0.0.1", 3003);
 
-		byte[] getmsg = sessionClient.sendData("gohello".getBytes(), "hello");
+		byte[] getmsg = sessionClient.send("gohello".getBytes(), "hello");
 		System.out.println(new String(getmsg));
 
 		sessionClient.addConnector("go", tcpConnector);
 
-		getmsg = sessionClient.sendData("1111".getBytes(), "go");
+		getmsg = sessionClient.send("1111".getBytes(), "go");
 
-		System.out.println(getmsg);
+		System.out.println(new String(getmsg));
 
-		getmsg = sessionClient.sendData("1111".getBytes(), "hello");
+		getmsg = sessionClient.send("1111".getBytes(), "hello");
 
-		System.out.println(getmsg);
+		System.out.println(new String(getmsg));
+		
+		System.out.println(SessionClient.getSession().size());
 	}
 }

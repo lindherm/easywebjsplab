@@ -37,7 +37,14 @@ public class SessionClient {
 		session.putIfAbsent(connectorName, tcpConnector);
 	}
 
-	public byte[] sendData(byte[] data, String connectName) throws IOException {
+	/**
+	 * send data use a connect
+	 * @param data
+	 * @param connectName
+	 * @return
+	 * @throws IOException
+	 */
+	public byte[] send(byte[] data, String connectName) throws IOException {
 		if (session.containsKey(connectName)) {
 			return sendData(data, session.get(connectName).getSocket());
 		} else {
