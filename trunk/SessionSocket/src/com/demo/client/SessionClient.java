@@ -14,10 +14,6 @@ public class SessionClient {
 		return session;
 	}
 
-	public static void setSession(ConcurrentHashMap<String, TcpConnector> session) {
-		SessionClient.session = session;
-	}
-
 	public SessionClient(String connectorName, String ip, int port) throws UnknownHostException, IOException {
 		TcpConnector tcpConnector = new TcpConnector(ip, port);
 		addConnector(connectorName, tcpConnector);
