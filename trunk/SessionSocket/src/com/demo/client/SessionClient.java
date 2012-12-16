@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionClient {
@@ -35,6 +37,7 @@ public class SessionClient {
 
 	/**
 	 * send data use a connect
+	 * 
 	 * @param data
 	 * @param connectName
 	 * @return
@@ -65,6 +68,20 @@ public class SessionClient {
 		}
 		{
 			throw new IOException();
+		}
+	}
+
+	/**
+	 * close all
+	 * 
+	 * @throws IOException
+	 */
+	public void closeAll() throws IOException {
+		Iterator<Entry<String, TcpConnector>> iterator = session.entrySet().iterator();
+
+		while (iterator.hasNext()) {
+			Entry<String, TcpConnector> entry = (Entry<String, TcpConnector>) iterator.next();
+			session.get(entry.getKey()).getSocket().close();
 		}
 	}
 }
