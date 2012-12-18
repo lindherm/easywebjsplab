@@ -99,7 +99,7 @@ public abstract class SessionSocket implements Runnable {
 	 *            : Thread 对应的线程对象
 	 * @return 返回类型 void
 	 */
-	private void errorHandle(Exception e, Socket socket, Thread thread) {
+	public void errorHandle(Exception e, Socket socket, Thread thread) {
 		needExit = true;
 		onError(e, socket, thread);
 	}
@@ -290,16 +290,13 @@ public abstract class SessionSocket implements Runnable {
 		onConnected(socket, thread);
 		// 线程开始
 		while (!needExit) {
-			try {
-				if (socket.isClosed()) {
-					onClose(socket, thread);
-					break;
-				}
-				byte[] data = reciveMessage(socket);
-				onDataArrived(data, socket, thread);
-			} catch (IOException e) {
-				errorHandle(e, socket, thread);
+			if (socket.isClosed()) {
+				onClose(socket, thread);
+				break;
 			}
+			// byte[] data = reciveMessage(socket);
+			onDataArrived(null, socket, thread);
+
 		}
 		threadExitHandle();
 		// 线程结束
