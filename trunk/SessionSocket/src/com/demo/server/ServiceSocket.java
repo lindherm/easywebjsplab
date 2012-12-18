@@ -1,5 +1,8 @@
 package com.demo.server;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -41,16 +44,27 @@ public class ServiceSocket extends SessionSocket {
 	}
 
 	@Override
-	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
+	public void onDataArrived(byte[] data,Socket socket, Thread thread) {
 		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
-		Debug.print("消息内容:" + new String(data));
 		try {
-			// sendMessage(("From server:"+new String(data)).getBytes());
-			//sendMessageToAll(data);
-			sendMessage(data, socket);
+			BufferedInputStream reciver = new BufferedInputStream(socket.getInputStream());
+			FileOutputStream outputStream=new FileOutputStream(new File("D:/data/mt1dddd.rar"),true);
+			//outputStream.write(data);
+			byte[] buffer = new byte[getBUFFER_SIZE() * 1024 * 2];// 缓存大小，1*1024*1024*2是1M
+			int amount;
+			int a=0;
+			while ((amount = reciver.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, amount);
+				a++;
+				System.out.println(a+":"+amount);
+				System.out.println(new String(buffer,0,amount));
+			}
+			// 关闭流
+			reciver.close();
+			outputStream.close();
+			//connection.close();
 		} catch (Exception e) {
-			// e.printStackTrace();
-			Debug.info(e.getMessage());
+			errorHandle(e, socket, thread);
 		}
 
 	}

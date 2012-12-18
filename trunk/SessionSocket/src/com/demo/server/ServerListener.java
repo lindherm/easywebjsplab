@@ -13,7 +13,7 @@ public class ServerListener {
 	}
 
 	public static void main(String args[]) {
-		new ServerListener().startService(3003);
+		new ServerListener().startService(3002);
 	}
 
 	public void startService(int port) {
