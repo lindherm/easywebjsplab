@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import com.watchdata.commons.lang.WDStringUtil;
+
 public class TestDemo {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		SessionClient sessionClient = new SessionClient("hello", "10.0.73.14", 3002);
@@ -17,7 +19,14 @@ public class TestDemo {
 		byte[] bs = new byte[a];
 
 		fis.read(bs);
-		sessionClient.send(bs, "hello");
-		//sessionClient.closeAll();
+		
+		String filelength=WDStringUtil.paddingHeadZero(String.valueOf(a), 8);
+		byte[] lenth=filelength.getBytes();
+		byte[] temp=new byte[a+8];
+		System.arraycopy(lenth, 0, temp, 0, 8);
+		System.arraycopy(bs, 0, temp, 8, a);
+		//System.out.println(new String(temp));
+		sessionClient.send(temp, "hello");
+		System.out.println(new String(sessionClient.recive("hello")));
 	}
 }
