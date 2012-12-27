@@ -1,8 +1,5 @@
 package com.demo.server;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -46,44 +43,6 @@ public class ServiceSocket extends SessionSocket {
 	@Override
 	public void onDataArrived(byte[] data,Socket socket, Thread thread){
 		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
-		try {
-			BufferedInputStream reciver = new BufferedInputStream(socket.getInputStream());
-			FileOutputStream fileOutputStream=new FileOutputStream(new File("d:/data/mt1.02320.rar"),true);
-			byte[] buffer = new byte[1024];// 缓存大小，1*1024*1024*2是1M
-			byte[] datalength=new byte[8];
-			reciver.read(datalength);
-			int dataL=Integer.parseInt(new String(datalength));
-			int amount;
-			int a=0;
-			int b=dataL/1024;
-			int c=dataL%1024;
-			
-			byte[] bytec=new byte[c];
-			
-			for (int i = 0; i < b; i++) {
-				
-				amount = reciver.read(buffer);
-				System.out.println(a+":"+amount);
-				System.out.println(new String(buffer,0,amount));
-				fileOutputStream.write(buffer);
-				a++;
-			}
-			
-			if (c>0) {
-				amount = reciver.read(bytec);
-				System.out.println(a+":"+amount);
-				System.out.println(new String(bytec));
-				fileOutputStream.write(bytec);
-			}
-			// 关闭流
-			sendMessage("     95533     AAAAA01CR00220120731131524                     42100099_95533_122000000000000000000000000000000000000000000000000000000000000000000000000000".getBytes(), socket);
-			fileOutputStream.close();
-			reciver.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			errorHandle(e, socket, thread);
-		}
-
 	}
 
 	@Override
