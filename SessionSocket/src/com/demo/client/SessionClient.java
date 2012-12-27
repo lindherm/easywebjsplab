@@ -56,8 +56,10 @@ public class SessionClient {
 		sender.write(data);
 		sender.flush();
 	}
+
 	/**
 	 * receive a data
+	 * 
 	 * @param connectName
 	 * @return
 	 * @throws IOException
@@ -65,9 +67,10 @@ public class SessionClient {
 	public byte[] recive(String connectName) throws IOException {
 		if (session.containsKey(connectName)) {
 			BufferedInputStream reciver = new BufferedInputStream(session.get(connectName).getSocket().getInputStream());
-			byte[] buffer = new byte[5 * 1024 * 2];// 缓存大小，1*1024*1024*2是1M
-			int len = reciver.read(buffer);
-			if (len > 0) {
+			byte[] buffer = new byte[1024 * 10];// 缓存大小
+
+			int len = -1;
+			if ((len = reciver.read(buffer, 0, buffer.length)) > 0) {
 				return new String(buffer, 0, len).getBytes();
 			}
 			{
@@ -76,7 +79,35 @@ public class SessionClient {
 		} else {
 			throw new IOException("connect is not exists.");
 		}
-		
+
+	}
+
+	public byte[] recive(String connectName, int size) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		if (session.containsKey(connectName)) {
+			BufferedInputStream reciver = new BufferedInputStream(session.get(connectName).getSocket().getInputStream());
+			byte[] buffer = new byte[1024];// 缓存大小
+
+			int len = -1;
+			int amount = 0;
+			while (amount < size) {
+				if ((len = reciver.read(buffer)) > 0) {
+					sb.append(new String(buffer, 0, len));
+				}
+				amount += len;
+			}
+			return sb.toString().getBytes();
+		} else {
+			throw new IOException("connect is not exists.");
+		}
+
+	}
+
+	public void Close(String connectorName) throws IOException {
+		session.get(connectorName).getSocket().close();
+		synchronized (session) {
+			session.remove(connectorName);
+		}
 	}
 
 	/**
