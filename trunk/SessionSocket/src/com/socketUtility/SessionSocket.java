@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class SessionSocket implements Runnable {
 	/**
 	 * 所有会话列表
 	 */
 	private static ArrayList<SessionSocket> sessiontList = new ArrayList<SessionSocket>();
+	public static Map<String, String> batchMap = new ConcurrentHashMap<String, String>();
 	/**
 	 * 读取数据使用的缓存区大小,单位KB
 	 */
