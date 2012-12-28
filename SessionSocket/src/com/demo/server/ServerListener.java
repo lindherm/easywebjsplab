@@ -20,7 +20,7 @@ public class ServerListener {
 		try {
 			IS_STOP = false;
 			listener = new ServerSocket(port);
-			System.err.println("Service started.");
+			System.out.println("Service started on port "+port+"...");
 			while (!IS_STOP && !listener.isClosed()) {
 				new ServiceSocket(listener.accept()).start();
 			}
