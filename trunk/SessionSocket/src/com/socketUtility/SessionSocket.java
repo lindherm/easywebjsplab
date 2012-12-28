@@ -272,11 +272,15 @@ public abstract class SessionSocket implements Runnable {
 		onConnected(socket, thread);
 		// 线程开始
 		while (!needExit) {
-			if (socket.isClosed()) {
-				onClose(socket, thread);
-				break;
+			try {
+				if (socket.isClosed()) {
+					onClose(socket, thread);
+					break;
+				}
+				onDataArrived(socket, thread);
+			} catch (Exception e) {
+				errorHandle(e, socket, thread);
 			}
-			onDataArrived(socket, thread);
 		}
 		threadExitHandle();
 		// 线程结束
