@@ -1,6 +1,5 @@
 package com.socketUtility;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -242,7 +241,7 @@ public abstract class SessionSocket implements Runnable {
 	 * @return 返回类型 void
 	 */
 	private boolean reachMaxThread() {
-		// System.out.println("size:"+sessiontList.size());
+		System.out.println("size:" + sessiontList.size());
 		if (MAX_THREAD == 0) {
 			return false;
 		}
@@ -250,27 +249,6 @@ public abstract class SessionSocket implements Runnable {
 			return false;
 		} else {
 			return true;
-		}
-	}
-
-	/**
-	 * @Description 从指定的socket中读取一次数据
-	 * @param socket
-	 *            : Socket
-	 * @throws IOException
-	 *             抛出IO异常,说明网络异常
-	 * @return 返回类型 String,即接收到的数据
-	 */
-	private byte[] reciveMessage(Socket socket) throws IOException {
-		BufferedInputStream reciver = new BufferedInputStream(
-				socket.getInputStream());
-		byte[] buffer = new byte[getBUFFER_SIZE() * 1024 * 2];// 缓存大小，1*1024*1024*2是1M
-		int len = reciver.read(buffer);
-		if (len > 0) {
-			return new String(buffer, 0, len).getBytes();
-		}
-		{
-			throw new IOException();
 		}
 	}
 
