@@ -1,15 +1,11 @@
 package com.demo.client;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-import com.watchdata.commons.lang.WDStringUtil;
-
 public class TestDemo {
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		SessionClient sessionClient = new SessionClient("hello", "10.0.73.14", 3002);
+		/*SessionClient sessionClient = new SessionClient("hello", "10.0.73.14", 3002);
 		// TcpConnector tcpConnector = new TcpConnector("127.0.0.1", 3003);
 		File file = new File("D:/data/mt1.rar");
 		FileInputStream fis = new FileInputStream(file);
@@ -27,6 +23,6 @@ public class TestDemo {
 		System.arraycopy(bs, 0, temp, 8, a);
 		//System.out.println(new String(temp));
 		sessionClient.send(temp, "hello");
-		System.out.println(new String(sessionClient.recive("hello")));
+		System.out.println(new String(sessionClient.recive("hello")));*/
 	}
 }
