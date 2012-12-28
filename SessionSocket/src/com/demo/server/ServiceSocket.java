@@ -41,7 +41,12 @@ public class ServiceSocket extends SessionSocket {
 	}
 
 	@Override
-	public void onDataArrived(Socket socket, Thread thread){
+	public void onDataArrived(Socket socket, Thread thread) {
+		try {
+			sendMessage("nihao".getBytes(),socket);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
 	}
 
@@ -79,7 +84,7 @@ public class ServiceSocket extends SessionSocket {
 			try {
 				sendMessage(message, session.getSocket());
 			} catch (IOException e) {
-				// e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
