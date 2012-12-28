@@ -42,9 +42,8 @@ public class ClientSocket extends SessionSocket {
 		System.out.println("连接服务器成功！");
 	}
 
-	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
+	public void onDataArrived(Socket socket, Thread thread) {
 		System.out.println(socket.getRemoteSocketAddress());
-		System.out.println(new String(data));
 	}
 
 	public void onError(Exception e, Socket socket, Thread thread) {
