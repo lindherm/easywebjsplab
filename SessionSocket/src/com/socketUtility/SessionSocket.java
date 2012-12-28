@@ -1,5 +1,6 @@
 package com.socketUtility;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -182,14 +183,15 @@ public abstract class SessionSocket implements Runnable {
 
 	/**
 	 * @Description 当有数据到达时触发
-	 * 
+	 * @param data
+	 *            ：byte[] 字节数组数据
 	 * @param socket
 	 *            ：Socket 接受的Socket连接对象
 	 * @param thread
 	 *            ：Thread 对应的线程对象
 	 * @return 返回类型 void
 	 */
-	public abstract void onDataArrived(Socket socket, Thread thread);
+	public abstract void onDataArrived(byte[] data, Socket socket, Thread thread);
 
 	/**
 	 * @Description 发生通信错误时触发
@@ -277,8 +279,9 @@ public abstract class SessionSocket implements Runnable {
 					onClose(socket, thread);
 					break;
 				}
-				onDataArrived(socket, thread);
-			} catch (Exception e) {
+				byte[] data = reciveMessage(socket);
+				onDataArrived(data, socket, thread);
+			} catch (IOException e) {
 				errorHandle(e, socket, thread);
 			}
 		}
@@ -315,6 +318,27 @@ public abstract class SessionSocket implements Runnable {
 		sender.write(data);
 		sender.flush();
 	};
+
+	/**
+	 * @Description 从指定的socket中读取一次数据
+	 * @param socket
+	 *            : Socket
+	 * @throws IOException
+	 *             抛出IO异常,说明网络异常
+	 * @return 返回类型 String,即接收到的数据
+	 */
+	public byte[] reciveMessage(Socket socket) throws IOException {
+		BufferedInputStream reciver = new BufferedInputStream(
+				socket.getInputStream());
+		byte[] buffer = new byte[getBUFFER_SIZE() * 1024 * 2];// 缓存大小，1*1024*1024*2是1M
+		int len = reciver.read(buffer);
+		if (len > 0) {
+			return new String(buffer, 0, len).getBytes();
+		}
+		{
+			throw new IOException();
+		}
+	}
 
 	/**
 	 * @Description 设置读取数据使用的缓存区大小，单位KB，默认1024KB即1M(默认)

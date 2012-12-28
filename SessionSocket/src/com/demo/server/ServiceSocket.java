@@ -24,6 +24,12 @@ public class ServiceSocket extends SessionSocket {
 	}
 
 	@Override
+	public byte[] reciveMessage(Socket socket) throws IOException {
+		// TODO Auto-generated method stub
+		return super.reciveMessage(socket);
+	}
+
+	@Override
 	public void beforeThreadStarted(Thread thread, Socket socket) {
 		Debug.print("信息:线程启动之前。线程ID：" + thread.getId());
 	}
@@ -41,13 +47,9 @@ public class ServiceSocket extends SessionSocket {
 	}
 
 	@Override
-	public void onDataArrived(Socket socket, Thread thread) {
-		try {
-			sendMessage("nihao".getBytes(),socket);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
 		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
+		System.out.println(new String(data));
 	}
 
 	@Override
