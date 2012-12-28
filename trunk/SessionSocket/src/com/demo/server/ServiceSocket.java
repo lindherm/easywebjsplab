@@ -41,7 +41,7 @@ public class ServiceSocket extends SessionSocket {
 	}
 
 	@Override
-	public void onDataArrived(byte[] data,Socket socket, Thread thread){
+	public void onDataArrived(Socket socket, Thread thread){
 		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
 	}
 

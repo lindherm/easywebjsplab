@@ -183,15 +183,14 @@ public abstract class SessionSocket implements Runnable {
 
 	/**
 	 * @Description 当有数据到达时触发
-	 * @param data
-	 *            ：byte[] 字节数组数据
+	 * 
 	 * @param socket
 	 *            ：Socket 接受的Socket连接对象
 	 * @param thread
 	 *            ：Thread 对应的线程对象
 	 * @return 返回类型 void
 	 */
-	public abstract void onDataArrived(byte[] data, Socket socket, Thread thread);
+	public abstract void onDataArrived(Socket socket, Thread thread);
 
 	/**
 	 * @Description 发生通信错误时触发
@@ -295,17 +294,11 @@ public abstract class SessionSocket implements Runnable {
 		onConnected(socket, thread);
 		// 线程开始
 		while (!needExit) {
-			try {
-				if (socket.isClosed()) {
-					onClose(socket, thread);
-					break;
-				}
-				byte[] data = reciveMessage(socket);
-				onDataArrived(data, socket, thread);
-			} catch (IOException e) {
-				errorHandle(e, socket, thread);
+			if (socket.isClosed()) {
+				onClose(socket, thread);
+				break;
 			}
-
+			onDataArrived(socket, thread);
 		}
 		threadExitHandle();
 		// 线程结束
