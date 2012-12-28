@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import com.socketUtility.SessionSocket;
+
 public class ClientSocket extends SessionSocket {
 
 	public ClientSocket(Socket socket) {
@@ -42,7 +43,7 @@ public class ClientSocket extends SessionSocket {
 		System.out.println("连接服务器成功！");
 	}
 
-	public void onDataArrived(Socket socket, Thread thread) {
+	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
 		System.out.println(socket.getRemoteSocketAddress());
 	}
 
@@ -56,9 +57,9 @@ public class ClientSocket extends SessionSocket {
 		public void run() {
 			while (true) {
 				System.out.println("请输入报文>>:");
-				nickName=getInput();
+				nickName = getInput();
 				try {
-					if (nickName!="") {
+					if (nickName != "") {
 						sendMessage(nickName.getBytes());
 					}
 				} catch (Exception e) {
@@ -70,7 +71,8 @@ public class ClientSocket extends SessionSocket {
 
 		public String getInput() {
 			InputStream inputStream = System.in;
-			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					inputStream));
 			try {
 				String inputString = reader.readLine();
 				return inputString;

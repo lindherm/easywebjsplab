@@ -73,13 +73,10 @@ public class SessionClient {
 			if ((len = reciver.read(buffer, 0, buffer.length)) > 0) {
 				return new String(buffer, 0, len).getBytes();
 			}
-			{
-				throw new IOException();
-			}
 		} else {
 			throw new IOException("connect is not exists.");
 		}
-
+		return null;
 	}
 
 	public byte[] recive(String connectName, int size) throws IOException {
