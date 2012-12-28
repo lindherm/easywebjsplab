@@ -1,6 +1,5 @@
 package com.socketUtility;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -124,8 +123,7 @@ public abstract class SessionSocket implements Runnable {
 	}
 
 	/**
-	 * @Description 滤掉不可用的BaseSocket对象,返回有效的已经注册的SessionSocket对象列表，
-	 *              由于是操作共享数据，该方法用synchronized同步，确保线程安全。
+	 * @Description 滤掉不可用的BaseSocket对象,返回有效的已经注册的SessionSocket对象列表， 由于是操作共享数据，该方法用synchronized同步，确保线程安全。
 	 * @return 返回类型 ArrayList(SessionSocket)
 	 */
 	public synchronized ArrayList<SessionSocket> getSessions() {
@@ -180,6 +178,16 @@ public abstract class SessionSocket implements Runnable {
 	 * @return 返回类型 void
 	 */
 	public abstract void onConnected(Socket socket, Thread thread);
+
+	/**
+	 * @Description 从指定的socket中读取一次数据
+	 * @param socket
+	 *            : Socket
+	 * @throws IOException
+	 *             抛出IO异常,说明网络异常
+	 * @return 返回类型 String,即接收到的数据
+	 */
+	public abstract byte[] reciveMessage(Socket socket) throws IOException;
 
 	/**
 	 * @Description 当有数据到达时触发
@@ -320,27 +328,6 @@ public abstract class SessionSocket implements Runnable {
 	};
 
 	/**
-	 * @Description 从指定的socket中读取一次数据
-	 * @param socket
-	 *            : Socket
-	 * @throws IOException
-	 *             抛出IO异常,说明网络异常
-	 * @return 返回类型 String,即接收到的数据
-	 */
-	public byte[] reciveMessage(Socket socket) throws IOException {
-		BufferedInputStream reciver = new BufferedInputStream(
-				socket.getInputStream());
-		byte[] buffer = new byte[getBUFFER_SIZE() * 1024 * 2];// 缓存大小，1*1024*1024*2是1M
-		int len = reciver.read(buffer);
-		if (len > 0) {
-			return new String(buffer, 0, len).getBytes();
-		}
-		{
-			throw new IOException();
-		}
-	}
-
-	/**
 	 * @Description 设置读取数据使用的缓存区大小，单位KB，默认1024KB即1M(默认)
 	 * @param bUFFERSIZE
 	 *            ：int 缓存区大小
@@ -405,8 +392,7 @@ public abstract class SessionSocket implements Runnable {
 		if (!REGIST_DISABLED) {
 			for (int i = 0; i < sessiontList.size(); i++) {
 				SessionSocket session2 = sessiontList.get(i);
-				if (session.hashCode() == session2.hashCode()
-						|| session.equals(session2)) {
+				if (session.hashCode() == session2.hashCode() || session.equals(session2)) {
 					sessiontList.remove(i);
 				}
 			}

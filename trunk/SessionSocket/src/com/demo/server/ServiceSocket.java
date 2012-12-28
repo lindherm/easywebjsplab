@@ -1,11 +1,16 @@
 package com.demo.server;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import com.demo.utility.Debug;
 import com.socketUtility.SessionSocket;
+import com.watchdata.commons.lang.WDByteUtil;
 
 public class ServiceSocket extends SessionSocket {
 
@@ -21,12 +26,6 @@ public class ServiceSocket extends SessionSocket {
 			setMAX_THREAD(ServerListener.max_thread);
 		Debug.print("当前最大线程数是：" + getMAX_THREAD());
 		Debug.print("================================\n信息:连接之前。");
-	}
-
-	@Override
-	public byte[] reciveMessage(Socket socket) throws IOException {
-		// TODO Auto-generated method stub
-		return super.reciveMessage(socket);
 	}
 
 	@Override
@@ -49,13 +48,12 @@ public class ServiceSocket extends SessionSocket {
 	@Override
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
 		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
-		System.out.println(new String(data));
 	}
 
 	@Override
 	public void onError(Exception e, Socket socket, Thread thread) {
 		Debug.print("注意:连接异常。socketID:" + socket.hashCode());
-
+		e.printStackTrace();
 	}
 
 	@Override
@@ -89,5 +87,35 @@ public class ServiceSocket extends SessionSocket {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public byte[] reciveMessage(Socket socket) throws IOException {
+		FileOutputStream out = null;
+		try {
+			out=new FileOutputStream(new File("d:/data/1.zip"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedInputStream reciver = new BufferedInputStream(socket.getInputStream());
+		byte[] len = new byte[8];
+		//byte[] buffer = new byte[25511];// 缓存大小，1*1024*1024*2是1M
+		byte[] buffer = new byte[1024];
+		int lend = reciver.read(len);
+		int filesun=0;
+		while (filesun<25511) {
+			int len1 = reciver.read(buffer,0,buffer.length);
+			if (len1 > 0) {
+				out.write(buffer, 0, len1);
+				out.flush();
+			}
+			filesun+=len1;
+		}
+		out.close();
+		return null;
 	}
 }
