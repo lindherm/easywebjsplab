@@ -251,7 +251,7 @@ public abstract class SessionSocket implements Runnable {
 	 * @return 返回类型 void
 	 */
 	private boolean reachMaxThread() {
-		System.out.println("size:" + sessiontList.size());
+		//System.out.println("size:" + sessiontList.size());
 		if (MAX_THREAD == 0) {
 			return false;
 		}
