@@ -1,6 +1,7 @@
 package com.demo.client;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -80,7 +81,7 @@ public class SessionClient {
 	}
 
 	public byte[] recive(String connectName, int size) throws IOException {
-		StringBuilder sb = new StringBuilder();
+		ByteArrayOutputStream out=new ByteArrayOutputStream();
 		if (session.containsKey(connectName)) {
 			BufferedInputStream reciver = new BufferedInputStream(session.get(connectName).getSocket().getInputStream());
 			byte[] buffer = new byte[1024];// 缓存大小
@@ -89,11 +90,12 @@ public class SessionClient {
 			int amount = 0;
 			while (amount < size) {
 				if ((len = reciver.read(buffer)) > 0) {
-					sb.append(new String(buffer, 0, len));
+					out.write(buffer, 0, len);
+					out.flush();
 				}
 				amount += len;
 			}
-			return sb.toString().getBytes();
+			return out.toByteArray();
 		} else {
 			throw new IOException("connect is not exists.");
 		}
