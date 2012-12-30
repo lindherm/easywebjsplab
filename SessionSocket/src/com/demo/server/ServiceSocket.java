@@ -1,6 +1,7 @@
 package com.demo.server;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -60,7 +61,7 @@ public class ServiceSocket extends SessionSocket {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Debug.print("注意:有消息到达。socketID:" + socket.hashCode()+" 【接收："+data.length+"字节数据】");
+		Debug.print("注意:有消息到达。socketID:" + socket.hashCode() + " 【接收：" + data.length + "字节数据】");
 
 	}
 
@@ -107,12 +108,9 @@ public class ServiceSocket extends SessionSocket {
 		// 获得输入缓冲流
 		BufferedInputStream reciver = new BufferedInputStream(socket.getInputStream());
 		// 创建缓存文件
-		File file = new File(System.getProperty("user.dir") + "/temp/" + String.valueOf(socket.hashCode())+".tmp");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-		FileOutputStream out = new FileOutputStream(file);
-		FileInputStream in = new FileInputStream(file);
-
-		// 读取文件
+		// 读取数据
 		byte[] buffer = new byte[1024];// 缓存大小
 		byte[] datalength = new byte[8];
 		reciver.read(datalength);
@@ -128,15 +126,7 @@ public class ServiceSocket extends SessionSocket {
 				fileLen += amount;
 			}
 		}
-
-		byte[] data = new byte[in.available()];
-		in.read(data);
-		in.close();
 		out.close();
-		
-		if (file.exists()) {
-			file.delete();
-		}
-		return data;
+		return out.toByteArray();
 	}
 }
