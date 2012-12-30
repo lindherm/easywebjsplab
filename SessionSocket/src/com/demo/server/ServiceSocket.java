@@ -48,11 +48,11 @@ public class ServiceSocket extends SessionSocket {
 	@Override
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
 		try {
-			FileOutputStream out=new FileOutputStream(new File("d:/data/hello.zip"));
+			FileOutputStream out = new FileOutputStream(new File("d:/data/test.zip"));
 			out.write(data);
 			out.flush();
 			out.close();
-			sendMessage("done.".getBytes(),socket);
+			sendMessage("done.".getBytes(), socket);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,8 +60,8 @@ public class ServiceSocket extends SessionSocket {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Debug.print("注意:有消息到达。socketID:" + socket.hashCode());
-		
+		Debug.print("注意:有消息到达。socketID:" + socket.hashCode()+" 【接收："+data.length+"字节数据】");
+
 	}
 
 	@Override
@@ -104,37 +104,39 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public byte[] reciveMessage(Socket socket) throws IOException {
-		//获得输入缓冲流
+		// 获得输入缓冲流
 		BufferedInputStream reciver = new BufferedInputStream(socket.getInputStream());
-		//创建缓存文件
-		File tempDirectoy=new File(System.getProperty("user.dir")+"/temp");
-		File file=File.createTempFile(String.valueOf(socket.hashCode()), null,tempDirectoy);
-		file.deleteOnExit();
-		FileOutputStream fileOutputStream=new FileOutputStream(file);
-		FileInputStream fileInputStream=new FileInputStream(file);
-		//读取文件
-		byte[] buffer = new byte[1024];// 缓存大小，1*1024*1024*2是1M
-		byte[] datalength=new byte[8];
+		// 创建缓存文件
+		File file = new File(System.getProperty("user.dir") + "/temp/" + String.valueOf(socket.hashCode())+".tmp");
+
+		FileOutputStream out = new FileOutputStream(file);
+		FileInputStream in = new FileInputStream(file);
+
+		// 读取文件
+		byte[] buffer = new byte[1024];// 缓存大小
+		byte[] datalength = new byte[8];
 		reciver.read(datalength);
-		int dataL=Integer.parseInt(new String(datalength));
-		System.out.println("dataL:"+dataL);
-		int amount;
-		int fileLen=0;
-		int a=0;
-		while (fileLen<dataL) {
-			if ((amount = reciver.read(buffer))!=-1) {
-				fileOutputStream.write(buffer,0,amount);
-				fileLen+=amount;
-				a++;
+		int dataL = Integer.parseInt(new String(datalength));
+
+		int amount = -1;
+		int fileLen = 0;
+
+		while (fileLen < dataL) {
+			if ((amount = reciver.read(buffer)) != -1) {
+				out.write(buffer, 0, amount);
+				out.flush();
+				fileLen += amount;
 			}
 		}
-		System.out.println("readLen"+fileLen);
-		byte[] data=new byte[fileInputStream.available()];
+
+		byte[] data = new byte[in.available()];
+		in.read(data);
+		in.close();
+		out.close();
 		
-		fileInputStream.read(data);
-		
-		fileOutputStream.close();
-		//reciver.close();
+		if (file.exists()) {
+			file.delete();
+		}
 		return data;
 	}
 }
