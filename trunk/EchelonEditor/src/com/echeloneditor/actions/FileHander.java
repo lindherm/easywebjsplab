@@ -10,7 +10,9 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
+import org.fife.rsta.ac.LanguageSupport;
 import org.fife.rsta.ac.LanguageSupportFactory;
+import org.fife.rsta.ac.java.JavaLanguageSupport;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -54,19 +56,23 @@ public class FileHander {
 
 			RSyntaxTextArea textArea = SwingUtils.createTextArea();
 
-			/*LanguageSupportFactory lsf = LanguageSupportFactory.get();
+			
+			LanguageSupportFactory lsf = LanguageSupportFactory.get();
 			LanguageSupport support = lsf.getSupportFor(SyntaxConstants.SYNTAX_STYLE_JAVA);
-			JavaLanguageSupport jls = (JavaLanguageSupport) support;
+			JavaLanguageSupport jls = (JavaLanguageSupport)support;
+			// TODO: This API will change!  It will be easier to do per-editor
+			// changes to the build path.
 			try {
 				jls.getJarManager().addCurrentJreClassFileSource();
+				//jsls.getJarManager().addClassFileSource(ji);
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
 			jls.setShowDescWindow(true);
 			jls.setParameterAssistanceEnabled(true);
-			jls.setAutoActivationEnabled(true);*/
+			jls.setAutoActivationEnabled(true);
 			
-			LanguageSupportFactory.get().register(textArea);
+			lsf.register(textArea);
 
 			textArea.setSyntaxEditingStyle(fileContentType);
 			textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
