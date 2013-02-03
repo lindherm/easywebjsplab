@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.utils.Config;
+import com.echeloneditor.utils.SwingUtils;
 
 /**
  * 字体设置页面
@@ -178,6 +179,7 @@ public class FontChooserDialog extends JDialog {
 					updateShow();
 					if (null != rSyntaxTextArea) {
 						rSyntaxTextArea.setFont(fetchFont());
+						SwingUtils.getColumnHeader(rSyntaxTextArea).repaint();
 					}
 				}
 			});
@@ -220,6 +222,7 @@ public class FontChooserDialog extends JDialog {
 					updateShow();
 					if (null != rSyntaxTextArea) {
 						rSyntaxTextArea.setFont(fetchFont());
+						SwingUtils.getColumnHeader(rSyntaxTextArea).repaint();
 					}
 				}
 			});
@@ -275,6 +278,7 @@ public class FontChooserDialog extends JDialog {
 					updateShow();
 					if (null != rSyntaxTextArea) {
 						rSyntaxTextArea.setFont(fetchFont());
+						SwingUtils.getColumnHeader(rSyntaxTextArea).repaint();
 					}
 				}
 			});
@@ -458,6 +462,7 @@ public class FontChooserDialog extends JDialog {
 			Font font = fetchFont();
 
 			rSyntaxTextArea.setFont(font);
+			SwingUtils.getColumnHeader(rSyntaxTextArea).repaint();
 			config.setValue("current_font", font.getFontName() + "|" + font.getStyle() + "|" + font.getSize());
 			dispose();
 		}

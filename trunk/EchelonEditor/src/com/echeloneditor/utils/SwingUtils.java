@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Window;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -13,10 +12,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
-import org.fife.ui.hex.ByteBuffer;
-import org.fife.ui.hex.swing.HexEditor;
-import org.fife.ui.hex.swing.HexTable;
-import org.fife.ui.hex.swing.HexTableModel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import com.echeloneditor.main.CloseableTabComponent;
@@ -78,18 +73,6 @@ public class SwingUtils {
 	}
 
 	/**
-	 * 获取选项卡选中的RSyntaxTextArea
-	 * 
-	 * @param tabbedPane
-	 * @return
-	 */
-	public static HexEditor getHexEditor(JTabbedPane tabbedPane) {
-		HexEditor hexEditor = null;
-		Component com = tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
-		return (com instanceof HexEditor) ? (HexEditor) com : hexEditor;
-	}
-
-	/**
 	 * Get the JscrollPane that contains this EditorPane, or null if no JScrollPane is the parent of this editor
 	 * 
 	 * @param editorPane
@@ -140,33 +123,8 @@ public class SwingUtils {
 		RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
 		if (rSyntaxTextArea != null) {
 			text = rSyntaxTextArea.getText();
-		} else {
-			CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
-			HexTable hexTable = getHexTable(tabbedPane);
-
-			HexTableModel hexTableModel = (HexTableModel) hexTable.getModel();
-			ByteBuffer byteBuffer = hexTableModel.getDoc();
-			try {
-				text = new String(byteBuffer.getBuffer(), closeableTabComponent.getFileEncode());
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		return text;
-	}
-
-	/**
-	 * get hextable
-	 * 
-	 * @param tabbedPane
-	 * @return
-	 */
-	public static HexTable getHexTable(JTabbedPane tabbedPane) {
-		HexTable hexTable = null;
-		HexEditor hexEditor = SwingUtils.getHexEditor(tabbedPane);
-		Component component = hexEditor.getViewport();
-
-		return (component instanceof JViewport) ? (HexTable) (((JViewport) component).getView()) : hexTable;
 	}
 
 	/**
