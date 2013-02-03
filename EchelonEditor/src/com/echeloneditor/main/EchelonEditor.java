@@ -21,22 +21,21 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import org.fife.rsta.ui.search.FindDialog;
+import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-import com.echeloneditor.EchelonDrawer;
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.actions.FindAndReplaceAction;
+import com.echeloneditor.listeners.FindDialogListener;
 import com.echeloneditor.listeners.SimpleDragFileListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.listeners.SimpleJmenuItemListener;
@@ -51,6 +50,9 @@ public class EchelonEditor {
 	public JFrame frmEcheloneditor;
 	public static JTabbedPane tabbedPane;
 	public StatusObject statusObject;
+	
+	FindDialog findDialog=null;
+	ReplaceDialog replaceDialog=null;
 
 	/**
 	 * Launch the application.
@@ -75,14 +77,8 @@ public class EchelonEditor {
 					}
 
 					UIManager.setLookAndFeel(currentLaf);
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							SwingUtils.updateUI();
-						}
-					});
+					
+					SwingUtils.updateUI();
 					// 初始化窗体
 					EchelonEditor window = new EchelonEditor();
 					// 框体屏幕居中显示
@@ -150,7 +146,7 @@ public class EchelonEditor {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.addMouseListener(new TabbedPaneChangeListener(tabbedPane, statusObject));
-		//frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		// frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel_1 = new JPanel();
 		frmEcheloneditor.getContentPane().add(panel_1, BorderLayout.NORTH);
@@ -182,23 +178,6 @@ public class EchelonEditor {
 		statusObject.setSaveBtn(btnNewButton);
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
-
-		JToggleButton btnH = new JToggleButton("");
-		btnH.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				FileHander fileHander = new FileHander(tabbedPane, statusObject);
-				if (((JToggleButton) e.getSource()).isSelected()) {
-					fileHander.openHexFile();
-					tabbedPane.remove(tabbedPane.getSelectedIndex() - 1);
-				} else {
-					fileHander.openFileWithFilePath(SwingUtils.getCloseableTabComponent(tabbedPane).getFilePath());
-					tabbedPane.remove(tabbedPane.getSelectedIndex() - 1);
-				}
-
-			}
-		});
-		btnH.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/hex.PNG")));
-		toolBar.add(btnH);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmEcheloneditor.setJMenuBar(menuBar);
@@ -268,8 +247,12 @@ public class EchelonEditor {
 					return;
 				}
 				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
-				FindAndReplaceDialog findAndReplaceDialog = new FindAndReplaceDialog(textArea);
-				findAndReplaceDialog.setVisible(true);
+				FindDialogListener findDialogListener=new FindDialogListener(textArea);
+				findDialog=new FindDialog(frmEcheloneditor, findDialogListener);
+				if (replaceDialog!=null&&replaceDialog.isVisible()) {
+					replaceDialog.setVisible(false);
+				}
+				findDialog.setVisible(true);
 			}
 		});
 
@@ -385,6 +368,26 @@ public class EchelonEditor {
 				FindAndReplaceAction.find(com, targetStr, true, true, false);
 			}
 		});
+		
+		JMenuItem menuItem_15 = new JMenuItem("替换");
+		menuItem_15.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tabbedPane.getTabCount() <= 0) {
+					return;
+				}
+				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				FindDialogListener findDialogListener=new FindDialogListener(textArea);
+				replaceDialog=new ReplaceDialog(frmEcheloneditor,findDialogListener);
+				if (findDialog!=null&&findDialog.isVisible()) {
+					//replaceDialog.setSearchContext(findDialog.getSearchContext());
+					findDialog.setVisible(false);
+				}
+				replaceDialog.setVisible(true);
+			}
+		});
+		menuItem_15.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Replace16.gif")));
+		menuItem_15.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
+		menu_4.add(menuItem_15);
 		menu_4.add(mntmNewMenuItem);
 
 		JMenu menu_3 = new JMenu("格式");
@@ -411,23 +414,6 @@ public class EchelonEditor {
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
-		
-		JMenuItem menuItem_15 = new JMenuItem("绘图工具");
-		menuItem_15.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SwingUtilities.invokeLater(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						EchelonDrawer ed=new EchelonDrawer();
-						ed.setVisible(true);
-					}
-				});
-			
-			}
-		});
-		menu_1.add(menuItem_15);
 
 		JMenu menu_5 = new JMenu("皮肤");
 		menuBar.add(menu_5);
@@ -446,11 +432,7 @@ public class EchelonEditor {
 		JMenu menu_2 = new JMenu("帮助");
 		menuBar.add(menu_2);
 
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.2);
-		splitPane.setLeftComponent(new JLabel("tree"));
-		splitPane.setRightComponent(tabbedPane);
-		frmEcheloneditor.getContentPane().add(splitPane, BorderLayout.CENTER);
+		frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		container.doLayout();
 	}
 

@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import org.fife.rsta.ac.LanguageSupportFactory;
-import org.fife.ui.hex.swing.HexEditor;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -19,7 +18,6 @@ import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.echeloneditor.listeners.EditorPaneListener;
-import com.echeloneditor.listeners.SimpleHexEditorListener;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.Config;
@@ -132,7 +130,7 @@ public class FileHander {
 		}
 	}
 
-	public void openHexFile() {
+	/*public void openHexFile() {
 		HexEditor hexEditor = new HexEditor();
 		hexEditor.addHexEditorListener(new SimpleHexEditorListener(tabbedPane, statusObject));
 		hexEditor.setCellEditable(true);
@@ -159,16 +157,16 @@ public class FileHander {
 		SwingUtils.setTabbedPaneTitle(tabbedPane, new File(closeableTabComponent1.getFilePath()).getName());
 
 		statusObject.getSaveBtn().setEnabled(false);
-	}
+	}*/
 
 	public void saveFile(String filePath, String fileEncode) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
-		try {
+		/*try {
 			fileAction.save(filePath, SwingUtils.getContent(tabbedPane), fileEncode);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 
