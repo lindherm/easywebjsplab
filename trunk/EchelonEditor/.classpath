@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/js-14.jar"/>
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/language_support.jar"/>
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/rsyntaxtextarea.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RSTAUI"/>
+	<classpathentry kind="lib" path="/RSTAUI/dist/rstaui.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
