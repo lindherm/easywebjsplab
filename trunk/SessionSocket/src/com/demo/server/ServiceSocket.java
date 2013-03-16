@@ -2,9 +2,6 @@ package com.demo.server;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -47,25 +44,13 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
-		try {
-			FileOutputStream out = new FileOutputStream(new File("d:/data/test.zip"));
-			out.write(data);
-			out.flush();
-			out.close();
-			sendMessage("done.".getBytes(), socket);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Debug.print("注意:有消息到达。socketID:" + socket.hashCode() + " 【接收：" + data.length + "字节数据】");
-
+		Debug.print("注意:有消息到达:"+data.toString()+"|"+new String(data)+"|socketID:" + socket.hashCode() + " 【接收：" + data.length + "字节数据】");
+		Debug.print("socketID:" + socket.hashCode() + " 【接收：" + data.length + "字节数据】");
 	}
 
 	@Override
 	public void onError(Exception e, Socket socket, Thread thread) {
+		e.printStackTrace();
 		Debug.print("注意:连接异常。socketID:" + socket.hashCode());
 	}
 
@@ -110,10 +95,10 @@ public class ServiceSocket extends SessionSocket {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		// 读取数据
-		byte[] buffer = new byte[1024];// 缓存大小
+		byte[] buffer = new byte[8192];// 缓存大小
 		byte[] datalength = new byte[8];
 		reciver.read(datalength);
-		int dataL = Integer.parseInt(new String(datalength));
+		long dataL = Long.parseLong(new String(datalength),10);
 
 		int amount = -1;
 		int fileLen = 0;

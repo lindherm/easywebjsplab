@@ -9,7 +9,7 @@ public class TestDemo {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		SessionClient sessionClient = new SessionClient("hello", "127.0.0.1", 9000);
 		// TcpConnector tcpConnector = new TcpConnector("127.0.0.1", 3003);
-		File file = new File("D:/data/420000000_20120502_CCBS.zip");
+		File file = new File("G:\\TDDOWNLOAD\\is.exe");
 		FileInputStream fis = new FileInputStream(file);
 
 		int a = fis.available();
