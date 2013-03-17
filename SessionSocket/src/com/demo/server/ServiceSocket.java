@@ -44,13 +44,14 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
-		Debug.print("注意:有消息到达:"+data.toString()+"|"+new String(data));
-		Debug.print("socketID:" + socket.hashCode() + " 【接收：" + data.length + "字节数据】");
+		Debug.print("注意:有消息到达:["+new String(data)+"]socketID:" + socket.hashCode() + "【接收：" + data.length + "字节数据】");
 	}
 
 	@Override
 	public void onError(Exception e, Socket socket, Thread thread) {
-		e.printStackTrace();
+		if (!e.getMessage().equals("Connection reset")){
+			e.printStackTrace();
+		}
 		Debug.print("注意:连接异常。socketID:" + socket.hashCode());
 	}
 
