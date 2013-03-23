@@ -9,8 +9,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/dom4j-2.0.0-ALPHA-2.jar"/>
 	<classpathentry kind="lib" path="/JTattoo/dist/JTattoo.jar"/>
-	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/autocomplete.jar"/>
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/js-14.jar"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/autocomplete.jar"/>
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/language_support.jar"/>
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/rsyntaxtextarea.jar"/>
 	<classpathentry kind="lib" path="/RSTAUI/dist/rstaui.jar"/>
