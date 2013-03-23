@@ -168,11 +168,11 @@ public class FileHander {
 	public void saveFile(String filePath, String fileEncode) {
 		// 打开文件
 		FileAction fileAction = new FileAction();
-		/*try {
+		try {
 			fileAction.save(filePath, SwingUtils.getContent(tabbedPane), fileEncode);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 	}
 
