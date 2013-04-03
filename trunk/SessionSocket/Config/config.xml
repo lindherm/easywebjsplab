@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Applications>
-	<Application name="eracom" type="1" ver="1.0">
+	<Application name="eracom" type="1" root="Dll" path="Gemen/GEMEN.DLL">
 		<algorithm name="encrypt">
 			<param name="slotId" datatype="int" type="const" exist="true">1</param>
 			<param name="pin" datatype="char" type="const" exist="true">9999</param>
