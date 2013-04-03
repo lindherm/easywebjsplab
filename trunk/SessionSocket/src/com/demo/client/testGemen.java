@@ -17,9 +17,6 @@ public class testGemen {
 	
 	public static void main(String[] args) {
 		Native.synchronizedLibrary(CLibrary.INSTANCE);
-		System.loadLibrary(".\\Dll\\Gemen\\SJL22_API.dll");
-		System.loadLibrary("E:\\eclipse\\workspace\\SessionSocket\\Dll\\Gemen\\gdbm3.dll");
-		System.loadLibrary("E:\\eclipse\\workspace\\SessionSocket\\Dll\\Gemen\\libgmnpkcs11.dll");
 
 		int slotId=1;
 		String pin="9999";
