@@ -18,12 +18,12 @@ public class testEracom {
 	public static void main(String[] args) {
 		Native.synchronizedLibrary(CLibrary.INSTANCE);
 
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 10; i++) {
 			int slotId=0;
 			String pin="9999";
 			String keyName="A000000000008363";
 			int mech=5;
-			String in="0000000000000000";
+			String in="00000000000000000000000000000000";
 			byte[] out=new byte[32];
 			String iv="0000000000000000";
 			
