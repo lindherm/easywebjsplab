@@ -10,8 +10,8 @@ package com.demo.utility;
 
 /**
  * @ClassName Debug
- * @Description 这里用一句话描述这个类的作用
- * @author 狂奔的蜗牛 672308444@163.com  
+ * @Description 
+ * @author   
  * @date 2011-9-13 下午11:54:01
  *
  */
