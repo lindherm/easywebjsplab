@@ -413,6 +413,15 @@ public class EchelonEditor {
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
+		
+		JMenuItem menuItem_16 = new JMenuItem("辅助工具");
+		menuItem_16.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AssistantToolDialog dialog = new AssistantToolDialog();
+				dialog.setVisible(true);
+			}
+		});
+		menu_1.add(menuItem_16);
 
 		JMenu menu_5 = new JMenu("皮肤");
 		menuBar.add(menu_5);

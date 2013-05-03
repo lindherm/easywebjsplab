@@ -1,25 +1,37 @@
 package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+
+import com.watchdata.commons.crypto.WD3DesCryptoUtil;
+import com.watchdata.commons.jce.JceBase.Padding;
+import com.watchdata.commons.lang.WDBase64;
+import com.watchdata.commons.lang.WDStringUtil;
+import com.watchdata.kms.kmsi.IKms;
+import com.watchdata.kms.kmsi.IKmsException;
 
 public class AssistantToolDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField dataField;
+	private JTextField keyField;
 	private JLabel lblResult;
-	private JTextField textField_2;
+	private JTextField restultField;
+	public static IKms iKms = null;
 
 	/**
 	 * Launch the application.
@@ -39,82 +51,166 @@ public class AssistantToolDialog extends JDialog {
 	 */
 	public AssistantToolDialog() {
 		setTitle("Assistant Tool");
-		setBounds(100, 100, 600, 325);
+		setBounds(100, 100, 600, 365);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Data");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 34, 59, 15);
 		contentPanel.add(lblNewLabel);
-		
-		textField = new JTextField();
-		textField.setBounds(75, 34, 500, 22);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+
+		final JButton configip = new JButton("设置");
+		configip.setVisible(false);
+		configip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		configip.setBounds(418, 64, 101, 25);
+		contentPanel.add(configip);
+
+		final JCheckBox chckbxHsm = new JCheckBox("Hsm");
+		chckbxHsm.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (chckbxHsm.isSelected()) {
+					configip.setVisible(true);
+				} else {
+					configip.setVisible(false);
+				}
+			}
+		});
+		chckbxHsm.setBounds(333, 65, 79, 23);
+		contentPanel.add(chckbxHsm);
+
+		dataField = new JTextField();
+		dataField.setText("0000000000000000");
+		dataField.setBounds(75, 34, 500, 22);
+		contentPanel.add(dataField);
+		dataField.setColumns(10);
 		{
 			JLabel lblKey = new JLabel("Key");
 			lblKey.setHorizontalAlignment(SwingConstants.CENTER);
-			lblKey.setBounds(10, 90, 59, 15);
+			lblKey.setBounds(10, 69, 59, 15);
 			contentPanel.add(lblKey);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(75, 90, 300, 22);
-			contentPanel.add(textField_1);
+			keyField = new JTextField();
+			keyField.setText("57415443484441544154696D65434F53");
+			keyField.setColumns(10);
+			keyField.setBounds(75, 69, 249, 22);
+			contentPanel.add(keyField);
 		}
-		
+
 		lblResult = new JLabel("Result");
 		lblResult.setHorizontalAlignment(SwingConstants.CENTER);
-		lblResult.setBounds(10, 150, 59, 15);
+		lblResult.setBounds(10, 101, 59, 15);
 		contentPanel.add(lblResult);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(75, 150, 500, 22);
-		contentPanel.add(textField_2);
-		
+
+		restultField = new JTextField();
+		restultField.setColumns(10);
+		restultField.setBounds(75, 101, 500, 22);
+		contentPanel.add(restultField);
+
 		JButton btnBase = new JButton("Base64解码");
-		btnBase.setBounds(59, 252, 125, 25);
+		btnBase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(new String(WDBase64.decode(dataField.getText().getBytes())));
+			}
+		});
+		btnBase.setBounds(322, 193, 125, 25);
 		contentPanel.add(btnBase);
-		
+
 		JButton btnBase_1 = new JButton("Base64编码");
-		btnBase_1.setBounds(59, 207, 125, 25);
+		btnBase_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(new String(WDBase64.encode(dataField.getText().getBytes())));
+			}
+		});
+		btnBase_1.setBounds(322, 148, 125, 25);
 		contentPanel.add(btnBase_1);
-		
+
 		JButton btnNewButton = new JButton("ECB DES");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (chckbxHsm.isSelected()) {
+					if (iKms != null) {
+						try {
+							restultField.setText(iKms.encrypt(keyField.getText(), IKms.DES_ECB, dataField.getText()));
+						} catch (IKmsException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						iKms = IKms.getInstance();
+						// iKms.connect(ip, port);
+					}
+				} else {
+					restultField.setText(WD3DesCryptoUtil.ecb_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
+				}
 			}
 		});
-		btnNewButton.setBounds(194, 207, 112, 25);
+		btnNewButton.setBounds(78, 148, 112, 25);
 		contentPanel.add(btnNewButton);
-		
+
 		JButton btnEcbDecrypt = new JButton("ECB Decrypt");
-		btnEcbDecrypt.setBounds(194, 252, 112, 25);
+		btnEcbDecrypt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WD3DesCryptoUtil.ecb_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
+			}
+		});
+		btnEcbDecrypt.setBounds(78, 193, 112, 25);
 		contentPanel.add(btnEcbDecrypt);
-		
+
 		JButton btnCbcDes = new JButton("CBC DES");
-		btnCbcDes.setBounds(316, 207, 112, 25);
+		btnCbcDes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WD3DesCryptoUtil.cbc_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+			}
+		});
+		btnCbcDes.setBounds(200, 148, 112, 25);
 		contentPanel.add(btnCbcDes);
-		
+
 		JButton btnCbcDecrypt = new JButton("CBC Decrypt");
-		btnCbcDecrypt.setBounds(316, 252, 112, 25);
+		btnCbcDecrypt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WD3DesCryptoUtil.cbc_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+			}
+		});
+		btnCbcDecrypt.setBounds(200, 193, 112, 25);
 		contentPanel.add(btnCbcDecrypt);
-		
+
 		JButton btnNewButton_1 = new JButton("TDES MAC");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setBounds(438, 207, 95, 25);
+		btnNewButton_1.setBounds(457, 148, 95, 25);
 		contentPanel.add(btnNewButton_1);
-		
+
 		JButton btnNewButton_2 = new JButton("CMAC");
-		btnNewButton_2.setBounds(438, 252, 95, 25);
+		btnNewButton_2.setBounds(457, 193, 95, 25);
 		contentPanel.add(btnNewButton_2);
+
+		JButton btnNewButton_3 = new JButton("ASC->String");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDStringUtil.hex2asc(dataField.getText()));
+			}
+		});
+		btnNewButton_3.setBounds(79, 285, 125, 25);
+		contentPanel.add(btnNewButton_3);
+
+		JButton btnNewButton_4 = new JButton("String->ASC");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDStringUtil.asc2hex(dataField.getText()));
+			}
+		});
+		btnNewButton_4.setBounds(79, 243, 125, 25);
+		contentPanel.add(btnNewButton_4);
+
 	}
 }

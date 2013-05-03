@@ -87,40 +87,6 @@ public class Config {
 
 	}
 
-/*	public static boolean hasItem(String sectionName, String itemName) {
-		IniFile ini = new BasicIniFile();
-		if (!checkFile(file)) {
-			return false;
-		}
-		// Create the IniFileReader object.
-		IniFileReader reader = new IniFileReader(ini, file);
-		// Finally, call the read() method to read the INI file and populate
-		// the IniFile object.
-		try {
-			reader.read();
-		} catch (FormatException e) {
-			// exception thrown because the INI file was in an unexpected format
-			e.printStackTrace();
-		} catch (IOException e) {
-			// exception thrown as an input\output exception occured
-			e.printStackTrace();
-		}
-		if (!ini.hasSection(sectionName)) {
-			try {
-				throw new IOException("section is not exists.");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		IniSection iniSection = ini.getSection(sectionName);
-		if (!iniSection.hasItem(itemName)) {
-			return false;
-		}
-		return true;
-
-	}*/
-
 	public static Collection<String> getItems(String sectionName) {
 
 		if (!ini.hasSection(sectionName)) {
