@@ -136,10 +136,9 @@ public class FaceDialog extends JDialog {
 				String selectFace = "com.jtattoo.plaf." + select.toLowerCase() + "." + select + "LookAndFeel";
 				String selectTheme = themeList.getSelectedValue().toString();
 
-				Config config = new Config();
-				config.setValue("current_laf", selectFace);
-				config.setValue("current_theme", selectTheme);
-				config.setValue("current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
+				Config.setValue("CURRENT_THEME","current_laf", selectFace);
+				Config.setValue("CURRENT_THEME","current_theme", selectTheme);
+				Config.setValue("CURRENT_THEME","current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
 				System.out.println(String.valueOf(lafList.getSelectedIndex()));
 				try {
 					SwingUtils.restart("EchelonEditor");
@@ -155,9 +154,8 @@ public class FaceDialog extends JDialog {
 		JButton button = new JButton("恢复默认");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Config config = new Config();
-				config.setValue("current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-				config.setValue("current_theme", "window");
+				Config.setValue("CURRENT_THEME","current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+				Config.setValue("CURRENT_THEME","current_theme", "window");
 				try {
 					SwingUtils.restart("EchelonEditor");
 				} catch (IOException e) {

@@ -458,12 +458,11 @@ public class FontChooserDialog extends JDialog {
 	 */
 	private void okOption(ActionEvent e) {
 		if (null != rSyntaxTextArea) {
-			Config config = new Config();
 			Font font = fetchFont();
 
 			rSyntaxTextArea.setFont(font);
 			SwingUtils.getColumnHeader(rSyntaxTextArea).repaint();
-			config.setValue("current_font", font.getFontName() + "|" + font.getStyle() + "|" + font.getSize());
+			Config.setValue("CURRENT_THEME","current_font", font.getFontName() + "|" + font.getStyle() + "|" + font.getSize());
 			dispose();
 		}
 	}

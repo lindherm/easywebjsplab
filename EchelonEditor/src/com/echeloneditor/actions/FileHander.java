@@ -114,8 +114,7 @@ public class FileHander {
 			SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName());
 			textArea.setText(map.get("fileContent"));
 
-			Config config = new Config();
-			String res = config.getValue("current_font");
+			String res = Config.getValue("CURRENT_THEME","current_font");
 
 			textArea.setFont(FontUtil.getFont(res));
 			statusObject.getSaveBtn().setEnabled(false);
@@ -216,8 +215,7 @@ public class FileHander {
 		// 设置选项卡title为打开文件的文件名
 		SwingUtils.setTabbedPaneTitle(tabbedPane, "New Panel");
 
-		Config config = new Config();
-		String res = config.getValue("current_font");
+		String res = Config.getValue("CURRENT_THEME","current_font");
 
 		textArea.setFont(FontUtil.getFont(res));
 

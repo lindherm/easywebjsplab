@@ -144,12 +144,11 @@ public class SwingUtils {
 	 */
 	public static String getFileContentType(String fileName) {
 		String result = "";
-		Config config = new Config("ext2type_config.properties");
 
 		int pos = fileName.lastIndexOf(".");
 		String fileExt = fileName.substring(pos + 1, fileName.length());
 
-		result = config.getValue(fileExt, "text/plain");
+		result = Config.getValue("FILE_TYPE",fileExt);
 
 		log.debug("syntaxstyle:" + result);
 		return result;
