@@ -50,9 +50,10 @@ public class EchelonEditor {
 	public JFrame frmEcheloneditor;
 	public static JTabbedPane tabbedPane;
 	public StatusObject statusObject;
-	
-	FindDialog findDialog=null;
-	ReplaceDialog replaceDialog=null;
+
+	FindDialog findDialog = null;
+	ReplaceDialog replaceDialog = null;
+	public static AssistantToolDialog dialog = null;
 
 	/**
 	 * Launch the application.
@@ -67,16 +68,16 @@ public class EchelonEditor {
 			public void run() {
 				try {
 					// 设置皮肤
-					String currentLaf = Config.getValue("CURRENT_THEME","current_laf");
-					String currentTheme = Config.getValue("CURRENT_THEME","current_theme");
-					String lafIndex = Config.getValue("CURRENT_THEME","current_lafIndex");
+					String currentLaf = Config.getValue("CURRENT_THEME", "current_laf");
+					String currentTheme = Config.getValue("CURRENT_THEME", "current_theme");
+					String lafIndex = Config.getValue("CURRENT_THEME", "current_lafIndex");
 
 					if (!currentTheme.equals("window")) {
 						SwingUtils.setTheme(Integer.parseInt(lafIndex), currentTheme);
 					}
 
 					UIManager.setLookAndFeel(currentLaf);
-					
+
 					SwingUtils.updateUI();
 					// 初始化窗体
 					EchelonEditor window = new EchelonEditor();
@@ -246,9 +247,9 @@ public class EchelonEditor {
 					return;
 				}
 				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
-				FindDialogListener findDialogListener=new FindDialogListener(textArea);
-				findDialog=new FindDialog(frmEcheloneditor, findDialogListener);
-				if (replaceDialog!=null&&replaceDialog.isVisible()) {
+				FindDialogListener findDialogListener = new FindDialogListener(textArea);
+				findDialog = new FindDialog(frmEcheloneditor, findDialogListener);
+				if (replaceDialog != null && replaceDialog.isVisible()) {
 					replaceDialog.setVisible(false);
 				}
 				findDialog.setVisible(true);
@@ -367,7 +368,7 @@ public class EchelonEditor {
 				FindAndReplaceAction.find(com, targetStr, true, true, false);
 			}
 		});
-		
+
 		JMenuItem menuItem_15 = new JMenuItem("替换");
 		menuItem_15.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -375,10 +376,10 @@ public class EchelonEditor {
 					return;
 				}
 				RSyntaxTextArea textArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
-				FindDialogListener findDialogListener=new FindDialogListener(textArea);
-				replaceDialog=new ReplaceDialog(frmEcheloneditor,findDialogListener);
-				if (findDialog!=null&&findDialog.isVisible()) {
-					//replaceDialog.setSearchContext(findDialog.getSearchContext());
+				FindDialogListener findDialogListener = new FindDialogListener(textArea);
+				replaceDialog = new ReplaceDialog(frmEcheloneditor, findDialogListener);
+				if (findDialog != null && findDialog.isVisible()) {
+					// replaceDialog.setSearchContext(findDialog.getSearchContext());
 					findDialog.setVisible(false);
 				}
 				replaceDialog.setVisible(true);
@@ -413,12 +414,19 @@ public class EchelonEditor {
 
 		JMenu menu_1 = new JMenu("工具");
 		menuBar.add(menu_1);
-		
+
 		JMenuItem menuItem_16 = new JMenuItem("辅助工具");
 		menuItem_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AssistantToolDialog dialog = new AssistantToolDialog();
-				dialog.setVisible(true);
+				if (dialog == null) {
+					dialog = new AssistantToolDialog();
+				}
+				if (dialog.isVisible()) {
+					dialog.toFront();
+				} else {
+					dialog.setVisible(true);
+				}
+
 			}
 		});
 		menu_1.add(menuItem_16);

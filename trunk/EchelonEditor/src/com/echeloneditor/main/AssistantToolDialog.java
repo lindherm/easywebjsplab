@@ -1,6 +1,7 @@
 package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,17 +9,19 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import com.echeloneditor.utils.Config;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDBase64;
 import com.watchdata.commons.lang.WDStringUtil;
 import com.watchdata.kms.kmsi.IKms;
-import com.watchdata.kms.kmsi.IKmsException;
 
 public class AssistantToolDialog extends JDialog {
 
@@ -31,7 +34,6 @@ public class AssistantToolDialog extends JDialog {
 	private JTextField keyField;
 	private JLabel lblResult;
 	private JTextField restultField;
-	public static IKms iKms = null;
 
 	/**
 	 * Launch the application.
@@ -66,7 +68,8 @@ public class AssistantToolDialog extends JDialog {
 		configip.setVisible(false);
 		configip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				ConfigIpDialog dialog = new ConfigIpDialog((JDialog) SwingUtilities.getRoot((Component) e.getSource()));
+				dialog.setVisible(true);
 			}
 		});
 		configip.setBounds(418, 64, 101, 25);
@@ -76,6 +79,7 @@ public class AssistantToolDialog extends JDialog {
 		chckbxHsm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chckbxHsm.isSelected()) {
+					keyField.setText(Config.getValue("HSM", "KEYINDEX"));
 					configip.setVisible(true);
 				} else {
 					configip.setVisible(false);
@@ -135,20 +139,19 @@ public class AssistantToolDialog extends JDialog {
 		JButton btnNewButton = new JButton("ECB DES");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (chckbxHsm.isSelected()) {
-					if (iKms != null) {
-						try {
-							restultField.setText(iKms.encrypt(keyField.getText(), IKms.DES_ECB, dataField.getText()));
-						} catch (IKmsException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+				try {
+					if (chckbxHsm.isSelected()) {
+						IKms iKms = IKms.getInstance();
+
+						restultField.setText(iKms.encrypt(keyField.getText(), IKms.DES_ECB, dataField.getText(), Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
+						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+
 					} else {
-						iKms = IKms.getInstance();
-						// iKms.connect(ip, port);
+						restultField.setText(WD3DesCryptoUtil.ecb_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
 					}
-				} else {
-					restultField.setText(WD3DesCryptoUtil.ecb_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -158,7 +161,20 @@ public class AssistantToolDialog extends JDialog {
 		JButton btnEcbDecrypt = new JButton("ECB Decrypt");
 		btnEcbDecrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				restultField.setText(WD3DesCryptoUtil.ecb_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
+				try {
+					if (chckbxHsm.isSelected()) {
+						IKms iKms = IKms.getInstance();
+
+						restultField.setText(iKms.decrypt(keyField.getText(), IKms.DES_ECB, dataField.getText(), Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
+						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+
+					} else {
+						restultField.setText(WD3DesCryptoUtil.ecb_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnEcbDecrypt.setBounds(78, 193, 112, 25);
@@ -167,7 +183,20 @@ public class AssistantToolDialog extends JDialog {
 		JButton btnCbcDes = new JButton("CBC DES");
 		btnCbcDes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				restultField.setText(WD3DesCryptoUtil.cbc_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+				try {
+					if (chckbxHsm.isSelected()) {
+						IKms iKms = IKms.getInstance();
+
+						restultField.setText(iKms.encrypt(keyField.getText(), IKms.DES_CBC, dataField.getText(), "0000000000000000", Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
+						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+
+					} else {
+						restultField.setText(WD3DesCryptoUtil.cbc_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnCbcDes.setBounds(200, 148, 112, 25);
@@ -176,7 +205,20 @@ public class AssistantToolDialog extends JDialog {
 		JButton btnCbcDecrypt = new JButton("CBC Decrypt");
 		btnCbcDecrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				restultField.setText(WD3DesCryptoUtil.cbc_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+				try {
+					if (chckbxHsm.isSelected()) {
+						IKms iKms = IKms.getInstance();
+
+						restultField.setText(iKms.decrypt(keyField.getText(), IKms.DES_CBC, dataField.getText(), "0000000000000000", Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
+						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+
+					} else {
+						restultField.setText(WD3DesCryptoUtil.cbc_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+					}
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnCbcDecrypt.setBounds(200, 193, 112, 25);
