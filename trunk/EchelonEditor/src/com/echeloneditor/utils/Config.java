@@ -1,104 +1,176 @@
 package com.echeloneditor.utils;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.Collection;
+
+import org.dtools.ini.BasicIniFile;
+import org.dtools.ini.IniFile;
+import org.dtools.ini.IniFileReader;
+import org.dtools.ini.IniFileWriter;
+import org.dtools.ini.IniSection;
 
 public class Config {
-	private Properties propertie;
-	private FileInputStream inputFile;
-	private FileOutputStream outputFile;
+	// **********************************************************************
+	// default config file path
+	// **********************************************************************
+
 	public static String configPath = System.getProperty("user.dir") + "\\resources\\";
 
+	public static File configFile = null;
+	public static IniFile ini = null;
+
+	static {
+		
+		configFile = new File(configPath + "/config.ini");
+
+		checkFile(configFile);
+
+		ini = new BasicIniFile();
+
+		// **********************************************************************
+		// Create the IniFileReader object.
+		// **********************************************************************
+		IniFileReader reader = new IniFileReader(ini, configFile);
+
+		try {
+			reader.read();
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
 	public Config() {
-		propertie = new Properties();
+
+	}
+
+	public static void setValue(String SectionName, String itemName, String itemValue) {
+
+		if (!ini.hasSection(SectionName)) {
+			ini.addSection(SectionName);
+
+		}
+		IniSection iniSection = ini.getSection(SectionName);
+
+		if (!iniSection.hasItem(itemName)) {
+			iniSection.addItem(itemName);
+		}
+		iniSection.getItem(itemName).setValue(itemValue);
+
+		IniFileWriter writer = new IniFileWriter(ini, configFile);
 		try {
-			inputFile = new FileInputStream(configPath + "laf_config.properties");
-			propertie.load(inputFile);
-			inputFile.close();
-		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-
-	}
-
-	public Config(String fileName) {
-		propertie = new Properties();
-		try {
-			inputFile = new FileInputStream(configPath + fileName);
-			propertie.load(inputFile);
-			inputFile.close();
-		} catch (FileNotFoundException ex) {
-			ex.printStackTrace();
-		} catch (IOException ex) {
-			ex.printStackTrace();
+			writer.write();
+		} catch (IOException e) {
+			// exception thrown as an input\output exception occured
+			e.printStackTrace();
 		}
 	}
 
-	public String getValue(String key) {
-		if (propertie.containsKey(key)) {
-			String value = propertie.getProperty(key);// 得到某一属性的值
-			return value;
-		} else
-			return "";
-	}
+	public static String getValue(String SectionName, String itemName) {
 
-	public String getValue(String key, String defValue) {
-		if (propertie.containsKey(key)) {
-			return propertie.getProperty(key);
-		} else {
-			return defValue;
-		}
-	}
-
-	public int getIntValue(String key, int defValue) {
-		if (propertie.containsKey(key)) {
-			int ret = 5;
+		if (!ini.hasSection(SectionName)) {
 			try {
-				ret = Integer.parseInt(propertie.getProperty(key));
-			} catch (Exception e) {
-				ret = defValue;
+				throw new IOException("section is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return ret;
-		} else {
-			return defValue;
 		}
+		IniSection iniSection = ini.getSection(SectionName);
+
+		if (!iniSection.hasItem(itemName)) {
+			return null;
+		}
+		return iniSection.getItem(itemName).getValue();
+
 	}
 
-	public void clear() {
-		propertie.clear();
-	}
-
-	public boolean setValue(String key, String value) {
-		propertie.setProperty(key, value);
-
+/*	public static boolean hasItem(String sectionName, String itemName) {
+		IniFile ini = new BasicIniFile();
+		if (!checkFile(file)) {
+			return false;
+		}
+		// Create the IniFileReader object.
+		IniFileReader reader = new IniFileReader(ini, file);
+		// Finally, call the read() method to read the INI file and populate
+		// the IniFile object.
 		try {
-			outputFile = new FileOutputStream(configPath + "laf_config.properties");
-			propertie.store(outputFile, null);
-			outputFile.close();
-			return true;
-		} catch (FileNotFoundException e) {
+			reader.read();
+		} catch (FormatException e) {
+			// exception thrown because the INI file was in an unexpected format
 			e.printStackTrace();
 		} catch (IOException e) {
+			// exception thrown as an input\output exception occured
 			e.printStackTrace();
 		}
-		return false;
+		if (!ini.hasSection(sectionName)) {
+			try {
+				throw new IOException("section is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		IniSection iniSection = ini.getSection(sectionName);
+		if (!iniSection.hasItem(itemName)) {
+			return false;
+		}
+		return true;
+
+	}*/
+
+	public static Collection<String> getItems(String sectionName) {
+
+		if (!ini.hasSection(sectionName)) {
+			try {
+				throw new IOException("section is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		IniSection iniSection = ini.getSection(sectionName);
+		Collection<String> items = iniSection.getItemNames();
+
+		return items;
+
 	}
 
-	public void saveFile(String fileName, String description) {
-		try {
-			outputFile = new FileOutputStream(fileName);
-			propertie.store(outputFile, description);
-			outputFile.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+	// check file
+	public static void checkFile(File file) {
+		if (!file.canRead()) {
+			if (!file.setReadable(true)) {
+				try {
+					throw new IOException("file is not readable.");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		} else if (!file.canWrite()) {
+			if (!file.setWritable(true)) {
+				try {
+					throw new IOException("file is not writeable.");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 		}
 	}
 
+	public static void main(String[] args) {
+		Collection<String>items=Config.getItems("FILE_TYPE");
+		for (String string : items) {
+			System.out.print(string+"\t");
+			System.out.println(Config.getValue("FILE_TYPE", string));
+		}
+		
+		Config.setValue("hello", "name", " 中国人最好 ");
+		System.out.println(Config.getValue("hello","name"));
+	}
 }
