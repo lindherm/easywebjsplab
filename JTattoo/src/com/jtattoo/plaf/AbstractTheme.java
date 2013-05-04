@@ -54,7 +54,7 @@ public abstract class AbstractTheme extends MetalTheme {
 
     protected static boolean menuOpaque = true;
     protected static float menuAlpha = 0.9f;
-    protected static String logoString = "JTattoo";
+    protected static String logoString = "EchelonEditor";
     protected static FontUIResource controlFont = null;
     protected static FontUIResource systemFont = null;
     protected static FontUIResource userFont = null;
@@ -198,7 +198,7 @@ public abstract class AbstractTheme extends MetalTheme {
         toolbarDecorated = true;
         menuOpaque = true;
         menuAlpha = 0.9f;
-        logoString = "JTattoo";
+        logoString = "EchelonEditor";
 
         controlFont = null;
         systemFont = null;
