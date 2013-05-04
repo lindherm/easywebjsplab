@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
@@ -156,7 +157,7 @@ public class EchelonEditor {
 		panel_1.add(toolBar, BorderLayout.NORTH);
 
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Add24.gif")));
+		button.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112619422_easyicon_net_24.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileHander fileHander = new FileHander(tabbedPane, statusObject);
@@ -168,16 +169,24 @@ public class EchelonEditor {
 		JButton button_1 = new JButton();
 		button_1.setActionCommand("open");
 		button_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		button_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Open24.gif")));
+		button_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112148516_easyicon_net_24.png")));
 		toolBar.add(button_1);
 
 		JButton btnNewButton = new JButton();
 		btnNewButton.setActionCommand("save");
-		btnNewButton.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Save24.gif")));
+		btnNewButton.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
 		toolBar.add(btnNewButton);
 		statusObject.setSaveBtn(btnNewButton);
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
+		
+		JButton button_2 = new JButton("");
+		button_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111901655_easyicon_net_24.png")));
+		toolBar.add(button_2);
+		
+		JButton button_3 = new JButton("");
+		button_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111819570_easyicon_net_24.png")));
+		toolBar.add(button_3);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmEcheloneditor.setJMenuBar(menuBar);
@@ -190,14 +199,14 @@ public class EchelonEditor {
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 		menuItem.setActionCommand("new");
 		menuItem.addActionListener(new SimpleJmenuItemListener(tabbedPane, statusObject));
-		menuItem.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Add24.gif")));
+		menuItem.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112619422_easyicon_net_24.png")));
 		menu.add(menuItem);
 
 		JMenuItem menuItem_1 = new JMenuItem("打开");
 		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		menuItem_1.setActionCommand("open");
 		menuItem_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		menuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Open24.gif")));
+		menuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112148516_easyicon_net_24.png")));
 		menu.add(menuItem_1);
 
 		JSeparator separator_1 = new JSeparator();
@@ -207,7 +216,7 @@ public class EchelonEditor {
 		menuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		menuItem_2.setActionCommand("save");
 		menuItem_2.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		menuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Save24.gif")));
+		menuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
 		menu.add(menuItem_2);
 
 		JMenuItem menuItem_3 = new JMenuItem("另存为");
@@ -215,14 +224,14 @@ public class EchelonEditor {
 		menuItem_3.setActionCommand("saveas");
 		menuItem_3.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 
-		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/SaveAs24.gif")));
+		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
 		menu.add(menuItem_3);
 
 		JSeparator separator_2 = new JSeparator();
 		menu.add(separator_2);
 
 		JMenuItem menuItem_4 = new JMenuItem("退出");
-		menuItem_4.setIcon(new ImageIcon(EchelonEditor.class.getResource("/toolbarButtonGraphics/general/Remove24.gif")));
+		menuItem_4.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114639245_easyicon_net_24.png")));
 		menuItem_4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		menuItem_4.addActionListener(new ActionListener() {
 
@@ -394,6 +403,7 @@ public class EchelonEditor {
 		menuBar.add(menu_3);
 
 		JMenuItem menuItem_5 = new JMenuItem("字体");
+		menuItem_5.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114104911_easyicon_net_24.png")));
 		menuItem_5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.ALT_MASK));
 		menuItem_5.addActionListener(new ActionListener() {
 
@@ -416,6 +426,7 @@ public class EchelonEditor {
 		menuBar.add(menu_1);
 
 		JMenuItem menuItem_16 = new JMenuItem("辅助工具");
+		menuItem_16.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114154800_easyicon_net_24.png")));
 		menuItem_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dialog == null) {
@@ -435,6 +446,7 @@ public class EchelonEditor {
 		menuBar.add(menu_5);
 
 		JMenuItem menuItem_7 = new JMenuItem("皮肤");
+		menuItem_7.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504113002740_easyicon_net_24.png")));
 		menuItem_7.addActionListener(new ActionListener() {
 
 			@Override
@@ -447,6 +459,15 @@ public class EchelonEditor {
 
 		JMenu menu_2 = new JMenu("帮助");
 		menuBar.add(menu_2);
+		
+		JMenuItem menuItem_17 = new JMenuItem("帮助");
+		menuItem_17.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "EchelonEditor肖利亚专版", "帮助", JOptionPane.WARNING_MESSAGE);
+			}
+		});
+		menuItem_17.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/2013050411485151_easyicon_net_24.png")));
+		menu_2.add(menuItem_17);
 
 		frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		container.doLayout();
