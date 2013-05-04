@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
@@ -62,7 +63,19 @@ public class TabbedPaneChangeListener implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// 最大化 功能
+		if (SwingUtilities.isLeftMouseButton(e)) {
+			if (e.getClickCount() == 2) {
+				JFrame frame = (JFrame) SwingUtilities.getRoot(e.getComponent());
+				int state = frame.getExtendedState();
+				if (state == JFrame.MAXIMIZED_BOTH) {
+					frame.setExtendedState(JFrame.NORMAL);
+				} else {
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				}
+			}
+		}
+		// 状态栏
 		int tabCount = tabbedPane.getTabCount();
 		if (tabCount > 0) {
 			CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
