@@ -17,7 +17,7 @@
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/rsyntaxtextarea.jar"/>
 	<classpathentry kind="lib" path="/RSTAUI/dist/rstaui.jar"/>
 	<classpathentry kind="lib" path="/JTattoo/dist/JTattoo.jar"/>
-	<classpathentry kind="lib" path="/Dtool/org.dtools.javaini-v1.1.1.jar"/>
-	<classpathentry kind="lib" path="/IKms/ikms.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/ikms.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/org.dtools.javaini-v1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
