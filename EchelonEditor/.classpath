@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="src/com/echeloneditor/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/chardet-1.0.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/cpdetector_1.0.10.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/jlfgr-1_0.jar"/>
