@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,18 +36,23 @@ import javax.swing.text.JTextComponent;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.Gutter;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.actions.FindAndReplaceAction;
+import com.echeloneditor.listeners.EditorPaneListener;
 import com.echeloneditor.listeners.FindDialogListener;
 import com.echeloneditor.listeners.SimpleDragFileListener;
 import com.echeloneditor.listeners.SimpleFileChooseListener;
 import com.echeloneditor.listeners.SimpleJmenuItemListener;
 import com.echeloneditor.listeners.TabbedPaneChangeListener;
 import com.echeloneditor.utils.Config;
+import com.echeloneditor.utils.FontUtil;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
+import com.watchdata.commons.lang.WDByteUtil;
 
 public class EchelonEditor {
 
@@ -179,12 +187,75 @@ public class EchelonEditor {
 		statusObject.setSaveBtn(btnNewButton);
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
-		
+
 		JButton button_2 = new JButton("");
 		button_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111901655_easyicon_net_24.png")));
 		toolBar.add(button_2);
-		
+
 		JButton button_3 = new JButton("");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String filepath = ((CloseableTabComponent) SwingUtils.getCloseableTabComponent(tabbedPane)).getFilePath();
+				try {
+					FileInputStream fis = new FileInputStream(new File(filepath));
+					
+					byte[] bytes=new byte[fis.available()];
+					
+					fis.read(bytes);
+
+					RSyntaxTextArea textArea = SwingUtils.createTextArea();
+
+					textArea.setSyntaxEditingStyle("text/plain");
+					textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
+					textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
+					// textArea.addHyperlinkListener(this);
+					RTextScrollPane sp = new RTextScrollPane(textArea);
+					sp.setFoldIndicatorEnabled(true);
+
+					Gutter gutter = sp.getGutter();
+					gutter.setBookmarkingEnabled(true);
+					ImageIcon ii = ImageHelper.loadImage("bookmark.png");
+					gutter.setBookmarkIcon(ii);
+
+					// 加入标尺
+					FontWidthRuler ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
+					ruler.setPreferredWidth(20000);
+					ruler.addSpin(3);
+					ruler.NeedPaint = true;
+					sp.setColumnHeaderView(ruler);
+
+					int tabCount = tabbedPane.getTabCount();
+					CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
+					/*
+					 * closeableTabComponent.setFilePath(file.getPath()); closeableTabComponent.setFileEncode(encode); closeableTabComponent.setFileSzie(fileSize);
+					 */
+
+					tabbedPane.add("New Panel", sp);
+					tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
+
+					tabbedPane.setSelectedComponent(sp);
+					// 设置选项卡title为打开文件的文件名
+					SwingUtils.setTabbedPaneTitle(tabbedPane, "hex");
+					textArea.setText(WDByteUtil.bytes2HEX(bytes));
+
+					String res = Config.getValue("CURRENT_THEME", "current_font");
+
+					textArea.setFont(FontUtil.getFont(res));
+					statusObject.getSaveBtn().setEnabled(false);
+
+					textArea.setCaretPosition(0);
+					textArea.requestFocusInWindow();
+					closeableTabComponent.setModify(false);
+					
+					fis.close();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+		});
 		button_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111819570_easyicon_net_24.png")));
 		toolBar.add(button_3);
 
@@ -459,7 +530,7 @@ public class EchelonEditor {
 
 		JMenu menu_2 = new JMenu("帮助");
 		menuBar.add(menu_2);
-		
+
 		JMenuItem menuItem_17 = new JMenuItem("帮助");
 		menuItem_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
