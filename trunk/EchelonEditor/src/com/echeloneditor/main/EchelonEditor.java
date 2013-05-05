@@ -209,7 +209,6 @@ public class EchelonEditor {
 					textArea.setSyntaxEditingStyle("text/plain");
 					textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
 					textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
-					textArea.setWrapStyleWord(true);
 
 					RTextScrollPane sp = new RTextScrollPane(textArea);
 					sp.setFoldIndicatorEnabled(true);
@@ -235,15 +234,18 @@ public class EchelonEditor {
 					tabbedPane.setSelectedComponent(sp);
 					// 设置选项卡title为打开文件的文件名
 					SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName() + "_hex");
-					String text = WDByteUtil.bytes2HEX(bytes);
-					
-					StringBuilder sb = new StringBuilder(text);
-					int pos=0;
-					while (sb.length()>0) {
-						if (sb.length()<800) {
-							textArea.append(sb.delete(pos, pos+sb.length()).toString());
-						}else {
-							textArea.append(sb.delete(pos, pos+800).toString());
+					String sb = WDByteUtil.bytes2HEX(bytes);
+
+					int pos = 0;
+					int len = sb.length();
+
+					while (pos < len) {
+						if (len - pos < 1024) {
+							textArea.append(sb.substring(pos, pos + len - pos));
+							pos += len - pos;
+						} else {
+							textArea.append(sb.substring(pos, pos + 1024));
+							pos += 1024;
 						}
 						textArea.append("\n");
 					}
@@ -255,7 +257,7 @@ public class EchelonEditor {
 
 					closeableTabComponent.setModify(false);
 					fis.close();
-					textArea.setCaretPosition(0);
+					// textArea.setCaretPosition(0);
 					textArea.requestFocusInWindow();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
