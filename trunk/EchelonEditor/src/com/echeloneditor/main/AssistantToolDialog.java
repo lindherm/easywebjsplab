@@ -79,7 +79,7 @@ public class AssistantToolDialog extends JDialog {
 		chckbxHsm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chckbxHsm.isSelected()) {
-					keyField.setText(Config.getValue("HSM", "KEYINDEX"));
+					keyField.setText(Config.getValue("HSM", "keyindex"));
 					configip.setVisible(true);
 				} else {
 					configip.setVisible(false);
@@ -144,7 +144,7 @@ public class AssistantToolDialog extends JDialog {
 						IKms iKms = IKms.getInstance();
 
 						restultField.setText(iKms.encrypt(keyField.getText(), IKms.DES_ECB, dataField.getText(), Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
-						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+						Config.setValue("HSM", "keyindex", keyField.getText());
 
 					} else {
 						restultField.setText(WD3DesCryptoUtil.ecb_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
@@ -166,7 +166,7 @@ public class AssistantToolDialog extends JDialog {
 						IKms iKms = IKms.getInstance();
 
 						restultField.setText(iKms.decrypt(keyField.getText(), IKms.DES_ECB, dataField.getText(), Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
-						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+						Config.setValue("HSM", "keyindex", keyField.getText());
 
 					} else {
 						restultField.setText(WD3DesCryptoUtil.ecb_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding));
@@ -188,7 +188,7 @@ public class AssistantToolDialog extends JDialog {
 						IKms iKms = IKms.getInstance();
 
 						restultField.setText(iKms.encrypt(keyField.getText(), IKms.DES_CBC, dataField.getText(), "0000000000000000", Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
-						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+						Config.setValue("HSM", "keyindex", keyField.getText());
 
 					} else {
 						restultField.setText(WD3DesCryptoUtil.cbc_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
@@ -210,7 +210,7 @@ public class AssistantToolDialog extends JDialog {
 						IKms iKms = IKms.getInstance();
 
 						restultField.setText(iKms.decrypt(keyField.getText(), IKms.DES_CBC, dataField.getText(), "0000000000000000", Config.getValue("HSM", "IP") + "_" + Config.getValue("HSM", "PORT")));
-						Config.setValue("HSM", "KEYINDEX", keyField.getText());
+						Config.setValue("HSM", "keyindex", keyField.getText());
 
 					} else {
 						restultField.setText(WD3DesCryptoUtil.cbc_decrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));

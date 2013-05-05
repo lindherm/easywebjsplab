@@ -46,7 +46,7 @@ public class ConfigIpDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public ConfigIpDialog(JDialog dialog) {
-		super(dialog,true);
+		super(dialog, true);
 		setTitle("HSM");
 		setBounds(100, 100, 450, 139);
 		getContentPane().setLayout(null);
@@ -54,7 +54,7 @@ public class ConfigIpDialog extends JDialog {
 		final JIpAddressField ipAddressField = new JIpAddressField();
 		ipAddressField.setBounds(84, 10, 160, 22);
 		getContentPane().add(ipAddressField);
-		
+
 		textField = new JTextField();
 		textField.setBounds(290, 10, 66, 22);
 		getContentPane().add(textField);
@@ -66,7 +66,7 @@ public class ConfigIpDialog extends JDialog {
 				IKms iKms = IKms.getInstance();
 				int ret = -1;
 				try {
-					ret = iKms.connect(ipAddressField.getText(), Integer.parseInt(textField.getText()), ipAddressField.getText() + "_" + textField.getText());
+					ret = iKms.connect(ipAddressField.getText(), Integer.parseInt(textField.getText()), Integer.parseInt(Config.getValue("HSM", "timeout")), ipAddressField.getText() + "_" + textField.getText());
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 				} catch (IKmsException e1) {
@@ -74,8 +74,8 @@ public class ConfigIpDialog extends JDialog {
 					e1.printStackTrace();
 				}
 				if (ret == 0) {
-					Config.setValue("HSM", "IP", ipAddressField.getText());
-					Config.setValue("HSM", "PORT", textField.getText());
+					Config.setValue("HSM", "ip", ipAddressField.getText());
+					Config.setValue("HSM", "port", textField.getText());
 					btnNewButton.setEnabled(false);
 					btnNewButton_1.setEnabled(true);
 				}
@@ -89,8 +89,8 @@ public class ConfigIpDialog extends JDialog {
 		lblNewLabel.setBounds(28, 10, 54, 22);
 		getContentPane().add(lblNewLabel);
 
-		ipAddressField.setText(Config.getValue("HSM", "IP"));
-		textField.setText(Config.getValue("HSM", "PORT"));
+		ipAddressField.setText(Config.getValue("HSM", "ip"));
+		textField.setText(Config.getValue("HSM", "port"));
 
 		JLabel lblNewLabel_1 = new JLabel("PORT");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
