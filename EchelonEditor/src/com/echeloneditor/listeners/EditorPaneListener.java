@@ -1,13 +1,14 @@
 package com.echeloneditor.listeners;
 
 import java.awt.Component;
-import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
@@ -30,7 +31,7 @@ import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
-public class EditorPaneListener implements MouseListener, DocumentListener {
+public class EditorPaneListener implements MouseListener, DocumentListener, MouseMotionListener, KeyListener {
 	public JTabbedPane tabbedPane;
 	public StatusObject statusObject;
 	public JPopupMenu jPopupMenu;
@@ -145,7 +146,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 		menuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
-				if (rSyntaxTextArea==null) {
+				if (rSyntaxTextArea == null) {
 					return;
 				}
 				int selectStart = rSyntaxTextArea.getSelectionStart();
@@ -178,21 +179,14 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		eventHander(e);
-
-		RSyntaxTextArea editorPane = (RSyntaxTextArea) e.getComponent();
-		FontMetrics fontMetrics = editorPane.getFontMetrics(editorPane.getFont());
-		int unit = fontMetrics.charWidth('A');
-
-		int num = e.getX() / unit;
-		statusObject.getCharNum().setText("字符数：" + num + "/B");
+		if (e.getClickCount() == 2) {
+			showCharNumOnStatusBar(e);
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		eventHander(e);
 	}
 
 	@Override
@@ -201,24 +195,15 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			// PopupMenuUI popupMenuUI = new PopupMenuUI(tabbedPane, (RSyntaxTextArea) e.getComponent());
 			jPopupMenu.show(SwingUtils.getRSyntaxTextArea(tabbedPane), e.getX(), e.getY());
+		} else {
+			showCharNumOnStatusBar(e);
 		}
 
-		// 显示字符数
-		RSyntaxTextArea edp = (RSyntaxTextArea) e.getComponent();
-		String selText = edp.getSelectedText();
-		if (selText == null) {
-			return;
-		}
-		selText = selText.replaceAll("\n", "");
-		selText = selText.replaceAll("\r", "");
-		int num = selText.length();
-		statusObject.getCharNum().setText("字符数：" + num);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -255,9 +240,60 @@ public class EditorPaneListener implements MouseListener, DocumentListener {
 		updateStatus(e);
 	}
 
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (SwingUtilities.isLeftMouseButton(e)) {
+			eventHander(e);
+			showCharNumOnStatusBar(e);
+		}
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.isShiftDown()) {
+			int keyCode = e.getKeyCode();
+			if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
+				showCharNumOnStatusBar(e);
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void updateStatus(DocumentEvent e) {
 		statusObject.getSaveBtn().setEnabled(true);
 		CloseableTabComponent closeableTabComponent = SwingUtils.getCloseableTabComponent(tabbedPane);
 		closeableTabComponent.setModify(true);
 	}
+
+	private void showCharNumOnStatusBar(InputEvent e) {
+		// 显示字符数
+		RSyntaxTextArea edp = (RSyntaxTextArea) e.getComponent();
+		String selText = edp.getSelectedText();
+		if (selText == null) {
+			return;
+		}
+		selText = selText.replaceAll("\n", "");
+		selText = selText.replaceAll("\r", "");
+		int num = selText.length();
+		statusObject.getCharNum().setText("字符数：" + num);
+	}
+
 }
