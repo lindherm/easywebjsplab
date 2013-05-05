@@ -207,8 +207,12 @@ public class EchelonEditor {
 					RSyntaxTextArea textArea = SwingUtils.createTextArea();
 
 					textArea.setSyntaxEditingStyle("text/plain");
-					textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
-					textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
+					
+					EditorPaneListener editlistener=new EditorPaneListener(tabbedPane, statusObject);
+					textArea.addMouseListener(editlistener);
+					textArea.addMouseMotionListener(editlistener);
+					textArea.addKeyListener(editlistener);
+					textArea.getDocument().addDocumentListener(editlistener);
 
 					RTextScrollPane sp = new RTextScrollPane(textArea);
 					sp.setFoldIndicatorEnabled(true);

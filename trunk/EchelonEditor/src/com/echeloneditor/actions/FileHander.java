@@ -75,9 +75,13 @@ public class FileHander {
 			lsf.register(textArea);
 
 			textArea.setSyntaxEditingStyle(fileContentType);
-			textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
-			textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
-			// textArea.addHyperlinkListener(this);
+			
+			EditorPaneListener editlistener=new EditorPaneListener(tabbedPane, statusObject);
+			textArea.addMouseListener(editlistener);
+			textArea.addMouseMotionListener(editlistener);
+			textArea.addKeyListener(editlistener);
+			textArea.getDocument().addDocumentListener(editlistener);
+			
 			RTextScrollPane sp = new RTextScrollPane(textArea);
 			sp.setFoldIndicatorEnabled(true);
 
@@ -178,9 +182,13 @@ public class FileHander {
 	public void newFile() {
 		RSyntaxTextArea textArea = SwingUtils.createTextArea();
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_NONE);
-		textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
-		textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
-		// textArea.addHyperlinkListener(this);
+
+		EditorPaneListener editlistener=new EditorPaneListener(tabbedPane, statusObject);
+		textArea.addMouseListener(editlistener);
+		textArea.addMouseMotionListener(editlistener);
+		textArea.addKeyListener(editlistener);
+		textArea.getDocument().addDocumentListener(editlistener);
+		
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 		sp.setFoldIndicatorEnabled(true);
 
