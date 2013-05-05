@@ -149,6 +149,10 @@ public class SwingUtils {
 		String fileExt = fileName.substring(pos + 1, fileName.length());
 
 		result = Config.getValue("FILE_TYPE",fileExt);
+		
+		if (result==null) {
+			result="text/plain";
+		}
 
 		log.debug("syntaxstyle:" + result);
 		return result;

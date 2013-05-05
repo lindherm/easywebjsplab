@@ -13,7 +13,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -198,7 +197,8 @@ public class EchelonEditor {
 				
 				String filepath = ((CloseableTabComponent) SwingUtils.getCloseableTabComponent(tabbedPane)).getFilePath();
 				try {
-					FileInputStream fis = new FileInputStream(new File(filepath));
+					File file=new File(filepath);
+					FileInputStream fis = new FileInputStream(file);
 					
 					byte[] bytes=new byte[fis.available()];
 					
@@ -209,6 +209,8 @@ public class EchelonEditor {
 					textArea.setSyntaxEditingStyle("text/plain");
 					textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
 					textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
+					textArea.setWrapStyleWord(true);
+					//textArea.setLineWrap(true);
 					// textArea.addHyperlinkListener(this);
 					RTextScrollPane sp = new RTextScrollPane(textArea);
 					sp.setFoldIndicatorEnabled(true);
@@ -227,28 +229,24 @@ public class EchelonEditor {
 
 					int tabCount = tabbedPane.getTabCount();
 					CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
-					/*
-					 * closeableTabComponent.setFilePath(file.getPath()); closeableTabComponent.setFileEncode(encode); closeableTabComponent.setFileSzie(fileSize);
-					 */
 
 					tabbedPane.add("New Panel", sp);
 					tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
 
 					tabbedPane.setSelectedComponent(sp);
 					// 设置选项卡title为打开文件的文件名
-					SwingUtils.setTabbedPaneTitle(tabbedPane, "hex");
+					SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName()+"_hex");
 					textArea.setText(WDByteUtil.bytes2HEX(bytes));
 
 					String res = Config.getValue("CURRENT_THEME", "current_font");
 
 					textArea.setFont(FontUtil.getFont(res));
 					statusObject.getSaveBtn().setEnabled(false);
-
+					
+					closeableTabComponent.setModify(false);
+					fis.close();
 					textArea.setCaretPosition(0);
 					textArea.requestFocusInWindow();
-					closeableTabComponent.setModify(false);
-					
-					fis.close();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
