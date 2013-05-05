@@ -194,14 +194,14 @@ public class EchelonEditor {
 		JButton button_3 = new JButton("");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String filepath = ((CloseableTabComponent) SwingUtils.getCloseableTabComponent(tabbedPane)).getFilePath();
 				try {
-					File file=new File(filepath);
+					File file = new File(filepath);
 					FileInputStream fis = new FileInputStream(file);
-					
-					byte[] bytes=new byte[fis.available()];
-					
+
+					byte[] bytes = new byte[fis.available()];
+
 					fis.read(bytes);
 
 					RSyntaxTextArea textArea = SwingUtils.createTextArea();
@@ -210,8 +210,7 @@ public class EchelonEditor {
 					textArea.addMouseListener(new EditorPaneListener(tabbedPane, statusObject));
 					textArea.getDocument().addDocumentListener(new EditorPaneListener(tabbedPane, statusObject));
 					textArea.setWrapStyleWord(true);
-					//textArea.setLineWrap(true);
-					// textArea.addHyperlinkListener(this);
+
 					RTextScrollPane sp = new RTextScrollPane(textArea);
 					sp.setFoldIndicatorEnabled(true);
 
@@ -235,14 +234,25 @@ public class EchelonEditor {
 
 					tabbedPane.setSelectedComponent(sp);
 					// 设置选项卡title为打开文件的文件名
-					SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName()+"_hex");
-					textArea.setText(WDByteUtil.bytes2HEX(bytes));
+					SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName() + "_hex");
+					String text = WDByteUtil.bytes2HEX(bytes);
+					
+					StringBuilder sb = new StringBuilder(text);
+					int pos=0;
+					while (sb.length()>0) {
+						if (sb.length()<800) {
+							textArea.append(sb.delete(pos, pos+sb.length()).toString());
+						}else {
+							textArea.append(sb.delete(pos, pos+800).toString());
+						}
+						textArea.append("\n");
+					}
 
 					String res = Config.getValue("CURRENT_THEME", "current_font");
 
 					textArea.setFont(FontUtil.getFont(res));
 					statusObject.getSaveBtn().setEnabled(false);
-					
+
 					closeableTabComponent.setModify(false);
 					fis.close();
 					textArea.setCaretPosition(0);
