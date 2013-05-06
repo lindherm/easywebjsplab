@@ -181,7 +181,7 @@ public class EchelonEditor {
 
 		JButton btnNewButton = new JButton();
 		btnNewButton.setActionCommand("save");
-		btnNewButton.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
+		btnNewButton.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
 		toolBar.add(btnNewButton);
 		statusObject.setSaveBtn(btnNewButton);
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
@@ -301,7 +301,7 @@ public class EchelonEditor {
 		menuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		menuItem_2.setActionCommand("save");
 		menuItem_2.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		menuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
+		menuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
 		menu.add(menuItem_2);
 
 		JMenuItem menuItem_3 = new JMenuItem("另存为");
@@ -309,7 +309,7 @@ public class EchelonEditor {
 		menuItem_3.setActionCommand("saveas");
 		menuItem_3.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 
-		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
+		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
 		menu.add(menuItem_3);
 
 		JSeparator separator_2 = new JSeparator();
