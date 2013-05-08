@@ -45,7 +45,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 
 		JMenuItem cutItem = new JMenuItem("剪切");
 		cutItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
-		cutItem.setIcon(ImageHelper.loadImage("cut-to-clipboard.png"));
+		cutItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508105503688_easyicon_net_24.png")));
 		cutItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -57,7 +57,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		});
 		JMenuItem copyItem = new JMenuItem("复制");
 		copyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
-		copyItem.setIcon(ImageHelper.loadImage("copy-to-clipboard.png"));
+		copyItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508112701510_easyicon_net_24.png")));
 		copyItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -69,7 +69,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		});
 		JMenuItem pasteItem = new JMenuItem("粘贴");
 		pasteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
-		pasteItem.setIcon(ImageHelper.loadImage("paste-from-clipboard.png"));
+		pasteItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508105319839_easyicon_net_24.png")));
 		pasteItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -80,6 +80,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 			}
 		});
 		JMenuItem formatItem = new JMenuItem("格式化");
+		formatItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508011341649_easyicon_net_24.png")));
 		formatItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
 		formatItem.addActionListener(new ActionListener() {
 
@@ -109,7 +110,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 				rSyntaxTextArea.undoLastAction();
 			}
 		});
-		menuItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/undo.png")));
+		menuItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508104933496_easyicon_net_24.png")));
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
 		jPopupMenu.add(menuItem);
 
@@ -121,7 +122,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 			}
 		});
 		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
-		menuItem_1.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/redo.png")));
+		menuItem_1.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508104655987_easyicon_net_24.png")));
 		jPopupMenu.add(menuItem_1);
 
 		JSeparator separator = new JSeparator();
@@ -131,7 +132,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		jPopupMenu.add(pasteItem);
 		JMenuItem selectAllItem = new JMenuItem("全选");
 		selectAllItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
-		selectAllItem.setIcon(ImageHelper.loadImage("select-all.png"));
+		selectAllItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508105939375_easyicon_net_24.png")));
 		selectAllItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -166,7 +167,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 			}
 		});
 		menuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
-		menuItem_2.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/toolbarButtonGraphics/general/Delete16.gif")));
+		menuItem_2.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508105713413_easyicon_net_24.png")));
 		jPopupMenu.add(menuItem_2);
 
 		JSeparator separator_1 = new JSeparator();
