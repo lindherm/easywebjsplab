@@ -24,10 +24,10 @@ import javax.swing.text.BadLocationException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
+import com.echeloneditor.actions.EmvFormatAction;
 import com.echeloneditor.actions.XmlPreettifyAction;
 import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
-import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
 
@@ -176,6 +176,22 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		jPopupMenu.add(selectAllItem);
 		jPopupMenu.addSeparator();
 		jPopupMenu.add(formatItem);
+		
+		JMenuItem mntmTlv = new JMenuItem("TLV");
+		mntmTlv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				try {
+					EmvFormatAction.format(rSyntaxTextArea);
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntmTlv.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
+		mntmTlv.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130509034342785_easyicon_net_24.png")));
+		jPopupMenu.add(mntmTlv);
 	}
 
 	@Override
