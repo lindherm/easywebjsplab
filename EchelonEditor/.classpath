@@ -11,12 +11,13 @@
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/jargs-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_10"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/dom4j-2.0.0-ALPHA-2.jar"/>
-	<classpathentry kind="lib" path="/JTattoo/dist/JTattoo.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/ikms.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/org.dtools.javaini-v1.1.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/AutoComplete"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RSTAUI"/>
+	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/js-14.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RSyntaxTextArea"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AutoComplete"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RSTALanguageSupport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RSTAUI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JTattoo"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
