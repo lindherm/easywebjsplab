@@ -54,11 +54,15 @@ public class EmvFormatAction {
 		int pos = rSyntaxTextArea.getSelectionEnd();
 
 		String tempStr = rSyntaxTextArea.getText(pos, 2 * intlen);
-		tempStr = tempStr.replaceAll("\r\n", "").replaceAll("\n", "");
+		String targetStr = tempStr.replaceAll("\r\n", "").replaceAll("\n", "");
+		tempStr=rSyntaxTextArea.getText(pos, 2 * intlen+tempStr.length()-targetStr.length());
+		tempStr=tempStr.replaceAll("\r\n", "").replaceAll("\n", "");
 		sb = new StringBuilder();
 		String newTlv = TLV(tempStr);
+		System.out.println(tempStr);
+		System.out.println(newTlv);
 		JOptionPane.showMessageDialog(null, newTlv);
-		rSyntaxTextArea.replaceRange(newTlv, pos, pos+2*intlen);
+		rSyntaxTextArea.replaceRange(newTlv, pos, pos+2*intlen+tempStr.length()-targetStr.length());
 		return true;
 	}
 
