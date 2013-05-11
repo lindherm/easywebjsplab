@@ -46,20 +46,19 @@ public class EmvFormatAction {
 	public static boolean format(RSyntaxTextArea rSyntaxTextArea) throws BadLocationException {
 
 		String hexLen = rSyntaxTextArea.getSelectedText();
+		if (hexLen.startsWith("81")) {
+			hexLen=rSyntaxTextArea.getText(rSyntaxTextArea.getSelectionStart()+2,2);
+		}
 		int intlen = Integer.valueOf(hexLen, 16);
 
 		int pos = rSyntaxTextArea.getSelectionEnd();
 
-		JOptionPane.showMessageDialog(null, intlen + "|" + pos);
-
 		String tempStr = rSyntaxTextArea.getText(pos, 2 * intlen);
 		tempStr = tempStr.replaceAll("\r\n", "").replaceAll("\n", "");
-		System.out.println("temp:" + tempStr);
 		sb = new StringBuilder();
-		String helo = TLV(tempStr);
-		JOptionPane.showMessageDialog(null, helo);
-		System.out.println("helo:" + helo);
-		// rSyntaxTextArea.replaceRange(helo, pos, pos+2*intlen);
+		String newTlv = TLV(tempStr);
+		JOptionPane.showMessageDialog(null, newTlv);
+		rSyntaxTextArea.replaceRange(newTlv, pos, pos+2*intlen);
 		return true;
 	}
 
@@ -136,5 +135,8 @@ public class EmvFormatAction {
 
 		}
 		return sb.toString();
+	}
+	public static void main(String[] args) {
+		System.out.println(TLV("9F4681906C5FBAFC57C013469FB4416F95E98E5DAEC2040F687AA001B9E2480192B6E36AD73E4983E1AD4C78F1FEF2E40900AA7A8A21F5F9C52A99B29F8B6F05DF4544C5C834C7421996C81B969001C9DEE747A57D50EDAE9303313899B0C4B9B8EA614B83D0F75BE4C6A85C35B550D9EA9026219203D5995B061A5A82A389455F73E1C3740D3B810336D55467A352173C287E3F9F47030100019F481AE386CFFFEC0D3CBE631041A97F415A8741366EBA96C73376BFFB"));
 	}
 }
