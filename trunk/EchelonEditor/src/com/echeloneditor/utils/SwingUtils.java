@@ -45,6 +45,17 @@ public class SwingUtils {
 		}
 		return target;
 	}
+	
+	public static Component getRowHeader(Component editorComponent) {
+		Component target = null;
+		if (editorComponent instanceof RSyntaxTextArea) {
+			JScrollPane scrollPane = getScrollPane((RSyntaxTextArea) editorComponent);
+			JViewport jViewport = scrollPane.getRowHeader();
+			target = jViewport.getView();
+		}
+		return target;
+	}
+
 
 	/**
 	 * 获取选项卡选中的RSyntaxTextArea
