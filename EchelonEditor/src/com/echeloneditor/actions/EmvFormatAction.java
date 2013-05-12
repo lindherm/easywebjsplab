@@ -14,6 +14,7 @@ import com.echeloneditor.utils.Config;
 public class EmvFormatAction {
 	public static Map<String, String> tag2 = new HashMap<String, String>();
 	public static Map<String, String> tag4 = new HashMap<String, String>();
+	@SuppressWarnings("unused")
 	private static int pos = 0;
 	public static StringBuilder sb = new StringBuilder();
 
