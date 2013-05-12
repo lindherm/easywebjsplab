@@ -307,8 +307,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		if (selText == null) {
 			return;
 		}
-		selText = selText.replaceAll("\n", "");
-		selText = selText.replaceAll("\r", "");
+		selText = selText.replaceAll("\n", "").replaceAll("\r", "").replaceAll("\r\n", "");
 		int num = selText.length();
 		statusObject.getCharNum().setText("字符数：" + num);
 	}
