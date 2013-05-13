@@ -176,7 +176,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		jPopupMenu.add(selectAllItem);
 		jPopupMenu.addSeparator();
 		jPopupMenu.add(formatItem);
-		
+
 		JMenuItem mntmTlv = new JMenuItem("TLV");
 		mntmTlv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -280,11 +280,9 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.isShiftDown()) {
-			int keyCode = e.getKeyCode();
-			if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN) {
-				showCharNumOnStatusBar(e);
-			}
+		int keyCode = e.getKeyCode();
+		if ((e.isShiftDown() && keyCode == KeyEvent.VK_LEFT) || (e.isShiftDown() && keyCode == KeyEvent.VK_RIGHT) || (e.isShiftDown() && keyCode == KeyEvent.VK_UP) || (e.isShiftDown() && keyCode == KeyEvent.VK_DOWN)) {
+			showCharNumOnStatusBar(e);
 		}
 	}
 
@@ -304,9 +302,10 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		// 显示字符数
 		RSyntaxTextArea edp = (RSyntaxTextArea) e.getComponent();
 		String selText = edp.getSelectedText();
-		if (selText == null) {
+		if (selText == null || selText.isEmpty()) {
 			return;
 		}
+		System.out.println(selText);
 		selText = selText.replaceAll("\n", "").replaceAll("\r", "").replaceAll("\r\n", "");
 		int num = selText.length();
 		statusObject.getCharNum().setText("字符数：" + num);
