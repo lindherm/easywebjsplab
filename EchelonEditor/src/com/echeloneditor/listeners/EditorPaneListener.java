@@ -81,7 +81,7 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		});
 		JMenuItem formatItem = new JMenuItem("格式化");
 		formatItem.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130508011341649_easyicon_net_24.png")));
-		formatItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
+		formatItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		formatItem.addActionListener(new ActionListener() {
 
 			@Override
