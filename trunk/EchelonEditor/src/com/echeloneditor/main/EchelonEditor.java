@@ -38,8 +38,10 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.echeloneditor.actions.EmvFormatAction;
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.actions.FindAndReplaceAction;
+import com.echeloneditor.actions.XmlPreettifyAction;
 import com.echeloneditor.listeners.EditorPaneListener;
 import com.echeloneditor.listeners.FindDialogListener;
 import com.echeloneditor.listeners.SimpleDragFileListener;
@@ -207,8 +209,8 @@ public class EchelonEditor {
 					RSyntaxTextArea textArea = SwingUtils.createTextArea();
 
 					textArea.setSyntaxEditingStyle("text/plain");
-					
-					EditorPaneListener editlistener=new EditorPaneListener(tabbedPane, statusObject);
+
+					EditorPaneListener editlistener = new EditorPaneListener(tabbedPane, statusObject);
 					textArea.addMouseListener(editlistener);
 					textArea.addMouseMotionListener(editlistener);
 					textArea.addKeyListener(editlistener);
@@ -483,6 +485,48 @@ public class EchelonEditor {
 		menuItem_15.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_15);
 		menu_4.add(mntmNewMenuItem);
+
+		JSeparator separator = new JSeparator();
+		menu_4.add(separator);
+
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("格式化");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+
+				CloseableTabComponent ctc = SwingUtils.getCloseableTabComponent(tabbedPane);
+				int pos = ctc.getFilePath().lastIndexOf(".");
+				String fileExt = ctc.getFilePath().substring(pos + 1);
+				if (fileExt.equals("xml")) {
+					boolean Success = XmlPreettifyAction.format(rSyntaxTextArea);
+					if (!Success) {
+						JOptionPane.showMessageDialog(null, "格式化失败");
+						return;
+					}
+				}
+
+			}
+		});
+		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+		mntmNewMenuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508011341649_easyicon_net_24.png")));
+		menu_4.add(mntmNewMenuItem_1);
+
+		JMenuItem mntmTlv = new JMenuItem("TLV");
+		mntmTlv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				try {
+					EmvFormatAction.format(rSyntaxTextArea);
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntmTlv.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130509034342785_easyicon_net_24.png")));
+		mntmTlv.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
+		menu_4.add(mntmTlv);
 
 		JMenu menu_3 = new JMenu("格式");
 		menuBar.add(menu_3);
