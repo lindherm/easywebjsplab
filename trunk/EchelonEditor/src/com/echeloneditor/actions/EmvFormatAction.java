@@ -60,8 +60,6 @@ public class EmvFormatAction {
 		tempStr=tempStr.replaceAll("\r\n", "").replaceAll("\n", "");
 		sb = new StringBuilder();
 		String newTlv = TLV(tempStr);
-		System.out.println(tempStr);
-		System.out.println(newTlv);
 		JOptionPane.showMessageDialog(null, newTlv);
 		rSyntaxTextArea.replaceRange(newTlv, pos, pos+2*intlen+tempStr.length()-targetStr.length());
 		return true;

@@ -548,7 +548,7 @@ public class EchelonEditor {
 		JMenuItem menuItem_17 = new JMenuItem("帮助");
 		menuItem_17.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "EchelonEditor肖利亚专版", "帮助", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(frmEcheloneditor, "EchelonEditor_赫本", "帮助", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		menuItem_17.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/2013050411485151_easyicon_net_24.png")));
