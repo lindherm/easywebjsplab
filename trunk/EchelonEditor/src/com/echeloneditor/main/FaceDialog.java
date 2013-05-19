@@ -139,7 +139,7 @@ public class FaceDialog extends JDialog {
 				Config.setValue("CURRENT_THEME","current_laf", selectFace);
 				Config.setValue("CURRENT_THEME","current_theme", selectTheme);
 				Config.setValue("CURRENT_THEME","current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
-				System.out.println(String.valueOf(lafList.getSelectedIndex()));
+				//System.out.println(String.valueOf(lafList.getSelectedIndex()));
 				try {
 					SwingUtils.restart("EchelonEditor");
 				} catch (IOException e) {
