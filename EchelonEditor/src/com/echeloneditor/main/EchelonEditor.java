@@ -13,6 +13,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,6 +37,7 @@ import javax.swing.text.JTextComponent;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -61,6 +64,7 @@ public class EchelonEditor {
 	public JFrame frmEcheloneditor;
 	public static JTabbedPane tabbedPane;
 	public StatusObject statusObject;
+	public FontWidthRuler ruler;
 
 	FindDialog findDialog = null;
 	ReplaceDialog replaceDialog = null;
@@ -291,13 +295,13 @@ public class EchelonEditor {
 					RSyntaxTextArea textArea = SwingUtils.createTextArea();
 
 					textArea.setSyntaxEditingStyle("text/xml");
-
-					EditorPaneListener editlistener = new EditorPaneListener(tabbedPane, statusObject);
+					
+					EditorPaneListener editlistener=new EditorPaneListener(tabbedPane, statusObject);
 					textArea.addMouseListener(editlistener);
 					textArea.addMouseMotionListener(editlistener);
 					textArea.addKeyListener(editlistener);
 					textArea.getDocument().addDocumentListener(editlistener);
-
+					
 					RTextScrollPane sp = new RTextScrollPane(textArea);
 					sp.setFoldIndicatorEnabled(true);
 
@@ -306,8 +310,15 @@ public class EchelonEditor {
 					ImageIcon ii = ImageHelper.loadImage("bookmark.png");
 					gutter.setBookmarkIcon(ii);
 
+					InputStream in = getClass().getResourceAsStream("/com/echeloneditor/resources/templates/eclipse.xml");
+					try {
+						Theme theme = Theme.load(in);
+						theme.apply(textArea);
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					}
 					// 加入标尺
-					FontWidthRuler ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
+					ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
 					ruler.setPreferredWidth(20000);
 					ruler.addSpin(3);
 					ruler.NeedPaint = true;
@@ -315,6 +326,7 @@ public class EchelonEditor {
 
 					int tabCount = tabbedPane.getTabCount();
 					CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
+					closeableTabComponent.setFilePath(file.getPath());
 
 					tabbedPane.add("New Panel", sp);
 					tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
