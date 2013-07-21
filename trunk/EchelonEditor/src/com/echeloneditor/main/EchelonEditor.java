@@ -38,6 +38,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.echeloneditor.actions.DecryptTemplateAction;
 import com.echeloneditor.actions.EmvFormatAction;
 import com.echeloneditor.actions.FileHander;
 import com.echeloneditor.actions.FindAndReplaceAction;
@@ -274,6 +275,75 @@ public class EchelonEditor {
 		});
 		button_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111819570_easyicon_net_24.png")));
 		toolBar.add(button_3);
+		
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String filepath = ((CloseableTabComponent) SwingUtils.getCloseableTabComponent(tabbedPane)).getFilePath();
+				try {
+					File file = new File(filepath);
+					FileInputStream fis = new FileInputStream(file);
+
+					byte[] bytes = new byte[fis.available()];
+
+					fis.read(bytes);
+
+					RSyntaxTextArea textArea = SwingUtils.createTextArea();
+
+					textArea.setSyntaxEditingStyle("text/xml");
+
+					EditorPaneListener editlistener = new EditorPaneListener(tabbedPane, statusObject);
+					textArea.addMouseListener(editlistener);
+					textArea.addMouseMotionListener(editlistener);
+					textArea.addKeyListener(editlistener);
+					textArea.getDocument().addDocumentListener(editlistener);
+
+					RTextScrollPane sp = new RTextScrollPane(textArea);
+					sp.setFoldIndicatorEnabled(true);
+
+					Gutter gutter = sp.getGutter();
+					gutter.setBookmarkingEnabled(true);
+					ImageIcon ii = ImageHelper.loadImage("bookmark.png");
+					gutter.setBookmarkIcon(ii);
+
+					// 加入标尺
+					FontWidthRuler ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
+					ruler.setPreferredWidth(20000);
+					ruler.addSpin(3);
+					ruler.NeedPaint = true;
+					sp.setColumnHeaderView(ruler);
+
+					int tabCount = tabbedPane.getTabCount();
+					CloseableTabComponent closeableTabComponent = new CloseableTabComponent(tabbedPane, statusObject);
+
+					tabbedPane.add("New Panel", sp);
+					tabbedPane.setTabComponentAt(tabCount, closeableTabComponent);
+
+					tabbedPane.setSelectedComponent(sp);
+					// 设置选项卡title为打开文件的文件名
+					SwingUtils.setTabbedPaneTitle(tabbedPane, file.getName() + "_t");
+					
+					DecryptTemplateAction.doAction(textArea,new String(bytes));
+					
+					String res = Config.getValue("CURRENT_THEME", "current_font");
+
+					textArea.setFont(FontUtil.getFont(res));
+					statusObject.getSaveBtn().setEnabled(false);
+
+					closeableTabComponent.setModify(false);
+					fis.close();
+					// textArea.setCaretPosition(0);
+					textArea.requestFocusInWindow();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		btnNewButton_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130721025254649_easyicon_net_24.png")));
+		toolBar.add(btnNewButton_1);
 
 		JMenuBar menuBar = new JMenuBar();
 		frmEcheloneditor.setJMenuBar(menuBar);
