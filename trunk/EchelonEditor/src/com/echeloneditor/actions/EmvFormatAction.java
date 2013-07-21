@@ -60,7 +60,7 @@ public class EmvFormatAction {
 		tempStr=tempStr.replaceAll("\r\n", "").replaceAll("\n", "");
 		sb = new StringBuilder();
 		String newTlv = TLV(tempStr);
-		JOptionPane.showMessageDialog(null, newTlv);
+		//JOptionPane.showMessageDialog(null, newTlv);
 		rSyntaxTextArea.replaceRange(newTlv, pos, pos+2*intlen+tempStr.length()-targetStr.length());
 		return true;
 	}
@@ -74,12 +74,12 @@ public class EmvFormatAction {
 
 		String tagName = tlv.substring(0, 2);
 		if (tag2.containsKey(tagName)) {
-			sb.append(tagName).append("\n");
+			sb.append("\n\t"+tagName);
 			String hexLen = tlv.substring(2, 4);
 
 			if (hexLen.equals("81")) {
 				hexLen = tlv.substring(4, 6);
-				sb.append("81" + hexLen).append("\n");
+				sb.append("\t81" + hexLen).append("\t");
 				int intlen = Integer.valueOf(hexLen, 16);
 				sb.append(tlv.substring(6, 6 + 2 * intlen)).append("\n");
 				pos += 6 + 2 * intlen;
@@ -91,7 +91,7 @@ public class EmvFormatAction {
 					return sb.toString();
 				}
 			} else {
-				sb.append(hexLen).append("\n");
+				sb.append("\t"+hexLen).append("\t");
 				int intlen = Integer.valueOf(hexLen, 16);
 				sb.append(tlv.substring(4, 4 + 2 * intlen)).append("\n");
 				pos += 4 + 2 * intlen;
@@ -107,12 +107,12 @@ public class EmvFormatAction {
 		} else {
 			tagName = tlv.substring(0, 4);
 			if (tag4.containsKey(tagName)) {
-				sb.append(tagName).append("\n");
+				sb.append("\n\t"+tagName);
 				String hexLen = tlv.substring(4, 6);
 
 				if (hexLen.equals("81")) {
 					hexLen = tlv.substring(6, 8);
-					sb.append("81" + hexLen).append("\n");
+					sb.append("\t81" + hexLen).append("\t");
 					int intlen = Integer.valueOf(hexLen, 16);
 					sb.append(tlv.substring(8, 8 + 2 * intlen)).append("\n");
 					pos += 8 + 2 * intlen;
@@ -123,7 +123,7 @@ public class EmvFormatAction {
 						return sb.toString();
 					}
 				} else {
-					sb.append(hexLen).append("\n");
+					sb.append("\t"+hexLen).append("\t");
 					int intlen = Integer.valueOf(hexLen, 16);
 					sb.append(tlv.substring(6, 6 + 2 * intlen)).append("\n");
 					pos += 6 + 2 * intlen;
