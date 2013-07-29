@@ -57,6 +57,7 @@ import com.echeloneditor.utils.FontUtil;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
+import com.watchdata.Generater;
 import com.watchdata.commons.lang.WDByteUtil;
 
 public class EchelonEditor {
@@ -652,6 +653,15 @@ public class EchelonEditor {
 			}
 		});
 		menu_1.add(menuItem_16);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("密钥成分生成工具");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Generater window = new Generater();
+				window.frame.setVisible(true);
+			}
+		});
+		menu_1.add(mntmNewMenuItem_2);
 
 		JMenu menu_5 = new JMenu("皮肤");
 		menuBar.add(menu_5);
