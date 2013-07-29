@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.echeloneditor.utils.Config;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
+import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDBase64;
 import com.watchdata.commons.lang.WDStringUtil;
@@ -227,6 +228,8 @@ public class AssistantToolDialog extends JDialog {
 		JButton btnNewButton_1 = new JButton("TDES MAC");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				restultField.setText(WDPBOCUtil.triple_des_mac(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
 			}
 		});
 		btnNewButton_1.setBounds(457, 148, 95, 25);
