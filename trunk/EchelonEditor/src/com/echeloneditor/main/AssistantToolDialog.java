@@ -21,6 +21,8 @@ import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDBase64;
+import com.watchdata.commons.lang.WDByteUtil;
+import com.watchdata.commons.lang.WDEncodeUtil;
 import com.watchdata.commons.lang.WDStringUtil;
 import com.watchdata.kms.kmsi.IKms;
 
@@ -226,16 +228,23 @@ public class AssistantToolDialog extends JDialog {
 		contentPanel.add(btnCbcDecrypt);
 
 		JButton btnNewButton_1 = new JButton("TDES MAC");
+		btnNewButton_1.setToolTipText("Full Triple DES MAC");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				restultField.setText(WDPBOCUtil.triple_des_mac(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+				String res=WD3DesCryptoUtil.cbc_encrypt(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000");
+				restultField.setText(res.substring(res.length()-16, res.length()));
 			}
 		});
 		btnNewButton_1.setBounds(457, 148, 95, 25);
 		contentPanel.add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("CMAC");
+		JButton btnNewButton_2 = new JButton("MAC");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDPBOCUtil.triple_des_mac(keyField.getText(), dataField.getText(), Padding.NoPadding, "0000000000000000"));
+			}
+		});
+		btnNewButton_2.setToolTipText("Single DES Plus Final Triple DES MAC");
 		btnNewButton_2.setBounds(457, 193, 95, 25);
 		contentPanel.add(btnNewButton_2);
 
@@ -245,7 +254,7 @@ public class AssistantToolDialog extends JDialog {
 				restultField.setText(WDStringUtil.hex2asc(dataField.getText()));
 			}
 		});
-		btnNewButton_3.setBounds(79, 285, 125, 25);
+		btnNewButton_3.setBounds(79, 285, 112, 25);
 		contentPanel.add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("String->ASC");
@@ -254,8 +263,72 @@ public class AssistantToolDialog extends JDialog {
 				restultField.setText(WDStringUtil.asc2hex(dataField.getText()));
 			}
 		});
-		btnNewButton_4.setBounds(79, 243, 125, 25);
+		btnNewButton_4.setBounds(78, 243, 112, 25);
 		contentPanel.add(btnNewButton_4);
+		
+		JButton btnNewButton_5 = new JButton("SHA1");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDByteUtil.bytes2HEX(WDEncodeUtil.sha1(WDByteUtil.HEX2Bytes(dataField.getText()))));
+			}
+		});
+		btnNewButton_5.setBounds(200, 243, 112, 25);
+		contentPanel.add(btnNewButton_5);
+		
+		JButton btnNewButton_6 = new JButton("MD5");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDByteUtil.bytes2HEX(WDEncodeUtil.md5(WDByteUtil.HEX2Bytes(dataField.getText()))));
+			}
+		});
+		btnNewButton_6.setBounds(200, 285, 112, 25);
+		contentPanel.add(btnNewButton_6);
+		
+		JButton btnXor = new JButton("XOR");
+		btnXor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String com1=keyField.getText();
+				String com2=dataField.getText();
+					byte[] com1Bytes = new byte[com1.length() / 2];
+					byte[] com2Bytes = new byte[com2.length() / 2];
+
+					com1Bytes = WDByteUtil.HEX2Bytes(com1);
+					com2Bytes = WDByteUtil.HEX2Bytes(com2);
+
+					byte[] xorBytes = new byte[16];
+					for (int i = 0; i < xorBytes.length; i++) {
+						xorBytes[i] = (byte) (com1Bytes[i] ^ com2Bytes[i]);
+					}
+
+					restultField.setText(WDByteUtil.bytes2HEX(xorBytes));
+
+			}
+		});
+		btnXor.setBounds(322, 243, 112, 25);
+		contentPanel.add(btnXor);
+		
+		JButton btnNot = new JButton("NOT");
+		btnNot.setBounds(322, 285, 112, 25);
+		contentPanel.add(btnNot);
+		
+		JButton btnSha = new JButton("SHA256");
+		btnSha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDByteUtil.bytes2HEX(WDEncodeUtil.sha256(WDByteUtil.HEX2Bytes(dataField.getText()))));
+			}
+		});
+		btnSha.setBounds(444, 243, 112, 25);
+		contentPanel.add(btnSha);
+		
+		JButton btnSha_1 = new JButton("SHA512");
+		btnSha_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				restultField.setText(WDByteUtil.bytes2HEX(WDEncodeUtil.sha512(WDByteUtil.HEX2Bytes(dataField.getText()))));
+			}
+		});
+		btnSha_1.setBounds(444, 285, 112, 25);
+		contentPanel.add(btnSha_1);
 
 	}
 }
