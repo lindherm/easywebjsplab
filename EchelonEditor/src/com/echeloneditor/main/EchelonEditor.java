@@ -655,6 +655,7 @@ public class EchelonEditor {
 		menu_1.add(menuItem_16);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("密钥成分生成工具");
+		mntmNewMenuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130729071051684_easyicon_net_24.png")));
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Generater window = new Generater();
