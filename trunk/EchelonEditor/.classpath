@@ -9,7 +9,6 @@
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/CardPcsc.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/jargs-1.0.jar"/>
-	<classpathentry kind="lib" path="src/com/echeloneditor/lib/KeyComponentGenerater.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_10"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/dom4j-2.0.0-ALPHA-2.jar"/>
 	<classpathentry kind="lib" path="src/com/echeloneditor/lib/ikms.jar"/>
@@ -20,5 +19,6 @@
 	<classpathentry kind="lib" path="/RSTALanguageSupport/dist/rsyntaxtextarea.jar"/>
 	<classpathentry kind="lib" path="/RSTAUI/dist/rstaui.jar"/>
 	<classpathentry kind="lib" path="/JTattoo/dist/JTattoo.jar"/>
+	<classpathentry kind="lib" path="src/com/echeloneditor/lib/KeyComponentGenerater.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
