@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       ">
+
+	<!-- hsql db -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<!-- 文件模式 -->
+		<property name="url" value="jdbc:hsqldb:file:db/pct;shutdown=true"/>
+		<property name="username" value="admin"/>
+		<property name="password" value="admin"/>
+		<!-- 可省略 -->
+		<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>			
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	<!-- dao -->
+	<bean id="abstractBaseDao" class="com.watchdata.cardcheck.dao.AbstractBaseDao" abstract="true">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="appInfoDao" class="com.watchdata.cardcheck.dao.jdbc.AppInfoDaoImpl" parent="abstractBaseDao">	
+	</bean>
+	
+	<bean id="termInfoDao" class="com.watchdata.cardcheck.dao.jdbc.TermInfoDaoImpl" parent="abstractBaseDao">	
+	</bean>
+	
+	<bean id="issuerKeyConfigDao" class="com.watchdata.cardcheck.dao.jdbc.IssuerKeyConfigDaoImpl" parent="abstractBaseDao">
+		
+	</bean>		
+	<bean id="staticDataDao" class="com.watchdata.cardcheck.dao.jdbc.StaticDataDaoImpl" parent="abstractBaseDao">	
+	</bean>
+	
+	<bean id="iTermPerConfigDao" class="com.watchdata.cardcheck.dao.jdbc.TermPerformConfigDaoImpl" parent="abstractBaseDao">	
+	</bean>
+	<bean id="iCAkeyconfigDao" class="com.watchdata.cardcheck.dao.jdbc.CAPublicKeyConfigDaoImpl" parent="abstractBaseDao">	
+	</bean>
+	
+	<!--logic -->
+	<bean id="apduHandler" class="com.watchdata.cardcheck.logic.apdu.CommonAPDU">
+		<property name="apduChannel" ref="apduChannel"></property>
+	</bean>
+	<bean id="apduChannel" class="com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel" scope="prototype">
+	</bean>
+	<bean id="baseHandler" class="com.watchdata.cardcheck.logic.impl.BaseHandler">
+		<property name="apduHandler" ref="apduHandler"></property>
+		<property name="issuerDao" ref="issuerDao"></property>
+	</bean>
+	<bean id="pbocHandler" class="com.watchdata.cardcheck.logic.impl.PBOCHandler" parent="baseHandler">
+		<property name="issuerDao" ref="issuerDao"></property>
+	</bean>
+	<bean id="issuerDao" class="com.watchdata.cardcheck.logic.issuer.local.IssuerDaoImpl">
+		<property name="issuerKeyConfigDao" ref="issuerKeyConfigDao"></property>
+	</bean>
+	<bean id="electronicCashHandler" class="com.watchdata.cardcheck.logic.impl.ElectronicCashHandler" parent="baseHandler">
+		<property name="issuerDao" ref="issuerDao"></property>
+	</bean>
+	<bean id="qPbocHandler" class="com.watchdata.cardcheck.logic.impl.QPBOCHandler" parent="baseHandler">
+	</bean>
+	
+	<bean id="config" class="com.watchdata.cardcheck.utils.Configuration" scope="prototype">
+	</bean>
+</beans>
+
