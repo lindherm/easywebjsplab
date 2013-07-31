@@ -10,7 +10,7 @@ import java.util.List;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
-import com.watchdata.cardcheck.utils.wordutil.APDUSendANDRes;
+import com.watchdata.cardcheck.utils.reportutil.APDUSendANDRes;
 import com.watchdata.commons.lang.WDAssert;
 
 /**

@@ -1,4 +1,4 @@
-package com.watchdata.cardcheck.utils.wordutil;
+package com.watchdata.cardcheck.utils.reportutil;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
@@ -25,12 +25,12 @@ import com.lowagie.text.Table;
 import com.lowagie.text.rtf.RtfWriter2;
 import com.watchdata.commons.lang.WDAssert;
 
-public class GenWordUtil {
+public class GenReportUtil {
 	private static Document document;
 	private static Table table;
 
 	// 默认构造方法出始话数据
-	public GenWordUtil() {
+	public GenReportUtil() {
 		try {
 			table = new Table(3);
 			table.setWidth(100f);// 表格宽度
@@ -251,7 +251,7 @@ public class GenWordUtil {
 		beanMap.put("82", "1111111111111111111111111111");
 		apduSendANDRes.setTagDes(beanMap);
 
-		GenWordUtil genWordUtil = new GenWordUtil();
+		GenReportUtil genWordUtil = new GenReportUtil();
 		genWordUtil.open("圈存");
 		genWordUtil.addFileTitle("交易检测报告");
 		genWordUtil.addTransactionName("圈存");
