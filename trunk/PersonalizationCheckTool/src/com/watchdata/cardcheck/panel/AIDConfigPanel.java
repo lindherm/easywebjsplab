@@ -23,12 +23,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.watchdata.cardcheck.configdao.AIDInfo;
-import com.watchdata.cardcheck.dao.IAppInfoDao;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 
@@ -58,9 +56,7 @@ public class AIDConfigPanel extends JPanel {
 	public static JButton buttonDel;
 	public static JButton buttonSave;
 
-	private IAppInfoDao appinfodao;
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
-	private PropertiesManager pm = new PropertiesManager();
+    private PropertiesManager pm = new PropertiesManager();
 	private final String[] COLUMNS = new String[] { pm.getString("mv.aidconfig.aidtitle"), pm.getString("mv.aidconfig.discriptiontitle"), pm.getString("mv.aidconfig.versiontitle") };
 	private List<AIDInfo> sdList;
 	private AIDInfo aidInfo = new AIDInfo();
@@ -123,8 +119,6 @@ public class AIDConfigPanel extends JPanel {
 		buttonAdd = new JButton();
 		buttonAdd.setText(pm.getString("mv.aidconfig.add"));
 		buttonAdd.setBounds(715, 95, 84, 21);
-		appinfodao = (IAppInfoDao) ctx.getBean("appInfoDao");
-
 		add(buttonAdd);
 
 		final JLabel addAIDLabel = new JLabel();
@@ -288,7 +282,7 @@ public class AIDConfigPanel extends JPanel {
 				return;
 			} else {
 				AIDInfo aidInfo = new AIDInfo();
-				if (appinfodao.findAppinfo(textFieldAid.getText().trim()) != null) {
+				if (Config.getItem("SupAID", textFieldAid.getText().trim())!=null) {
 					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.aidexists"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
