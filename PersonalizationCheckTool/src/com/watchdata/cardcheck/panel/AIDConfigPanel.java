@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,8 +27,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.watchdata.cardcheck.configdao.AIDInfo;
 import com.watchdata.cardcheck.dao.IAppInfoDao;
-import com.watchdata.cardcheck.dao.pojo.AppInfo;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 
@@ -58,14 +59,11 @@ public class AIDConfigPanel extends JPanel {
 	public static JButton buttonSave;
 
 	private IAppInfoDao appinfodao;
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext(
-			"classpath:applicationContext.xml");
+	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
 	private PropertiesManager pm = new PropertiesManager();
-	private final String[] COLUMNS = new String[] {
-			pm.getString("mv.aidconfig.aidtitle"),
-			pm.getString("mv.aidconfig.discriptiontitle"),
-			pm.getString("mv.aidconfig.versiontitle") };
-	private List<AppInfo> sdList;
+	private final String[] COLUMNS = new String[] { pm.getString("mv.aidconfig.aidtitle"), pm.getString("mv.aidconfig.discriptiontitle"), pm.getString("mv.aidconfig.versiontitle") };
+	private List<AIDInfo> sdList;
+	private AIDInfo aidInfo = new AIDInfo();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
 
@@ -75,39 +73,7 @@ public class AIDConfigPanel extends JPanel {
 	public AIDConfigPanel() {
 		super(null);
 		setName(pm.getString("mv.aidconfig.name"));
-		setBorder(JTBorderFactory.createTitleBorder(pm
-				.getString("mv.menu.AIDConfig")));
-
-		/*
-		 * final JSplitPane splitPane = new JSplitPane();
-		 * splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane.setDividerLocation(180);
-		 * splitPane.setOneTouchExpandable(true); add(splitPane,
-		 * BorderLayout.CENTER);
-		 */
-
-		/*
-		 * final JPanel panel = new JPanel(); panel.setLayout(new
-		 * BorderLayout()); splitPane.setLeftComponent(panel);
-		 */
-		/*
-		 * textField.setBorder(null); textField.setBackground(new
-		 * Color(176,196,236));
-		 */
-		/*
-		 * textField_1.setBorder(null); textField_1.setBackground(new
-		 * Color(176,196,236));
-		 */
-		/* gridBagConstraints_4.ipady = 20; */
-		/*
-		 * textField_2.setBorder(null); textField_2.setBackground(new
-		 * Color(176,196,236));
-		 */
-
-		/*
-		 * final JPanel panel_6 = new JPanel(); panel_6.setLayout(null);
-		 * panel.add(panel_6, BorderLayout.NORTH);
-		 */
+		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.AIDConfig")));
 
 		final JLabel label_3 = new JLabel();
 		label_3.setBounds(0, 50, 97, 20);
@@ -120,11 +86,6 @@ public class AIDConfigPanel extends JPanel {
 		final JSeparator separator = new JSeparator();
 		separator.setBounds(79, 60, 730, 20);
 		add(separator);
-
-		/*
-		 * final JPanel panel_10 = new JPanel(); panel_10.setLayout(null);
-		 * add(panel_10);
-		 */
 
 		final JLabel label = new JLabel();
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -164,66 +125,7 @@ public class AIDConfigPanel extends JPanel {
 		buttonAdd.setBounds(715, 95, 84, 21);
 		appinfodao = (IAppInfoDao) ctx.getBean("appInfoDao");
 
-		// buttonAdd.addActionListener(new ActionListener() {
-		// public void actionPerformed(final ActionEvent e) {
-		//
-		// if (0 == textFieldAid.getText().trim().length()) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.fullInfo"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// } else {
-		// AIDConfigTableModel configTableModel = (AIDConfigTableModel) table
-		// .getModel();
-		// Vector<Vector<String>> data = configTableModel.getData();
-		//
-		// for (int i = 0; i < data.size(); i++) {
-		// if (data.get(i).get(0).equalsIgnoreCase(
-		// textFieldAid.getText())) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.aidexists"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		// }
-		//
-		// Vector<String> vector = new Vector<String>();
-		// vector.add(textFieldAid.getText());
-		// vector.add(textFieldDscrpt.getText());
-		// vector.add(textFieldVersion.getText());
-		// configTableModel.addRow(vector);
-		//
-		// }
-		//
-		// }
-		// });
-
 		add(buttonAdd);
-
-		/*
-		 * final JPanel panel_1 = new JPanel(); panel_1.setLayout(new
-		 * BorderLayout()); splitPane.setRightComponent(panel_1);
-		 */
-
-		/*
-		 * final JSplitPane splitPane_1 = new JSplitPane();
-		 * splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane_1.setDividerSize(0); splitPane_1.setDividerLocation(400);
-		 * panel_1.add(splitPane_1);
-		 */
-
-		/*
-		 * final JPanel panel_2 = new JPanel(); panel_2.setLayout(new
-		 * BorderLayout()); splitPane_1.setLeftComponent(panel_2);
-		 */
-
-		/*
-		 * final JPanel panel_4 = new JPanel(); panel_4.setLayout(new
-		 * BoxLayout(panel_4, BoxLayout.X_AXIS)); panel_2.add(panel_4,
-		 * BorderLayout.NORTH);
-		 */
 
 		final JLabel addAIDLabel = new JLabel();
 		addAIDLabel.setBounds(0, 150, 97, 20);
@@ -236,185 +138,37 @@ public class AIDConfigPanel extends JPanel {
 		separator_1.setBounds(79, 160, 730, 20);
 		add(separator_1);
 
-		/*
-		 * final JPanel panel_5 = new JPanel(); panel_5.setLayout(new
-		 * BoxLayout(panel_5, BoxLayout.X_AXIS)); panel_2.add(panel_5,
-		 * BorderLayout.CENTER);
-		 */
-
-		/*
-		 * final JSplitPane splitPane_2 = new JSplitPane();
-		 * splitPane_2.setVisible(true); splitPane_2.addComponentListener(new
-		 * ComponentAdapter() { public void componentResized(ComponentEvent e) {
-		 * splitPane_2.setDividerLocation(0.7); } }); panel_5.add(splitPane_2);
-		 */
-
-		/*
-		 * final JPanel panel_7 = new JPanel(); panel_7.setLayout(new
-		 * BoxLayout(panel_7, BoxLayout.X_AXIS));
-		 * splitPane_2.setLeftComponent(panel_7);
-		 */
-
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(45, 180, 620, 473);
 		add(scrollPane);
 
-		// Object[][] columnData = {};
-		// String[] columnTitle = {};
-		// table = new JTable(columnData, columnTitle);
-		// AIDConfigTableModel configTableModel = new AIDConfigTableModel();
-		//
-		// table.setModel(configTableModel);
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		// table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		sdList = appinfodao.findAppInfo();
+
+		sdList = aidInfo.getAidInfos("SupAID");
 		tableDataDisp();
 		scrollPane.setViewportView(table);
-
-		/*
-		 * final JPanel panel_8 = new JPanel(); panel_8.setLayout(null);
-		 * splitPane_2.setRightComponent(panel_8);
-		 */
 
 		buttonDel = new JButton();
 		buttonDel.setText(pm.getString("mv.aidconfig.del"));
 		buttonDel.setBounds(715, 330, 84, 21);
 
-		// buttonDel.addActionListener(new ActionListener() {
-		// public void actionPerformed(final ActionEvent e) {
-		// int delIndex[] = table.getSelectedRows();
-		// if (delIndex.length != 0) {
-		// if (1 == JOptionPane.showConfirmDialog(null, pm
-		// .getString("mv.aidconfig.deleteInfoconfirm"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.YES_NO_OPTION,
-		// JOptionPane.QUESTION_MESSAGE))
-		// return;
-		//
-		// AIDConfigTableModel tableModel = (AIDConfigTableModel) table
-		// .getModel();
-		// for (int i = delIndex.length - 1; i >= 0; i--) {
-		// tableModel.delRow(delIndex[i]);
-		// }
-		// } else {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.deleteInfo"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		// }
-		//
-		// });
 		add(buttonDel);
 
 		buttonSave = new JButton();
 		buttonSave.setText(pm.getString("mv.aidconfig.edit"));
 		buttonSave.setBounds(715, 425, 84, 21);
-		// buttonSave.addActionListener(new ActionListener() {
-		// public void actionPerformed(final ActionEvent e) {
-		// AIDConfigTableModel configTableModel = (AIDConfigTableModel) table
-		// .getModel();
-		// Vector<Vector<String>> data = configTableModel.getData();
-		// if (table.isEditing()) {
-		// int row = table.getEditingRow();
-		// int col = table.getEditingColumn();
-		// table.getCellEditor(row, col).stopCellEditing();
-		// }
-		// ArrayList<String> alaid = new ArrayList<String>();
-		// for (int i = 0; i < data.size(); i++) {
-		// if (alaid.contains(data.get(i).get(0))) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.aidexists"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		// alaid.add(data.get(i).get(0));
-		// if(checkData(data.get(i).get(0).trim().toString())!=0){
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.index")
-		// + String.valueOf(i + 1)
-		// + pm.getString("mv.aidconfig.row")
-		// + pm.getString("mv.aidconfig.fullInfo"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		//
-		// if (data.get(i).get(1).length() > 128) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.index")
-		// + String.valueOf(i + 1)
-		// + pm.getString("mv.aidconfig.row")
-		// + pm.getString("mv.aidconfig.discriptionerr"),
-		// pm.getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		//
-		// if (data.get(i).get(2).length() > 32) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.index")
-		// + String.valueOf(i + 1)
-		// + pm.getString("mv.aidconfig.row")
-		// + pm.getString("mv.aidconfig.versionerr"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		//
-		// }
-		//
-		// AppInfo appinfo = new AppInfo();
-		// if (!appinfodao.deleteAppinfo()) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.deleteerr"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// return;
-		//
-		// }
-		//
-		// for (int i = 0; i < data.size(); i++) {
-		//					
-		// appinfo.setAid(data.get(i).get(0));
-		// appinfo.setDscrpt(data.get(i).get(1));
-		// appinfo.setVersion(data.get(i).get(2));
-		// if (!appinfodao.insertAppinfo(appinfo)) {
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.index")
-		// + String.valueOf(i + 1)
-		// + pm.getString("mv.aidconfig.saveerr"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.ERROR_MESSAGE);
-		// continue;
-		// }
-		// }
-		// JOptionPane.showMessageDialog(null, pm
-		// .getString("mv.aidconfig.savesuccess"), pm
-		// .getString("mv.aidconfig.infoWindow"),
-		// JOptionPane.INFORMATION_MESSAGE);
-		// }
-		//
-		// });
 		add(buttonSave);
 		buttonAdd.addActionListener(addActionListener);
 		buttonDel.addActionListener(delActionListener);
 		buttonSave.addActionListener(saveActionListener);
-		/*
-		 * final JPanel panel_3 = new JPanel();
-		 * splitPane_1.setRightComponent(panel_3);
-		 */
 	}
 
 	public static int checkData(String data) {
 		Pattern pattern = Pattern.compile("[0-9a-zA-Z]*");
 		String result[] = data.split("[|]");
 		for (int i = 0; i < result.length; i++) {
-			if ((result[i].length() > 32 || result[i].trim().length() == 0)
-					|| !pattern.matcher(result[i]).matches()) {
+			if ((result[i].length() > 32 || result[i].trim().length() == 0) || !pattern.matcher(result[i]).matches()) {
 				return i + 1;
 			}
 		}
@@ -442,20 +196,17 @@ public class AIDConfigPanel extends JPanel {
 			if (num == 1) {
 				return isTrue(selectedIndex[num - 1], row);
 			} else {
-				return f(num - 1, row, selectedIndex)
-						|| isTrue(selectedIndex[num - 1], row);
+				return f(num - 1, row, selectedIndex) || isTrue(selectedIndex[num - 1], row);
 			}
 		}
 
-		public Component getTableCellRendererComponent(JTable t, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
+		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			if (f(selectedIndex.length, row, selectedIndex))
 				setBackground(Color.green);
 			else {
 				setBackground(Color.white);
 			}
-			return super.getTableCellRendererComponent(t, value, isSelected,
-					hasFocus, row, column);
+			return super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, column);
 		}
 
 		public void setSelectedIndex(int[] selectedIndex) {
@@ -529,41 +280,36 @@ public class AIDConfigPanel extends JPanel {
 	private ActionListener addActionListener = new ActionListener() {
 		public void actionPerformed(final ActionEvent arg0) {
 			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.aidconfig.addInfo"), pm
-						.getString("mv.aidconfig.infoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.addInfo"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			if (checkData(textFieldAid.getText().trim()) != 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.aidconfig.aiderr"), pm
-						.getString("mv.aidconfig.infoWindow"),
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.aiderr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.ERROR_MESSAGE);
 				return;
 			} else {
-				AppInfo appinfo = new AppInfo();
+				AIDInfo aidInfo = new AIDInfo();
 				if (appinfodao.findAppinfo(textFieldAid.getText().trim()) != null) {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.aidconfig.aidexists"), pm
-							.getString("mv.aidconfig.infoWindow"),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.aidexists"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				appinfo.setAid(textFieldAid.getText().trim());
-				appinfo.setDscrpt(textFieldDscrpt.getText().trim());
-				appinfo.setVersion(textFieldVersion.getText().trim());
-				if (!appinfodao.insertAppinfo(appinfo)) {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.aidconfig.saveerr"), pm
-							.getString("mv.aidconfig.infoWindow"),
-							JOptionPane.ERROR_MESSAGE);
-				}
+				aidInfo.setAid(textFieldAid.getText().trim());
+				aidInfo.setDscrpt(textFieldDscrpt.getText().trim());
+				aidInfo.setVersion(textFieldVersion.getText().trim());
 
-				// 将添加的数据从数据库中取出来在table中显示出来
-				sdList = appinfodao.findAppInfo();
-				tableDataDisp();
-				table.repaint();
+				try {
+					if (aidInfo.add("SupAID", aidInfo)) {
+						// 将添加的数据从数据库中取出来在table中显示出来
+						sdList = aidInfo.getAidInfos("SupAID");
+						tableDataDisp();
+						table.repaint();
+
+						JOptionPane.showMessageDialog(null, "添加成功!", "提示框", JOptionPane.INFORMATION_MESSAGE);
+					}else {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.saveerr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null,"添加aid出错", e.getMessage(), JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	};
@@ -572,35 +318,17 @@ public class AIDConfigPanel extends JPanel {
 	private ActionListener delActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
-			/*
-			 * DelThread delThread = new DelThread(); delThread.addListener(new
-			 * DelListener(){
-			 * 
-			 * @Override public void del(){
-			 */
-			AppInfo appinfo = new AppInfo();
 			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.aidconfig.saveBefoeDelete"), pm
-						.getString("mv.aidconfig.infoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.saveBefoeDelete"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int selectedNum = table.getSelectedRows().length;
 
 			int[] selectIndex = table.getSelectedRows();
 			if (selectedNum == 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.aidconfig.deleteInfo"), pm
-						.getString("mv.aidconfig.infoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.deleteInfo"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (selectedNum >= 1) {
-				int y = JOptionPane
-						.showConfirmDialog(null, pm
-								.getString("mv.aidconfig.deleteInfoconfirm"),
-								pm.getString("mv.aidconfig.infoWindow"),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+				int y = JOptionPane.showConfirmDialog(null, pm.getString("mv.aidconfig.deleteInfoconfirm"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (y == 1) {
 					return;
 				}
@@ -609,19 +337,13 @@ public class AIDConfigPanel extends JPanel {
 					String idStr = sdList.get(selectIndex[i]).getAid();
 					delDatas.add(idStr);
 				}
-				if (appinfodao.batchDel(delDatas)) {
-					sdList = appinfodao.findAppInfo();
+				if (aidInfo.del("SupAID", delDatas)) {
+					sdList = aidInfo.getAidInfos("SupAID");
 					tableDataDisp();
 					table.repaint();
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.aidconfig.deletesuccess"), pm
-							.getString("mv.aidconfig.infoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.deletesuccess"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.aidconfig.deleteerr"), pm
-							.getString("mv.aidconfig.infoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.deleteerr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 
@@ -639,10 +361,7 @@ public class AIDConfigPanel extends JPanel {
 			int selectedNum = table.getSelectedRows().length;
 			if (pm.getString("mv.aidconfig.edit").equals(buttonSave.getText())) {
 				if (selectedNum == 0) {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.aidconfig.editInfo"), pm
-							.getString("mv.aidconfig.infoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.editInfo"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				} else if (selectedNum >= 1) {
 					final int[] selectedIndex = table.getSelectedRows();
 					table.setModel(new DefaultTableModel(tableData, COLUMNS) {
@@ -657,8 +376,7 @@ public class AIDConfigPanel extends JPanel {
 							if (num == 1) {
 								return isTrue(selectedIndex[num - 1], row);
 							} else {
-								return f(num - 1, row, selectedIndex)
-										|| isTrue(selectedIndex[num - 1], row);
+								return f(num - 1, row, selectedIndex) || isTrue(selectedIndex[num - 1], row);
 							}
 						}
 
@@ -676,63 +394,41 @@ public class AIDConfigPanel extends JPanel {
 					paintColorRow(selectedIndex);
 					buttonSave.setText(pm.getString("mv.aidconfig.save"));
 				}
-			} else if (pm.getString("mv.aidconfig.save").equals(
-					buttonSave.getText())) {
+			} else if (pm.getString("mv.aidconfig.save").equals(buttonSave.getText())) {
 				if (table.isEditing()) {
 					int row = table.getEditingRow();
 					int col = table.getEditingColumn();
 					table.getCellEditor(row, col).stopCellEditing();
 				}
 				List<Integer> indexRow = getEditableRow();
-				List<AppInfo> editDatas = new ArrayList<AppInfo>();
+				List<AIDInfo> editDatas = new ArrayList<AIDInfo>();
 
 				if (indexRow.size() > 0) {
 					for (int i = 0; i < indexRow.size(); i++) {
-						AppInfo appinfo = new AppInfo();
+						AIDInfo aidInfo = new AIDInfo();
 
-						if (table.getValueAt(indexRow.get(i), 1).toString()
-								.trim().length() > 128) {
-							JOptionPane.showMessageDialog(null, pm
-									.getString("mv.aidconfig.discriptionerr"),
-									pm.getString("mv.aidconfig.infoWindow"),
-									JOptionPane.INFORMATION_MESSAGE);
+						if (table.getValueAt(indexRow.get(i), 1).toString().trim().length() > 128) {
+							JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.discriptionerr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
-						if (table.getValueAt(indexRow.get(i), 2).toString()
-								.trim().length() > 32) {
-							JOptionPane.showMessageDialog(null, pm
-									.getString("mv.aidconfig.versionerr"), pm
-									.getString("mv.aidconfig.infoWindow"),
-									JOptionPane.INFORMATION_MESSAGE);
+						if (table.getValueAt(indexRow.get(i), 2).toString().trim().length() > 32) {
+							JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.versionerr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 
-						appinfo.setAid(sdList.get(indexRow.get(i)).getAid());
-						appinfo
-								.setDscrpt(table.getValueAt(indexRow.get(i), 1) == null ? null
-										: table.getValueAt(indexRow.get(i), 1)
-												.toString());
-						appinfo
-								.setVersion(table
-										.getValueAt(indexRow.get(i), 2) == null ? null
-										: table.getValueAt(indexRow.get(i), 2)
-												.toString());
+						aidInfo.setAid(sdList.get(indexRow.get(i)).getAid());
+						aidInfo.setDscrpt(table.getValueAt(indexRow.get(i), 1) == null ? null : table.getValueAt(indexRow.get(i), 1).toString());
+						aidInfo.setVersion(table.getValueAt(indexRow.get(i), 2) == null ? null : table.getValueAt(indexRow.get(i), 2).toString());
 
-						editDatas.add(appinfo);
+						editDatas.add(aidInfo);
 					}
-					if (appinfodao.batchSaveUpdate(editDatas)) {
-						sdList = appinfodao.findAppInfo();
+					if (aidInfo.update("SupAID", editDatas)) {
+						sdList = aidInfo.getAidInfos("SupAID");
 						tableDataDisp();
 						table.repaint();
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.aidconfig.savesuccess"), pm
-								.getString("mv.aidconfig.infoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.savesuccess"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.aidconfig.saveerr"), pm
-								.getString("mv.aidconfig.infoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.saveerr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					}
 					buttonSave.setText(pm.getString("mv.aidconfig.edit"));
 				}

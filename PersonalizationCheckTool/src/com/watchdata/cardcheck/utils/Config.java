@@ -42,10 +42,6 @@ public class Config {
 
 	}
 
-	public Config() {
-
-	}
-
 	public static void setValue(String SectionName, String itemName, String itemValue) {
 
 		if (!ini.hasSection(SectionName)) {
@@ -103,7 +99,68 @@ public class Config {
 		return items;
 
 	}
+	
+	public static void addItem(String SectionName, String itemName) {
 
+		if (!ini.hasSection(SectionName)) {
+			try {
+				throw new IOException("section is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		IniSection iniSection = ini.getSection(SectionName);
+
+		if (iniSection.hasItem(itemName)) {
+			try {
+				throw new IOException("item is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		iniSection.addItem(itemName);
+		
+		IniFileWriter writer = new IniFileWriter(ini, configFile);
+		try {
+			writer.write();
+		} catch (IOException e) {
+			// exception thrown as an input\output exception occured
+			e.printStackTrace();
+		}
+	}
+	
+	public static void delItem(String SectionName, String itemName) {
+
+		if (!ini.hasSection(SectionName)) {
+			try {
+				throw new IOException("section is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		IniSection iniSection = ini.getSection(SectionName);
+
+		if (!iniSection.hasItem(itemName)) {
+			try {
+				throw new IOException("item is not exists.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		iniSection.removeItem(itemName);
+		
+		IniFileWriter writer = new IniFileWriter(ini, configFile);
+		try {
+			writer.write();
+		} catch (IOException e) {
+			// exception thrown as an input\output exception occured
+			e.printStackTrace();
+		}
+	}
 	// check file
 	public static void checkFile(File file) {
 		if (!file.canRead()) {
