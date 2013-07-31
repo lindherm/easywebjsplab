@@ -56,13 +56,7 @@ public class Config {
 		}
 		iniSection.getItem(itemName).setValue(itemValue);
 
-		IniFileWriter writer = new IniFileWriter(ini, configFile);
-		try {
-			writer.write();
-		} catch (IOException e) {
-			// exception thrown as an input\output exception occured
-			e.printStackTrace();
-		}
+		write();
 	}
 
 	public static String getValue(String SectionName, String itemName) {
@@ -136,13 +130,7 @@ public class Config {
 		}
 		iniSection.addItem(itemName);
 		
-		IniFileWriter writer = new IniFileWriter(ini, configFile);
-		try {
-			writer.write();
-		} catch (IOException e) {
-			// exception thrown as an input\output exception occured
-			e.printStackTrace();
-		}
+		write();
 	}
 	
 	public static void delItem(String SectionName, String itemName) {
@@ -167,13 +155,7 @@ public class Config {
 		}
 		iniSection.removeItem(itemName);
 		
-		IniFileWriter writer = new IniFileWriter(ini, configFile);
-		try {
-			writer.write();
-		} catch (IOException e) {
-			// exception thrown as an input\output exception occured
-			e.printStackTrace();
-		}
+		write();
 	}
 	// check file
 	public static void checkFile(File file) {
@@ -200,6 +182,15 @@ public class Config {
 		}
 	}
 
+	public static void write(){
+		IniFileWriter writer = new IniFileWriter(ini, configFile);
+		try {
+			writer.write();
+		} catch (IOException e) {
+			// exception thrown as an input\output exception occured
+			e.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
 		Collection<String>items=Config.getItems("FILE_TYPE");
 		for (String string : items) {
