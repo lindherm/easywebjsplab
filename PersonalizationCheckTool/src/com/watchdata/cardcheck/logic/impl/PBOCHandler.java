@@ -17,8 +17,8 @@ import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
 import com.watchdata.cardcheck.logic.pki.DataAuthenticate;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
-import com.watchdata.cardcheck.utils.wordutil.APDUSendANDRes;
-import com.watchdata.cardcheck.utils.wordutil.GenWordUtil;
+import com.watchdata.cardcheck.utils.reportutil.APDUSendANDRes;
+import com.watchdata.cardcheck.utils.reportutil.GenReportUtil;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
@@ -35,7 +35,7 @@ public class PBOCHandler extends BaseHandler {
 	private IIssuerDao issuerDao;
 
 	private APDUSendANDRes apduSendANDRes = null;
-	private GenWordUtil genWordUtil = null;
+	private GenReportUtil genWordUtil = null;
 
 	private PropertiesManager pm = new PropertiesManager();
 
@@ -61,7 +61,7 @@ public class PBOCHandler extends BaseHandler {
 		NDC.push("[PBOC]");
 		logger.debug("PBOC trade start...");
 
-		genWordUtil = new GenWordUtil();
+		genWordUtil = new GenReportUtil();
 
 		genWordUtil.open(pm.getString("mv.tradepanel.lend"));
 		genWordUtil.addFileTitle("PBOC交易检测报告");

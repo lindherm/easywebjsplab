@@ -18,8 +18,8 @@ import com.watchdata.cardcheck.logic.pki.DataAuthenticate;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.SpringUtil;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
-import com.watchdata.cardcheck.utils.wordutil.APDUSendANDRes;
-import com.watchdata.cardcheck.utils.wordutil.GenWordUtil;
+import com.watchdata.cardcheck.utils.reportutil.APDUSendANDRes;
+import com.watchdata.cardcheck.utils.reportutil.GenReportUtil;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
@@ -31,7 +31,7 @@ public class ElectronicCashHandler extends BaseHandler {
 		this.issuerDao = issuerDao;
 	}
 	private APDUSendANDRes apduSendANDRes = null;
-	private GenWordUtil genWordUtil = null;
+	private GenReportUtil genWordUtil = null;
 	
 	private static final String reportNoreqAndRes = "NODATA";
 	
@@ -52,7 +52,7 @@ public class ElectronicCashHandler extends BaseHandler {
 				String.valueOf(tradeMount), 12));
 		NDC.push("[ElectronicCash ECLoad]");
 		
-		genWordUtil = new GenWordUtil();
+		genWordUtil = new GenReportUtil();
 		apduSendANDRes = new APDUSendANDRes();
 		
 		genWordUtil.open(pm.getString("mv.tradepanel.earmark"));
@@ -382,7 +382,7 @@ public class ElectronicCashHandler extends BaseHandler {
 				String.valueOf(tradeMount), 12));
 		NDC.push("[ElectronicCash ECPurcharse]");
 		
-		genWordUtil = new GenWordUtil();
+		genWordUtil = new GenReportUtil();
 		apduSendANDRes = new APDUSendANDRes();
 		
 		genWordUtil.open(pm.getString("mv.tradepanel.ecash"));

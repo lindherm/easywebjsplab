@@ -15,8 +15,8 @@ import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.pki.DataAuthenticate;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
-import com.watchdata.cardcheck.utils.wordutil.APDUSendANDRes;
-import com.watchdata.cardcheck.utils.wordutil.GenWordUtil;
+import com.watchdata.cardcheck.utils.reportutil.APDUSendANDRes;
+import com.watchdata.cardcheck.utils.reportutil.GenReportUtil;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
@@ -32,7 +32,7 @@ public class QPBOCHandler extends BaseHandler {
 
 	public boolean trade(String readerName, int tradeMount,TermSupportUtil termSupportUtil,JLabel tradeLabel){
 		//生成交易检测报告
-		GenWordUtil genWordUtil=new GenWordUtil();
+		GenReportUtil genWordUtil=new GenReportUtil();
 		//打开报告文档
 		genWordUtil.open(pm.getString("mv.tradepanel.qPBOC"));
 		genWordUtil.addFileTitle("交易检测报告");
