@@ -82,7 +82,8 @@ public class Application extends JFrame {
 	public Application() {
 		super(titleStr);
 		setFont(new Font("", Font.BOLD, 15));
-		setBounds(100, 100, 1050, 750);
+		setSize(1050,750);
+		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true); 
