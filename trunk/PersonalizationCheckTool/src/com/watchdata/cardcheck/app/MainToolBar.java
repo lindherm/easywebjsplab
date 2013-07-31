@@ -26,10 +26,10 @@ public class MainToolBar extends JToolBar {
 		super();
 		setFloatable(false);
 		setMargin(new Insets(2, 0, 2, 0));
-		newImage = ImageHelper.loadImage(proPath + "/images/new.png");
+		newImage = ImageHelper.loadImage(proPath + "/resources/images/new.png");
 		newButton = new ToolButton(newImage);
 		newButton.setToolTipText("Opens a new document (just a demo).");
-		openImage = ImageHelper.loadImage(proPath + "/images/open.png");
+		openImage = ImageHelper.loadImage(proPath + "/resources/images/open.png");
 		openButton = new ToolButton(openImage);
 		openButton
 				.setToolTipText("Opens the file chooser dialog to open an existing document (just a demo).");
