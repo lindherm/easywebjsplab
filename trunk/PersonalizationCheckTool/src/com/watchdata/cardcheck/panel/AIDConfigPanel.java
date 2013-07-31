@@ -72,7 +72,7 @@ public class AIDConfigPanel extends JPanel {
 		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.AIDConfig")));
 
 		final JLabel label_3 = new JLabel();
-		label_3.setBounds(0, 50, 97, 20);
+		label_3.setBounds(-10, 49, 97, 20);
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setFont(new Font("宋体", Font.BOLD, 12));
 
@@ -80,60 +80,60 @@ public class AIDConfigPanel extends JPanel {
 		add(label_3);
 
 		final JSeparator separator = new JSeparator();
-		separator.setBounds(79, 60, 730, 20);
+		separator.setBounds(69, 59, 730, 20);
 		add(separator);
 
 		final JLabel label = new JLabel();
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		label.setText(pm.getString("mv.aidconfig.aid"));
-		label.setBounds(0, 95, 97, 20);
+		label.setBounds(-10, 96, 97, 20);
 		add(label);
 
 		final JLabel label_1 = new JLabel();
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_1.setText(pm.getString("mv.aidconfig.discription"));
-		label_1.setBounds(220, 95, 97, 20);
+		label_1.setBounds(196, 96, 97, 20);
 		add(label_1);
 
 		final JLabel label_2 = new JLabel();
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_2.setText(pm.getString("mv.aidconfig.version"));
-		label_2.setBounds(445, 95, 97, 20);
+		label_2.setBounds(406, 96, 97, 20);
 		add(label_2);
 
 		textFieldAid = new JTextField();
-		textFieldAid.setBounds(100, 95, 120, 20);
+		textFieldAid.setBounds(90, 96, 120, 20);
 		textFieldAid.setDocument(new FixedSizePlainDocument(32));
 		add(textFieldAid);
 
 		textFieldDscrpt = new JTextField();
-		textFieldDscrpt.setBounds(320, 95, 120, 20);
+		textFieldDscrpt.setBounds(296, 96, 120, 20);
 		textFieldDscrpt.setDocument(new FixedSizePlainDocument(128));
 		add(textFieldDscrpt);
 
 		textFieldVersion = new JTextField();
-		textFieldVersion.setBounds(545, 95, 120, 20);
+		textFieldVersion.setBounds(506, 96, 120, 20);
 		textFieldVersion.setDocument(new FixedSizePlainDocument(32));
 		add(textFieldVersion);
 
 		buttonAdd = new JButton();
 		buttonAdd.setText(pm.getString("mv.aidconfig.add"));
-		buttonAdd.setBounds(715, 95, 84, 21);
+		buttonAdd.setBounds(658, 96, 84, 21);
 		add(buttonAdd);
 
 		final JLabel addAIDLabel = new JLabel();
-		addAIDLabel.setBounds(0, 150, 97, 20);
+		addAIDLabel.setBounds(-10, 138, 97, 20);
 		addAIDLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		addAIDLabel.setFont(new Font("宋体", Font.BOLD, 12));
 		addAIDLabel.setText(pm.getString("mv.aidconfig.editaid"));
 		add(addAIDLabel);
 
 		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(79, 160, 730, 20);
+		separator_1.setBounds(69, 148, 730, 20);
 		add(separator_1);
 
 		final JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(45, 180, 620, 473);
+		scrollPane.setBounds(10, 180, 690, 499);
 		add(scrollPane);
 
 		table = new JTable();

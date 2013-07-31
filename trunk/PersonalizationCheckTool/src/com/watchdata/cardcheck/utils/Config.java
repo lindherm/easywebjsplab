@@ -42,6 +42,10 @@ public class Config {
 		}
 
 	}
+	public static Collection<IniSection> getSections() {
+		return ini.getSections();
+	}
+	
 
 	public static void setValue(String SectionName, String itemName, String itemValue) {
 
