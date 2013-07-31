@@ -8,6 +8,7 @@ import org.dtools.ini.BasicIniFile;
 import org.dtools.ini.IniFile;
 import org.dtools.ini.IniFileReader;
 import org.dtools.ini.IniFileWriter;
+import org.dtools.ini.IniItem;
 import org.dtools.ini.IniSection;
 
 public class Config {
@@ -100,6 +101,19 @@ public class Config {
 
 	}
 	
+	public static IniItem getItem(String SectionName, String itemName) {
+		if (!ini.hasSection(SectionName)) {
+			return null;
+		}
+		IniSection iniSection = ini.getSection(SectionName);
+
+		if (iniSection.hasItem(itemName)) {
+			return iniSection.getItem(itemName);
+		}else {
+			return null;
+		}
+	}
+	
 	public static void addItem(String SectionName, String itemName) {
 
 		if (!ini.hasSection(SectionName)) {
@@ -114,7 +128,7 @@ public class Config {
 
 		if (iniSection.hasItem(itemName)) {
 			try {
-				throw new IOException("item is not exists.");
+				throw new IOException("item is exists.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
