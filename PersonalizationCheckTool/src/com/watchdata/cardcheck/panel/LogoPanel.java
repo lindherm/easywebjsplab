@@ -14,7 +14,7 @@ public class LogoPanel extends JImagePanel {
 	
 	private static final long serialVersionUID = -2439013595850901209L;
 	public static String proPath = System.getProperty("user.dir");
-	public static ImageIcon img = new ImageIcon(proPath + "/images/wacthdata.png");
+	public static ImageIcon img = new ImageIcon(proPath + "/resources/images/wacthdata.png");
 
 	/**
 	 * Create the panel
