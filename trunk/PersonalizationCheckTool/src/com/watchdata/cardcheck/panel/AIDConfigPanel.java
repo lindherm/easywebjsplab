@@ -69,7 +69,7 @@ public class AIDConfigPanel extends JPanel {
 	public AIDConfigPanel() {
 		super(null);
 		setName(pm.getString("mv.aidconfig.name"));
-		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.AIDConfig")));
+		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.AIDConfig")));
 
 		final JLabel label_3 = new JLabel();
 		label_3.setBounds(-10, 49, 97, 20);
@@ -137,7 +137,7 @@ public class AIDConfigPanel extends JPanel {
 		add(scrollPane);
 
 		table = new JTable();
-		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setReorderingAllowed(true);
 
 		sdList = aidInfo.getAidInfos("SupAID");
 		tableDataDisp();

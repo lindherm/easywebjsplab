@@ -77,4 +77,26 @@ public class PublicKeyInfo {
 		}
 		return result;
 	}
+	public boolean add(String sectionName,PublicKeyInfo publicKeyInfo) {
+		Config.addSection(sectionName);
+		Config.addItem(sectionName, "Algorithm");
+		Config.addItem(sectionName, "CA_PK_Exponent");
+		Config.addItem(sectionName, "Hash_Algorithm");
+		Config.addItem(sectionName, "CA_PK_Modulus");
+		
+		Config.setValue(sectionName,"Algorithm", publicKeyInfo.getArith());
+		Config.setValue(sectionName,"CA_PK_Exponent", publicKeyInfo.getArith());
+		Config.setValue(sectionName,"Hash_Algorithm", publicKeyInfo.getArith());
+		Config.setValue(sectionName,"CA_PK_Modulus", publicKeyInfo.getArith());
+		
+		return true;
+	}
+	
+	public boolean del(List<String> publicKeyInfos) {
+		for (String sectionName : publicKeyInfos) {
+			Config.ini.removeSection(sectionName);
+			Config.write();
+		}
+		return true;
+	}
 }

@@ -191,7 +191,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
-				IssuerKeyConfigPanel.pbocRadioButton.requestFocus();
 			}
 		});
 		button_4.setText("发卡行密钥");
