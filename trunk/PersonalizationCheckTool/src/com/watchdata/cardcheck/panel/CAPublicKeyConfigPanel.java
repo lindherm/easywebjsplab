@@ -32,6 +32,7 @@ import com.watchdata.cardcheck.configdao.CAInfo;
 import com.watchdata.cardcheck.configdao.PublicKeyInfo;
 import com.watchdata.cardcheck.dao.ICAPublicKeyConfigDao;
 import com.watchdata.cardcheck.dao.pojo.CAPublicKeyConfig;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import javax.swing.ListSelectionModel;
@@ -58,8 +59,6 @@ public class CAPublicKeyConfigPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
 	private ICAPublicKeyConfigDao iCAkeyconfigDao;
-	private JComboBox BankTypecomboBox;
-	public static JTextField CARIDtextField;
 	private JTextField ModuletextField;
 	private JTextField HashtextField;
 	private JTextField algorithmtextField;
@@ -84,7 +83,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 	public CAPublicKeyConfigPanel() {
 		super();
 		setLayout(null);
-		setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
+		//setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
 		init();
 
 		final JLabel caManageLabel = new JLabel();
@@ -107,8 +106,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		// CA密钥管理RID组合框消息响应函数，如果选中的RID的值发生改变，则重新显示其他项目的值
 		RIDCombox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO
-				showcapkconfig();
+				CardTypetextField.setText(Config.getValue("CA_Info", RIDCombox.getSelectedItem().toString()));
 			}
 		});
 		RIDCombox.setBounds(100, 70, 160, 20);
@@ -254,126 +252,19 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		add(modifyButton);
 		modifyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateConfig();
+				//updateConfig();
 			}
 		});
 		String[] indextName = { "01", "02", "03", "04", "05", "06", "07", "08", "09" };
 		IndextextField = new JComboBox(indextName);
 		IndextextField.setBounds(100, 100, 120, 20);
-		/*List<CAPublicKeyConfig> defaultconfigList = iCAkeyconfigDao.findDefaultCAPublicKeyConfig();
-		if (defaultconfigList.size() != 0) {
-			RIDCombox.setSelectedItem(defaultconfigList.get(0).GetRid());
-			IndextextField.setSelectedItem(defaultconfigList.get(0).GetIndex());
-		}*/
 		IndextextField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO
-				showcapkconfig2();
+				//showcapkconfig2();
 			}
 		});
 		add(IndextextField);
-		final JLabel caMaLabel = new JLabel();
-		caMaLabel.setBounds(-4, 160, 97, 20);
-		caMaLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		caMaLabel.setFont(new Font("宋体", Font.BOLD, 12));
-		caMaLabel.setText("CA管理");
-		add(caMaLabel);
-
-		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(71, 170, 730, 20);
-		add(separator_1);
-
-		final JLabel label_7 = new JLabel();
-		label_7.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_7.setHorizontalTextPosition(SwingConstants.RIGHT);
-		label_7.setText("CA RID：");
-		label_7.setBounds(-4, 190, 97, 20);
-		add(label_7);
-
-		CARIDtextField = new JTextField();
-		CARIDtextField.setBounds(100, 190, 160, 20);
-		CARIDtextField.setDocument(new FixedSizePlainDocument(10));
-		CARIDtextField.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-			}
-
-			public void keyReleased(KeyEvent e) {
-			}
-
-			public void keyTyped(KeyEvent e) {
-				String c = String.valueOf(e.getKeyChar());
-				Pattern pattern = Pattern.compile("[0-9a-zA-Z]*");
-
-				Matcher matcher = pattern.matcher(c);
-				if (!(matcher.matches()))
-					e.consume();
-			}
-		});
-		add(CARIDtextField);
-
-		final JLabel label_8 = new JLabel();
-		label_8.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_8.setText(pm.getString("mv.capublickeyconfig.bank"));
-		label_8.setBounds(232, 190, 97, 20);
-		add(label_8);
-
-		String[] bandName = { "PBOC", "MasterCard", "Visa" };
-		BankTypecomboBox = new JComboBox(bandName);
-		BankTypecomboBox.setBounds(332, 190, 160, 20);
-		add(BankTypecomboBox);
-		final JButton addButton2 = new JButton();
-		// CA管理添加按钮的消息响应函数
-		addButton2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// 如果CARID不为空，则先到数据库查找是否存在此RID，如果有则提示已存在此RID，如果没有则将
-				// 此RID添加到CA密钥管理的RID中
-
-				if (10 == CARIDtextField.getText().trim().length()) {
-					List<CAPublicKeyConfig> capkconfig = iCAkeyconfigDao.getCAPublicKeyList(CARIDtextField.getText().trim());
-					if (!capkconfig.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "CA RID:" + CARIDtextField.getText() + pm.getString("mv.capublickeyconfig.exists"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-						return;
-					} else {
-
-						CAPublicKeyConfig capkconfig2 = new CAPublicKeyConfig();
-						capkconfig2.SetRid(CARIDtextField.getText().trim());
-						capkconfig2.SetCaType(BankTypecomboBox.getSelectedItem().toString().trim());
-
-						if (!iCAkeyconfigDao.insertCAPublicKeyConfig(capkconfig2)) {
-							JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.addaiderr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
-
-						RIDCombox.removeAllItems();
-						List<CAPublicKeyConfig> capkconfigList = iCAkeyconfigDao.findCAPublicKeyConfig();
-						ArrayList<String> tmplist = new ArrayList<String>();
-						for (int i = 0; i < capkconfigList.size(); i++) {
-							if (!tmplist.contains(capkconfigList.get(i).GetRid()))
-								RIDCombox.addItem(capkconfigList.get(i).GetRid());
-							tmplist.add(capkconfigList.get(i).GetRid());
-						}
-						RIDCombox.setSelectedItem(CARIDtextField.getText().trim());
-
-						CardTypetextField.setText(BankTypecomboBox.getSelectedItem().toString().trim());
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.riderr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					return;
-
-				}
-			}
-		});
-		addButton2.setText(pm.getString("mv.capublickeyconfig.add"));
-		addButton2.setBounds(505, 190, 84, 21);
-		add(addButton2);
-
-		/*
-		 * final JPanel panel_5 = new JPanel(); splitPane_1.setRightComponent(panel_5);
-		 */
-		/*if (capkconfigList.size() > 0) {
-			// 如果CA密钥管理RID组合框中的项目不为空，则将所选中的RID的相关项目显示出来
-			showcapkconfig();
-		}*/
 
 		final JLabel label = new JLabel();
 		label.setBounds(-4, 70, 97, 20);
@@ -382,7 +273,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		label.setText("RID：");
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 237, 789, 450);
+		panel.setBounds(10, 160, 789, 527);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
@@ -430,213 +321,8 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		};
 		table.setModel(testDataTableModel);
 	}
-	
-	// 更新CA密钥，如果该RID的密钥已存在，则执行UPDATE进行更新，如果不存在，则插入到数据库中
-	private void updateConfig() {
-
-		String err = "";
-		// 先判断CA密钥信息是否完整
-		if (!CardTypetextField.getText().trim().equals("PBOC") && !CardTypetextField.getText().trim().equals("MasterCard") && !CardTypetextField.getText().trim().equals("Visa"))
-			err += pm.getString("mv.capublickeyconfig.banktypeerr");
-		if (checkData(algorithmtextField.getText().trim(), "[0-9]*", 2) != 0)
-			err += pm.getString("mv.capublickeyconfig.algoerr");
-		if (checkData(EXPtextField.getText().trim(), "[0-9]*", 2) != 0)
-			err += pm.getString("mv.capublickeyconfig.experr");
-		if (checkData(HashtextField.getText().trim(), "[0-9]*", 2) != 0)
-			err += pm.getString("mv.capublickeyconfig.hashalgoerr");
-		// if (checkData(IndextextField.getText().trim(), "[0-9]*", 2) != 0)
-		// err += pm.getString("mv.capublickeyconfig.indexerr");
-		if (checkData(ModuletextField.getText().trim(), "[0-9a-fA-F]*", 2048) != 0)
-			err += pm.getString("mv.capublickeyconfig.moduleerr");
-
-		if (!err.equalsIgnoreCase("")) {
-			JOptionPane.showMessageDialog(null, err, pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		List<CAPublicKeyConfig> capkconfiglist = iCAkeyconfigDao.getCAPublicKeyList(RIDCombox.getSelectedItem().toString().trim());
-		if (1 == capkconfiglist.size() && null == capkconfiglist.get(0).GetIndex()) {
-			CAPublicKeyConfig capkconfig = new CAPublicKeyConfig();
-			capkconfig.SetArith(algorithmtextField.getText().trim());
-			capkconfig.SetCaType(CardTypetextField.getText().trim());
-			capkconfig.SetExp(EXPtextField.getText().trim());
-			capkconfig.SetHashArith(HashtextField.getText().trim());
-			capkconfig.SetModule(ModuletextField.getText().trim());
-			capkconfig.SetIndex(IndextextField.getSelectedItem().toString().trim());
-			capkconfig.SetRid(RIDCombox.getSelectedItem().toString().trim());
-			if (iCAkeyconfigDao.updateCAPublicKeyConfig2(capkconfig)) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.updatesuccess"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-		}
-		CAPublicKeyConfig capkconfig = new CAPublicKeyConfig();
-		capkconfig = null;
-		capkconfig = iCAkeyconfigDao.getCAPublicKey(RIDCombox.getSelectedItem().toString().trim(), IndextextField.getSelectedItem().toString().trim());
-		if (capkconfig != null) {
-			capkconfig.SetArith(algorithmtextField.getText().trim());
-			capkconfig.SetCaType(CardTypetextField.getText().trim());
-			capkconfig.SetExp(EXPtextField.getText().trim());
-			capkconfig.SetHashArith(HashtextField.getText().trim());
-			capkconfig.SetModule(ModuletextField.getText().trim());
-			capkconfig.SetIndex(IndextextField.getSelectedItem().toString().trim());
-			if (iCAkeyconfigDao.updateCAPublicKeyConfig(capkconfig)) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.updatesuccess"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}
-		} else {
-			CAPublicKeyConfig capkconfig2 = new CAPublicKeyConfig();
-			capkconfig2.SetRid(RIDCombox.getSelectedItem().toString().trim());
-			capkconfig2.SetArith(algorithmtextField.getText().trim());
-			capkconfig2.SetCaType(CardTypetextField.getText().trim());
-			capkconfig2.SetExp(EXPtextField.getText().trim());
-			capkconfig2.SetHashArith(HashtextField.getText().trim());
-			capkconfig2.SetModule(ModuletextField.getText().trim());
-			capkconfig2.SetIndex(IndextextField.getSelectedItem().toString().trim());
-
-			if (iCAkeyconfigDao.insertCAPublicKeyConfig(capkconfig2)) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.addsuccess"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}
-		}
-	}
-
-	// 根据CA密钥管理RID组合框中选中的RID的值来显示其他项目的值
-	private void showcapkconfig() {
-		CAPublicKeyConfig capkconfig = new CAPublicKeyConfig();
-		if (0 == RIDCombox.getItemCount()) {
-			ModuletextField.setText("");
-			HashtextField.setText("");
-			algorithmtextField.setText("");
-			EXPtextField.setText("");
-			CardTypetextField.setText("");
-			IndextextField.setSelectedIndex(0);
-			return;
-		}
-		if (RIDCombox.getSelectedItem().toString().trim().length() > 0) {
-			capkconfig = iCAkeyconfigDao.getCAPublicKey(RIDCombox.getSelectedItem().toString(), IndextextField.getSelectedItem().toString().trim());
-			if (capkconfig != null) {
-				ModuletextField.setText(capkconfig.GetModule());
-				HashtextField.setText(capkconfig.GetHashArith());
-				algorithmtextField.setText(capkconfig.GetArith());
-				EXPtextField.setText(capkconfig.GetExp());
-				CardTypetextField.setText(capkconfig.GetCaType());
-				IndextextField.setSelectedItem(capkconfig.GetIndex());
-				// IndextextField.setText(capkconfig.GetIndex());
-			} else {
-				ModuletextField.setText("");
-				HashtextField.setText("");
-				algorithmtextField.setText("");
-				EXPtextField.setText("");
-				CardTypetextField.setText("");
-				IndextextField.setSelectedIndex(0);
-				// IndextextField.setText(capkconfig.GetIndex());
-			}
-		}
-		if (0 == RIDCombox.getItemCount())
-			return;
-		if (RIDCombox.getSelectedItem().toString().trim().length() > 0) {
-			List<CAPublicKeyConfig> capkconfig2 = iCAkeyconfigDao.getCAPublicKeyList(RIDCombox.getSelectedItem().toString());
-			CardTypetextField.setText(capkconfig2.get(0).GetCaType());
-		}
-	}
-	
-
-	// 根据CA密钥管理RID组合框中选中的RID的值来显示其他项目的值
-	private void showCaInfos() {
-		CAPublicKeyConfig capkconfig = new CAPublicKeyConfig();
-		if (0 == RIDCombox.getItemCount()) {
-			ModuletextField.setText("");
-			HashtextField.setText("");
-			algorithmtextField.setText("");
-			EXPtextField.setText("");
-			CardTypetextField.setText("");
-			IndextextField.setSelectedIndex(0);
-			return;
-		}
-		if (RIDCombox.getSelectedItem().toString().trim().length() > 0) {
-			capkconfig = iCAkeyconfigDao.getCAPublicKey(RIDCombox.getSelectedItem().toString(), IndextextField.getSelectedItem().toString().trim());
-			if (capkconfig != null) {
-				ModuletextField.setText(capkconfig.GetModule());
-				HashtextField.setText(capkconfig.GetHashArith());
-				algorithmtextField.setText(capkconfig.GetArith());
-				EXPtextField.setText(capkconfig.GetExp());
-				CardTypetextField.setText(capkconfig.GetCaType());
-				IndextextField.setSelectedItem(capkconfig.GetIndex());
-				// IndextextField.setText(capkconfig.GetIndex());
-			} else {
-				ModuletextField.setText("");
-				HashtextField.setText("");
-				algorithmtextField.setText("");
-				EXPtextField.setText("");
-				CardTypetextField.setText("");
-				IndextextField.setSelectedIndex(0);
-				// IndextextField.setText(capkconfig.GetIndex());
-			}
-		}
-		if (0 == RIDCombox.getItemCount())
-			return;
-		if (RIDCombox.getSelectedItem().toString().trim().length() > 0) {
-			List<CAPublicKeyConfig> capkconfig2 = iCAkeyconfigDao.getCAPublicKeyList(RIDCombox.getSelectedItem().toString());
-			CardTypetextField.setText(capkconfig2.get(0).GetCaType());
-		}
-	}
-
-	private void showcapkconfig2() {
-		CAPublicKeyConfig capkconfig = new CAPublicKeyConfig();
-		if (0 == RIDCombox.getItemCount())
-			return;
-		if (RIDCombox.getSelectedItem().toString().trim().length() > 0) {
-			capkconfig = iCAkeyconfigDao.getCAPublicKey(RIDCombox.getSelectedItem().toString(), IndextextField.getSelectedItem().toString().trim());
-			if (capkconfig != null) {
-				ModuletextField.setText(capkconfig.GetModule());
-				HashtextField.setText(capkconfig.GetHashArith());
-				algorithmtextField.setText(capkconfig.GetArith());
-				EXPtextField.setText(capkconfig.GetExp());
-				CardTypetextField.setText(capkconfig.GetCaType());
-
-				// IndextextField.setText(capkconfig.GetIndex());
-			} else {
-				ModuletextField.setText("");
-				HashtextField.setText("");
-				algorithmtextField.setText("");
-				EXPtextField.setText("");
-				CardTypetextField.setText("");
-
-				// IndextextField.setText(capkconfig.GetIndex());
-			}
-		}
-		if (0 == RIDCombox.getItemCount())
-			return;
-		if (RIDCombox.getSelectedItem().toString().trim().length() > 0) {
-			List<CAPublicKeyConfig> capkconfig2 = iCAkeyconfigDao.getCAPublicKeyList(RIDCombox.getSelectedItem().toString());
-			CardTypetextField.setText(capkconfig2.get(0).GetCaType());
-		}
-	}
-
-	public static int checkData(String data, String pt, int nlength) {
-		Pattern pattern = Pattern.compile(pt);
-		String result[] = data.split("[|]");
-		for (int i = 0; i < result.length; i++) {
-
-			if (2 == nlength) {
-				if ((result[i].length() != nlength) || (result[i].length() == 0) || !pattern.matcher(result[i]).matches()) {
-					return i + 1;
-				}
-			} else {
-				if ((result[i].length() > nlength) || (result[i].length() == 0) || !pattern.matcher(result[i]).matches()) {
-					return i + 1;
-				}
-			}
-
-		}
-		return 0;
-
-	}
-
 	private void init() {
 		setName(pm.getString("mv.capublickeyconfig.name"));
-		/*
-		 * initModel(); initControls();
-		 */
-		/* initListeners(); */
 	}
 
 	// 删除配置
@@ -673,7 +359,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 						tmplist.add(capkconfigList.get(i).GetRid());
 					}
 				}
-				showcapkconfig();
+				//showcapkconfig();
 			} else {
 				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delerr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -694,7 +380,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 						RIDCombox.addItem(capkconfigList.get(i).GetRid());
 					tmplist.add(capkconfigList.get(i).GetRid());
 				}
-				showcapkconfig();
+				//showcapkconfig();
 			} else {
 				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delerr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			}

@@ -54,7 +54,7 @@ public class CardReaderPanel extends JPanel {
 	public CardReaderPanel() {
 		super();
 		setLayout(null);
-		// setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
+		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
 
 		final JLabel label = new JLabel();
 		label.setBounds(0, 50, 97, 20);

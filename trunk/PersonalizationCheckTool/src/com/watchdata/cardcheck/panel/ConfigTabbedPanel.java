@@ -155,7 +155,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
-				CAPublicKeyConfigPanel.CARIDtextField.requestFocus();
 			}
 		});
 		button_3.setText("CA管理");
