@@ -21,6 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,8 +37,6 @@ import com.watchdata.cardcheck.dao.pojo.CAPublicKeyConfig;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
 
 /**
  * 
@@ -57,33 +57,32 @@ public class CAPublicKeyConfigPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
-	private ICAPublicKeyConfigDao iCAkeyconfigDao;
 	private JTextField ModuletextField;
 	private JTextField HashtextField;
 	private JTextField algorithmtextField;
 	private JTextField EXPtextField;
 	private JTextField CardTypetextField;
 	public static JComboBox RIDCombox;
-	private JComboBox IndextextField;
 	Color colorGreen = new Color(192, 255, 192);
 	private PropertiesManager pm = new PropertiesManager();
-	
+
 	private JTable table;
 	private List<PublicKeyInfo> sdList;
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
-	
-	private CAInfo caInfo=new CAInfo();
-	private PublicKeyInfo publicKeyInfo=new PublicKeyInfo();
-	private final String[] COLUMNS = new String[] {"RID","公钥索引","算法","公钥指数","哈希算法","模值" };
+
+	private CAInfo caInfo = new CAInfo();
+	private PublicKeyInfo publicKeyInfo = new PublicKeyInfo();
+	private final String[] COLUMNS = new String[] { "RID", "公钥索引", "算法", "公钥指数", "哈希算法", "模值" };
+	private JTextField textField;
+
 	/**
 	 * Create the panel
 	 */
 	public CAPublicKeyConfigPanel() {
 		super();
 		setLayout(null);
-		//setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
+		setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
 		init();
 
 		final JLabel caManageLabel = new JLabel();
@@ -98,7 +97,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		add(separator);
 
 		RIDCombox = new JComboBox();
-		List<CAInfo> caInfos=caInfo.getCaInfos("CA_Info");
+		List<CAInfo> caInfos = caInfo.getCaInfos("CA_Info");
 		for (CAInfo caInfo : caInfos) {
 			RIDCombox.addItem(caInfo.getRid());
 		}
@@ -149,7 +148,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 
 		EXPtextField = new JTextField();
 		EXPtextField.setBounds(312, 100, 140, 20);
-		EXPtextField.setDocument(new FixedSizePlainDocument(2));
+		EXPtextField.setDocument(new FixedSizePlainDocument(6));
 		EXPtextField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -235,14 +234,39 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		});
 		add(ModuletextField);
 
-		final JButton addButton1 = new JButton();
-		addButton1.setText(pm.getString("mv.capublickeyconfig.del"));
-		addButton1.setBounds(715, 82, 84, 21);
-		add(addButton1);
-		// 添加CA密钥按钮消息响应函数
-		addButton1.addActionListener(new ActionListener() {
+		final JButton delButton1 = new JButton();
+		delButton1.setText(pm.getString("mv.capublickeyconfig.del"));
+		delButton1.setBounds(715, 82, 84, 21);
+		add(delButton1);
+		// 删除
+		delButton1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				delConfig();
+				int selectedNum = table.getSelectedRows().length;
+				int[] selectIndex = table.getSelectedRows();
+				if (selectedNum == 0) {
+					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.deleteInfo"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
+				} else if (selectedNum >= 1) {
+
+					List<String> delDatas = new ArrayList<String>();
+					for (int i = 0; i < selectedNum; i++) {
+						String rid = sdList.get(selectIndex[i]).getRid();
+						String index = sdList.get(selectIndex[i]).getIndex();
+						String sectionName = rid + "_CA_" + index;
+						delDatas.add(sectionName);
+					}
+					int y = JOptionPane.showConfirmDialog(null, "确定要删除" + delDatas.toString() + "?", pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (y == JOptionPane.NO_OPTION) {
+						return;
+					}
+					if (publicKeyInfo.del(delDatas)) {
+						sdList = publicKeyInfo.getPKInfos("CA_Info");
+						tableDataDisp();
+						table.repaint();
+						JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delsuccess"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delerr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
 			}
 		});
 
@@ -252,45 +276,55 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		add(modifyButton);
 		modifyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//updateConfig();
-			}
-		});
-		String[] indextName = { "01", "02", "03", "04", "05", "06", "07", "08", "09" };
-		IndextextField = new JComboBox(indextName);
-		IndextextField.setBounds(100, 100, 120, 20);
-		IndextextField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO
-				//showcapkconfig2();
-			}
-		});
-		add(IndextextField);
+				PublicKeyInfo publicKeyInfo = new PublicKeyInfo();
+				publicKeyInfo.setRid(RIDCombox.getSelectedItem().toString());
+				publicKeyInfo.setArith(algorithmtextField.getText());
+				publicKeyInfo.setExp(EXPtextField.getText());
+				publicKeyInfo.setHashArith(HashtextField.getText());
+				publicKeyInfo.setIndex(textField.getText());
+				publicKeyInfo.setModule(ModuletextField.getText());
 
+				String sectionName = publicKeyInfo.getRid() + "_CA_" + publicKeyInfo.getIndex();
+				if (Config.ini.hasSection(sectionName)) {
+					JOptionPane.showMessageDialog(null, sectionName + "已经存在,保存失败！", "提示框", JOptionPane.ERROR_MESSAGE);
+					return;
+				} else {
+					publicKeyInfo.add(sectionName, publicKeyInfo);
+					sdList = publicKeyInfo.getPKInfos("CA_Info");
+					tableDataDisp();
+					table.repaint();
+					JOptionPane.showMessageDialog(null, sectionName + "保存成功！", "提示框", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 		final JLabel label = new JLabel();
 		label.setBounds(-4, 70, 97, 20);
 		add(label);
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		label.setText("RID：");
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 160, 789, 527);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		panel.add(scrollPane, BorderLayout.CENTER);
-		
-		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setSurrendersFocusOnKeystroke(true);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.getTableHeader().setResizingAllowed(true);
 
-		sdList =publicKeyInfo.getPKInfos("CA_Info"); 
+		table = new JTable();
+		table.setSurrendersFocusOnKeystroke(true);
+
+		sdList = publicKeyInfo.getPKInfos("CA_Info");
 		tableDataDisp();
 		table.repaint();
 		scrollPane.setViewportView(table);
+
+		textField = new JTextField();
+		textField.setDocument(new FixedSizePlainDocument(2));
+		textField.setBounds(100, 100, 120, 20);
+		add(textField);
+		textField.setColumns(10);
 	}
 
 	/**
@@ -321,79 +355,8 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		};
 		table.setModel(testDataTableModel);
 	}
+
 	private void init() {
 		setName(pm.getString("mv.capublickeyconfig.name"));
-	}
-
-	// 删除配置
-	private void delConfig() {
-		CAPublicKeyConfig capkconfig = new CAPublicKeyConfig();
-		capkconfig = null;
-		String err = "";
-		if (null == RIDCombox.getSelectedItem())
-			err += pm.getString("mv.capublickeyconfig.ridnoexists");
-
-		if (!err.equalsIgnoreCase("")) {
-			JOptionPane.showMessageDialog(null, err, pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			return;
-		}
-
-		int y = JOptionPane.showConfirmDialog(null, pm.getString("mv.capublickeyconfig.delconfirm"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		if (y == 1) {
-			return;
-		}
-
-		capkconfig = iCAkeyconfigDao.getCAPublicKey(RIDCombox.getSelectedItem().toString().trim(), IndextextField.getSelectedItem().toString().trim());
-		if (capkconfig != null) {
-			if (iCAkeyconfigDao.delCAPublicKeyConfig(RIDCombox.getSelectedItem().toString().trim(), IndextextField.getSelectedItem().toString().trim())) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delsuccess"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-
-				List<CAPublicKeyConfig> capkconfigList = iCAkeyconfigDao.getCAPublicKeyList(RIDCombox.getSelectedItem().toString().trim());
-				if (capkconfigList.isEmpty()) {
-					RIDCombox.removeAllItems();
-					capkconfigList = iCAkeyconfigDao.findCAPublicKeyConfig();
-					ArrayList<String> tmplist = new ArrayList<String>();
-					for (int i = 0; i < capkconfigList.size(); i++) {
-						if (!tmplist.contains(capkconfigList.get(i).GetRid()))
-							RIDCombox.addItem(capkconfigList.get(i).GetRid());
-						tmplist.add(capkconfigList.get(i).GetRid());
-					}
-				}
-				//showcapkconfig();
-			} else {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delerr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}
-		} else {
-			List<CAPublicKeyConfig> capkconfigList = iCAkeyconfigDao.getCAPublicKeyList(RIDCombox.getSelectedItem().toString().trim());
-			if (capkconfigList.get(0).GetIndex() != null) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delnoindex"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			if (iCAkeyconfigDao.delCAPublicKeyConfig(RIDCombox.getSelectedItem().toString().trim())) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delsuccess"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-
-				RIDCombox.removeAllItems();
-				capkconfigList = iCAkeyconfigDao.findCAPublicKeyConfig();
-				ArrayList<String> tmplist = new ArrayList<String>();
-				for (int i = 0; i < capkconfigList.size(); i++) {
-					if (!tmplist.contains(capkconfigList.get(i).GetRid()))
-						RIDCombox.addItem(capkconfigList.get(i).GetRid());
-					tmplist.add(capkconfigList.get(i).GetRid());
-				}
-				//showcapkconfig();
-			} else {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.capublickeyconfig.delerr"), pm.getString("mv.capublickeyconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}
-
-		}
-	}
-
-	private void getDefaultConfig() {
-		List<CAPublicKeyConfig> capkconfigList = iCAkeyconfigDao.findDefaultCAPublicKeyConfig();
-
-		if (capkconfigList.get(0).GetIndex() != null) {
-
-		}
-
 	}
 }
