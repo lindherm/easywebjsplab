@@ -35,19 +35,4 @@ public class CAInfo {
 		}
 		return result;
 	}
-	public List<AIDInfo> getPublicKey(String aidSection) {
-		List<AIDInfo> result = new ArrayList<AIDInfo>();
-		Collection<String> aids = Config.getItems(aidSection);
-
-		for (String aid : aids) {
-			String itemV = Config.getValue(aidSection, aid);
-			String res[] = itemV.split("\\|");
-			AIDInfo aidInfo=new AIDInfo();
-			aidInfo.setAid(aid);
-			aidInfo.setDscrpt(res[0]);
-			aidInfo.setVersion(res[1]);
-			result.add(aidInfo);
-		}
-		return result;
-	}
 }

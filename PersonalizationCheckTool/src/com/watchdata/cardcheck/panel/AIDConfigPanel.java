@@ -69,7 +69,7 @@ public class AIDConfigPanel extends JPanel {
 	public AIDConfigPanel() {
 		super(null);
 		setName(pm.getString("mv.aidconfig.name"));
-		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.AIDConfig")));
+		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.AIDConfig")));
 
 		final JLabel label_3 = new JLabel();
 		label_3.setBounds(-10, 49, 97, 20);
@@ -340,10 +340,6 @@ public class AIDConfigPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, pm.getString("mv.aidconfig.deleteerr"), pm.getString("mv.aidconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-
-			/*
-			 * } }); delThread.start();
-			 */
 
 		}
 	};
