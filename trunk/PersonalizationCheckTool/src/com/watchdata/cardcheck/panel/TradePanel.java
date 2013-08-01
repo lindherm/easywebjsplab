@@ -29,6 +29,7 @@ import com.watchdata.cardcheck.dao.pojo.AppInfo;
 import com.watchdata.cardcheck.logic.impl.ElectronicCashHandler;
 import com.watchdata.cardcheck.logic.impl.PBOCHandler;
 import com.watchdata.cardcheck.logic.impl.QPBOCHandler;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.FaceListener;
 import com.watchdata.cardcheck.utils.FaceThread;
@@ -613,8 +614,7 @@ public class TradePanel extends JImagePanel {
 						}
 						electronicCashHandler = (ElectronicCashHandler) SpringUtil.getBean("electronicCashHandler");
 						// 读卡器驱动名称
-						configuration = new Configuration();
-						String readerName = configuration.getValue("cardreader");
+						String readerName =Config.getValue("Terminal_Data", "reader");
 						// 交易金额
 						int tradeMount = 0;
 						try {
