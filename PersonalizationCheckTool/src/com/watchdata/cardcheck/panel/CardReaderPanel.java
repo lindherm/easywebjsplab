@@ -16,6 +16,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.SpringUtil;
@@ -45,7 +46,7 @@ public class CardReaderPanel extends JPanel {
 	private String[] cardReaderList;
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
-	private CardPcsc cardPcsc=new CardPcsc();
+	private CardPcsc cardPcsc = new CardPcsc();
 
 	/**
 	 * Create the panel
@@ -119,8 +120,9 @@ public class CardReaderPanel extends JPanel {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent arg0) {
 				if (comboBox.getSelectedItem() != null) {
-					String resetStr=WDByteUtil.bytes2HEX(cardPcsc.resetCard());
-					JOptionPane.showMessageDialog(null,resetStr.substring(0, resetStr.length()-4));
+					String resetStr = WDByteUtil.bytes2HEX(cardPcsc.resetCard());
+					JOptionPane.showMessageDialog(null, resetStr.substring(0, resetStr.length() - 4));
+					Config.setValue("Terminal_Data", "reader", comboBox.getSelectedItem().toString());
 				}
 			}
 		});
@@ -131,8 +133,8 @@ public class CardReaderPanel extends JPanel {
 		final JButton btnNewButton_1 = new JButton("关闭端口");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(cardPcsc.connectReader(comboBox.getSelectedItem().toString())){
-					((JButton)e.getSource()).setEnabled(false);
+				if (cardPcsc.connectReader(comboBox.getSelectedItem().toString())) {
+					((JButton) e.getSource()).setEnabled(false);
 					btnNewButton_1.setEnabled(true);
 				}
 			}
@@ -140,11 +142,10 @@ public class CardReaderPanel extends JPanel {
 		btnNewButton.setBounds(413, 92, 84, 21);
 		add(btnNewButton);
 
-		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cardPcsc.disConnectReader();
-				((JButton)e.getSource()).setEnabled(false);
+				((JButton) e.getSource()).setEnabled(false);
 				btnNewButton.setEnabled(true);
 			}
 		});
