@@ -19,6 +19,8 @@ import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.SpringUtil;
+import com.watchdata.cardpcsc.CardPcsc;
+import com.watchdata.commons.lang.WDByteUtil;
 
 /**
  * TerminalTypeConfigPanel.java
@@ -27,16 +29,15 @@ import com.watchdata.cardcheck.utils.SpringUtil;
  * 
  * @author: pei.li 2012-4-26
  * 
- *@version:1.0.0
+ * @version:1.0.0
  * 
- *@modify：
+ * @modify：
  * 
- *@Copyright：watchdata
+ * @Copyright：watchdata
  */
 
 public class CardReaderPanel extends JPanel {
 
-	
 	private static final long serialVersionUID = -6360462745055001746L;
 	private PcscChannel apduChannel = (PcscChannel) SpringUtil.getBean("apduChannel");
 	public static JComboBox comboBox;
@@ -44,17 +45,16 @@ public class CardReaderPanel extends JPanel {
 	private String[] cardReaderList;
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
- 
+	private CardPcsc cardPcsc=new CardPcsc();
+
 	/**
 	 * Create the panel
 	 */
 	public CardReaderPanel() {
 		super();
 		setLayout(null);
-		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
-		/*setBackground(new Color(248,248,184));
-		setBackground(new Color(164, 217, 190));*/
-		
+		// setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
+
 		final JLabel label = new JLabel();
 		label.setBounds(0, 50, 97, 20);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -75,90 +75,92 @@ public class CardReaderPanel extends JPanel {
 		comboBox = new JComboBox();
 		comboBoxModel = new DefaultComboBoxModel();
 		cardReaderList = apduChannel.getReaderList();
-		
-		if(cardReaderList != null && cardReaderList.length > 0 ){
+
+		if (cardReaderList != null && cardReaderList.length > 0) {
 			comboBoxModel = new DefaultComboBoxModel(cardReaderList);
 			comboBox.setModel(comboBoxModel);
-			if(containCRConfig(configuration.getValue("cardreader"), cardReaderList)){
+			if (containCRConfig(configuration.getValue("cardreader"), cardReaderList)) {
 				comboBox.setSelectedItem(configuration.getValue("cardreader"));
 			}
 		}
 		comboBox.setBounds(100, 95, 300, 20);
-	/*	comboBox.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				System.out.println("out");
-				
-			}
-		});*/
-		comboBox.addPopupMenuListener(new PopupMenuListener(){
+		comboBox.addPopupMenuListener(new PopupMenuListener() {
 
 			@Override
-			public void popupMenuCanceled(PopupMenuEvent arg0) {	
+			public void popupMenuCanceled(PopupMenuEvent arg0) {
 				// TODO Auto-generated method stub
 			}
 
 			@Override
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				// TODO Auto-generated method stub
 				cardReaderList = apduChannel.getReaderList();
-				if(cardReaderList != null && cardReaderList.length > 0 ){
+				if (cardReaderList != null && cardReaderList.length > 0) {
 					comboBoxModel = new DefaultComboBoxModel(cardReaderList);
 					comboBox.setModel(comboBoxModel);
 					comboBox.repaint();
-				}else{
+				} else {
 					comboBoxModel = new DefaultComboBoxModel();
 					comboBox.setModel(comboBoxModel);
 					comboBox.repaint();
-				}	
-			}
-		});
-		add(comboBox);
-		
-
-		final JButton button = new JButton();
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent arg0) {
-				boolean success = true;
-				if(comboBox.getSelectedItem() != null){
-					success = configuration.setValue("cardreader", comboBox.getSelectedItem().toString());
-				    if(success){
-				    	JOptionPane.showMessageDialog(null, pm
-								.getString("mc.cardreaderpanel.configsuccess"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
-				    }else{
-				    	JOptionPane.showMessageDialog(null, pm
-								.getString("mc.cardreaderpanel.configfail"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
-				    }
 				}
 			}
 		});
-		button.setText(pm.getString("mc.cardreaderpanel.save"));
-		button.setBounds(502, 95, 84, 21);
+		add(comboBox);
+
+		final JButton button = new JButton();
+		button.setText("复位");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent arg0) {
+				if (comboBox.getSelectedItem() != null) {
+					String resetStr=WDByteUtil.bytes2HEX(cardPcsc.resetCard());
+					JOptionPane.showMessageDialog(null,resetStr.substring(0, resetStr.length()-4));
+				}
+			}
+		});
+		button.setBounds(507, 92, 84, 21);
 		add(button);
+
+		final JButton btnNewButton = new JButton("打开端口");
+		final JButton btnNewButton_1 = new JButton("关闭端口");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cardPcsc.connectReader(comboBox.getSelectedItem().toString())){
+					((JButton)e.getSource()).setEnabled(false);
+					btnNewButton_1.setEnabled(true);
+				}
+			}
+		});
+		btnNewButton.setBounds(413, 92, 84, 21);
+		add(btnNewButton);
+
+		
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardPcsc.disConnectReader();
+				((JButton)e.getSource()).setEnabled(false);
+				btnNewButton.setEnabled(true);
+			}
+		});
+		btnNewButton_1.setBounds(601, 92, 84, 21);
+		add(btnNewButton_1);
 		//
 	}
-	
-	public boolean containCRConfig(String cardReaderConfig, String[] cardReaderList){
+
+	public boolean containCRConfig(String cardReaderConfig, String[] cardReaderList) {
 		boolean exist = false;
-		for(String str : cardReaderList){
-			if(cardReaderConfig.equals(str)){
+		for (String str : cardReaderList) {
+			if (cardReaderConfig.equals(str)) {
 				exist = true;
 				return exist;
 			}
 		}
 		return exist;
 	}
-
 }
