@@ -50,11 +50,11 @@ import com.watchdata.cardcheck.utils.PropertiesManager;
  * 
  * @author: pei.li 2012-3-28
  * 
- *@version:1.0.0
+ * @version:1.0.0
  * 
- *@modify：
+ * @modify：
  * 
- *@Copyright：watchdata
+ * @Copyright：watchdata
  */
 public class TestDataConfigPanel extends JPanel {
 
@@ -76,49 +76,35 @@ public class TestDataConfigPanel extends JPanel {
 	private IStaticDataDao staticDataDao;
 	private StaticData staticData;
 	private PropertiesManager pm = new PropertiesManager();
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext(
-			"classpath:applicationContext.xml");
-	private final String[] COLUMNS = new String[] {
-			pm.getString("mv.testdata.tableTitle"),
-			pm.getString("mv.testdata.tableTitle2"),
-			pm.getString("mv.testdata.tableTitle3"),
-			pm.getString("mv.testdata.tableTitle4") };
+	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
+	private final String[] COLUMNS = new String[] { pm.getString("mv.testdata.tableTitle"), pm.getString("mv.testdata.tableTitle2"), pm.getString("mv.testdata.tableTitle3"), pm.getString("mv.testdata.tableTitle4") };
 	private List<StaticData> sdList = new ArrayList<StaticData>();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
 	private FileOpers fileOpers = new FileOpers();
 	private String filePath = pm.getString("mv.testdata.exportFilepath");
-	private String[] comboData = { pm.getString("mv.testdata.appType"),
-			pm.getString("mv.testdata.appType2"),
-			pm.getString("mv.testdata.appType3") };
+	private String[] comboData = { pm.getString("mv.testdata.appType"), pm.getString("mv.testdata.appType2"), pm.getString("mv.testdata.appType3") };
 	public static JProgressBar progressBar;
 
 	public TestDataConfigPanel() {
 		super();
 		setLayout(null);
 		setName(pm.getString("mv.testdata.name"));
-		setBorder(JTBorderFactory.createTitleBorder(pm
-				.getString("mv.menu.dataConfig")));
+		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.dataConfig")));
 
 		staticData = new StaticData();
 		staticDataDao = (IStaticDataDao) ctx.getBean("staticDataDao");
 
 		/*
-		 * final JSplitPane splitPane = new JSplitPane();
-		 * splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane.setDividerLocation(150); add(splitPane);
+		 * final JSplitPane splitPane = new JSplitPane(); splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT); splitPane.setDividerLocation(150); add(splitPane);
 		 * 
-		 * final JPanel panel = new JPanel(); panel.setLayout(null);
-		 * panel.setBorder(JTBorderFactory.createTitleBorder(pm
-		 * .getString("mv.testdata.addData")));
-		 * splitPane.setLeftComponent(panel);
+		 * final JPanel panel = new JPanel(); panel.setLayout(null); panel.setBorder(JTBorderFactory.createTitleBorder(pm .getString("mv.testdata.addData"))); splitPane.setLeftComponent(panel);
 		 */
 
 		final JLabel label_3 = new JLabel();
 		label_3.setBounds(0, 50, 97, 20);
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setFont(new Font(pm.getString("mv.applicaiton.font"),
-				Font.BOLD, 12));
+		label_3.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		label_3.setText(pm.getString("mv.testdata.addData"));
 		add(label_3);
 
@@ -197,26 +183,17 @@ public class TestDataConfigPanel extends JPanel {
 		add(addButton);
 
 		/*
-		 * final JPanel panel_1 = new JPanel();
-		 * panel_1.setBorder(JTBorderFactory.createTitleBorder(pm
-		 * .getString("mv.testdata.editData"))); panel_1.setLayout(new
-		 * BorderLayout()); splitPane.setRightComponent(panel_1);
+		 * final JPanel panel_1 = new JPanel(); panel_1.setBorder(JTBorderFactory.createTitleBorder(pm .getString("mv.testdata.editData"))); panel_1.setLayout(new BorderLayout()); splitPane.setRightComponent(panel_1);
 		 * 
-		 * final JSplitPane splitPane_1 = new JSplitPane();
-		 * splitPane_1.setVisible(true); splitPane_1.addComponentListener(new
-		 * ComponentAdapter() { public void componentResized(ComponentEvent e) {
-		 * splitPane_1.setDividerLocation(0.7); } }); panel_1.add(splitPane_1,
-		 * BorderLayout.CENTER);
+		 * final JSplitPane splitPane_1 = new JSplitPane(); splitPane_1.setVisible(true); splitPane_1.addComponentListener(new ComponentAdapter() { public void componentResized(ComponentEvent e) { splitPane_1.setDividerLocation(0.7); } }); panel_1.add(splitPane_1, BorderLayout.CENTER);
 		 * 
-		 * buttonPanel = new JPanel(); buttonPanel.setLayout(null);
-		 * splitPane_1.setRightComponent(buttonPanel);
+		 * buttonPanel = new JPanel(); buttonPanel.setLayout(null); splitPane_1.setRightComponent(buttonPanel);
 		 */
 
 		final JLabel editDataLabel = new JLabel();
 		editDataLabel.setBounds(0, 150, 97, 20);
 		editDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		editDataLabel.setFont(new Font(pm.getString("mv.applicaiton.font"),
-				Font.BOLD, 12));
+		editDataLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		editDataLabel.setText(pm.getString("mv.testdata.editData"));
 		add(editDataLabel);
 
@@ -245,9 +222,7 @@ public class TestDataConfigPanel extends JPanel {
 		add(exportButton);
 
 		/*
-		 * final JPanel panel_2 = new JPanel(); panel_2.setLayout(new
-		 * BoxLayout(panel_2, BoxLayout.X_AXIS));
-		 * splitPane_1.setLeftComponent(panel_2);
+		 * final JPanel panel_2 = new JPanel(); panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS)); splitPane_1.setLeftComponent(panel_2);
 		 */
 
 		final JScrollPane scrollPane = new JScrollPane();
@@ -267,9 +242,7 @@ public class TestDataConfigPanel extends JPanel {
 		exportButton.addActionListener(exportActionListner);
 
 		/*
-		 * progressBar = new JProgressBar(); progressBar.setBounds(0, 360, 195,
-		 * 14); buttonPanel.add(progressBar); progressBar.setValue(0);
-		 * progressBar.setVisible(false);
+		 * progressBar = new JProgressBar(); progressBar.setBounds(0, 360, 195, 14); buttonPanel.add(progressBar); progressBar.setValue(0); progressBar.setVisible(false);
 		 */
 	}
 
@@ -277,37 +250,22 @@ public class TestDataConfigPanel extends JPanel {
 	private ActionListener addActionListener = new ActionListener() {
 		public void actionPerformed(final ActionEvent arg0) {
 			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.addInfo"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.addInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			boolean success = true;
-			if (pm.getString("mv.testdata.select").equals(
-					appTypeComboBox.getSelectedItem().toString())) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.appTypeEmpty"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+			if (pm.getString("mv.testdata.select").equals(appTypeComboBox.getSelectedItem().toString())) {
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.appTypeEmpty"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (tagTextField.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.tagEmpty"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagEmpty"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			}/*
-			 * else if (valueTextField.getText().isEmpty()) {
-			 * JOptionPane.showMessageDialog(null, pm
-			 * .getString("mv.testdata.tagValueEmpty"), pm
-			 * .getString("mv.testdata.InfoWindow"),
-			 * JOptionPane.INFORMATION_MESSAGE); }
+			 * else if (valueTextField.getText().isEmpty()) { JOptionPane.showMessageDialog(null, pm .getString("mv.testdata.tagValueEmpty"), pm .getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE); }
 			 */else {
 				// 将数据添加到数据库中
 				if (tagCheck(tagTextField.getText())) {
 					staticData.setTag(tagTextField.getText());
 				} else {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.testdata.tableTagInfo"));
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tableTagInfo"));
 					return;
 				}
 				if (!valueTextField.getText().isEmpty()) {
@@ -317,46 +275,30 @@ public class TestDataConfigPanel extends JPanel {
 					staticData.setLength(0);
 					staticData.setOriValue(null);
 				}
-				staticData.setDscrpt(dscrptTextField.getText().isEmpty() ? null
-						: dscrptTextField.getText());
-				staticData.setAppType(appTypeComboBox.getSelectedItem()
-						.toString());
+				staticData.setDscrpt(dscrptTextField.getText().isEmpty() ? null : dscrptTextField.getText());
+				staticData.setAppType(appTypeComboBox.getSelectedItem().toString());
 				/*
-				 * List<String> tag =
-				 * staticDataDao.searchTagByAppType(appTypeComboBox
-				 * .getSelectedItem() .toString()); ArrayList<String> tagList =
-				 * new ArrayList<String>(); for(Object tg : tag){
-				 * tagList.add((String) ((Map) tg).get("TAG")); }
+				 * List<String> tag = staticDataDao.searchTagByAppType(appTypeComboBox .getSelectedItem() .toString()); ArrayList<String> tagList = new ArrayList<String>(); for(Object tg : tag){ tagList.add((String) ((Map) tg).get("TAG")); }
 				 */
 				boolean containSame = false;
 				for (StaticData sdData : sdList) {
-					if (sdData.getAppType().equals(staticData.getAppType())
-							&& sdData.getTag().equals(staticData.getTag())) {
+					if (sdData.getAppType().equals(staticData.getAppType()) && sdData.getTag().equals(staticData.getTag())) {
 						containSame = true;
 					}
 				}
 				if (!containSame) {
 					success = staticDataDao.insertTag(staticData);
 					if (success) {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.insertSuccess"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.insertSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 						// 将添加的数据从数据库中取出来在table中显示出来
 						sdList = staticDataDao.searchStaticData();
 						tableDataDisp();
 						table.repaint();
 					} else {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.insertFailed"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.insertFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.testdata.tagReapted"), pm
-							.getString("mv.testdata.InfoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagReapted"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				}
 
 			}
@@ -368,33 +310,21 @@ public class TestDataConfigPanel extends JPanel {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
 			/*
-			 * DelThread delThread = new DelThread(); delThread.addListener(new
-			 * DelListener(){
+			 * DelThread delThread = new DelThread(); delThread.addListener(new DelListener(){
 			 * 
 			 * @Override public void del(){
 			 */
 			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.saveBefoeDelete"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveBefoeDelete"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int selectedNum = table.getSelectedRows().length;
 
 			int[] selectIndex = table.getSelectedRows();
 			if (selectedNum == 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.deleteInfo"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (selectedNum >= 1) {
-				int y = JOptionPane
-						.showConfirmDialog(null, pm
-								.getString("mv.testdata.deleteInfoconfirm"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+				int y = JOptionPane.showConfirmDialog(null, pm.getString("mv.testdata.deleteInfoconfirm"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (y == 1) {
 					return;
 				}
@@ -404,22 +334,15 @@ public class TestDataConfigPanel extends JPanel {
 					delDatas.add(idStr);
 				}
 				if (staticDataDao.batchDel(delDatas)) {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.testdata.deleteSuccess"), pm
-							.getString("mv.testdata.InfoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					sdList = staticDataDao.searchStaticData();
 					tableDataDisp();
 					table.repaint();
 				} else {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.testdata.deleteFailed"), pm
-							.getString("mv.testdata.InfoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-			appTypeComboBox
-					.setModel(new DefaultComboBoxModel(getAppTypeData()));
+			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 			appTypeComboBox.repaint();
 			tagTextField.setText("");
 			valueTextField.setText("");
@@ -434,10 +357,7 @@ public class TestDataConfigPanel extends JPanel {
 			int selectedNum = table.getSelectedRows().length;
 			if (pm.getString("mv.testdata.edit").equals(saveButton.getText())) {
 				if (selectedNum == 0) {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.testdata.editInfo"), pm
-							.getString("mv.testdata.InfoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.editInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				} else if (selectedNum >= 1) {
 					final int[] selectedIndex = table.getSelectedRows();
 					table.setModel(new DefaultTableModel(tableData, COLUMNS) {
@@ -452,8 +372,7 @@ public class TestDataConfigPanel extends JPanel {
 							if (num == 1) {
 								return isTrue(selectedIndex[num - 1], row);
 							} else {
-								return f(num - 1, row, selectedIndex)
-										|| isTrue(selectedIndex[num - 1], row);
+								return f(num - 1, row, selectedIndex) || isTrue(selectedIndex[num - 1], row);
 							}
 						}
 
@@ -469,8 +388,7 @@ public class TestDataConfigPanel extends JPanel {
 					paintColorRow(selectedIndex);
 					saveButton.setText(pm.getString("mv.testdata.save"));
 				}
-			} else if (pm.getString("mv.testdata.save").equals(
-					saveButton.getText())) {
+			} else if (pm.getString("mv.testdata.save").equals(saveButton.getText())) {
 				if (table.isEditing()) {
 					int row = table.getEditingRow();
 					int col = table.getEditingColumn();
@@ -482,129 +400,81 @@ public class TestDataConfigPanel extends JPanel {
 					for (int i = 0; i < indexRow.size(); i++) {
 						StaticData staticData = new StaticData();
 						staticData.setId(sdList.get(indexRow.get(i)).getId());
-						String a = table.getValueAt(indexRow.get(i), 0)
-								.toString();
+						String a = table.getValueAt(indexRow.get(i), 0).toString();
 						if (table.getValueAt(indexRow.get(i), 0) == null || "".equals(table.getValueAt(indexRow.get(i), 0).toString())) {
-							JOptionPane.showMessageDialog(null, pm
-									.getString("mv.testdata.apptypeBlank"), pm
-									.getString("mv.testdata.InfoWindow"),
-									JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.apptypeBlank"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 							return;
-						} else if (table.getValueAt(indexRow.get(i), 0)
-								.toString().length() > 32) {
-							JOptionPane.showMessageDialog(null, pm
-									.getString("mv.testdata.apptypeTooLong"),
-									pm.getString("mv.testdata.InfoWindow"),
-									JOptionPane.INFORMATION_MESSAGE);
+						} else if (table.getValueAt(indexRow.get(i), 0).toString().length() > 32) {
+							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.apptypeTooLong"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 							return;
 						} else {
-							staticData.setAppType(table.getValueAt(
-									indexRow.get(i), 0).toString());
+							staticData.setAppType(table.getValueAt(indexRow.get(i), 0).toString());
 						}
 
-						if (tagCheck(table.getValueAt(indexRow.get(i), 1)
-								.toString())) {
-							staticData.setTag(table.getValueAt(indexRow.get(i),
-									1) == null ? null : table.getValueAt(
-									indexRow.get(i), 1).toString());
+						if (tagCheck(table.getValueAt(indexRow.get(i), 1).toString())) {
+							staticData.setTag(table.getValueAt(indexRow.get(i), 1) == null ? null : table.getValueAt(indexRow.get(i), 1).toString());
 						} else {
-							JOptionPane.showMessageDialog(null, pm
-									.getString("mv.testdata.tableTagInfo"), pm
-									.getString("mv.testdata.InfoWindow"),
-									JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tableTagInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
-						if(table.getValueAt(indexRow
-								.get(i), 2) == null){
+						if (table.getValueAt(indexRow.get(i), 2) == null) {
 							staticData.setOriValue(null);
-						}else{
-							if (table.getValueAt(indexRow.get(i), 2).toString()
-									.length() > 2048) {
-								JOptionPane.showMessageDialog(null, pm
-										.getString("mv.testdata.valueTooLong"), pm
-										.getString("mv.testdata.InfoWindow"),
-										JOptionPane.INFORMATION_MESSAGE);
-								return;
-							}else {
-								staticData.setOriValue( table
-										.getValueAt(indexRow.get(i), 2).toString());
-							}
-						}
-						 
-						staticData.setLength(table.getValueAt(indexRow.get(i),
-								2) == null ? 0 : getTagLen(table.getValueAt(
-								indexRow.get(i), 2).toString()));
-						
-						if(table.getValueAt(indexRow
-								.get(i), 3) == null){
-							staticData.setDscrpt(null);
-						}else{
-							if (table.getValueAt(indexRow.get(i), 3).toString()
-									.length() > 32) {
-								JOptionPane.showMessageDialog(null, pm
-										.getString("mv.testdata.descTooLong"), pm
-										.getString("mv.testdata.InfoWindow"),
-										JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							if (table.getValueAt(indexRow.get(i), 2).toString().length() > 2048) {
+								JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.valueTooLong"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 								return;
 							} else {
-								staticData.setDscrpt(table
-										.getValueAt(indexRow.get(i), 3).toString());
+								staticData.setOriValue(table.getValueAt(indexRow.get(i), 2).toString());
+							}
+						}
+
+						staticData.setLength(table.getValueAt(indexRow.get(i), 2) == null ? 0 : getTagLen(table.getValueAt(indexRow.get(i), 2).toString()));
+
+						if (table.getValueAt(indexRow.get(i), 3) == null) {
+							staticData.setDscrpt(null);
+						} else {
+							if (table.getValueAt(indexRow.get(i), 3).toString().length() > 32) {
+								JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.descTooLong"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
+								return;
+							} else {
+								staticData.setDscrpt(table.getValueAt(indexRow.get(i), 3).toString());
 							}
 
-						}	
+						}
 						editDatas.add(staticData);
 					}
 					// 对于处于编辑状态的每行数据进行判断，判断数据库中是否有与之id不同但是tag和appType相同的记录，若有则不符合规则终止保存；
 					// 若全部通过判断则可保存；由于数据库查询会使得操作速度变慢，且sdList中的数据始终与数据库中的记录保持一致，因此在此与sdList中的数据进行了比较
 					for (StaticData esd : editDatas) {
 						/*
-						 * if(staticDataDao.searchByTagAndAppType(esd.getAppType(
-						 * ), esd.getTag()) >= 1 &&
-						 * staticDataDao.searchByTagAndAppTypeID
-						 * (esd.getAppType(), esd.getTag(), esd.getId()) == 0){
-						 * JOptionPane.showMessageDialog(null, pm
-						 * .getString("mv.testdata.tagReapted"), pm
-						 * .getString("mv.testdata.InfoWindow"),
-						 * JOptionPane.INFORMATION_MESSAGE); return; }
+						 * if(staticDataDao.searchByTagAndAppType(esd.getAppType( ), esd.getTag()) >= 1 && staticDataDao.searchByTagAndAppTypeID (esd.getAppType(), esd.getTag(), esd.getId()) == 0){ JOptionPane.showMessageDialog(null, pm .getString("mv.testdata.tagReapted"), pm .getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE); return; }
 						 */
 
 						List<StaticData> sameAppTypeTag = new ArrayList<StaticData>();
 						for (StaticData sd : sdList) {
-							if (sd.getAppType().equals(esd.getAppType())
-									&& sd.getTag().equals(esd.getTag())
-									&& sd.getId() != esd.getId()) {
+							if (sd.getAppType().equals(esd.getAppType()) && sd.getTag().equals(esd.getTag()) && sd.getId() != esd.getId()) {
 								sameAppTypeTag.add(sd);
 							}
 						}
 						if (sameAppTypeTag.size() > 0) {
-							JOptionPane.showMessageDialog(null, pm
-									.getString("mv.testdata.tagReapted"), pm
-									.getString("mv.testdata.InfoWindow"),
-									JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagReapted"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 							return;
 						}
 					}
 
 					/* if(!tagList.contains(tagTextField.getText())){ */
 					if (staticDataDao.batchSaveUpdate(editDatas)) {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.saveEditedSuccess"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveEditedSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 						sdList = staticDataDao.searchStaticData();
 						tableDataDisp();
 						table.repaint();
 					} else {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.saveEditedFailed"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveEditedFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					}
 					saveButton.setText(pm.getString("mv.testdata.edit"));
 				}
 			}
-			appTypeComboBox
-					.setModel(new DefaultComboBoxModel(getAppTypeData()));
+			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 			appTypeComboBox.repaint();
 			tagTextField.setText("");
 			valueTextField.setText("");
@@ -618,17 +488,11 @@ public class TestDataConfigPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.importInfo"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.importInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			if (table.getRowCount() != 0) {
-				int ret = JOptionPane.showConfirmDialog(null, pm
-						.getString("mv.testdata.deleteBeforeImport"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.OK_CANCEL_OPTION);
+				int ret = JOptionPane.showConfirmDialog(null, pm.getString("mv.testdata.deleteBeforeImport"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.OK_CANCEL_OPTION);
 				if (ret == JOptionPane.OK_OPTION) {
 					importFile();
 				} else if (ret == JOptionPane.CANCEL_OPTION) {
@@ -646,43 +510,23 @@ public class TestDataConfigPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.exportInfo"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.exportInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int selectedNum = table.getSelectedRows().length;
 			int[] selectedIndex = table.getSelectedRows();
 			List<StaticData> exportDatas = new ArrayList<StaticData>();
 			if (selectedNum == 0) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.selectExport"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.selectExport"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (table.getSelectedRows().length > 0) {
 				for (int i = 0; i < selectedNum; i++) {
 					StaticData staticData = new StaticData();
-					staticData
-							.setAppType(table.getValueAt(selectedIndex[i], 0) == null ? null
-									: table.getValueAt(selectedIndex[i], 0)
-											.toString());
-					staticData
-							.setTag(table.getValueAt(selectedIndex[i], 1) == null ? null
-									: table.getValueAt(selectedIndex[i], 1)
-											.toString());
+					staticData.setAppType(table.getValueAt(selectedIndex[i], 0) == null ? null : table.getValueAt(selectedIndex[i], 0).toString());
+					staticData.setTag(table.getValueAt(selectedIndex[i], 1) == null ? null : table.getValueAt(selectedIndex[i], 1).toString());
 
-					staticData.setOriValue(table
-							.getValueAt(selectedIndex[i], 2) == null ? null
-							: table.getValueAt(selectedIndex[i], 2).toString());
-					staticData
-							.setLength(table.getValueAt(selectedIndex[i], 2) == null ? 0
-									: getTagLen(table.getValueAt(
-											selectedIndex[i], 2).toString()));
-					staticData
-							.setDscrpt(table.getValueAt(selectedIndex[i], 3) == null ? null
-									: table.getValueAt(selectedIndex[i], 3)
-											.toString());
+					staticData.setOriValue(table.getValueAt(selectedIndex[i], 2) == null ? null : table.getValueAt(selectedIndex[i], 2).toString());
+					staticData.setLength(table.getValueAt(selectedIndex[i], 2) == null ? 0 : getTagLen(table.getValueAt(selectedIndex[i], 2).toString()));
+					staticData.setDscrpt(table.getValueAt(selectedIndex[i], 3) == null ? null : table.getValueAt(selectedIndex[i], 3).toString());
 
 					exportDatas.add(staticData);
 				}
@@ -694,25 +538,15 @@ public class TestDataConfigPanel extends JPanel {
 					}
 					File f = new File(filePath);
 					if (f.exists()) {
-						int y = JOptionPane.showConfirmDialog(null, pm
-								.getString("mv.testdata.fileExist"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+						int y = JOptionPane.showConfirmDialog(null, pm.getString("mv.testdata.fileExist"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 						if (y == 1) {
 							return;
 						}
 					}
 					if (fileOpers.writeFile(filePath, exportDatas)) {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.fileExportSuccess"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.fileExportSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.fileExportFailed"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.fileExportFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					}
 
 				}
@@ -831,20 +665,17 @@ public class TestDataConfigPanel extends JPanel {
 			if (num == 1) {
 				return isTrue(selectedIndex[num - 1], row);
 			} else {
-				return f(num - 1, row, selectedIndex)
-						|| isTrue(selectedIndex[num - 1], row);
+				return f(num - 1, row, selectedIndex) || isTrue(selectedIndex[num - 1], row);
 			}
 		}
 
-		public Component getTableCellRendererComponent(JTable t, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
+		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			if (f(selectedIndex.length, row, selectedIndex))
 				setBackground(Color.green);
 			else {
 				setBackground(Color.white);
 			}
-			return super.getTableCellRendererComponent(t, value, isSelected,
-					hasFocus, row, column);
+			return super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, column);
 		}
 
 		public void setSelectedIndex(int[] selectedIndex) {
@@ -881,8 +712,7 @@ public class TestDataConfigPanel extends JPanel {
 	 */
 	public static boolean tagCheck(String tag) {
 		boolean isTrue = true;
-		isTrue = (tag.matches("[0-9a-fA-F]{2}") || tag.matches("[0-9A-F]{4}")) ? true
-				: false;
+		isTrue = (tag.matches("[0-9a-fA-F]{2}") || tag.matches("[0-9A-F]{4}")) ? true : false;
 		return isTrue;
 	}
 
@@ -898,49 +728,34 @@ public class TestDataConfigPanel extends JPanel {
 		String filePath = fileOpers.getFilePath();
 		if (filePath != null) {
 			if (!filePath.endsWith("txt")) {
-				JOptionPane.showMessageDialog(null, pm
-						.getString("mv.testdata.fileTypeUnmatch"), pm
-						.getString("mv.testdata.InfoWindow"),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.fileTypeUnmatch"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				success = staticDataDao.delAllTag();
 				sdList = staticDataDao.searchStaticData();
 				tableDataDisp();
 				table.repaint();
 				if (!success) {
-					JOptionPane.showMessageDialog(null, pm
-							.getString("mv.testdata.deleteFailedBimport"), pm
-							.getString("mv.testdata.InfoWindow"),
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteFailedBimport"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}/*
-				 * else{ sdList = staticDataDao.searchStaticData();
-				 * tableDataDisp(); table.repaint(); }
+				 * else{ sdList = staticDataDao.searchStaticData(); tableDataDisp(); table.repaint(); }
 				 */
-				final List<StaticData> importDatas = fileOpers
-						.readFile(filePath);
+				final List<StaticData> importDatas = fileOpers.readFile(filePath);
 				if (importDatas != null) {
 					success = staticDataDao.batchInsert(importDatas);
 					if (success) {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.importSuccess"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.importSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 						sdList = staticDataDao.searchStaticData();
 						tableDataDisp();
 						table.repaint();
 					} else {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.testdata.importFailed"), pm
-								.getString("mv.testdata.InfoWindow"),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.importFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 						sdList = staticDataDao.searchStaticData();
 						tableDataDisp();
 						table.repaint();
 					}
 				}
-				appTypeComboBox.setModel(new DefaultComboBoxModel(
-						getAppTypeData()));
+				appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 				appTypeComboBox.repaint();
 				tagTextField.setText("");
 				dscrptTextField.setText("");

@@ -29,7 +29,7 @@ public class TradeTabbedPanel extends JPanel {
 		setLayout(new GridBagLayout());
 
 		final JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "交易", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+		//panel.setBorder(new TitledBorder(null, "交易", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
 		final GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] {0,7,7,7};
 		panel.setLayout(gridBagLayout);
