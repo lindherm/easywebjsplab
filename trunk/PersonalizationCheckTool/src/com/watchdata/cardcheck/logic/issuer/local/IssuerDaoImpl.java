@@ -2,8 +2,8 @@ package com.watchdata.cardcheck.logic.issuer.local;
 
 import org.apache.log4j.Logger;
 
+import com.watchdata.cardcheck.configdao.IssuerKeyInfo;
 import com.watchdata.cardcheck.dao.IIssuerKeyConfigDao;
-import com.watchdata.cardcheck.dao.pojo.IssuerKeyInfo;
 import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.WDKeyUtil;
@@ -27,12 +27,13 @@ public class IssuerDaoImpl implements IIssuerDao{
 	private static boolean isDerive = false;
 	
 	private IIssuerKeyConfigDao issuerKeyConfigDao;
+	private IssuerKeyInfo issuerKeyInfo=new IssuerKeyInfo();
 	
 	@Override
 	public String[] generateLoadIssuerScript(String pan, String panSerial, String atc, String arqc, String balance,int tradeAmount) {
-		IssuerKeyInfo issuerKeyInfo = issuerKeyConfigDao.findIssuerKey("PBOC");
-		isDerive = issuerKeyInfo.getDerive()==0?false:true;
-		String sk = calcSessionKey(genCardKey(issuerKeyInfo.getMacKey(),pan,panSerial), atc);    
+		IssuerKeyInfo issuerKey = issuerKeyInfo.getIssuerKeyInfo("ApplicationKey");
+		isDerive = issuerKey.getDerive()==0?false:true;
+		String sk = calcSessionKey(genCardKey(issuerKey.getMacKey(),pan,panSerial), atc);    
 	    int ecBalance = Integer.valueOf(balance);
 	    ecBalance += tradeAmount;
 	    balance = WDStringUtil.paddingHeadZero(String.valueOf(ecBalance), 12);
@@ -60,9 +61,9 @@ public class IssuerDaoImpl implements IIssuerDao{
 
 	@Override
 	public boolean validateArqc(String pan, String panSerial, String cdolData, String aip, String atc, String iad, String arqc) {
-		IssuerKeyInfo issuerKeyInfo = issuerKeyConfigDao.findIssuerKey("PBOC");
-		isDerive = issuerKeyInfo.getDerive()==0?false:true;
-		String sk = calcSessionKey(genCardKey(issuerKeyInfo.getAcKey(),pan,panSerial), atc);    
+		IssuerKeyInfo issuerKey = issuerKeyInfo.getIssuerKeyInfo("ApplicationKey");
+		isDerive = issuerKey.getDerive()==0?false:true;
+		String sk = calcSessionKey(genCardKey(issuerKey.getAcKey(),pan,panSerial), atc);    
 		String acData =  cdolData.substring(0,58) + aip + atc + iad.substring(6, 14);//卡片验证结果
 		
 		String myAC = WDPBOCUtil.triple_des_mac(sk, acData + "80",Padding.ZeroBytePadding,iv);
@@ -76,9 +77,9 @@ public class IssuerDaoImpl implements IIssuerDao{
 
 	@Override
 	public String requestArpc(String pan, String panSerial, String cdolData, String aip, String atc, String iad, String arqc) throws Exception {
-		IssuerKeyInfo issuerKeyInfo = issuerKeyConfigDao.findIssuerKey("PBOC");
-		isDerive = issuerKeyInfo.getDerive()==0?false:true;
-		String sk = calcSessionKey(genCardKey(issuerKeyInfo.getAcKey(),pan,panSerial), atc);    
+		IssuerKeyInfo issuerKey = issuerKeyInfo.getIssuerKeyInfo("ApplicationKey");
+		isDerive = issuerKey.getDerive()==0?false:true;
+		String sk = calcSessionKey(genCardKey(issuerKey.getAcKey(),pan,panSerial), atc);    
 		String acData =  cdolData.substring(0,58) + aip + atc + iad.substring(6, 14);//卡片验证结果
 		
 		String myAC = WDPBOCUtil.triple_des_mac(sk, acData + "80",Padding.ZeroBytePadding,iv);
