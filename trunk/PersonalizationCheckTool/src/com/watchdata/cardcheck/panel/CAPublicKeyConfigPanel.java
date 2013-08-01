@@ -3,10 +3,13 @@ package com.watchdata.cardcheck.panel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -14,6 +17,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,19 +26,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.watchdata.cardcheck.configdao.CAInfo;
 import com.watchdata.cardcheck.configdao.PublicKeyInfo;
-import com.watchdata.cardcheck.dao.ICAPublicKeyConfigDao;
-import com.watchdata.cardcheck.dao.pojo.CAPublicKeyConfig;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
@@ -75,6 +76,10 @@ public class CAPublicKeyConfigPanel extends JPanel {
 	private PublicKeyInfo publicKeyInfo = new PublicKeyInfo();
 	private final String[] COLUMNS = new String[] { "RID", "公钥索引", "算法", "公钥指数", "哈希算法", "模值" };
 	private JTextField textField;
+
+	private JDialog dialog = new JDialog();
+	private JEditorPane ep = new JEditorPane();
+	private JScrollPane dlgscrollPane = new JScrollPane(ep);
 
 	/**
 	 * Create the panel
@@ -315,6 +320,22 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		table = new JTable();
 		table.setSurrendersFocusOnKeystroke(true);
 
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					if (e.getClickCount() == 2) {
+						int row = table.rowAtPoint(e.getPoint());
+						int colum = table.columnAtPoint(e.getPoint());
+						Object ob = table.getValueAt(row, colum);
+						Point p = e.getLocationOnScreen();
+						dialog.setLocation(p);
+						ep.setText(ob.toString());
+						dialog.setVisible(true);
+					}
+				}
+			}
+		});
 		sdList = publicKeyInfo.getPKInfos("CA_Info");
 		tableDataDisp();
 		table.repaint();
@@ -325,6 +346,9 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		textField.setBounds(100, 100, 120, 20);
 		add(textField);
 		textField.setColumns(10);
+
+		dialog.setSize(400, 200);
+		dialog.add(dlgscrollPane);
 	}
 
 	/**
