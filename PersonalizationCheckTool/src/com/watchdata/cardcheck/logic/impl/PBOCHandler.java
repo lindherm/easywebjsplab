@@ -34,7 +34,6 @@ public class PBOCHandler extends BaseHandler {
 	private static Logger logger = Logger.getLogger(PBOCHandler.class);
 	private IIssuerDao issuerDao;
 
-	private APDUSendANDRes apduSendANDRes = null;
 	private GenReportUtil genWordUtil = null;
 
 	private PropertiesManager pm = new PropertiesManager();
@@ -147,10 +146,7 @@ public class PBOCHandler extends BaseHandler {
 				dataMap.put("9F58", result.get("9F58"));
 				result = apduHandler.getData("9F59");
 				dataMap.put("9F59", result.get("9F59"));
-
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("GET DATA"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(dataMap); genWordUtil.add(apduSendANDRes);
-				 */
+				
 				genWordUtil.add("PDOL Data:" + pdol);
 				// gpo
 				logger.debug("==================================gpo==================================");
@@ -169,7 +165,6 @@ public class PBOCHandler extends BaseHandler {
 
 				genWordUtil.add(result.get("apdu"), "GPO", result.get("res"), result);
 
-				genWordUtil.add(apduSendANDRes);
 				genWordUtil.add("LoadDolDataResult:" + loadDolDataResult);
 				genWordUtil.add("AIP:" + aip);
 				// read record
@@ -228,12 +223,6 @@ public class PBOCHandler extends BaseHandler {
 				}
 				logger.debug("DDA validate successed!");
 
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("DDA"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(new HashMap<String,String>()); genWordUtil.add(apduSendANDRes);
-				 */
-				/*
-				 * genWordUtil.add("SignedDynmicData:" + signedDynmicData); genWordUtil.add("DdolDataList:" + termRandom); genWordUtil.add("IssuerPKCert:" + issuerPKCert); genWordUtil.add("IssuerPKReminder:" + issuerPKReminder); genWordUtil.add("IssuerPKExponent:" + issuerPKExp); genWordUtil.add("IcPKCert:" + icPKCert); genWordUtil.add("IcPKExp:" + icPKExp); genWordUtil.add("IcPKReminder:" + icPKReminder); genWordUtil.add("CaPKIndex:" + caPKIndex); genWordUtil.add("StaticDataList:" + staticDataList); genWordUtil.add("Pan:" + pan); genWordUtil.add("Rid:" + rid);
-				 */
 				genWordUtil.add("DDA中使用的数据");
 				for (String log : logList) {
 					genWordUtil.add(log);
@@ -258,9 +247,6 @@ public class PBOCHandler extends BaseHandler {
 				String arpc = issuerDao.requestArpc(pan, panSerial, cdol1Data, aip, atc, iad, arqc);
 				logger.debug("online validate successed!");
 
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("Check ARQC"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(new HashMap<String,String>()); genWordUtil.add(apduSendANDRes);
-				 */
 				genWordUtil.add("验证ARQC中使用的数据");
 				genWordUtil.add("ARQC:" + arqc);
 				genWordUtil.add("ATC:" + atc);
