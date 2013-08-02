@@ -45,7 +45,6 @@ public class TradePanel extends JImagePanel {
 	private static final long serialVersionUID = 8540752419780942870L;
 	public static JTextField moneyTextField;
 	public static String proPath = System.getProperty("user.dir");
-	public static ImageIcon img = new ImageIcon(proPath + "/resources/images/trade.png");
 	ImageIcon qPBOCIcon = new ImageIcon(proPath + "/resources/images/qPBOC.png");
 	ImageIcon lendIcon = new ImageIcon(proPath + "/resources/images/lend.png");
 	ImageIcon earmarkIcon = new ImageIcon(proPath + "/resources/images/earmark.png");
@@ -89,8 +88,6 @@ public class TradePanel extends JImagePanel {
 		this.electronicCashHandler = electronicCashHandler;
 	}
 
-	private Configuration configuration;
-
 	private ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 
 	private ITermPerformConfigDao iTermPerConfigDao;
@@ -111,7 +108,7 @@ public class TradePanel extends JImagePanel {
 	 * @throws Exception
 	 */
 	public TradePanel() throws Exception {
-		super(img);
+		super(proPath + "/resources/images/trade.png");
 
 		setLayout(null);
 		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.left.trade")));

@@ -1,7 +1,5 @@
 package com.watchdata.cardcheck.panel;
 
-import javax.swing.ImageIcon;
-
 import com.watchdata.cardcheck.app.JImagePanel;
 
 /** 
@@ -14,7 +12,6 @@ public class LogoPanel extends JImagePanel {
 	
 	private static final long serialVersionUID = -2439013595850901209L;
 	public static String proPath = System.getProperty("user.dir");
-	public static ImageIcon img = new ImageIcon(proPath + "/resources/images/wacthdata.png");
 
 	/**
 	 * Create the panel
@@ -22,9 +19,7 @@ public class LogoPanel extends JImagePanel {
 	 * @throws Exception 
 	 */
 	public LogoPanel() throws Exception {
-		
-		super(img);
-		//
+		super(proPath + "/resources/images/wacthdata.png");
 	}
 
 }
