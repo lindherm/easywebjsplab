@@ -1,6 +1,5 @@
 package com.watchdata.cardcheck.panel;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,13 +16,11 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.springframework.test.context.ContextConfiguration;
-
+import com.watchdata.cardcheck.configdao.IssuerKeyInfo;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 
-@ContextConfiguration(locations = { "/applicationContext.xml" })
 public class IssuerKeyConfigPanel extends JPanel {
 
 	/**
@@ -35,7 +32,7 @@ public class IssuerKeyConfigPanel extends JPanel {
 	private JTextField textField;
 	private PropertiesManager pm = new PropertiesManager();
 
-	Color colorYellow = new Color(255, 255, 192);
+	private IssuerKeyInfo issuerKeyInfo=new IssuerKeyInfo();
 
 	/**
 	 * Create the panel
@@ -63,6 +60,8 @@ public class IssuerKeyConfigPanel extends JPanel {
 		lblUdkac.setBounds(20, 90, 97, 20);
 		add(lblUdkac);
 
+		IssuerKeyInfo ikInfo=issuerKeyInfo.getIssuerKeyInfo("ApplicationKey");
+		
 		textField = new JTextField();
 		textField.setBounds(122, 90, 400, 20);
 		textField.setDocument(new FixedSizePlainDocument(32));
@@ -83,6 +82,7 @@ public class IssuerKeyConfigPanel extends JPanel {
 					e.consume();
 			}
 		});
+		textField.setText(ikInfo.getAcKey());
 		add(textField);
 
 		final JLabel lblUdkmac = new JLabel();
@@ -111,6 +111,7 @@ public class IssuerKeyConfigPanel extends JPanel {
 					e.consume();
 			}
 		});
+		textField_1.setText(ikInfo.getMacKey());
 		add(textField_1);
 
 		final JLabel lblUdkenc = new JLabel();
@@ -139,8 +140,9 @@ public class IssuerKeyConfigPanel extends JPanel {
 					e.consume();
 			}
 		});
+		textField_2.setText(ikInfo.getEncKey());
 		add(textField_2);
-
+		
 		final JButton button_1 = new JButton();
 		button_1.setText("保存");
 		button_1.setBounds(260, 230, 84, 21);
