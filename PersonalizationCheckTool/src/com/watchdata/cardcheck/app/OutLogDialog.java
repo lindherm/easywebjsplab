@@ -18,7 +18,7 @@ public class OutLogDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public OutLogDialog() {
-		setBounds(100, 100, 800, 300);
+		setSize(800, 600);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -29,6 +29,7 @@ public class OutLogDialog extends JDialog {
 		
 		JTextArea textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
+		this.setLocationRelativeTo(null);
 	}
 
 }
