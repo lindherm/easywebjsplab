@@ -3,6 +3,8 @@ package com.watchdata.cardcheck.logic.apdu;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+
+import com.watchdata.cardcheck.log.Log;
 /**
  * 
  * @description: 指令打包解包封装抽象类
@@ -12,7 +14,7 @@ import org.apache.log4j.Logger;
  * @Copyright: watchdata
  */
 public class AbstractAPDU {
-	private static Logger log = Logger.getLogger(AbstractAPDU.class);
+	private static Log log = new Log();
 	private static final String SPECIAL_TAG_LIST = "61|6F|A5|BF0C|77|70";
 	public static final String P1_ARQC = "80";
 	public static final String P1_TC = "40";

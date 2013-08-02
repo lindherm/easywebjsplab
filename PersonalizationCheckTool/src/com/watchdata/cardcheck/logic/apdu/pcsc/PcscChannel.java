@@ -1,7 +1,6 @@
 package com.watchdata.cardcheck.logic.apdu.pcsc;
 
-import org.apache.log4j.Logger;
-
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.IAPDUChannel;
 import com.watchdata.cardpcsc.CardPcsc;
 import com.watchdata.commons.lang.WDByteUtil;
@@ -14,7 +13,7 @@ import com.watchdata.commons.lang.WDByteUtil;
  * @Copyright: watchdata
  */
 public class PcscChannel implements IAPDUChannel{
-	private static Logger logger = Logger.getLogger(PcscChannel.class);	
+	private static Log logger = new Log();	
 	private static CardPcsc cardPcsc;
 	public PcscChannel(){
 		if(cardPcsc==null){
