@@ -12,24 +12,30 @@ public class JImagePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image image = null;
 
-	public JImagePanel(String imagePath) throws Exception {
-		try {
-            this.image = ImageIO.read(new File(imagePath));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+	public JImagePanel(String imagePath){
+		readImage(imagePath);
+	}
+
+	public JImagePanel() {
+
 	}
 
 	public void setBackGround(String imagePath) {
-		try {
-            this.image = ImageIO.read(new File(imagePath));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+		readImage(imagePath);
 	}
 
-	public Image getBackGround() {
-		return image;
+	/**
+	 * read image
+	 * 
+	 * @param imagePath
+	 */
+
+	public void readImage(String imagePath) {
+		try {
+			this.image = ImageIO.read(new File(imagePath));
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	protected void paintComponent(Graphics g) {
