@@ -184,8 +184,7 @@ public class TradePanel extends JImagePanel {
 				tradeType = pm.getString("mv.tradepanel.qPBOC");
 				setTradeType(tradeType);
 				//更新交易状态
-				Configuration configuration=new Configuration();
-				configuration.setValue("currentTradeType", tradeType);
+				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				//设置检测报告按钮不可用
 				reportButton.setEnabled(false);
 			}
@@ -205,8 +204,7 @@ public class TradePanel extends JImagePanel {
 				tradeType = pm.getString("mv.tradepanel.lend");
 				setTradeType(tradeType);
 				//更新交易状态
-				Configuration configuration=new Configuration();
-				configuration.setValue("currentTradeType", tradeType);
+				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				//设置检测报告按钮不可用
 				reportButton.setEnabled(false);
 			}
@@ -226,8 +224,7 @@ public class TradePanel extends JImagePanel {
 				tradeType = pm.getString("mv.tradepanel.ecash");
 				setTradeType(tradeType);
 				//更新交易状态
-				Configuration configuration=new Configuration();
-				configuration.setValue("currentTradeType", tradeType);
+				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				//设置检测报告按钮不可用
 				reportButton.setEnabled(false);
 			}
@@ -247,8 +244,7 @@ public class TradePanel extends JImagePanel {
 				tradeType = pm.getString("mv.tradepanel.earmark");
 				setTradeType(tradeType);
 				//更新交易状态
-				Configuration configuration=new Configuration();
-				configuration.setValue("currentTradeType", tradeType);
+				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				//设置检测报告按钮不可用
 				reportButton.setEnabled(false);
 			}
@@ -335,7 +331,7 @@ public class TradePanel extends JImagePanel {
 		button0.setContentAreaFilled(false);// 设置不画按钮背景
 		button0.setBorderPainted(false);
 		button0.setIcon(zeroIcon);
-		button0.setBounds(325, 496, 32, 32);
+		button0.setBounds(310, 496, 32, 32);
 		add(button0);
 		button0.addActionListener(new ActionListener() {
 			@Override
@@ -356,7 +352,7 @@ public class TradePanel extends JImagePanel {
 		button1.setContentAreaFilled(false);// 设置不画按钮背景
 		button1.setBorderPainted(false);
 		button1.setIcon(oneIcon);
-		button1.setBounds(287, 382, 32, 32);
+		button1.setBounds(270, 382, 32, 32);
 		add(button1);
 		button1.addActionListener(new ActionListener() {
 			@Override
@@ -375,7 +371,7 @@ public class TradePanel extends JImagePanel {
 		button2.setContentAreaFilled(false);// 设置不画按钮背景
 		button2.setBorderPainted(false);
 		button2.setIcon(twoIcon);
-		button2.setBounds(325, 382, 32, 32);
+		button2.setBounds(310, 382, 32, 32);
 		add(button2);
 		button2.addActionListener(new ActionListener() {
 			@Override
@@ -394,7 +390,7 @@ public class TradePanel extends JImagePanel {
 		button3.setContentAreaFilled(false);// 设置不画按钮背景
 		button3.setBorderPainted(false);
 		button3.setIcon(threeIcon);
-		button3.setBounds(363, 382, 32, 32);
+		button3.setBounds(350, 382, 32, 32);
 		add(button3);
 		button3.addActionListener(new ActionListener() {
 			@Override
@@ -413,7 +409,7 @@ public class TradePanel extends JImagePanel {
 		button4.setContentAreaFilled(false);// 设置不画按钮背景
 		button4.setBorderPainted(false);
 		button4.setIcon(fourIcon);
-		button4.setBounds(287, 420, 32, 32);
+		button4.setBounds(270, 420, 32, 32);
 		add(button4);
 		button4.addActionListener(new ActionListener() {
 			@Override
@@ -432,7 +428,7 @@ public class TradePanel extends JImagePanel {
 		button5.setContentAreaFilled(false);// 设置不画按钮背景
 		button5.setBorderPainted(false);
 		button5.setIcon(fiveIcon);
-		button5.setBounds(325, 420, 32, 32);
+		button5.setBounds(310, 420, 32, 32);
 		add(button5);
 		button5.addActionListener(new ActionListener() {
 			@Override
@@ -451,7 +447,7 @@ public class TradePanel extends JImagePanel {
 		button6.setContentAreaFilled(false);// 设置不画按钮背景
 		button6.setBorderPainted(false);
 		button6.setIcon(sixIcon);
-		button6.setBounds(363, 420, 32, 32);
+		button6.setBounds(350, 420, 32, 32);
 		add(button6);
 		button6.addActionListener(new ActionListener() {
 			@Override
@@ -470,7 +466,7 @@ public class TradePanel extends JImagePanel {
 		button7.setContentAreaFilled(false);// 设置不画按钮背景
 		button7.setBorderPainted(false);
 		button7.setIcon(sevenIcon);
-		button7.setBounds(287, 458, 32, 32);
+		button7.setBounds(270, 458, 32, 32);
 		add(button7);
 		button7.addActionListener(new ActionListener() {
 			@Override
@@ -489,7 +485,7 @@ public class TradePanel extends JImagePanel {
 		button8.setContentAreaFilled(false);// 设置不画按钮背景
 		button8.setBorderPainted(false);
 		button8.setIcon(eightIcon);
-		button8.setBounds(325, 458, 32, 32);
+		button8.setBounds(310, 458, 32, 32);
 		add(button8);
 		button8.addActionListener(new ActionListener() {
 			@Override
@@ -508,7 +504,7 @@ public class TradePanel extends JImagePanel {
 		button9.setContentAreaFilled(false);// 设置不画按钮背景
 		button9.setBorderPainted(false);
 		button9.setIcon(nineIcon);
-		button9.setBounds(363, 458, 32, 32);
+		button9.setBounds(350, 458, 32, 32);
 		add(button9);
 		button9.addActionListener(new ActionListener() {
 			@Override
@@ -527,7 +523,7 @@ public class TradePanel extends JImagePanel {
 		dotButton.setContentAreaFilled(false);// 设置不画按钮背景
 		dotButton.setBorderPainted(false);
 		dotButton.setIcon(dotIcon);
-		dotButton.setBounds(287, 496, 32, 32);
+		dotButton.setBounds(270, 496, 32, 32);
 		add(dotButton);
 		dotButton.addActionListener(new ActionListener() {
 			@Override
@@ -546,7 +542,7 @@ public class TradePanel extends JImagePanel {
 		backButton.setContentAreaFilled(false);// 设置不画按钮背景
 		backButton.setBorderPainted(false);
 		backButton.setIcon(backIcon);
-		backButton.setBounds(364, 496, 32, 32);
+		backButton.setBounds(350, 496, 32, 32);
 		add(backButton);
 		backButton.addActionListener(new ActionListener() {
 			@Override
