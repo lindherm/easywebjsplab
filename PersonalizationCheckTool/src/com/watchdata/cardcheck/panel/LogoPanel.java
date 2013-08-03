@@ -1,7 +1,5 @@
 package com.watchdata.cardcheck.panel;
 
-import java.io.File;
-
 import javax.imageio.ImageIO;
 
 import com.watchdata.cardcheck.app.JImagePanel;
@@ -23,7 +21,7 @@ public class LogoPanel extends JImagePanel {
 	 * @throws Exception 
 	 */
 	public LogoPanel() throws Exception {
-		super(ImageIO.read(new File(proPath + "/resources/images/wacthdata.png")));
+		super(ImageIO.read(LogoPanel.class.getResource("/com/watchdata/cardcheck/resources/images/wacthdata.png")));
 	}
 
 }

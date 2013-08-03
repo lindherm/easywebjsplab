@@ -93,8 +93,8 @@ public class TradePanel extends JImagePanel {
 	 */
 	public TradePanel() throws IOException{
 		
-		super(ImageIO.read(new File(proPath + "/resources/images/trade.png")));
-
+		super(ImageIO.read(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/trade.png")));
+		
 		setLayout(null);
 		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.left.trade")));
 
