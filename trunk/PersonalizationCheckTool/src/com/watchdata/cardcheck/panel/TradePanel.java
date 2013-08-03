@@ -45,24 +45,24 @@ public class TradePanel extends JImagePanel {
 	private static final long serialVersionUID = 8540752419780942870L;
 	public static JTextField moneyTextField;
 	public static String proPath = System.getProperty("user.dir");
-	ImageIcon qPBOCIcon = new ImageIcon(proPath + "/resources/images/qPBOC.png");
-	ImageIcon lendIcon = new ImageIcon(proPath + "/resources/images/lend.png");
-	ImageIcon earmarkIcon = new ImageIcon(proPath + "/resources/images/earmark.png");
-	ImageIcon ecashIcon = new ImageIcon(proPath + "/resources/images/ecash.png");
-	ImageIcon okIcon = new ImageIcon(proPath + "/resources/images/OK.png");
-	ImageIcon cancelIcon = new ImageIcon(proPath + "/resources/images/cancel.png");
-	ImageIcon zeroIcon = new ImageIcon(proPath + "/resources/images/0.png");
-	ImageIcon oneIcon = new ImageIcon(proPath + "/resources/images/1.png");
-	ImageIcon twoIcon = new ImageIcon(proPath + "/resources/images/2.png");
-	ImageIcon threeIcon = new ImageIcon(proPath + "/resources/images/3.png");
-	ImageIcon fourIcon = new ImageIcon(proPath + "/resources/images/4.png");
-	ImageIcon fiveIcon = new ImageIcon(proPath + "/resources/images/5.png");
-	ImageIcon sixIcon = new ImageIcon(proPath + "/resources/images/6.png");
-	ImageIcon sevenIcon = new ImageIcon(proPath + "/resources/images/7.png");
-	ImageIcon eightIcon = new ImageIcon(proPath + "/resources/images/8.png");
-	ImageIcon nineIcon = new ImageIcon(proPath + "/resources/images/9.png");
-	ImageIcon dotIcon = new ImageIcon(proPath + "/resources/images/dot.png");
-	ImageIcon backIcon = new ImageIcon(proPath + "/resources/images/back.png");
+	public ImageIcon qPBOCIcon = new ImageIcon(proPath + "/resources/images/qPBOC.png");
+	public ImageIcon lendIcon = new ImageIcon(proPath + "/resources/images/lend.png");
+	public ImageIcon earmarkIcon = new ImageIcon(proPath + "/resources/images/earmark.png");
+	public ImageIcon ecashIcon = new ImageIcon(proPath + "/resources/images/ecash.png");
+	public ImageIcon okIcon = new ImageIcon(proPath + "/resources/images/OK.png");
+	public ImageIcon cancelIcon = new ImageIcon(proPath + "/resources/images/cancel.png");
+	public ImageIcon zeroIcon = new ImageIcon(proPath + "/resources/images/0.png");
+	public ImageIcon oneIcon = new ImageIcon(proPath + "/resources/images/1.png");
+	public ImageIcon twoIcon = new ImageIcon(proPath + "/resources/images/2.png");
+	public ImageIcon threeIcon = new ImageIcon(proPath + "/resources/images/3.png");
+	public ImageIcon fourIcon = new ImageIcon(proPath + "/resources/images/4.png");
+	public ImageIcon fiveIcon = new ImageIcon(proPath + "/resources/images/5.png");
+	public ImageIcon sixIcon = new ImageIcon(proPath + "/resources/images/6.png");
+	public ImageIcon sevenIcon = new ImageIcon(proPath + "/resources/images/7.png");
+	public ImageIcon eightIcon = new ImageIcon(proPath + "/resources/images/8.png");
+	public ImageIcon nineIcon = new ImageIcon(proPath + "/resources/images/9.png");
+	public ImageIcon dotIcon = new ImageIcon(proPath + "/resources/images/dot.png");
+	public ImageIcon backIcon = new ImageIcon(proPath + "/resources/images/00.png");
 	public static JButton qPBOCButton;
 	public static JButton lendButton;
 	public static JButton earmarkButton;
@@ -111,7 +111,7 @@ public class TradePanel extends JImagePanel {
 		super(proPath + "/resources/images/trade.png");
 
 		setLayout(null);
-		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.left.trade")));
+		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.left.trade")));
 
 		welcomLabel = new JLabel();
 		welcomLabel.setText(pm.getString("mv.tradepanel.welcome"));
@@ -552,8 +552,8 @@ public class TradePanel extends JImagePanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				money = new StringBuffer(moneyTextField.getText());
-				if (money.length() > 0) {
-					money = new StringBuffer(money.substring(0, money.length() - 1));
+				money.append("00");
+				if (decimalDigitsLimit(money.toString())) {
 					moneyTextField.setText(money.toString());
 				}
 			}
@@ -565,7 +565,7 @@ public class TradePanel extends JImagePanel {
 		okButton.setContentAreaFilled(false);// 设置不画按钮背景
 		okButton.setBorderPainted(false);
 		okButton.setIcon(okIcon);
-		okButton.setBounds(402, 382, 53, 68);
+		okButton.setBounds(402, 420, 70, 31);
 		add(okButton);
 
 		final JButton cancelButton = new JButton();
@@ -574,7 +574,7 @@ public class TradePanel extends JImagePanel {
 		cancelButton.setContentAreaFilled(false);// 设置不画按钮背景
 		cancelButton.setBorderPainted(false);
 		cancelButton.setIcon(cancelIcon);
-		cancelButton.setBounds(402, 458, 53, 68);
+		cancelButton.setBounds(402, 382, 70, 31);
 		add(cancelButton);
 
 		okButton.addActionListener(new ActionListener() {
