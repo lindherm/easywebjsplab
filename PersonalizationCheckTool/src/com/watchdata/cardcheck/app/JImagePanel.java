@@ -1,41 +1,27 @@
 package com.watchdata.cardcheck.app;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class JImagePanel extends JPanel {
-	private static final long serialVersionUID = 1L;
-	private Image image = null;
-
-	public JImagePanel(String imagePath){
-		readImage(imagePath);
-	}
-
-	public JImagePanel() {
-
-	}
-
-	public void setBackGround(String imagePath) {
-		readImage(imagePath);
-	}
-
 	/**
-	 * read image
 	 * 
-	 * @param imagePath
 	 */
+	private static final long serialVersionUID = 398058549462872103L;
+	private BufferedImage image = null;
 
-	public void readImage(String imagePath) {
-		try {
-			this.image = ImageIO.read(new File(imagePath));
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+	public JImagePanel(BufferedImage image) {
+		this.image = image;
+	}
+
+	public BufferedImage getBackGroudImage() {
+		return image;
+	}
+
+	public void setBackGroudImage(BufferedImage image) {
+		this.image = image;
 	}
 
 	protected void paintComponent(Graphics g) {
