@@ -61,18 +61,14 @@ public class TestDataConfigPanel extends JPanel {
 	private static final long serialVersionUID = -4287626568370654541L;
 	public static JTable table;
 	private JLabel tagLabel;
-	private JLabel valueabel;
 	private JLabel dscrptLabel;
 	private JLabel appTypeLabel;
 	public static JComboBox appTypeComboBox;
 	public static JTextField dscrptTextField;
-	public static JTextField valueTextField;
 	public static JTextField tagTextField;
 	private JButton addButton;
 	public static JButton delButton;
 	private JButton saveButton;
-	private JButton importButton;
-	private JButton exportButton;
 	private IStaticDataDao staticDataDao;
 	private StaticData staticData;
 	private PropertiesManager pm = new PropertiesManager();
@@ -102,24 +98,24 @@ public class TestDataConfigPanel extends JPanel {
 		 */
 
 		final JLabel label_3 = new JLabel();
-		label_3.setBounds(0, 50, 97, 20);
+		label_3.setBounds(0, 59, 97, 20);
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		label_3.setText(pm.getString("mv.testdata.addData"));
 		add(label_3);
 
 		final JSeparator separator = new JSeparator();
-		separator.setBounds(79, 60, 730, 20);
+		separator.setBounds(79, 69, 730, 20);
 		add(separator);
 
 		tagLabel = new JLabel();
 		tagLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		tagLabel.setBounds(170, 111, 64, 20);
+		tagLabel.setBounds(203, 120, 40, 20);
 		tagLabel.setText(pm.getString("mv.testdata.tag"));
 		add(tagLabel);
 
 		tagTextField = new JTextField();
-		tagTextField.setBounds(238, 111, 100, 20);
+		tagTextField.setBounds(244, 120, 100, 20);
 		tagTextField.setDocument(new FixedSizePlainDocument(4));
 		tagTextField.setToolTipText(pm.getString("mv.testdata.tagTip"));
 		tagTextField.addKeyListener(new KeyListener() {
@@ -141,45 +137,33 @@ public class TestDataConfigPanel extends JPanel {
 		});
 		add(tagTextField);
 
-		valueabel = new JLabel();
-		valueabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		valueabel.setText(pm.getString("mv.testdata.value"));
-		valueabel.setBounds(304, 111, 64, 20);
-		add(valueabel);
-
-		valueTextField = new JTextField();
-		valueTextField.setDocument(new FixedSizePlainDocument(2048));
-		valueTextField.setBounds(373, 111, 100, 20);
-		valueTextField.setToolTipText(pm.getString("mv.testdata.tagValueTip"));
-		add(valueTextField);
-
 		dscrptLabel = new JLabel();
 		dscrptLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		dscrptLabel.setText("Length：");
-		dscrptLabel.setBounds(463, 111, 64, 20);
+		dscrptLabel.setBounds(358, 120, 64, 20);
 		add(dscrptLabel);
 
 		dscrptTextField = new JTextField();
 		dscrptTextField.setDocument(new FixedSizePlainDocument(32));
 		dscrptTextField.setToolTipText(pm.getString("mv.testdata.descTip"));
-		dscrptTextField.setBounds(532, 111, 100, 20);
+		dscrptTextField.setBounds(427, 120, 100, 20);
 		add(dscrptTextField);
 
 		appTypeLabel = new JLabel();
 		appTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		appTypeLabel.setText(pm.getString("mv.testdata.appTypeName"));
-		appTypeLabel.setBounds(10, 80, 80, 20);
+		appTypeLabel.setBounds(43, 89, 80, 20);
 		add(appTypeLabel);
 
 		appTypeComboBox = new JComboBox();
 		ComboBoxModel comboBoxModel = new DefaultComboBoxModel(getAppTypeData());
 		appTypeComboBox.setModel(comboBoxModel);
-		appTypeComboBox.setBounds(95, 80, 120, 20);
+		appTypeComboBox.setBounds(128, 89, 120, 20);
 		add(appTypeComboBox);
 
 		addButton = new JButton();
-		addButton.setText(pm.getString("mv.testdata.add"));
-		addButton.setBounds(686, 110, 84, 21);
+		addButton.setText("增加");
+		addButton.setBounds(605, 120, 84, 21);
 		add(addButton);
 
 		/*
@@ -191,42 +175,32 @@ public class TestDataConfigPanel extends JPanel {
 		 */
 
 		final JLabel editDataLabel = new JLabel();
-		editDataLabel.setBounds(0, 150, 97, 20);
+		editDataLabel.setBounds(0, 141, 97, 20);
 		editDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		editDataLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		editDataLabel.setText(pm.getString("mv.testdata.editData"));
 		add(editDataLabel);
 
 		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(79, 160, 730, 20);
+		separator_1.setBounds(79, 151, 730, 20);
 		add(separator_1);
 
 		delButton = new JButton();
 		delButton.setText(pm.getString("mv.testdata.delete"));
-		delButton.setBounds(720, 265, 84, 21);
+		delButton.setBounds(720, 199, 84, 21);
 		add(delButton);
 
 		saveButton = new JButton();
 		saveButton.setText(pm.getString("mv.testdata.edit"));
-		saveButton.setBounds(720, 311, 84, 21);
+		saveButton.setBounds(720, 230, 84, 21);
 		add(saveButton);
-
-		importButton = new JButton();
-		importButton.setText(pm.getString("mv.testdata.import"));
-		importButton.setBounds(720, 356, 84, 21);
-		add(importButton);
-
-		exportButton = new JButton();
-		exportButton.setText(pm.getString("mv.testdata.export"));
-		exportButton.setBounds(720, 401, 84, 21);
-		add(exportButton);
 
 		/*
 		 * final JPanel panel_2 = new JPanel(); panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS)); splitPane_1.setLeftComponent(panel_2);
 		 */
 
 		final JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(43, 195, 637, 465);
+		scrollPane.setBounds(21, 171, 689, 510);
 		add(scrollPane);
 
 		table = new JTable();
@@ -238,29 +212,46 @@ public class TestDataConfigPanel extends JPanel {
 		JLabel lblAid = new JLabel();
 		lblAid.setText("AID：");
 		lblAid.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAid.setBounds(209, 80, 80, 20);
+		lblAid.setBounds(244, 90, 80, 20);
 		add(lblAid);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(294, 80, 120, 20);
+		comboBox.setBounds(329, 90, 120, 20);
 		add(comboBox);
 		
 		JLabel lblDgi = new JLabel();
 		lblDgi.setText("DGI：");
 		lblDgi.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDgi.setBounds(26, 111, 64, 20);
+		lblDgi.setBounds(59, 120, 64, 20);
 		add(lblDgi);
 		
 		textField = new JTextField();
 		textField.setToolTipText("请输入两位或四位16进制字符！");
-		textField.setBounds(95, 111, 100, 20);
+		textField.setBounds(128, 120, 64, 20);
 		add(textField);
+		
+		JButton button = new JButton();
+		button.setText("检测");
+		button.setBounds(720, 261, 84, 21);
+		add(button);
+		
+		JLabel label = new JLabel("数据模板：");
+		label.setFont(new Font("宋体", Font.PLAIN, 14));
+		label.setBounds(21, 26, 80, 30);
+		add(label);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(111, 27, 600, 30);
+		add(textField_1);
+		textField_1.setColumns(10);
+		
+		JButton btnNewButton = new JButton("打开");
+		btnNewButton.setBounds(720, 31, 84, 25);
+		add(btnNewButton);
 
 		addButton.addActionListener(addActionListener);
 		delButton.addActionListener(delActionListener);
 		saveButton.addActionListener(saveActionListener);
-		importButton.addActionListener(importActionListner);
-		exportButton.addActionListener(exportActionListner);
 
 		/*
 		 * progressBar = new JProgressBar(); progressBar.setBounds(0, 360, 195, 14); buttonPanel.add(progressBar); progressBar.setValue(0); progressBar.setVisible(false);
@@ -289,13 +280,13 @@ public class TestDataConfigPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tableTagInfo"));
 					return;
 				}
-				if (!valueTextField.getText().isEmpty()) {
+				/*if (!valueTextField.getText().isEmpty()) {
 					staticData.setLength(getTagLen(valueTextField.getText()));
 					staticData.setOriValue(valueTextField.getText());
 				} else {
 					staticData.setLength(0);
 					staticData.setOriValue(null);
-				}
+				}*/
 				staticData.setDscrpt(dscrptTextField.getText().isEmpty() ? null : dscrptTextField.getText());
 				staticData.setAppType(appTypeComboBox.getSelectedItem().toString());
 				/*
@@ -366,7 +357,7 @@ public class TestDataConfigPanel extends JPanel {
 			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 			appTypeComboBox.repaint();
 			tagTextField.setText("");
-			valueTextField.setText("");
+		//	valueTextField.setText("");
 			dscrptTextField.setText("");
 		}
 	};
@@ -498,7 +489,7 @@ public class TestDataConfigPanel extends JPanel {
 			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 			appTypeComboBox.repaint();
 			tagTextField.setText("");
-			valueTextField.setText("");
+			//valueTextField.setText("");
 			dscrptTextField.setText("");
 		}
 	};
@@ -575,6 +566,7 @@ public class TestDataConfigPanel extends JPanel {
 		}
 	};
 	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * @Title: getLenFromField
@@ -781,7 +773,7 @@ public class TestDataConfigPanel extends JPanel {
 				appTypeComboBox.repaint();
 				tagTextField.setText("");
 				dscrptTextField.setText("");
-				valueTextField.setText("");
+				//valueTextField.setText("");
 			}
 		}
 	}
