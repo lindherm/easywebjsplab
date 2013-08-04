@@ -61,10 +61,8 @@ public class TestDataConfigPanel extends JPanel {
 	private static final long serialVersionUID = -4287626568370654541L;
 	public static JTable table;
 	private JLabel tagLabel;
-	private JLabel dscrptLabel;
 	private JLabel appTypeLabel;
 	public static JComboBox appTypeComboBox;
-	public static JTextField dscrptTextField;
 	public static JTextField tagTextField;
 	private JButton addButton;
 	public static JButton delButton;
@@ -73,7 +71,7 @@ public class TestDataConfigPanel extends JPanel {
 	private StaticData staticData;
 	private PropertiesManager pm = new PropertiesManager();
 	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
-	private final String[] COLUMNS = new String[] { pm.getString("mv.testdata.tableTitle"), pm.getString("mv.testdata.tableTitle2"), pm.getString("mv.testdata.tableTitle3"), pm.getString("mv.testdata.tableTitle4") };
+	private final String[] COLUMNS = new String[] {"DGI", "TAG", "值", "结果" };
 	private List<StaticData> sdList = new ArrayList<StaticData>();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
@@ -91,31 +89,14 @@ public class TestDataConfigPanel extends JPanel {
 		staticData = new StaticData();
 		staticDataDao = (IStaticDataDao) ctx.getBean("staticDataDao");
 
-		/*
-		 * final JSplitPane splitPane = new JSplitPane(); splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT); splitPane.setDividerLocation(150); add(splitPane);
-		 * 
-		 * final JPanel panel = new JPanel(); panel.setLayout(null); panel.setBorder(JTBorderFactory.createTitleBorder(pm .getString("mv.testdata.addData"))); splitPane.setLeftComponent(panel);
-		 */
-
-		final JLabel label_3 = new JLabel();
-		label_3.setBounds(0, 59, 97, 20);
-		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		label_3.setText(pm.getString("mv.testdata.addData"));
-		add(label_3);
-
-		final JSeparator separator = new JSeparator();
-		separator.setBounds(79, 69, 730, 20);
-		add(separator);
-
 		tagLabel = new JLabel();
 		tagLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		tagLabel.setBounds(203, 120, 40, 20);
+		tagLabel.setBounds(238, 128, 40, 20);
 		tagLabel.setText(pm.getString("mv.testdata.tag"));
 		add(tagLabel);
 
 		tagTextField = new JTextField();
-		tagTextField.setBounds(244, 120, 100, 20);
+		tagTextField.setBounds(288, 128, 183, 20);
 		tagTextField.setDocument(new FixedSizePlainDocument(4));
 		tagTextField.setToolTipText(pm.getString("mv.testdata.tagTip"));
 		tagTextField.addKeyListener(new KeyListener() {
@@ -137,33 +118,21 @@ public class TestDataConfigPanel extends JPanel {
 		});
 		add(tagTextField);
 
-		dscrptLabel = new JLabel();
-		dscrptLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		dscrptLabel.setText("Length：");
-		dscrptLabel.setBounds(358, 120, 64, 20);
-		add(dscrptLabel);
-
-		dscrptTextField = new JTextField();
-		dscrptTextField.setDocument(new FixedSizePlainDocument(32));
-		dscrptTextField.setToolTipText(pm.getString("mv.testdata.descTip"));
-		dscrptTextField.setBounds(427, 120, 100, 20);
-		add(dscrptTextField);
-
 		appTypeLabel = new JLabel();
 		appTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		appTypeLabel.setText(pm.getString("mv.testdata.appTypeName"));
-		appTypeLabel.setBounds(43, 89, 80, 20);
+		appTypeLabel.setBounds(288, 40, 80, 20);
 		add(appTypeLabel);
 
 		appTypeComboBox = new JComboBox();
 		ComboBoxModel comboBoxModel = new DefaultComboBoxModel(getAppTypeData());
 		appTypeComboBox.setModel(comboBoxModel);
-		appTypeComboBox.setBounds(128, 89, 120, 20);
+		appTypeComboBox.setBounds(376, 40, 135, 20);
 		add(appTypeComboBox);
 
 		addButton = new JButton();
 		addButton.setText("增加");
-		addButton.setBounds(605, 120, 84, 21);
+		addButton.setBounds(725, 127, 84, 21);
 		add(addButton);
 
 		/*
@@ -175,24 +144,24 @@ public class TestDataConfigPanel extends JPanel {
 		 */
 
 		final JLabel editDataLabel = new JLabel();
-		editDataLabel.setBounds(0, 141, 97, 20);
-		editDataLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		editDataLabel.setBounds(0, 101, 97, 20);
+		editDataLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		editDataLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		editDataLabel.setText(pm.getString("mv.testdata.editData"));
 		add(editDataLabel);
 
 		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(79, 151, 730, 20);
+		separator_1.setBounds(53, 112, 730, 20);
 		add(separator_1);
 
 		delButton = new JButton();
 		delButton.setText(pm.getString("mv.testdata.delete"));
-		delButton.setBounds(720, 199, 84, 21);
+		delButton.setBounds(725, 199, 84, 21);
 		add(delButton);
 
 		saveButton = new JButton();
 		saveButton.setText(pm.getString("mv.testdata.edit"));
-		saveButton.setBounds(720, 230, 84, 21);
+		saveButton.setBounds(725, 230, 84, 21);
 		add(saveButton);
 
 		/*
@@ -200,7 +169,7 @@ public class TestDataConfigPanel extends JPanel {
 		 */
 
 		final JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(21, 171, 689, 510);
+		scrollPane.setBounds(0, 171, 710, 510);
 		add(scrollPane);
 
 		table = new JTable();
@@ -212,41 +181,43 @@ public class TestDataConfigPanel extends JPanel {
 		JLabel lblAid = new JLabel();
 		lblAid.setText("AID：");
 		lblAid.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAid.setBounds(244, 90, 80, 20);
+		lblAid.setBounds(16, 40, 64, 20);
 		add(lblAid);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(329, 90, 120, 20);
+		comboBox.setBounds(88, 40, 183, 20);
 		add(comboBox);
 		
 		JLabel lblDgi = new JLabel();
 		lblDgi.setText("DGI：");
 		lblDgi.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDgi.setBounds(59, 120, 64, 20);
+		lblDgi.setBounds(16, 128, 64, 20);
 		add(lblDgi);
 		
 		textField = new JTextField();
 		textField.setToolTipText("请输入两位或四位16进制字符！");
-		textField.setBounds(128, 120, 64, 20);
+		textField.setBounds(88, 128, 135, 20);
 		add(textField);
 		
 		JButton button = new JButton();
 		button.setText("检测");
-		button.setBounds(720, 261, 84, 21);
+		button.setBounds(725, 261, 84, 21);
 		add(button);
 		
 		JLabel label = new JLabel("数据模板：");
-		label.setFont(new Font("宋体", Font.PLAIN, 14));
-		label.setBounds(21, 26, 80, 30);
+		label.setHorizontalAlignment(SwingConstants.RIGHT);
+		label.setFont(new Font("宋体", Font.PLAIN, 12));
+		label.setBounds(0, 70, 80, 21);
 		add(label);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(111, 27, 600, 30);
+		textField_1.setEditable(false);
+		textField_1.setBounds(88, 71, 600, 21);
 		add(textField_1);
 		textField_1.setColumns(10);
 		
 		JButton btnNewButton = new JButton("打开");
-		btnNewButton.setBounds(720, 31, 84, 25);
+		btnNewButton.setBounds(725, 71, 84, 21);
 		add(btnNewButton);
 
 		addButton.addActionListener(addActionListener);
@@ -287,7 +258,7 @@ public class TestDataConfigPanel extends JPanel {
 					staticData.setLength(0);
 					staticData.setOriValue(null);
 				}*/
-				staticData.setDscrpt(dscrptTextField.getText().isEmpty() ? null : dscrptTextField.getText());
+				//staticData.setDscrpt(dscrptTextField.getText().isEmpty() ? null : dscrptTextField.getText());
 				staticData.setAppType(appTypeComboBox.getSelectedItem().toString());
 				/*
 				 * List<String> tag = staticDataDao.searchTagByAppType(appTypeComboBox .getSelectedItem() .toString()); ArrayList<String> tagList = new ArrayList<String>(); for(Object tg : tag){ tagList.add((String) ((Map) tg).get("TAG")); }
@@ -358,7 +329,7 @@ public class TestDataConfigPanel extends JPanel {
 			appTypeComboBox.repaint();
 			tagTextField.setText("");
 		//	valueTextField.setText("");
-			dscrptTextField.setText("");
+			//dscrptTextField.setText("");
 		}
 	};
 
@@ -490,7 +461,7 @@ public class TestDataConfigPanel extends JPanel {
 			appTypeComboBox.repaint();
 			tagTextField.setText("");
 			//valueTextField.setText("");
-			dscrptTextField.setText("");
+			//dscrptTextField.setText("");
 		}
 	};
 
@@ -772,7 +743,7 @@ public class TestDataConfigPanel extends JPanel {
 				appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 				appTypeComboBox.repaint();
 				tagTextField.setText("");
-				dscrptTextField.setText("");
+				//dscrptTextField.setText("");
 				//valueTextField.setText("");
 			}
 		}
