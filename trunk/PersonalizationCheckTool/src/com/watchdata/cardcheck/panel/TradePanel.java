@@ -31,7 +31,6 @@ import com.watchdata.cardcheck.logic.impl.ElectronicCashHandler;
 import com.watchdata.cardcheck.logic.impl.PBOCHandler;
 import com.watchdata.cardcheck.logic.impl.QPBOCHandler;
 import com.watchdata.cardcheck.utils.Config;
-import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.FaceListener;
 import com.watchdata.cardcheck.utils.FaceThread;
 import com.watchdata.cardcheck.utils.FileUtil;
@@ -251,8 +250,8 @@ public class TradePanel extends JImagePanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Configuration configuration=new Configuration();
-				String currentTradeType=configuration.getValue("currentTradeType");
+				
+				String currentTradeType=Config.getValue("Terminal_Data", "currentTradeType");
 				
 				if (WDAssert.isEmpty(currentTradeType)) {
 					JOptionPane.showMessageDialog(null, "交易状态丢失！", "提示框", JOptionPane.ERROR_MESSAGE);
@@ -316,7 +315,7 @@ public class TradePanel extends JImagePanel {
 		button0.setContentAreaFilled(false);// 设置不画按钮背景
 		button0.setBorderPainted(false);
 		button0.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/0.png")));
-		button0.setBounds(310, 496, 32, 32);
+		button0.setBounds(315, 500, 32, 32);
 		add(button0);
 		button0.addActionListener(new ActionListener() {
 			@Override
@@ -337,7 +336,7 @@ public class TradePanel extends JImagePanel {
 		button1.setContentAreaFilled(false);// 设置不画按钮背景
 		button1.setBorderPainted(false);
 		button1.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/1.png")));
-		button1.setBounds(270, 382, 32, 32);
+		button1.setBounds(270, 380, 32, 32);
 		add(button1);
 		button1.addActionListener(new ActionListener() {
 			@Override
@@ -356,7 +355,7 @@ public class TradePanel extends JImagePanel {
 		button2.setContentAreaFilled(false);// 设置不画按钮背景
 		button2.setBorderPainted(false);
 		button2.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/2.png")));
-		button2.setBounds(310, 382, 32, 32);
+		button2.setBounds(315, 380, 32, 32);
 		add(button2);
 		button2.addActionListener(new ActionListener() {
 			@Override
@@ -375,7 +374,7 @@ public class TradePanel extends JImagePanel {
 		button3.setContentAreaFilled(false);// 设置不画按钮背景
 		button3.setBorderPainted(false);
 		button3.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/3.png")));
-		button3.setBounds(350, 382, 32, 32);
+		button3.setBounds(360, 380, 32, 32);
 		add(button3);
 		button3.addActionListener(new ActionListener() {
 			@Override
@@ -413,7 +412,7 @@ public class TradePanel extends JImagePanel {
 		button5.setContentAreaFilled(false);// 设置不画按钮背景
 		button5.setBorderPainted(false);
 		button5.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/5.png")));
-		button5.setBounds(310, 420, 32, 32);
+		button5.setBounds(315, 420, 32, 32);
 		add(button5);
 		button5.addActionListener(new ActionListener() {
 			@Override
@@ -432,7 +431,7 @@ public class TradePanel extends JImagePanel {
 		button6.setContentAreaFilled(false);// 设置不画按钮背景
 		button6.setBorderPainted(false);
 		button6.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/6.png")));
-		button6.setBounds(350, 420, 32, 32);
+		button6.setBounds(360, 420, 32, 32);
 		add(button6);
 		button6.addActionListener(new ActionListener() {
 			@Override
@@ -451,7 +450,7 @@ public class TradePanel extends JImagePanel {
 		button7.setContentAreaFilled(false);// 设置不画按钮背景
 		button7.setBorderPainted(false);
 		button7.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/7.png")));
-		button7.setBounds(270, 458, 32, 32);
+		button7.setBounds(270, 460, 32, 32);
 		add(button7);
 		button7.addActionListener(new ActionListener() {
 			@Override
@@ -470,7 +469,7 @@ public class TradePanel extends JImagePanel {
 		button8.setContentAreaFilled(false);// 设置不画按钮背景
 		button8.setBorderPainted(false);
 		button8.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/8.png")));
-		button8.setBounds(310, 458, 32, 32);
+		button8.setBounds(315, 460, 32, 32);
 		add(button8);
 		button8.addActionListener(new ActionListener() {
 			@Override
@@ -489,7 +488,7 @@ public class TradePanel extends JImagePanel {
 		button9.setContentAreaFilled(false);// 设置不画按钮背景
 		button9.setBorderPainted(false);
 		button9.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/9.png")));
-		button9.setBounds(350, 458, 32, 32);
+		button9.setBounds(360, 460, 32, 32);
 		add(button9);
 		button9.addActionListener(new ActionListener() {
 			@Override
@@ -508,7 +507,7 @@ public class TradePanel extends JImagePanel {
 		dotButton.setContentAreaFilled(false);// 设置不画按钮背景
 		dotButton.setBorderPainted(false);
 		dotButton.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/dot.png")));
-		dotButton.setBounds(270, 496, 32, 32);
+		dotButton.setBounds(270, 500, 32, 32);
 		add(dotButton);
 		dotButton.addActionListener(new ActionListener() {
 			@Override
@@ -527,7 +526,7 @@ public class TradePanel extends JImagePanel {
 		backButton.setContentAreaFilled(false);// 设置不画按钮背景
 		backButton.setBorderPainted(false);
 		backButton.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/00.png")));
-		backButton.setBounds(350, 496, 32, 32);
+		backButton.setBounds(360, 500, 32, 32);
 		add(backButton);
 		backButton.addActionListener(new ActionListener() {
 			@Override
@@ -546,7 +545,7 @@ public class TradePanel extends JImagePanel {
 		okButton.setContentAreaFilled(false);// 设置不画按钮背景
 		okButton.setBorderPainted(false);
 		okButton.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/OK.png")));
-		okButton.setBounds(402, 420, 70, 31);
+		okButton.setBounds(405, 420, 70, 31);
 		add(okButton);
 
 		final JButton cancelButton = new JButton();
@@ -555,7 +554,7 @@ public class TradePanel extends JImagePanel {
 		cancelButton.setContentAreaFilled(false);// 设置不画按钮背景
 		cancelButton.setBorderPainted(false);
 		cancelButton.setIcon(new ImageIcon(TradePanel.class.getResource("/com/watchdata/cardcheck/resources/images/cancel.png")));
-		cancelButton.setBounds(402, 382, 70, 31);
+		cancelButton.setBounds(405, 380, 70, 31);
 		add(cancelButton);
 
 		okButton.addActionListener(new ActionListener() {
