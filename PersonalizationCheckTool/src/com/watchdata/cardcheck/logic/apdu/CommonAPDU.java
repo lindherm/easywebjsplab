@@ -1,8 +1,11 @@
 package com.watchdata.cardcheck.logic.apdu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.watchdata.cardcheck.logic.Constants;
+import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
@@ -17,6 +20,9 @@ import com.watchdata.commons.lang.WDStringUtil;
 public class CommonAPDU extends AbstractAPDU {
 	private IAPDUChannel apduChannel;
 
+	public CommonAPDU(){
+		apduChannel=new PcscChannel();
+	}
 	/**
 	 * 复位指令
 	 * 
@@ -83,10 +89,36 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @param sfi
 	 * @return
 	 */
-	public HashMap<String, String> readDir(String sfi) {
+	public List<HashMap<String, String>> readDir(String sfi) {
+		List<HashMap<String, String>> dirList=new ArrayList<HashMap<String,String>>();
 		int b = Integer.parseInt(sfi);
 		b = (b << 3) + 4;
-		int index = 0;
+		int index = Integer.parseInt(sfi);
+		String responseApdu = "";
+		while (true) {
+			String commandApdu = packApdu("READ_RECORD", "", WDStringUtil.paddingHeadZero(String.valueOf(index), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2));
+			responseApdu = apduChannel.send(commandApdu);
+			if (Constants.SW_SUCCESS.equalsIgnoreCase(responseApdu.substring(responseApdu.length() - 4))){
+				dirList.add(unpackApdu(responseApdu));
+			}else {
+				break;
+			}
+			index++;
+		}
+
+		return dirList;
+	}
+
+	/**
+	 * 读目录指令
+	 * 
+	 * @param sfi
+	 * @return
+	 */
+	public HashMap<String, String> readDirCommand(String sfi) {
+		int b = Integer.parseInt(sfi);
+		b = (b << 3) + 4;
+		int index = Integer.parseInt(sfi);
 		String responseApdu = "";
 		while (true) {
 			String commandApdu = packApdu("READ_RECORD", "", WDStringUtil.paddingHeadZero(String.valueOf(index), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2));

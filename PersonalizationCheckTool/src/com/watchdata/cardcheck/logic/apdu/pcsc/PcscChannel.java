@@ -29,7 +29,7 @@ public class PcscChannel implements IAPDUChannel{
 	}
 	
 	public String send(String commandApdu) {
-		logger.debug("send[" + commandApdu + "]");
+		logger.debug("send[" + commandApdu.toUpperCase() + "]");
 		String recv = cardPcsc.SendApdu(WDByteUtil.HEX2Bytes(commandApdu));
 		logger.debug("recv[" + recv + "]");
 		return recv;
