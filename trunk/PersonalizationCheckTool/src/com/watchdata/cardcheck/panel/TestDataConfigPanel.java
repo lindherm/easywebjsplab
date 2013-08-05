@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -39,9 +40,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.watchdata.cardcheck.dao.IStaticDataDao;
 import com.watchdata.cardcheck.dao.pojo.StaticData;
+import com.watchdata.cardcheck.log.Log;
+import com.watchdata.cardcheck.logic.Constants;
+import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FileOpers;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
+import com.watchdata.commons.lang.WDAssert;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * TestDataConfigPanel.java
@@ -66,6 +76,7 @@ public class TestDataConfigPanel extends JPanel {
 	public static JTextField tagTextField;
 	private JButton addButton;
 	public static JButton delButton;
+	public JComboBox comboBox;
 	private JButton saveButton;
 	private IStaticDataDao staticDataDao;
 	private StaticData staticData;
@@ -79,6 +90,8 @@ public class TestDataConfigPanel extends JPanel {
 	private String filePath = pm.getString("mv.testdata.exportFilepath");
 	private String[] comboData = { pm.getString("mv.testdata.appType"), pm.getString("mv.testdata.appType2"), pm.getString("mv.testdata.appType3") };
 	public static JProgressBar progressBar;
+	public CommonAPDU apduHandler;
+	public static Log log=new Log();
 
 	public TestDataConfigPanel() {
 		super();
@@ -86,6 +99,7 @@ public class TestDataConfigPanel extends JPanel {
 		setName(pm.getString("mv.testdata.name"));
 		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.dataConfig")));
 
+		apduHandler=new CommonAPDU();
 		staticData = new StaticData();
 		staticDataDao = (IStaticDataDao) ctx.getBean("staticDataDao");
 
@@ -184,7 +198,34 @@ public class TestDataConfigPanel extends JPanel {
 		lblAid.setBounds(16, 40, 64, 20);
 		add(lblAid);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
+		comboBox.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				log.setLogDialogOff();
+				String reader=Config.getValue("Terminal_Data", "reader");
+				HashMap<String, String> res = apduHandler.reset(reader);
+				if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
+					JOptionPane.showMessageDialog(null,res.get("sw"));
+				}
+				
+				HashMap<String, String> result = apduHandler.select(Constants.PSE);
+				if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
+					JOptionPane.showMessageDialog(null,res.get("sw"));
+				}
+
+				if (WDAssert.isNotEmpty(result.get("88"))) {
+					List<HashMap<String, String>>  readDirList = apduHandler.readDir(result.get("88"));
+					comboBox.removeAllItems();
+					for (HashMap<String, String> readdir : readDirList) {
+						String aid = readdir.get("4F");
+						if (!WDAssert.isEmpty(aid)) {
+							comboBox.addItem(aid);
+						}
+					}
+				}
+			}
+		});
 		comboBox.setBounds(88, 40, 183, 20);
 		add(comboBox);
 		

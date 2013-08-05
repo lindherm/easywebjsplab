@@ -37,7 +37,6 @@ public class PBOCHandler extends BaseHandler {
 	private GenReportUtil genWordUtil = null;
 
 	private PropertiesManager pm = new PropertiesManager();
-
 	/**
 	 * @author juan.jiang
 	 * @param tradeMount
@@ -56,8 +55,9 @@ public class PBOCHandler extends BaseHandler {
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		// param.put("9C","40");
 		param.put("9F7A", "00");
-
+	
 		NDC.push("[PBOC]");
+		logger.setLogDialogOn();
 		logger.debug("PBOC trade start...",0);
 
 		genWordUtil = new GenReportUtil();
@@ -97,10 +97,10 @@ public class PBOCHandler extends BaseHandler {
 			if (WDAssert.isNotEmpty(result.get("88"))) {
 				// read dir, begin from 01
 				logger.debug("==============================read dir================================");
-				result = apduHandler.readDir(result.get("88"));
+				List<HashMap<String, String>>  readDirList = apduHandler.readDir(result.get("88"));
 
 				// select aid
-				String aid = result.get("4F");
+				String aid = readDirList.get(0).get("4F");
 				logger.debug("===============================select aid==============================");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("select aid is null");
@@ -277,8 +277,6 @@ public class PBOCHandler extends BaseHandler {
 				genWordUtil.add("CDOL2 Data:" + cdol2Data);
 				logger.debug("========================PBOC trade finished!=======================");
 				genWordUtil.add("PBOC交易完成!");
-				// 关闭文档
-				genWordUtil.close();
 				return true;
 			} else {
 				return false;

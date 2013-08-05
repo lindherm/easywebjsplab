@@ -18,43 +18,63 @@ public class Log {
 	private static Logger logger = Logger.getLogger(Logger.class);
 	private static OutLogDialog outLogDialog = null;
 	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
+	private static boolean showDialog=false;
 
 	public Log() {
 		outLogDialog = new OutLogDialog();
 	}
 
+	public void setLogDialogOn(){
+		showDialog=true;
+	}
+	
+	public void setLogDialogOff(){
+		showDialog=false;
+	}
+	
 	public void debug(String info) {
 		logger.debug(info);
-		out(outStr("DEBUG", info), 1);
+		if (showDialog) {
+			out(outStr("DEBUG", info), 1);
+		}
 	}
 
 	public void debug(String info, int startFlag) {
-		if (startFlag == 0) {
-			out(outStr("DEBUG", info), 0);
-		}
 		logger.debug(info);
-		out(outStr("DEBUG", info), 1);
+		if (showDialog) {
+			if (startFlag == 0) {
+				out(outStr("DEBUG", info), 0);
+			}
+			out(outStr("DEBUG", info), 1);
+		}
 	}
 
 	public void info(String info) {
 		logger.info(info);
-		out(outStr("INFO", info), 1);
+		if (showDialog) {
+			out(outStr("INFO", info), 1);
+		}
 	}
 
 	public void warn(String info) {
 		logger.warn(info);
-		out(outStr("WARN", info), 1);
+		if (showDialog) {
+			out(outStr("WARN", info), 1);
+		}
 	}
 
 	public void error(String info) {
 		logger.error(info);
-		out(outStr("ERROR", info), 1);
+		if (showDialog) {
+			out(outStr("ERROR", info), 1);
+		}
 	}
 
 	public void error(String info, Exception e) {
 		logger.error(info, e);
-		out(outStr("ERROR", info), 1);
-		e.printStackTrace();
+		if (showDialog) {
+			out(outStr("ERROR", info), 1);
+		}
 	}
 
 	public String outStr(String infoType, String info) {
