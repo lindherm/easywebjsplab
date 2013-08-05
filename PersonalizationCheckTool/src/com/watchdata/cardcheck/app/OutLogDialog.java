@@ -25,7 +25,7 @@ public class OutLogDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public OutLogDialog() {
-		setSize(1000, 800);
+		setSize(1000, 600);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);

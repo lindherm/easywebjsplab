@@ -24,11 +24,7 @@ public class MainMenuBar extends JMenuBar {
 	private static final long serialVersionUID = -5799472967403105005L;
 	private PropertiesManager pm = new PropertiesManager();
 	/*
-	 * private static final ImageIcon newIcon =
-	 * ImageHelper.loadImage("new.png"); private static final ImageIcon openIcon
-	 * = ImageHelper.loadImage("open.png"); private static final ImageIcon
-	 * saveIcon = ImageHelper.loadImage("save.png"); private static final
-	 * ImageIcon filterIcon = ImageHelper.loadImage("filter.png");
+	 * private static final ImageIcon newIcon = ImageHelper.loadImage("new.png"); private static final ImageIcon openIcon = ImageHelper.loadImage("open.png"); private static final ImageIcon saveIcon = ImageHelper.loadImage("save.png"); private static final ImageIcon filterIcon = ImageHelper.loadImage("filter.png");
 	 */
 
 	private ButtonGroup plafGroup = null;
@@ -43,24 +39,16 @@ public class MainMenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
-				RightPanel.tabbedPane.add(RightPanel.aidConfigPanel.getName(),
-						RightPanel.aidConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.aidConfigPanel.getName(), RightPanel.aidConfigPanel);
 			}
 		});
 		/*
-		 * menuItem.setMnemonic(KeyEvent.VK_N);
-		 * menuItem.setAccelerator(KeyStroke.getKeyStroke('N',
-		 * KeyEvent.CTRL_MASK));
+		 * menuItem.setMnemonic(KeyEvent.VK_N); menuItem.setAccelerator(KeyStroke.getKeyStroke('N', KeyEvent.CTRL_MASK));
 		 */
 		menu.add(menuItem);
 		menuItem = new JMenuItem(pm.getString("mv.menu.CAConfig"));
@@ -68,24 +56,17 @@ public class MainMenuBar extends JMenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(RightPanel.caPublicKeyConfigPanel
-						.getName(), RightPanel.caPublicKeyConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.caPublicKeyConfigPanel.getName(), RightPanel.caPublicKeyConfigPanel);
 			}
 		});
 		/*
-		 * menuItem.setAccelerator(KeyStroke.getKeyStroke('O',
-		 * KeyEvent.CTRL_MASK));
+		 * menuItem.setAccelerator(KeyStroke.getKeyStroke('O', KeyEvent.CTRL_MASK));
 		 */
 		menu.add(menuItem);
 		menuItem = new JMenuItem(pm.getString("mv.menu.issuerConfig"));
@@ -93,24 +74,17 @@ public class MainMenuBar extends JMenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(RightPanel.issuerKeyConfigPanel
-						.getName(), RightPanel.issuerKeyConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.issuerKeyConfigPanel.getName(), RightPanel.issuerKeyConfigPanel);
 			}
 		});
 		/*
-		 * menuItem.setAccelerator(KeyStroke.getKeyStroke('S',
-		 * KeyEvent.CTRL_MASK));
+		 * menuItem.setAccelerator(KeyStroke.getKeyStroke('S', KeyEvent.CTRL_MASK));
 		 */
 		menu.add(menuItem);
 		/* menu.addSeparator(); */
@@ -120,19 +94,13 @@ public class MainMenuBar extends JMenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(
-						RightPanel.terminalPerformanceConfigPanel.getName(),
-						RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.terminalPerformanceConfigPanel.getName(), RightPanel.terminalPerformanceConfigPanel);
 			}
 		});
 		menu.add(menuItem);
@@ -140,18 +108,13 @@ public class MainMenuBar extends JMenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(RightPanel.terminalTypeConfigPanel
-						.getName(), RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.terminalTypeConfigPanel.getName(), RightPanel.terminalTypeConfigPanel);
 			}
 		});
 		menu.add(menuItem);
@@ -159,18 +122,13 @@ public class MainMenuBar extends JMenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(RightPanel.terminalLimitConfigPanel
-						.getName(), RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.terminalLimitConfigPanel.getName(), RightPanel.terminalLimitConfigPanel);
 			}
 		});
 		menu.add(menuItem);
@@ -182,19 +140,13 @@ public class MainMenuBar extends JMenuBar {
 		tradeMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
-				RightPanel.tabbedPane.add(RightPanel.tradePanel.getName(),
-						RightPanel.tradePanel);
+				RightPanel.tabbedPane.add(RightPanel.tradePanel.getName(), RightPanel.tradePanel);
 			}
 		});
 		tradeMenu.add(tradeMenuItem);
@@ -202,24 +154,17 @@ public class MainMenuBar extends JMenuBar {
 
 		JMenu testDataMenu = new JMenu(pm.getString("mv.left.check"));
 		testDataMenu.setMnemonic(KeyEvent.VK_F);
-		JMenuItem testDataMenuItem = new JMenuItem(pm
-				.getString("mv.menu.dataConfig"));
+		JMenuItem testDataMenuItem = new JMenuItem(pm.getString("mv.menu.dataConfig"));
 		testDataMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.staticDataCalibrationResultsPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(RightPanel.testDataConfigPanel
-						.getName(), RightPanel.testDataConfigPanel);
+				RightPanel.tabbedPane.add(RightPanel.testDataConfigPanel.getName(), RightPanel.testDataConfigPanel);
 			}
 		});
 		testDataMenu.add(testDataMenuItem);
@@ -230,18 +175,12 @@ public class MainMenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent event) {
 				RightPanel.tabbedPane.remove(RightPanel.aidConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.testDataConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalLimitConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalLimitConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.caPublicKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalTypeConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalTypeConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.issuerKeyConfigPanel);
-				RightPanel.tabbedPane
-						.remove(RightPanel.terminalPerformanceConfigPanel);
+				RightPanel.tabbedPane.remove(RightPanel.terminalPerformanceConfigPanel);
 				RightPanel.tabbedPane.remove(RightPanel.tradePanel);
-				RightPanel.tabbedPane.add(
-						RightPanel.staticDataCalibrationResultsPanel.getName(),
-						RightPanel.staticDataCalibrationResultsPanel);
 			}
 		});
 		testDataMenu.add(testDataMenuItem);
@@ -256,43 +195,18 @@ public class MainMenuBar extends JMenuBar {
 				Application.frame.updateLookAndFeel(GUIProperties.PLAF_METAL);
 			}
 		});
-		radioMenuItem
-				.setSelected(Application.frame.getGuiProps().isMetalLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isMetalLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
 		/*
-		 * radioMenuItem = new JRadioButtonMenuItem("Nimbus");
-		 * radioMenuItem.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent event) {
-		 * Application.frame.updateLookAndFeel(GUIProperties.PLAF_NIMBUS); } });
-		 * radioMenuItem
-		 * .setSelected(Application.frame.getGuiProps().isAcrylLook());
-		 * plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
+		 * radioMenuItem = new JRadioButtonMenuItem("Nimbus"); radioMenuItem.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) { Application.frame.updateLookAndFeel(GUIProperties.PLAF_NIMBUS); } }); radioMenuItem .setSelected(Application.frame.getGuiProps().isAcrylLook()); plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
 		 * 
-		 * radioMenuItem = new JRadioButtonMenuItem("WINDOWS");
-		 * radioMenuItem.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent event) {
-		 * Application.frame.updateLookAndFeel(GUIProperties.PLAF_WINDOWS); }
-		 * }); radioMenuItem
-		 * .setSelected(Application.frame.getGuiProps().isAcrylLook());
-		 * plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
+		 * radioMenuItem = new JRadioButtonMenuItem("WINDOWS"); radioMenuItem.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) { Application.frame.updateLookAndFeel(GUIProperties.PLAF_WINDOWS); } }); radioMenuItem .setSelected(Application.frame.getGuiProps().isAcrylLook()); plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
 		 * 
-		 * radioMenuItem = new JRadioButtonMenuItem("MOTIF");
-		 * radioMenuItem.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent event) {
-		 * Application.frame.updateLookAndFeel(GUIProperties.PLAF_MOTIF); } });
-		 * radioMenuItem
-		 * .setSelected(Application.frame.getGuiProps().isAcrylLook());
-		 * plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
+		 * radioMenuItem = new JRadioButtonMenuItem("MOTIF"); radioMenuItem.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) { Application.frame.updateLookAndFeel(GUIProperties.PLAF_MOTIF); } }); radioMenuItem .setSelected(Application.frame.getGuiProps().isAcrylLook()); plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
 		 * 
-		 * radioMenuItem = new JRadioButtonMenuItem("MAC");
-		 * radioMenuItem.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent event) {
-		 * Application.frame.updateLookAndFeel(GUIProperties.PLAF_MAC); } });
-		 * radioMenuItem
-		 * .setSelected(Application.frame.getGuiProps().isAcrylLook());
-		 * plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
+		 * radioMenuItem = new JRadioButtonMenuItem("MAC"); radioMenuItem.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) { Application.frame.updateLookAndFeel(GUIProperties.PLAF_MAC); } }); radioMenuItem .setSelected(Application.frame.getGuiProps().isAcrylLook()); plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
 		 */
 
 		radioMenuItem = new JRadioButtonMenuItem("Acryl");
@@ -301,8 +215,7 @@ public class MainMenuBar extends JMenuBar {
 				Application.frame.updateLookAndFeel(GUIProperties.PLAF_ACRYL);
 			}
 		});
-		radioMenuItem
-				.setSelected(Application.frame.getGuiProps().isAcrylLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isAcrylLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
@@ -319,24 +232,20 @@ public class MainMenuBar extends JMenuBar {
 		radioMenuItem = new JRadioButtonMenuItem("Aluminium");
 		radioMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				Application.frame
-						.updateLookAndFeel(GUIProperties.PLAF_ALUMINIUM);
+				Application.frame.updateLookAndFeel(GUIProperties.PLAF_ALUMINIUM);
 			}
 		});
-		radioMenuItem.setSelected(Application.frame.getGuiProps()
-				.isAluminiumLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isAluminiumLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
 		radioMenuItem = new JRadioButtonMenuItem("Bernstein");
 		radioMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				Application.frame
-						.updateLookAndFeel(GUIProperties.PLAF_BERNSTEIN);
+				Application.frame.updateLookAndFeel(GUIProperties.PLAF_BERNSTEIN);
 			}
 		});
-		radioMenuItem.setSelected(Application.frame.getGuiProps()
-				.isBernsteinLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isBernsteinLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
@@ -353,12 +262,10 @@ public class MainMenuBar extends JMenuBar {
 		radioMenuItem = new JRadioButtonMenuItem("Graphite");
 		radioMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				Application.frame
-						.updateLookAndFeel(GUIProperties.PLAF_GRAPHITE);
+				Application.frame.updateLookAndFeel(GUIProperties.PLAF_GRAPHITE);
 			}
 		});
-		radioMenuItem.setSelected(Application.frame.getGuiProps()
-				.isGraphiteLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isGraphiteLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
@@ -388,8 +295,7 @@ public class MainMenuBar extends JMenuBar {
 				Application.frame.updateLookAndFeel(GUIProperties.PLAF_SMART);
 			}
 		});
-		radioMenuItem
-				.setSelected(Application.frame.getGuiProps().isSmartLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isSmartLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
@@ -399,8 +305,7 @@ public class MainMenuBar extends JMenuBar {
 				Application.frame.updateLookAndFeel(GUIProperties.PLAF_MCWIN);
 			}
 		});
-		radioMenuItem
-				.setSelected(Application.frame.getGuiProps().isMcWinLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isMcWinLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
@@ -420,19 +325,12 @@ public class MainMenuBar extends JMenuBar {
 				Application.frame.updateLookAndFeel(GUIProperties.PLAF_NOIRE);
 			}
 		});
-		radioMenuItem
-				.setSelected(Application.frame.getGuiProps().isNoireLook());
+		radioMenuItem.setSelected(Application.frame.getGuiProps().isNoireLook());
 		plafGroup.add(radioMenuItem);
 		menu.add(radioMenuItem);
 
 		/*
-		 * radioMenuItem = new JRadioButtonMenuItem("Smart");
-		 * radioMenuItem.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent event) {
-		 * Application.frame.updateLookAndFeel(GUIProperties.PLAF_SMART); } });
-		 * radioMenuItem
-		 * .setSelected(Application.frame.getGuiProps().isSmartLook());
-		 * plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
+		 * radioMenuItem = new JRadioButtonMenuItem("Smart"); radioMenuItem.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) { Application.frame.updateLookAndFeel(GUIProperties.PLAF_SMART); } }); radioMenuItem .setSelected(Application.frame.getGuiProps().isSmartLook()); plafGroup.add(radioMenuItem); menu.add(radioMenuItem);
 		 */
 
 		if (GUIProperties.isCustomEnabled()) {
@@ -440,12 +338,10 @@ public class MainMenuBar extends JMenuBar {
 			radioMenuItem = new JRadioButtonMenuItem("Custom");
 			radioMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
-					Application.frame
-							.updateLookAndFeel(GUIProperties.PLAF_CUSTOM);
+					Application.frame.updateLookAndFeel(GUIProperties.PLAF_CUSTOM);
 				}
 			});
-			radioMenuItem.setSelected(Application.frame.getGuiProps()
-					.isCustomLook());
+			radioMenuItem.setSelected(Application.frame.getGuiProps().isCustomLook());
 			plafGroup.add(radioMenuItem);
 			menu.add(radioMenuItem);
 		}
