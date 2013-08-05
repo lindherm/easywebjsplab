@@ -85,8 +85,8 @@ public class IssuerDaoImpl implements IIssuerDao{
 		String myAC = WDPBOCUtil.triple_des_mac(sk, acData + "80",Padding.ZeroBytePadding,iv);
 		
 		if(!arqc.equalsIgnoreCase(myAC)){
-			logger.error("arqc validate failed!");
-			throw new Exception("arqc validate failed!");
+			logger.error("arpc failed!");
+			throw new Exception("arpc failed!");
 		}
 		
 		String tempArqc = xor(arqc,authRespCode);

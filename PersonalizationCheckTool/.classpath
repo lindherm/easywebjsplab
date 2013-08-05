@@ -18,6 +18,7 @@
 	<classpathentry kind="lib" path="lib/iText-rtf-2.1.3.jar"/>
 	<classpathentry kind="lib" path="lib/iTextAsian.jar"/>
 	<classpathentry kind="lib" path="lib/org.dtools.javaini-v1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/rsyntaxtextarea.jar" sourcepath="C:/Documents and Settings/liya.xiao/桌面/rsyntaxtextarea_2.0.7_Source.zip"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_13"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
