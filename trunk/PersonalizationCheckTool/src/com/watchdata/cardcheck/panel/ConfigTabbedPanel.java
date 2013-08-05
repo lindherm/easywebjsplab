@@ -61,7 +61,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				AIDConfigPanel.textFieldAid.requestFocus();
@@ -88,7 +87,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				AIDConfigPanel.buttonDel.requestFocus();
@@ -126,7 +124,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				CAPublicKeyConfigPanel.RIDCombox.requestFocus();
@@ -152,7 +149,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
@@ -188,7 +184,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
@@ -226,7 +221,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				TerminalLimitConfigPanel.tacRejectField.requestFocus();
@@ -253,7 +247,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				TerminalLimitConfigPanel.lowLimitField.requestFocus();
@@ -279,7 +272,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				TerminalLimitConfigPanel.termIdField.requestFocus();
@@ -316,7 +308,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.logoPanel.setVisible(false);	
 				RightPanel.terminalTypeConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				TerminalPerformanceConfigPanel.checkBox.requestFocus();
@@ -353,7 +344,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.aidConfigPanel.setVisible(false);
 				RightPanel.logoPanel.setVisible(false);	
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				TerminalTypeConfigPanel.counCodeComboBox.requestFocus();
@@ -391,7 +381,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.aidConfigPanel.setVisible(false);
 				RightPanel.logoPanel.setVisible(false);	
 				RightPanel.tradePanel.setVisible(false);
-				RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				CardReaderPanel.comboBox.requestFocus();
 			}

@@ -60,7 +60,6 @@ public class CheckTabbedPanel extends JPanel {
 																																																														RightPanel.aidConfigPanel.setVisible(false);
 																																																														RightPanel.logoPanel.setVisible(false);	
 																																																														RightPanel.tradePanel.setVisible(false);
-																																																														RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 																																																														RightPanel.cardReaderPanel.setVisible(false);
 																																																														TestDataConfigPanel.appTypeComboBox.requestFocus();
 																																																													}
@@ -85,7 +84,6 @@ public class CheckTabbedPanel extends JPanel {
 																																																																RightPanel.aidConfigPanel.setVisible(false);
 																																																																RightPanel.logoPanel.setVisible(false);	
 																																																																RightPanel.tradePanel.setVisible(false);
-																																																																RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 																																																																RightPanel.cardReaderPanel.setVisible(false);
 																																																																TestDataConfigPanel.delButton.requestFocus();
 																																																															}

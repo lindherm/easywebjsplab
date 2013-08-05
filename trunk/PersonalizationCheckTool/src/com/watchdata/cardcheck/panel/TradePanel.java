@@ -257,7 +257,7 @@ public class TradePanel extends JImagePanel {
 					JOptionPane.showMessageDialog(null, "交易状态丢失！", "提示框", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				String filePath = System.getProperty("user.dir") + "/report/transaction/" + currentTradeType + ".doc";
+				String filePath = System.getProperty("user.dir") + "/report/" + currentTradeType + ".doc";
 				
 				File file=new File(filePath);
 				if (file.exists()) {

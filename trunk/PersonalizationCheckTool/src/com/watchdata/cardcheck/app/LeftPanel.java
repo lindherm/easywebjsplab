@@ -61,7 +61,6 @@ public class LeftPanel extends JPanel {
 					RightPanel.terminalTypeConfigPanel.setVisible(false);
 					RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 					RightPanel.tradePanel.setVisible(false);
-					RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 					RightPanel.testDataConfigPanel.setVisible(false);
 				}else if("交易".equals(tabbedPane.getSelectedComponent().getName())){
 					Application.rightPanel.add(RightPanel.tradePanel, BorderLayout.CENTER);
@@ -73,7 +72,6 @@ public class LeftPanel extends JPanel {
 					RightPanel.terminalLimitConfigPanel.setVisible(false);
 					RightPanel.terminalTypeConfigPanel.setVisible(false);
 					RightPanel.terminalPerformanceConfigPanel.setVisible(false);
-					RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 					RightPanel.testDataConfigPanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 				}else if("检测".equals(tabbedPane.getSelectedComponent().getName())){
@@ -87,7 +85,6 @@ public class LeftPanel extends JPanel {
 					RightPanel.aidConfigPanel.setVisible(false);
 					RightPanel.logoPanel.setVisible(false);	
 					RightPanel.tradePanel.setVisible(false);
-					RightPanel.staticDataCalibrationResultsPanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 				}	
 			}
