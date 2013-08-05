@@ -20,6 +20,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,6 +30,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -258,6 +261,19 @@ public class TestDataConfigPanel extends JPanel {
 		textField_1.setColumns(10);
 		
 		JButton btnNewButton = new JButton("打开");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jFileChooser=new JFileChooser(".");
+				jFileChooser.setFileFilter(new FileNameExtensionFilter("INI template files", "ini"));
+				int i=jFileChooser.showOpenDialog(null);
+				
+				if (i==JFileChooser.APPROVE_OPTION) {
+					File file=jFileChooser.getSelectedFile();
+					textField_1.setText(file.getAbsolutePath());
+					
+				}
+			}
+		});
 		btnNewButton.setBounds(725, 71, 84, 21);
 		add(btnNewButton);
 
