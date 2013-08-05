@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.AbstractAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
@@ -25,15 +25,13 @@ import com.watchdata.commons.lang.WDStringUtil;
 
 public class ElectronicCashHandler extends BaseHandler {
 
-	private static Logger logger = Logger.getLogger(ElectronicCashHandler.class);
+	private static Log logger = new Log();
 	private IIssuerDao issuerDao ;
 	public void setIssuerDao(IIssuerDao issuerDao) {
 		this.issuerDao = issuerDao;
 	}
 	private APDUSendANDRes apduSendANDRes = null;
 	private GenReportUtil genWordUtil = null;
-	
-	private static final String reportNoreqAndRes = "NODATA";
 	
 	private PropertiesManager pm = new PropertiesManager();
 	/**

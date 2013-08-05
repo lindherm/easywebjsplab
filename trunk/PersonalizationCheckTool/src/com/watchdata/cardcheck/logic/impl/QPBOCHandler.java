@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.NDC;
 
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.pki.DataAuthenticate;
@@ -27,7 +27,7 @@ import com.watchdata.commons.lang.WDStringUtil;
  * 
  */
 public class QPBOCHandler extends BaseHandler {
-	private Logger logger = Logger.getLogger(QPBOCHandler.class);
+	private static Log logger = new Log();
 	private PropertiesManager pm = new PropertiesManager();
 
 	public boolean trade(String readerName, int tradeMount,TermSupportUtil termSupportUtil,JLabel tradeLabel){
