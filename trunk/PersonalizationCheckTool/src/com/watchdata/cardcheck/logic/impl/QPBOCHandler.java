@@ -48,6 +48,7 @@ public class QPBOCHandler extends BaseHandler {
 		String termRandom = WDStringUtil.getRandomHexString(8);
 		param.put("9F37", termRandom);//终端随机数
 		NDC.push("[QPBOC]");
+		logger.debug("QPBOC start...",0);
 		try{
 			// 复位
 			logger.debug("===============================reset=====================================");
@@ -191,15 +192,13 @@ public class QPBOCHandler extends BaseHandler {
 			logger.debug("============================QPBOC trade finished!=====================================");
 			//报告
 			genWordUtil.add("QPBOC trade finished!");
-			//关闭文档
-			genWordUtil.close();
 			return true;
 		}catch(Exception e){
-			logger.error("unknown error", e);
-			genWordUtil.add("unknown error");
-			genWordUtil.close();
+			logger.error(e.getMessage(), e);
+			genWordUtil.add(e.getMessage());
 			return false;
 		}finally{
+			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
 		}

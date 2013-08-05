@@ -58,7 +58,7 @@ public class PBOCHandler extends BaseHandler {
 		param.put("9F7A", "00");
 
 		NDC.push("[PBOC]");
-		logger.debug("PBOC trade start...");
+		logger.debug("PBOC trade start...",0);
 
 		genWordUtil = new GenReportUtil();
 
@@ -77,6 +77,7 @@ public class PBOCHandler extends BaseHandler {
 				genWordUtil.close();
 				return false;
 			}
+			logger.debug("atr:"+res.get("atr"));
 
 			// 复位报告内容
 			genWordUtil.add("atr", "Card Reset", res.get("atr"), new HashMap<String, String>());
@@ -283,9 +284,11 @@ public class PBOCHandler extends BaseHandler {
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("unknown error", e);
+			logger.error(e.getMessage(),e);
+			genWordUtil.add(e.getMessage());
 			return false;
 		} finally {
+			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
 		}
