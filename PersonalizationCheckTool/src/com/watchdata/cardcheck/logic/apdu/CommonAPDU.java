@@ -110,28 +110,6 @@ public class CommonAPDU extends AbstractAPDU {
 	}
 
 	/**
-	 * 读目录指令
-	 * 
-	 * @param sfi
-	 * @return
-	 */
-	public HashMap<String, String> readDirCommand(String sfi) {
-		int b = Integer.parseInt(sfi);
-		b = (b << 3) + 4;
-		int index = Integer.parseInt(sfi);
-		String responseApdu = "";
-		while (true) {
-			String commandApdu = packApdu("READ_RECORD", "", WDStringUtil.paddingHeadZero(String.valueOf(index), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2));
-			responseApdu = apduChannel.send(commandApdu);
-			if (Constants.SW_SUCCESS.equalsIgnoreCase(responseApdu.substring(responseApdu.length() - 4)))
-				break;
-			index++;
-		}
-
-		return unpackApdu(responseApdu);
-	}
-
-	/**
 	 * GPO指令
 	 * 
 	 * @param loadGPO

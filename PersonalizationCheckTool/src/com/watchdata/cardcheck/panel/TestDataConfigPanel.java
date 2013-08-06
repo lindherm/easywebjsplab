@@ -5,12 +5,10 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +19,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,10 +26,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -40,22 +34,20 @@ import javax.swing.table.TableColumnModel;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.watchdata.cardcheck.configdao.StaticDataInfo;
 import com.watchdata.cardcheck.dao.IStaticDataDao;
 import com.watchdata.cardcheck.dao.pojo.StaticData;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
+import com.watchdata.cardcheck.tlv.TLV;
+import com.watchdata.cardcheck.tlv.TLVList;
 import com.watchdata.cardcheck.utils.Config;
-import com.watchdata.cardcheck.utils.FileOpers;
-import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import com.watchdata.commons.lang.WDByteUtil;
+import com.watchdata.commons.lang.WDStringUtil;
 
 /**
  * TestDataConfigPanel.java
@@ -85,16 +77,18 @@ public class TestDataConfigPanel extends JPanel {
 	private StaticData staticData;
 	private PropertiesManager pm = new PropertiesManager();
 	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
-	private final String[] COLUMNS = new String[] {"DGI", "TAG", "值", "结果" };
-	private List<StaticData> sdList = new ArrayList<StaticData>();
+	private final String[] COLUMNS = new String[] {"DGI", "TAG", "值", "检测结果" };
+	private List<StaticDataInfo> sdList = new ArrayList<StaticDataInfo>();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
-	private FileOpers fileOpers = new FileOpers();
 	private String filePath = pm.getString("mv.testdata.exportFilepath");
 	private String[] comboData = { pm.getString("mv.testdata.appType"), pm.getString("mv.testdata.appType2"), pm.getString("mv.testdata.appType3") };
 	public static JProgressBar progressBar;
 	public CommonAPDU apduHandler;
 	public static Log log=new Log();
+	public StaticDataInfo staticDataInfo=new StaticDataInfo();
+	
+	public JComboBox comboBox_1;
 
 	public TestDataConfigPanel() {
 		super();
@@ -115,13 +109,13 @@ public class TestDataConfigPanel extends JPanel {
 		appTypeLabel = new JLabel();
 		appTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		appTypeLabel.setText(pm.getString("mv.testdata.appTypeName"));
-		appTypeLabel.setBounds(288, 40, 80, 20);
+		appTypeLabel.setBounds(265, 71, 80, 20);
 		add(appTypeLabel);
 
 		appTypeComboBox = new JComboBox();
 		ComboBoxModel comboBoxModel = new DefaultComboBoxModel(getAppTypeData());
 		appTypeComboBox.setModel(comboBoxModel);
-		appTypeComboBox.setBounds(376, 40, 135, 20);
+		appTypeComboBox.setBounds(353, 71, 140, 20);
 		add(appTypeComboBox);
 
 		addButton = new JButton();
@@ -158,24 +152,20 @@ public class TestDataConfigPanel extends JPanel {
 		saveButton.setBounds(725, 230, 84, 21);
 		add(saveButton);
 
-		/*
-		 * final JPanel panel_2 = new JPanel(); panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.X_AXIS)); splitPane_1.setLeftComponent(panel_2);
-		 */
-
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 171, 710, 510);
 		add(scrollPane);
 
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		sdList = staticDataDao.searchStaticData();
+		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 		tableDataDisp();
 		scrollPane.setViewportView(table);
 		
 		JLabel lblAid = new JLabel();
 		lblAid.setText("AID：");
 		lblAid.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAid.setBounds(16, 40, 64, 20);
+		lblAid.setBounds(16, 71, 64, 20);
 		add(lblAid);
 		
 		comboBox = new JComboBox();
@@ -206,7 +196,7 @@ public class TestDataConfigPanel extends JPanel {
 				}
 			}
 		});
-		comboBox.setBounds(88, 40, 183, 20);
+		comboBox.setBounds(88, 71, 180, 20);
 		add(comboBox);
 		
 		JLabel lblDgi = new JLabel();
@@ -216,41 +206,59 @@ public class TestDataConfigPanel extends JPanel {
 		add(lblDgi);
 		
 		JButton button = new JButton();
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*if (WDAssert.isEmpty(comboBox.getSelectedItem().toString())) {
+					JOptionPane.showMessageDialog(null, "请选择aid");
+					return;
+				}
+				
+				if (WDAssert.isEmpty(appTypeComboBox.getSelectedItem().toString())) {
+					JOptionPane.showMessageDialog(null, "请选择应用类型");
+					return;
+				}*/
+				for (int i = 0; i < table.getRowCount(); i++) {
+					String aid=comboBox.getSelectedItem().toString().trim();
+					String dgi=table.getValueAt(i, 0).toString();
+					String tag=table.getValueAt(i, 1).toString();
+					
+					String p1=dgi.substring(2);
+					String p2=dgi.substring(0,2);
+					
+					log.setLogDialogOff();
+					String reader=Config.getValue("Terminal_Data", "reader");
+					HashMap<String, String> res = apduHandler.reset(reader);
+					if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
+						JOptionPane.showMessageDialog(null,res.get("sw"));
+					}
+					
+					HashMap<String, String> result = apduHandler.select(aid);
+					if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
+						JOptionPane.showMessageDialog(null,res.get("sw"));
+					}
+					
+					int b = Integer.parseInt(p2);
+					b = (b << 3) + 4;
+					HashMap<String, String> readRes= apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(Integer.parseInt(p1)), 2));
+					if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
+						TLVList tlvList=new TLVList(WDByteUtil.HEX2Bytes(readRes.get("res")), TLV.EMV);
+						tlvList=new TLVList(tlvList.find(0x70).getValue(), TLV.EMV);
+						
+						int tagHex=Integer.parseInt(tag,16);
+						TLV tlv=tlvList.find(tagHex);
+						String value=WDByteUtil.bytes2HEX(tlv.getValue());
+						table.setValueAt(value, i, 2);
+					}
+				}
+				
+			}
+		});
 		button.setText("检测");
 		button.setBounds(725, 261, 84, 21);
 		add(button);
 		
-		JLabel label = new JLabel("数据模板：");
-		label.setHorizontalAlignment(SwingConstants.RIGHT);
-		label.setFont(new Font("宋体", Font.PLAIN, 12));
-		label.setBounds(0, 70, 80, 21);
-		add(label);
-		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setBounds(88, 71, 600, 21);
-		add(textField_1);
-		textField_1.setColumns(10);
-		
-		JButton btnNewButton = new JButton("打开");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jFileChooser=new JFileChooser(".");
-				jFileChooser.setFileFilter(new FileNameExtensionFilter("INI template files", "ini"));
-				int i=jFileChooser.showOpenDialog(null);
-				
-				if (i==JFileChooser.APPROVE_OPTION) {
-					File file=jFileChooser.getSelectedFile();
-					textField_1.setText(file.getAbsolutePath());
-					
-				}
-			}
-		});
-		btnNewButton.setBounds(725, 71, 84, 21);
-		add(btnNewButton);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(88, 128, 120, 20);
+		comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(88, 128, 140, 20);
 		add(comboBox_1);
 		
 		Collection<String> dgiCollections=Config.getItems("DGI");
@@ -258,7 +266,7 @@ public class TestDataConfigPanel extends JPanel {
 			comboBox_1.addItem(dgi);
 		}
 		comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(288, 128, 120, 20);
+		comboBox_2.setBounds(286, 128, 140, 20);
 		add(comboBox_2);
 		
 		Collection<String> tagCollections=Config.getItems("TAG");
@@ -268,11 +276,6 @@ public class TestDataConfigPanel extends JPanel {
 
 		addButton.addActionListener(addActionListener);
 		delButton.addActionListener(delActionListener);
-		saveButton.addActionListener(saveActionListener);
-
-		/*
-		 * progressBar = new JProgressBar(); progressBar.setBounds(0, 360, 195, 14); buttonPanel.add(progressBar); progressBar.setValue(0); progressBar.setVisible(false);
-		 */
 	}
 
 	// 添加按钮监听事件
@@ -282,55 +285,17 @@ public class TestDataConfigPanel extends JPanel {
 				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.addInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
-			boolean success = true;
-			if (pm.getString("mv.testdata.select").equals(appTypeComboBox.getSelectedItem().toString())) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.appTypeEmpty"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			} /*else if (tagTextField.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagEmpty"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}
-			 * else if (valueTextField.getText().isEmpty()) { JOptionPane.showMessageDialog(null, pm .getString("mv.testdata.tagValueEmpty"), pm .getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE); }
-			 */else {
-				// 将数据添加到数据库中
-				/*if (tagCheck(tagTextField.getText())) {
-					staticData.setTag(tagTextField.getText());
-				} else {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tableTagInfo"));
-					return;
-				}*/
-				/*if (!valueTextField.getText().isEmpty()) {
-					staticData.setLength(getTagLen(valueTextField.getText()));
-					staticData.setOriValue(valueTextField.getText());
-				} else {
-					staticData.setLength(0);
-					staticData.setOriValue(null);
-				}*/
-				//staticData.setDscrpt(dscrptTextField.getText().isEmpty() ? null : dscrptTextField.getText());
-				staticData.setAppType(appTypeComboBox.getSelectedItem().toString());
-				/*
-				 * List<String> tag = staticDataDao.searchTagByAppType(appTypeComboBox .getSelectedItem() .toString()); ArrayList<String> tagList = new ArrayList<String>(); for(Object tg : tag){ tagList.add((String) ((Map) tg).get("TAG")); }
-				 */
-				boolean containSame = false;
-				for (StaticData sdData : sdList) {
-					if (sdData.getAppType().equals(staticData.getAppType()) && sdData.getTag().equals(staticData.getTag())) {
-						containSame = true;
-					}
-				}
-				if (!containSame) {
-					success = staticDataDao.insertTag(staticData);
-					if (success) {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.insertSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-						// 将添加的数据从数据库中取出来在table中显示出来
-						sdList = staticDataDao.searchStaticData();
-						tableDataDisp();
-						table.repaint();
-					} else {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.insertFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagReapted"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				}
-
-			}
+			StaticDataInfo staticDataInfo=new StaticDataInfo();
+			staticDataInfo.setDgi(comboBox_1.getSelectedItem().toString());
+			staticDataInfo.setTag(comboBox_2.getSelectedItem().toString());
+			//if (staticDataInfo) {
+				staticDataInfo.add("StaticDataTemplate", staticDataInfo);
+				
+				JOptionPane.showMessageDialog(null, "添加数据成功！");
+			//}
+			
+			sdList=staticDataInfo.getStaticDataInfos("StaticDataTemplate");
+			tableDataDisp();
 		}
 	};
 
@@ -338,11 +303,6 @@ public class TestDataConfigPanel extends JPanel {
 	private ActionListener delActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
-			/*
-			 * DelThread delThread = new DelThread(); delThread.addListener(new DelListener(){
-			 * 
-			 * @Override public void del(){
-			 */
 			if (getEditableRow().size() > 0) {
 				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveBefoeDelete"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				return;
@@ -357,251 +317,25 @@ public class TestDataConfigPanel extends JPanel {
 				if (y == 1) {
 					return;
 				}
-				List<Integer> delDatas = new ArrayList<Integer>();
+				List<String> delDatas = new ArrayList<String>();
 				for (int i = 0; i < selectedNum; i++) {
-					int idStr = sdList.get(selectIndex[i]).getId();
-					delDatas.add(idStr);
+					String tag = sdList.get(selectIndex[i]).getTag();
+					delDatas.add(tag);
 				}
-				if (staticDataDao.batchDel(delDatas)) {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					sdList = staticDataDao.searchStaticData();
+				if (staticDataInfo.del("StaticDataTemplate", delDatas)) {
+					sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 					tableDataDisp();
 					table.repaint();
+					
+					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
-			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
-			appTypeComboBox.repaint();
-			//tagTextField.setText("");
-		//	valueTextField.setText("");
-			//dscrptTextField.setText("");
 		}
 	};
 
-	// 保存按钮监听事件
-	private ActionListener saveActionListener = new ActionListener() {
-		@Transactional
-		public void actionPerformed(final ActionEvent e) {
-			int selectedNum = table.getSelectedRows().length;
-			if (pm.getString("mv.testdata.edit").equals(saveButton.getText())) {
-				if (selectedNum == 0) {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.editInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				} else if (selectedNum >= 1) {
-					final int[] selectedIndex = table.getSelectedRows();
-					table.setModel(new DefaultTableModel(tableData, COLUMNS) {
-						private static final long serialVersionUID = -3564556245515260000L;
-
-						// 将选中行设为可编辑状态
-						public boolean isTrue(int rowNum, int row) {
-							return row == rowNum;
-						}
-
-						public boolean f(int num, int row, int[] selectedIndex) {
-							if (num == 1) {
-								return isTrue(selectedIndex[num - 1], row);
-							} else {
-								return f(num - 1, row, selectedIndex) || isTrue(selectedIndex[num - 1], row);
-							}
-						}
-
-						@Override
-						public boolean isCellEditable(int row, int col) {
-							if (f(selectedIndex.length, row, selectedIndex)) {
-								return true;
-							} else {
-								return false;
-							}
-						}
-					});
-					paintColorRow(selectedIndex);
-					saveButton.setText(pm.getString("mv.testdata.save"));
-				}
-			} else if (pm.getString("mv.testdata.save").equals(saveButton.getText())) {
-				if (table.isEditing()) {
-					int row = table.getEditingRow();
-					int col = table.getEditingColumn();
-					table.getCellEditor(row, col).stopCellEditing();
-				}
-				List<Integer> indexRow = getEditableRow();
-				List<StaticData> editDatas = new ArrayList<StaticData>();
-				if (indexRow.size() > 0) {
-					for (int i = 0; i < indexRow.size(); i++) {
-						StaticData staticData = new StaticData();
-						staticData.setId(sdList.get(indexRow.get(i)).getId());
-						String a = table.getValueAt(indexRow.get(i), 0).toString();
-						if (table.getValueAt(indexRow.get(i), 0) == null || "".equals(table.getValueAt(indexRow.get(i), 0).toString())) {
-							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.apptypeBlank"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-							return;
-						} else if (table.getValueAt(indexRow.get(i), 0).toString().length() > 32) {
-							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.apptypeTooLong"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-							return;
-						} else {
-							staticData.setAppType(table.getValueAt(indexRow.get(i), 0).toString());
-						}
-
-						if (tagCheck(table.getValueAt(indexRow.get(i), 1).toString())) {
-							staticData.setTag(table.getValueAt(indexRow.get(i), 1) == null ? null : table.getValueAt(indexRow.get(i), 1).toString());
-						} else {
-							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tableTagInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
-						if (table.getValueAt(indexRow.get(i), 2) == null) {
-							staticData.setOriValue(null);
-						} else {
-							if (table.getValueAt(indexRow.get(i), 2).toString().length() > 2048) {
-								JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.valueTooLong"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-								return;
-							} else {
-								staticData.setOriValue(table.getValueAt(indexRow.get(i), 2).toString());
-							}
-						}
-
-						staticData.setLength(table.getValueAt(indexRow.get(i), 2) == null ? 0 : getTagLen(table.getValueAt(indexRow.get(i), 2).toString()));
-
-						if (table.getValueAt(indexRow.get(i), 3) == null) {
-							staticData.setDscrpt(null);
-						} else {
-							if (table.getValueAt(indexRow.get(i), 3).toString().length() > 32) {
-								JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.descTooLong"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-								return;
-							} else {
-								staticData.setDscrpt(table.getValueAt(indexRow.get(i), 3).toString());
-							}
-
-						}
-						editDatas.add(staticData);
-					}
-					// 对于处于编辑状态的每行数据进行判断，判断数据库中是否有与之id不同但是tag和appType相同的记录，若有则不符合规则终止保存；
-					// 若全部通过判断则可保存；由于数据库查询会使得操作速度变慢，且sdList中的数据始终与数据库中的记录保持一致，因此在此与sdList中的数据进行了比较
-					for (StaticData esd : editDatas) {
-						/*
-						 * if(staticDataDao.searchByTagAndAppType(esd.getAppType( ), esd.getTag()) >= 1 && staticDataDao.searchByTagAndAppTypeID (esd.getAppType(), esd.getTag(), esd.getId()) == 0){ JOptionPane.showMessageDialog(null, pm .getString("mv.testdata.tagReapted"), pm .getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE); return; }
-						 */
-
-						List<StaticData> sameAppTypeTag = new ArrayList<StaticData>();
-						for (StaticData sd : sdList) {
-							if (sd.getAppType().equals(esd.getAppType()) && sd.getTag().equals(esd.getTag()) && sd.getId() != esd.getId()) {
-								sameAppTypeTag.add(sd);
-							}
-						}
-						if (sameAppTypeTag.size() > 0) {
-							JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagReapted"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-							return;
-						}
-					}
-
-					/* if(!tagList.contains(tagTextField.getText())){ */
-					if (staticDataDao.batchSaveUpdate(editDatas)) {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveEditedSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-						sdList = staticDataDao.searchStaticData();
-						tableDataDisp();
-						table.repaint();
-					} else {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveEditedFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					}
-					saveButton.setText(pm.getString("mv.testdata.edit"));
-				}
-			}
-			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
-			appTypeComboBox.repaint();
-			//tagTextField.setText("");
-			//valueTextField.setText("");
-			//dscrptTextField.setText("");
-		}
-	};
-
-	// 导入按钮监听事件
-	private ActionListener importActionListner = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.importInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			if (table.getRowCount() != 0) {
-				int ret = JOptionPane.showConfirmDialog(null, pm.getString("mv.testdata.deleteBeforeImport"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.OK_CANCEL_OPTION);
-				if (ret == JOptionPane.OK_OPTION) {
-					importFile();
-				} else if (ret == JOptionPane.CANCEL_OPTION) {
-					return;
-				}
-			} else {
-				importFile();
-			}
-		}
-	};
-
-	// 导出按钮监听事件
-	private ActionListener exportActionListner = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.exportInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			int selectedNum = table.getSelectedRows().length;
-			int[] selectedIndex = table.getSelectedRows();
-			List<StaticData> exportDatas = new ArrayList<StaticData>();
-			if (selectedNum == 0) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.selectExport"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			} else if (table.getSelectedRows().length > 0) {
-				for (int i = 0; i < selectedNum; i++) {
-					StaticData staticData = new StaticData();
-					staticData.setAppType(table.getValueAt(selectedIndex[i], 0) == null ? null : table.getValueAt(selectedIndex[i], 0).toString());
-					staticData.setTag(table.getValueAt(selectedIndex[i], 1) == null ? null : table.getValueAt(selectedIndex[i], 1).toString());
-
-					staticData.setOriValue(table.getValueAt(selectedIndex[i], 2) == null ? null : table.getValueAt(selectedIndex[i], 2).toString());
-					staticData.setLength(table.getValueAt(selectedIndex[i], 2) == null ? 0 : getTagLen(table.getValueAt(selectedIndex[i], 2).toString()));
-					staticData.setDscrpt(table.getValueAt(selectedIndex[i], 3) == null ? null : table.getValueAt(selectedIndex[i], 3).toString());
-
-					exportDatas.add(staticData);
-				}
-				Collections.sort(exportDatas);
-				filePath = fileOpers.getFilePath();
-				if (filePath != null) {
-					if (!filePath.endsWith("txt")) {
-						filePath = filePath + ".txt";
-					}
-					File f = new File(filePath);
-					if (f.exists()) {
-						int y = JOptionPane.showConfirmDialog(null, pm.getString("mv.testdata.fileExist"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-						if (y == 1) {
-							return;
-						}
-					}
-					if (fileOpers.writeFile(filePath, exportDatas)) {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.fileExportSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.fileExportFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					}
-
-				}
-			}
-		}
-	};
-	private JTextField textField_1;
 	private JComboBox comboBox_2;
-
-	/**
-	 * @Title: getLenFromField
-	 * @Description 根据Tag的Value值获得其长度
-	 * @param
-	 * @return le Tag的value值的长度
-	 * @throws
-	 */
-	public int getTagLen(String tagValue) {
-		int le = 0;
-		String matchStr = "[\\da-fA-F]{" + tagValue.length() + "}";
-		if (tagValue.length() % 2 == 0 && tagValue.matches(matchStr)) {
-			le = tagValue.length() / 2;
-		} else {
-			le = tagValue.length();
-		}
-		return le;
-	}
 
 	/**
 	 * @Title: tableDataDisp
@@ -614,10 +348,10 @@ public class TestDataConfigPanel extends JPanel {
 		int rowNum = sdList.size();
 		tableData = new Object[rowNum][4];
 		for (int i = 0; i < rowNum; i++) {
-			tableData[i][0] = sdList.get(i).getAppType();
+			tableData[i][0] = sdList.get(i).getDgi();
 			tableData[i][1] = sdList.get(i).getTag();
-			tableData[i][2] = sdList.get(i).getOriValue();
-			tableData[i][3] = sdList.get(i).getDscrpt();
+			tableData[i][2] = sdList.get(i).getValue();
+			tableData[i][3] = sdList.get(i).getResult();
 		}
 		testDataTableModel = new DefaultTableModel(tableData, COLUMNS) {
 			private static final long serialVersionUID = -9082031840487910439L;
@@ -657,9 +391,9 @@ public class TestDataConfigPanel extends JPanel {
 	public String[] getAppTypeData() {
 		Set<String> comboSet = new HashSet<String>();
 		if (sdList.size() != 0) {
-			for (StaticData sdData : sdList) {
+			/*for (StaticData sdData : sdList) {
 				comboSet.add(sdData.getAppType());
-			}
+			}*/
 		}
 		/* Set<String> comboSet = staticDataDao.searchAppType(); */
 		for (int i = 0; i < comboData.length; i++) {
@@ -730,68 +464,6 @@ public class TestDataConfigPanel extends JPanel {
 			RowRenderer rowRenderer = new RowRenderer();
 			rowRenderer.setSelectedIndex(selectedIndex);
 			tc.setCellRenderer(rowRenderer);
-		}
-	}
-
-	/**
-	 * @Title: tagCheck
-	 * @Description 检查tag是否为2或4位16进制字符
-	 * @param tag
-	 *            tag字符串
-	 * @return true表示符合约束条件，false表示不符合
-	 * @throws
-	 */
-	public static boolean tagCheck(String tag) {
-		boolean isTrue = true;
-		isTrue = (tag.matches("[0-9a-fA-F]{2}") || tag.matches("[0-9A-F]{4}")) ? true : false;
-		return isTrue;
-	}
-
-	/**
-	 * @Title: importFile
-	 * @Description 获取将要的导入文件路径，将文件内容导入
-	 * @param
-	 * @return
-	 * @throws
-	 */
-	public void importFile() {
-		boolean success = true;
-		String filePath = fileOpers.getFilePath();
-		if (filePath != null) {
-			if (!filePath.endsWith("txt")) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.fileTypeUnmatch"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				success = staticDataDao.delAllTag();
-				sdList = staticDataDao.searchStaticData();
-				tableDataDisp();
-				table.repaint();
-				if (!success) {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteFailedBimport"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}/*
-				 * else{ sdList = staticDataDao.searchStaticData(); tableDataDisp(); table.repaint(); }
-				 */
-				final List<StaticData> importDatas = fileOpers.readFile(filePath);
-				if (importDatas != null) {
-					success = staticDataDao.batchInsert(importDatas);
-					if (success) {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.importSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-						sdList = staticDataDao.searchStaticData();
-						tableDataDisp();
-						table.repaint();
-					} else {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.importFailed"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-						sdList = staticDataDao.searchStaticData();
-						tableDataDisp();
-						table.repaint();
-					}
-				}
-				appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
-				appTypeComboBox.repaint();
-				//tagTextField.setText("");
-				//dscrptTextField.setText("");
-				//valueTextField.setText("");
-			}
 		}
 	}
 }
