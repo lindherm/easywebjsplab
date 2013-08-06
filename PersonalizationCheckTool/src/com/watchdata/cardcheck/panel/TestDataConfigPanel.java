@@ -1,7 +1,5 @@
 package com.watchdata.cardcheck.panel;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +8,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,17 +20,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.watchdata.cardcheck.configdao.StaticDataInfo;
 import com.watchdata.cardcheck.dao.IStaticDataDao;
-import com.watchdata.cardcheck.dao.pojo.StaticData;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
@@ -192,15 +181,15 @@ public class TestDataConfigPanel extends JPanel {
 		JButton button = new JButton();
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*if (WDAssert.isEmpty(comboBox.getSelectedItem().toString())) {
+				if (comboBox.getSelectedItem()==null) {
 					JOptionPane.showMessageDialog(null, "请选择aid");
 					return;
 				}
 				
-				if (WDAssert.isEmpty(appTypeComboBox.getSelectedItem().toString())) {
+				if (appTypeComboBox.getSelectedItem()==null) {
 					JOptionPane.showMessageDialog(null, "请选择应用类型");
 					return;
-				}*/
+				}
 				for (int i = 0; i < table.getRowCount(); i++) {
 					String aid=comboBox.getSelectedItem().toString().trim();
 					String dgi=table.getValueAt(i, 0).toString();
@@ -234,7 +223,7 @@ public class TestDataConfigPanel extends JPanel {
 						table.setValueAt(value, i, 2);
 					}
 				}
-				
+				JOptionPane.showMessageDialog(null, "检测完毕！");
 			}
 		});
 		button.setText("检测");
@@ -381,4 +370,5 @@ public class TestDataConfigPanel extends JPanel {
 		}
 		return selectedRowNum;
 	}
+	
 }
