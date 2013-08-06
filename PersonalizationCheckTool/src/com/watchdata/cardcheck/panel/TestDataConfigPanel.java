@@ -72,16 +72,13 @@ public class TestDataConfigPanel extends JPanel {
 	private JButton addButton;
 	public static JButton delButton;
 	public JComboBox comboBox;
-	private JButton saveButton;
 	private IStaticDataDao staticDataDao;
-	private StaticData staticData;
 	private PropertiesManager pm = new PropertiesManager();
 	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
 	private final String[] COLUMNS = new String[] {"DGI", "TAG", "值", "检测结果" };
 	private List<StaticDataInfo> sdList = new ArrayList<StaticDataInfo>();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
-	private String filePath = pm.getString("mv.testdata.exportFilepath");
 	private String[] comboData = { pm.getString("mv.testdata.appType"), pm.getString("mv.testdata.appType2"), pm.getString("mv.testdata.appType3") };
 	public static JProgressBar progressBar;
 	public CommonAPDU apduHandler;
@@ -97,7 +94,6 @@ public class TestDataConfigPanel extends JPanel {
 		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.dataConfig")));
 
 		apduHandler=new CommonAPDU();
-		staticData = new StaticData();
 		staticDataDao = (IStaticDataDao) ctx.getBean("staticDataDao");
 
 		tagLabel = new JLabel();
@@ -113,8 +109,9 @@ public class TestDataConfigPanel extends JPanel {
 		add(appTypeLabel);
 
 		appTypeComboBox = new JComboBox();
-		ComboBoxModel comboBoxModel = new DefaultComboBoxModel(getAppTypeData());
-		appTypeComboBox.setModel(comboBoxModel);
+		appTypeComboBox.addItem("借贷记");
+		appTypeComboBox.addItem("电子现金");
+		appTypeComboBox.addItem("QPBOC");
 		appTypeComboBox.setBounds(353, 71, 140, 20);
 		add(appTypeComboBox);
 
@@ -122,14 +119,6 @@ public class TestDataConfigPanel extends JPanel {
 		addButton.setText("增加");
 		addButton.setBounds(725, 127, 84, 21);
 		add(addButton);
-
-		/*
-		 * final JPanel panel_1 = new JPanel(); panel_1.setBorder(JTBorderFactory.createTitleBorder(pm .getString("mv.testdata.editData"))); panel_1.setLayout(new BorderLayout()); splitPane.setRightComponent(panel_1);
-		 * 
-		 * final JSplitPane splitPane_1 = new JSplitPane(); splitPane_1.setVisible(true); splitPane_1.addComponentListener(new ComponentAdapter() { public void componentResized(ComponentEvent e) { splitPane_1.setDividerLocation(0.7); } }); panel_1.add(splitPane_1, BorderLayout.CENTER);
-		 * 
-		 * buttonPanel = new JPanel(); buttonPanel.setLayout(null); splitPane_1.setRightComponent(buttonPanel);
-		 */
 
 		final JLabel editDataLabel = new JLabel();
 		editDataLabel.setBounds(0, 101, 97, 20);
@@ -146,11 +135,6 @@ public class TestDataConfigPanel extends JPanel {
 		delButton.setText(pm.getString("mv.testdata.delete"));
 		delButton.setBounds(725, 199, 84, 21);
 		add(delButton);
-
-		saveButton = new JButton();
-		saveButton.setText(pm.getString("mv.testdata.edit"));
-		saveButton.setBounds(725, 230, 84, 21);
-		add(saveButton);
 
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 171, 710, 510);
@@ -269,6 +253,18 @@ public class TestDataConfigPanel extends JPanel {
 		comboBox_2.setBounds(286, 128, 140, 20);
 		add(comboBox_2);
 		
+		JButton button_1 = new JButton();
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sdList=staticDataInfo.getStaticDataInfos("StaticDataTemplate");
+				tableDataDisp();
+				table.repaint();
+			}
+		});
+		button_1.setText("刷新");
+		button_1.setBounds(725, 230, 84, 21);
+		add(button_1);
+		
 		Collection<String> tagCollections=Config.getItems("TAG");
 		for (String tag : tagCollections) {
 			comboBox_2.addItem(tag);
@@ -288,14 +284,19 @@ public class TestDataConfigPanel extends JPanel {
 			StaticDataInfo staticDataInfo=new StaticDataInfo();
 			staticDataInfo.setDgi(comboBox_1.getSelectedItem().toString());
 			staticDataInfo.setTag(comboBox_2.getSelectedItem().toString());
-			//if (staticDataInfo) {
+			
+			if (Config.getItem("StaticDataTemplate", staticDataInfo.getTag())==null) {
 				staticDataInfo.add("StaticDataTemplate", staticDataInfo);
 				
 				JOptionPane.showMessageDialog(null, "添加数据成功！");
-			//}
+			}else {
+				JOptionPane.showMessageDialog(null, "数据项已经存在！");
+				return;
+			}
 			
 			sdList=staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 			tableDataDisp();
+			table.repaint();
 		}
 	};
 
@@ -379,91 +380,5 @@ public class TestDataConfigPanel extends JPanel {
 			}
 		}
 		return selectedRowNum;
-	}
-
-	/**
-	 * @Title: getAppTypeData
-	 * @Description 获取应用类型的全部选项，主要是为了显示通过导入方式添加进数据库的应用类型
-	 * @param
-	 * @return 所有应用类型种类
-	 * @throws
-	 */
-	public String[] getAppTypeData() {
-		Set<String> comboSet = new HashSet<String>();
-		if (sdList.size() != 0) {
-			/*for (StaticData sdData : sdList) {
-				comboSet.add(sdData.getAppType());
-			}*/
-		}
-		/* Set<String> comboSet = staticDataDao.searchAppType(); */
-		for (int i = 0; i < comboData.length; i++) {
-			comboSet.add(comboData[i]);
-		}
-		int i = 0;
-		String[] comboDataAll = new String[comboSet.size() + 1];
-
-		comboDataAll[i] = pm.getString("mv.testdata.select");
-		Iterator<String> iterator = comboSet.iterator();
-		while (iterator.hasNext()) {
-			comboDataAll[++i] = iterator.next().toString();
-		}
-		return comboDataAll;
-	}
-
-	/**
-	 * @title TestDataConfigPanel.java
-	 * @description table的行渲染器，用来设置行背景色
-	 * @author pei.li 2012-3-28
-	 * @version 1.0.0
-	 * @modify
-	 * @copyright watchdata
-	 */
-	private class RowRenderer extends DefaultTableCellRenderer {
-		private static final long serialVersionUID = -9128946524399930570L;
-		private int[] selectedIndex;
-
-		public boolean isTrue(int rowNum, int row) {
-			return row == rowNum;
-		}
-
-		public boolean f(int num, int row, int[] selectedIndex) {
-			if (num == 1) {
-				return isTrue(selectedIndex[num - 1], row);
-			} else {
-				return f(num - 1, row, selectedIndex) || isTrue(selectedIndex[num - 1], row);
-			}
-		}
-
-		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			if (f(selectedIndex.length, row, selectedIndex))
-				setBackground(Color.green);
-			else {
-				setBackground(Color.white);
-			}
-			return super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, column);
-		}
-
-		public void setSelectedIndex(int[] selectedIndex) {
-			this.selectedIndex = selectedIndex;
-		}
-
-	}
-
-	/**
-	 * @Title: paintColorRow
-	 * @Description 为table的特定行设置背景颜色
-	 * @param selectedIndex选中行索引
-	 *            ，即需要设置背景颜色的行索引
-	 * @return
-	 * @throws
-	 */
-	public void paintColorRow(int[] selectedIndex) {
-		TableColumnModel tcm = table.getColumnModel();
-		for (int i = 0, n = tcm.getColumnCount(); i < n; i++) {
-			TableColumn tc = tcm.getColumn(i);
-			RowRenderer rowRenderer = new RowRenderer();
-			rowRenderer.setSelectedIndex(selectedIndex);
-			tc.setCellRenderer(rowRenderer);
-		}
 	}
 }
