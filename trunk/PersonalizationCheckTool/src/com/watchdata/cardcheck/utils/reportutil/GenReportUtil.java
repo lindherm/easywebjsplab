@@ -57,7 +57,7 @@ public class GenReportUtil {
 		// document.setMargins(2.54f, 2.54f, 3.18f, 3.18f);
 
 		try {
-			RtfWriter2.getInstance(document, new FileOutputStream(System.getProperty("user.dir") + "/report/transaction/" + transactionName + ".doc"));
+			RtfWriter2.getInstance(document, new FileOutputStream(System.getProperty("user.dir") + "/report/" + transactionName + ".doc"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

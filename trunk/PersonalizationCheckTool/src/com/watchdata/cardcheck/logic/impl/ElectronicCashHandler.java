@@ -55,6 +55,7 @@ public class ElectronicCashHandler extends BaseHandler {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		NDC.push("[E cash earmark]");
+		logger.setLogDialogOn();
 		logger.debug("E cash earmark start...",0);
 
 		genWordUtil = new GenReportUtil();
@@ -99,9 +100,9 @@ public class ElectronicCashHandler extends BaseHandler {
 
 			if (WDAssert.isNotEmpty(result.get("88"))) {
 				// read dir, begin from 01
-				result = apduHandler.readDir(result.get("88"));
+				List<HashMap<String, String>>  readDirList = apduHandler.readDir(result.get("88"));
 				// select aid
-				String aid = result.get("4F");
+				String aid = readDirList.get(0).get("4F");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("select aid is null");
 					tradeLabel.setText("      获取aid为空！");
@@ -370,7 +371,7 @@ public class ElectronicCashHandler extends BaseHandler {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		NDC.push("[ElectronicCash ECPurcharse]");
-
+		logger.setLogDialogOn();
 		genWordUtil = new GenReportUtil();
 		apduSendANDRes = new APDUSendANDRes();
 
@@ -415,9 +416,9 @@ public class ElectronicCashHandler extends BaseHandler {
 
 			if (WDAssert.isNotEmpty(result.get("88"))) {
 				// read dir, begin from 01
-				result = apduHandler.readDir(result.get("88"));
+				List<HashMap<String, String>>  readDirList = apduHandler.readDir(result.get("88"));
 				// select aid
-				String aid = result.get("4F");
+				String aid = readDirList.get(0).get("4F");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("get AID null!");
 					tradeLabel.setText("      获取aid为空！");
