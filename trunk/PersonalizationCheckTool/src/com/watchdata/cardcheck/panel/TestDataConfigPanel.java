@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -76,7 +77,6 @@ public class TestDataConfigPanel extends JPanel {
 	private JLabel tagLabel;
 	private JLabel appTypeLabel;
 	public static JComboBox appTypeComboBox;
-	public static JTextField tagTextField;
 	private JButton addButton;
 	public static JButton delButton;
 	public JComboBox comboBox;
@@ -111,29 +111,6 @@ public class TestDataConfigPanel extends JPanel {
 		tagLabel.setBounds(238, 128, 40, 20);
 		tagLabel.setText(pm.getString("mv.testdata.tag"));
 		add(tagLabel);
-
-		tagTextField = new JTextField();
-		tagTextField.setBounds(288, 128, 183, 20);
-		tagTextField.setDocument(new FixedSizePlainDocument(4));
-		tagTextField.setToolTipText(pm.getString("mv.testdata.tagTip"));
-		tagTextField.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (!(c >= 'A' && c <= 'F') && Character.isLetter(c)) {
-					e.consume();
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-		});
-		add(tagTextField);
 
 		appTypeLabel = new JLabel();
 		appTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -238,11 +215,6 @@ public class TestDataConfigPanel extends JPanel {
 		lblDgi.setBounds(16, 128, 64, 20);
 		add(lblDgi);
 		
-		textField = new JTextField();
-		textField.setToolTipText("请输入两位或四位16进制字符！");
-		textField.setBounds(88, 128, 135, 20);
-		add(textField);
-		
 		JButton button = new JButton();
 		button.setText("检测");
 		button.setBounds(725, 261, 84, 21);
@@ -276,6 +248,23 @@ public class TestDataConfigPanel extends JPanel {
 		});
 		btnNewButton.setBounds(725, 71, 84, 21);
 		add(btnNewButton);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(88, 128, 120, 20);
+		add(comboBox_1);
+		
+		Collection<String> dgiCollections=Config.getItems("DGI");
+		for (String dgi : dgiCollections) {
+			comboBox_1.addItem(dgi);
+		}
+		comboBox_2 = new JComboBox();
+		comboBox_2.setBounds(288, 128, 120, 20);
+		add(comboBox_2);
+		
+		Collection<String> tagCollections=Config.getItems("TAG");
+		for (String tag : tagCollections) {
+			comboBox_2.addItem(tag);
+		}
 
 		addButton.addActionListener(addActionListener);
 		delButton.addActionListener(delActionListener);
@@ -296,18 +285,18 @@ public class TestDataConfigPanel extends JPanel {
 			boolean success = true;
 			if (pm.getString("mv.testdata.select").equals(appTypeComboBox.getSelectedItem().toString())) {
 				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.appTypeEmpty"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			} else if (tagTextField.getText().isEmpty()) {
+			} /*else if (tagTextField.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tagEmpty"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}/*
+			}
 			 * else if (valueTextField.getText().isEmpty()) { JOptionPane.showMessageDialog(null, pm .getString("mv.testdata.tagValueEmpty"), pm .getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE); }
 			 */else {
 				// 将数据添加到数据库中
-				if (tagCheck(tagTextField.getText())) {
+				/*if (tagCheck(tagTextField.getText())) {
 					staticData.setTag(tagTextField.getText());
 				} else {
 					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.tableTagInfo"));
 					return;
-				}
+				}*/
 				/*if (!valueTextField.getText().isEmpty()) {
 					staticData.setLength(getTagLen(valueTextField.getText()));
 					staticData.setOriValue(valueTextField.getText());
@@ -384,7 +373,7 @@ public class TestDataConfigPanel extends JPanel {
 			}
 			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 			appTypeComboBox.repaint();
-			tagTextField.setText("");
+			//tagTextField.setText("");
 		//	valueTextField.setText("");
 			//dscrptTextField.setText("");
 		}
@@ -516,7 +505,7 @@ public class TestDataConfigPanel extends JPanel {
 			}
 			appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 			appTypeComboBox.repaint();
-			tagTextField.setText("");
+			//tagTextField.setText("");
 			//valueTextField.setText("");
 			//dscrptTextField.setText("");
 		}
@@ -593,8 +582,8 @@ public class TestDataConfigPanel extends JPanel {
 			}
 		}
 	};
-	private JTextField textField;
 	private JTextField textField_1;
+	private JComboBox comboBox_2;
 
 	/**
 	 * @Title: getLenFromField
@@ -799,7 +788,7 @@ public class TestDataConfigPanel extends JPanel {
 				}
 				appTypeComboBox.setModel(new DefaultComboBoxModel(getAppTypeData()));
 				appTypeComboBox.repaint();
-				tagTextField.setText("");
+				//tagTextField.setText("");
 				//dscrptTextField.setText("");
 				//valueTextField.setText("");
 			}
