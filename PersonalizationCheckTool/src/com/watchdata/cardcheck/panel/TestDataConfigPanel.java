@@ -78,8 +78,8 @@ public class TestDataConfigPanel extends JPanel {
 	public CommonAPDU apduHandler;
 	public static Log log = new Log();
 	public StaticDataInfo staticDataInfo = new StaticDataInfo();
-	
-	public TableColumnModel tcm ;
+
+	public TableColumnModel tcm;
 	public TableColumn tc;
 	public RowRenderer rowRenderer;
 
@@ -139,8 +139,12 @@ public class TestDataConfigPanel extends JPanel {
 		add(scrollPane);
 
 		table = new JTable();
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 		tableDataDisp();
+		setTableWidth(table);
+		table.repaint();
 		scrollPane.setViewportView(table);
 
 		JLabel lblAid = new JLabel();
@@ -198,7 +202,7 @@ public class TestDataConfigPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "请选择应用类型");
 					return;
 				}
-				
+
 				for (int i = 0; i < table.getRowCount(); i++) {
 					String aid = comboBox.getSelectedItem().toString().trim();
 					String dgi = table.getValueAt(i, 0).toString();
@@ -222,21 +226,21 @@ public class TestDataConfigPanel extends JPanel {
 					int b = Integer.parseInt(p2);
 					b = (b << 3) + 4;
 					HashMap<String, String> readRes = apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(Integer.parseInt(p1)), 2));
-					
+
 					if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
 						TLVList tlvList = new TLVList(WDByteUtil.HEX2Bytes(readRes.get("res")), TLV.EMV);
 						tlvList = new TLVList(tlvList.find(0x70).getValue(), TLV.EMV);
 
 						int tagHex = Integer.parseInt(tag, 16);
 						TLV tlv = tlvList.find(tagHex);
-						if (tlv!=null) {
+						if (tlv != null) {
 							String value = WDByteUtil.bytes2HEX(tlv.getValue());
 							table.setValueAt(value, i, 2);
 							table.setValueAt(1, i, 3);
-						}else {
+						} else {
 							table.setValueAt(2, i, 3);
 						}
-					}else {
+					} else {
 						table.setValueAt(2, i, 3);
 					}
 				}
@@ -245,7 +249,6 @@ public class TestDataConfigPanel extends JPanel {
 				rowRenderer = new RowRenderer();
 				tc.setCellRenderer(rowRenderer);
 				table.repaint();
-				JOptionPane.showMessageDialog(null, "检测完毕！");
 			}
 		});
 		button.setText("检测");
@@ -269,6 +272,7 @@ public class TestDataConfigPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 				tableDataDisp();
+				setTableWidth(table);
 				table.repaint();
 			}
 		});
@@ -299,9 +303,9 @@ public class TestDataConfigPanel extends JPanel {
 			if (Config.getItem("StaticDataTemplate", staticDataInfo.getTag()) == null) {
 				staticDataInfo.add("StaticDataTemplate", staticDataInfo);
 
-				JOptionPane.showMessageDialog(null, "添加数据成功！");
+				JOptionPane.showMessageDialog(null, "添加数据成功！","提示框",JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(null, "数据项已经存在！");
+				JOptionPane.showMessageDialog(null, "数据项已经存在！","提示框",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -403,16 +407,24 @@ public class TestDataConfigPanel extends JPanel {
 	 */
 	private class RowRenderer extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = -9128946524399930570L;
-		
+
 		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			if (column==3&&value.equals(1))
+			if (column == 3 && value.equals(1))
 				setBackground(Color.green);
-			else if (column==3&&value.equals(2)){
+			else if (column == 3 && value.equals(2)) {
 				setBackground(Color.red);
-			}else {
+			} else {
 				setBackground(Color.white);
 			}
 			return super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, column);
 		}
+	}
+
+	public void setTableWidth(JTable jt) {
+		TableColumnModel dd = jt.getColumnModel();
+		dd.getColumn(0).setPreferredWidth(60);
+		dd.getColumn(1).setPreferredWidth(60);
+		dd.getColumn(2).setPreferredWidth(430);
+		dd.getColumn(3).setPreferredWidth(160);
 	}
 }
