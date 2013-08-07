@@ -3,7 +3,6 @@ package com.watchdata.cardcheck.logic.issuer.local;
 import org.apache.log4j.Logger;
 
 import com.watchdata.cardcheck.configdao.IssuerKeyInfo;
-import com.watchdata.cardcheck.dao.IIssuerKeyConfigDao;
 import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.WDKeyUtil;
@@ -26,7 +25,6 @@ public class IssuerDaoImpl implements IIssuerDao{
 	private static String iv = "0000000000000000";
 	private static boolean isDerive = false;
 	
-	private IIssuerKeyConfigDao issuerKeyConfigDao;
 	private IssuerKeyInfo issuerKeyInfo=new IssuerKeyInfo();
 	
 	@Override
@@ -122,9 +120,5 @@ public class IssuerDaoImpl implements IIssuerDao{
 		}
 		
 		return WDByteUtil.bytes2HEX(s1B);
-	}
-
-	public void setIssuerKeyConfigDao(IIssuerKeyConfigDao issuerKeyConfigDao) {
-		this.issuerKeyConfigDao = issuerKeyConfigDao;
 	}
 }

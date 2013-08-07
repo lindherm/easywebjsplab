@@ -56,22 +56,6 @@
 	</bean>
 	<bean id="apduChannel" class="com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel" scope="prototype">
 	</bean>
-	<bean id="baseHandler" class="com.watchdata.cardcheck.logic.impl.BaseHandler">
-		<property name="apduHandler" ref="apduHandler"></property>
-		<property name="issuerDao" ref="issuerDao"></property>
-	</bean>
-	<bean id="pbocHandler" class="com.watchdata.cardcheck.logic.impl.PBOCHandler" parent="baseHandler">
-		<property name="issuerDao" ref="issuerDao"></property>
-	</bean>
-	<bean id="issuerDao" class="com.watchdata.cardcheck.logic.issuer.local.IssuerDaoImpl">
-		<property name="issuerKeyConfigDao" ref="issuerKeyConfigDao"></property>
-	</bean>
-	<bean id="electronicCashHandler" class="com.watchdata.cardcheck.logic.impl.ElectronicCashHandler" parent="baseHandler">
-		<property name="issuerDao" ref="issuerDao"></property>
-	</bean>
-	<bean id="qPbocHandler" class="com.watchdata.cardcheck.logic.impl.QPBOCHandler" parent="baseHandler">
-	</bean>
-	
 	<bean id="config" class="com.watchdata.cardcheck.utils.Configuration" scope="prototype">
 	</bean>
 </beans>

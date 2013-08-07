@@ -20,13 +20,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import com.watchdata.cardcheck.app.JImagePanel;
-import com.watchdata.cardcheck.dao.IAppInfoDao;
-import com.watchdata.cardcheck.dao.ITermPerformConfigDao;
-import com.watchdata.cardcheck.dao.pojo.AppInfo;
+import com.watchdata.cardcheck.configdao.AIDInfo;
+import com.watchdata.cardcheck.configdao.TermInfo;
 import com.watchdata.cardcheck.logic.impl.ElectronicCashHandler;
 import com.watchdata.cardcheck.logic.impl.PBOCHandler;
 import com.watchdata.cardcheck.logic.impl.QPBOCHandler;
@@ -35,7 +31,6 @@ import com.watchdata.cardcheck.utils.FaceListener;
 import com.watchdata.cardcheck.utils.FaceThread;
 import com.watchdata.cardcheck.utils.FileUtil;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import com.watchdata.cardcheck.utils.SpringUtil;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
@@ -65,14 +60,7 @@ public class TradePanel extends JImagePanel {
 	private ElectronicCashHandler electronicCashHandler;
 	private QPBOCHandler qpbocHandler;
 	private PBOCHandler pBOCHandler;
-
-	public void setElectronicCashHandler(ElectronicCashHandler electronicCashHandler) {
-		this.electronicCashHandler = electronicCashHandler;
-	}
-
-	private ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-	private ITermPerformConfigDao iTermPerConfigDao;
+	private TermInfo termInfo=new TermInfo();
 
 	// 终端性能列表，与配置界面上的配置型一致，从第一个字节开始
 	public enum TerminalSupportType {
@@ -570,8 +558,7 @@ public class TradePanel extends JImagePanel {
 						String termPerform = "";
 						boolean touchSupport = false;
 						try {
-							iTermPerConfigDao = (ITermPerformConfigDao) ctx.getBean("iTermPerConfigDao");
-							termPerform = iTermPerConfigDao.findTermPerform().getTermPerform();
+							termPerform =termInfo.getTermInfo("Terminal_Data").getTerminal_perform();
 							termPerform = Integer.toBinaryString(Integer.parseInt(termPerform, 16));
 							termPerform = WDStringUtil.paddingHeadZero(termPerform, 24);
 						} catch (Exception e) {
@@ -579,8 +566,7 @@ public class TradePanel extends JImagePanel {
 							return;
 						}
 						// 获取终端支持的AID列表
-						IAppInfoDao appInfoDao = (IAppInfoDao) SpringUtil.getBean("appInfoDao");
-						List<AppInfo> aidlist = appInfoDao.findAppInfo();
+						List<AIDInfo> aidlist = new AIDInfo().getAidInfos("SupAID");
 						// 判断终端性能
 						termSupportUtil = new TermSupportUtil(termPerform, aidlist);
 						// 判断是否支持接触式IC
@@ -589,7 +575,7 @@ public class TradePanel extends JImagePanel {
 						} else {
 							touchSupport = false;
 						}
-						electronicCashHandler = (ElectronicCashHandler) SpringUtil.getBean("electronicCashHandler");
+						electronicCashHandler = new ElectronicCashHandler();
 						// 读卡器驱动名称
 						String readerName =Config.getValue("Terminal_Data", "reader");
 						// 交易金额
@@ -611,7 +597,7 @@ public class TradePanel extends JImagePanel {
 							ecashButton.setEnabled(false);
 							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 								// 执行交易
-								qpbocHandler = (QPBOCHandler) SpringUtil.getBean("qPbocHandler");
+								qpbocHandler = new QPBOCHandler();
 								success = qpbocHandler.trade(readerName, tradeMount, termSupportUtil, tradingLabel);
 							} else {
 								tradingLabel.setText("终端不支持DDA!");
@@ -630,7 +616,7 @@ public class TradePanel extends JImagePanel {
 							ecashButton.setEnabled(false);
 							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 								// 执行交易
-								pBOCHandler = (PBOCHandler) SpringUtil.getBean("pbocHandler");
+								pBOCHandler = new PBOCHandler();
 								success = pBOCHandler.doTrade(tradeMount, readerName, tradingLabel, termSupportUtil);
 							} else {
 								tradingLabel.setText("终端不支持DDA!");
