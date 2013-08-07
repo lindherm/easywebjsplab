@@ -87,7 +87,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 	public CAPublicKeyConfigPanel() {
 		super();
 		setLayout(null);
-		setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
+		//setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
 		init();
 
 		final JLabel caManageLabel = new JLabel();
@@ -241,7 +241,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 
 		final JButton delButton1 = new JButton();
 		delButton1.setText(pm.getString("mv.capublickeyconfig.del"));
-		delButton1.setBounds(715, 82, 84, 21);
+		delButton1.setBounds(715, 100, 84, 21);
 		add(delButton1);
 		// 删除
 		delButton1.addActionListener(new ActionListener() {
@@ -348,7 +348,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		textField.setColumns(10);
 
 		dialog.setSize(400, 200);
-		dialog.add(dlgscrollPane);
+		dialog.getContentPane().add(dlgscrollPane);
 	}
 
 	/**
