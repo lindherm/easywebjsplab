@@ -3,7 +3,7 @@ package com.watchdata.cardcheck.utils;
 import java.util.HashSet;
 import java.util.List;
 
-import com.watchdata.cardcheck.dao.pojo.AppInfo;
+import com.watchdata.cardcheck.configdao.AIDInfo;
 import com.watchdata.cardcheck.panel.TradePanel.TerminalSupportType;
 
 /**
@@ -21,11 +21,11 @@ public class TermSupportUtil {
 	 * 
 	 * @param supportData 终端性能数据，为二进制串
 	 */
-	public TermSupportUtil(String supportData,List<AppInfo> aidList){
+	public TermSupportUtil(String supportData,List<AIDInfo> aidList){
 		this.supportData = supportData;
 		//循环aid列表存进hashset
-		for (AppInfo appInfo : aidList) {
-			aidSet.add(appInfo.getAid());
+		for (AIDInfo aidInfo : aidList) {
+			aidSet.add(aidInfo.getAid());
 		}
 	}
 

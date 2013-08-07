@@ -14,9 +14,9 @@ import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.AbstractAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
+import com.watchdata.cardcheck.logic.issuer.local.IssuerDaoImpl;
 import com.watchdata.cardcheck.logic.pki.DataAuthenticate;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import com.watchdata.cardcheck.utils.SpringUtil;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
 import com.watchdata.cardcheck.utils.reportutil.APDUSendANDRes;
 import com.watchdata.cardcheck.utils.reportutil.GenReportUtil;
@@ -24,15 +24,9 @@ import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
 public class ElectronicCashHandler extends BaseHandler {
-
 	private static Log logger = new Log();
-	private IIssuerDao issuerDao;
-
-	public void setIssuerDao(IIssuerDao issuerDao) {
-		this.issuerDao = issuerDao;
-	}
+	private IIssuerDao issuerDao=new IssuerDaoImpl();
 	private GenReportUtil genWordUtil = null;
-
 	private PropertiesManager pm = new PropertiesManager();
 
 	/**

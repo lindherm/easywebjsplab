@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
-import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
 import com.watchdata.cardcheck.utils.reportutil.APDUSendANDRes;
 import com.watchdata.commons.lang.WDAssert;
 
@@ -25,9 +24,9 @@ public class BaseHandler {
 	public static HashMap<String, String> tradeDefaultPara;
 	public static String authRespCode = "3030";
 	public CommonAPDU apduHandler;
-	protected IIssuerDao issuerDao;
 
 	public BaseHandler() {
+		apduHandler=new CommonAPDU();
 		if (tradeDefaultPara == null) {
 			tradeDefaultPara = new HashMap<String, String>();
 			tradeDefaultPara.put("9F7A", "01"); // 电子现金终端指示器
@@ -105,17 +104,9 @@ public class BaseHandler {
 		return cardRecordData;
 	}
 
-	public void setApduHandler(CommonAPDU apduHandler) {
-		this.apduHandler = apduHandler;
-	}
-
 	protected String getFormatDate(Date date, String format) {
 		SimpleDateFormat simpledateformat = new SimpleDateFormat(format);
 		return simpledateformat.format(date);
-	}
-
-	public void setIssuerDao(IIssuerDao issuerDao) {
-		this.issuerDao = issuerDao;
 	}
 
 }

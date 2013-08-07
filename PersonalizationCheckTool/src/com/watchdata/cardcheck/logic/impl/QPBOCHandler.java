@@ -12,6 +12,8 @@ import org.apache.log4j.NDC;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
+import com.watchdata.cardcheck.logic.issuer.IIssuerDao;
+import com.watchdata.cardcheck.logic.issuer.local.IssuerDaoImpl;
 import com.watchdata.cardcheck.logic.pki.DataAuthenticate;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
@@ -28,6 +30,7 @@ import com.watchdata.commons.lang.WDStringUtil;
  */
 public class QPBOCHandler extends BaseHandler {
 	private static Log logger = new Log();
+	private IIssuerDao issuerDao=new IssuerDaoImpl();
 	private PropertiesManager pm = new PropertiesManager();
 
 	public boolean trade(String readerName, int tradeMount,TermSupportUtil termSupportUtil,JLabel tradeLabel){
