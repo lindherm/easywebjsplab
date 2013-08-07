@@ -31,8 +31,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import org.springframework.test.context.ContextConfiguration;
-
 import com.watchdata.cardcheck.configdao.CAInfo;
 import com.watchdata.cardcheck.configdao.PublicKeyInfo;
 import com.watchdata.cardcheck.utils.Config;
@@ -51,7 +49,6 @@ import com.watchdata.cardcheck.utils.PropertiesManager;
  * 
  * @Copyright: watchdata
  */
-@ContextConfiguration(locations = { "/applicationContext.xml" })
 public class CAPublicKeyConfigPanel extends JPanel {
 
 	/**

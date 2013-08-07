@@ -50,41 +50,15 @@ public class RightPanel extends JPanel{
 	private void init() throws Exception {
 		aidConfigPanel = new AIDConfigPanel();
 		caPublicKeyConfigPanel = new CAPublicKeyConfigPanel();
-		/*caPublicKeyConfigPanel = new CAPublicKeyConfigPanel1();*/
 		issuerKeyConfigPanel = new IssuerKeyConfigPanel();
 		terminalLimitConfigPanel = new TerminalLimitConfigPanel();
 		terminalPerformanceConfigPanel = new TerminalPerformanceConfigPanel();
 		terminalTypeConfigPanel = new TerminalTypeConfigPanel();
 		testDataConfigPanel = new TestDataConfigPanel();
 		tradePanel = new TradePanel();
-		/*tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.add(aidConfigPanel.getName(), aidConfigPanel);
-		tabbedPane.add(aidConfigPanel1.getName(), aidConfigPanel1);
-		tabbedPane
-				.add(caPublicKeyConfigPanel.getName(), caPublicKeyConfigPanel);
-		tabbedPane.add(issuerKeyConfigPanel.getName(), issuerKeyConfigPanel);
-		tabbedPane.add(terminalLimitConfigPanel.getName(),
-				terminalLimitConfigPanel);
-		tabbedPane.add(terminalPerformanceConfigPanel.getName(),
-				terminalPerformanceConfigPanel);
-		tabbedPane.add(terminalTypeConfigPanel.getName(),
-				terminalTypeConfigPanel);
-		tabbedPane.add(testDataConfigPanel.getName(), testDataConfigPanel);
-		tabbedPane.add(staticDataCalibrationResultsPanel.getName(),
-				staticDataCalibrationResultsPanel);
-		tabbedPane.add(tradePanel.getName(), tradePanel);
-		add(tabbedPane, BorderLayout.CENTER);*/
-		
 		setLayout(new BorderLayout());
-		
-		/*aidConfigPanel1.setVisible(false);*/
 		logoPanel = new LogoPanel();
 		add(logoPanel, BorderLayout.CENTER);
-		
-		
-		
-		
-		
 	}
 
 }
