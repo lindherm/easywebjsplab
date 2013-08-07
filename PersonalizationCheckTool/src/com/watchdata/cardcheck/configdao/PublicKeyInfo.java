@@ -77,6 +77,17 @@ public class PublicKeyInfo {
 		}
 		return result;
 	}
+	
+	public PublicKeyInfo getPK(String sectionName,String rid,String index) {
+		PublicKeyInfo publicKeyInfo=new PublicKeyInfo();
+		publicKeyInfo.setRid(rid);
+		publicKeyInfo.setIndex(index);
+		publicKeyInfo.setArith(Config.getValue(sectionName, "Algorithm"));
+		publicKeyInfo.setExp(Config.getValue(sectionName, "CA_PK_Exponent"));
+		publicKeyInfo.setHashArith(Config.getValue(sectionName, "Hash_Algorithm"));
+		publicKeyInfo.setModule(Config.getValue(sectionName, "CA_PK_Modulus"));
+		return publicKeyInfo;
+	}
 	public boolean add(String sectionName,PublicKeyInfo publicKeyInfo) {
 		Config.addSection(sectionName);
 		Config.addItem(sectionName, "Algorithm");

@@ -6,11 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.spinn3r.log5j.Logger;
-import com.watchdata.cardcheck.dao.ICAPublicKeyConfigDao;
-import com.watchdata.cardcheck.dao.pojo.CAPublicKeyConfig;
+import com.watchdata.cardcheck.configdao.PublicKeyInfo;
 import com.watchdata.cardcheck.utils.CryptoUtil;
 import com.watchdata.cardcheck.utils.DigitalTool;
-import com.watchdata.cardcheck.utils.SpringUtil;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.commons.lang.WDEncodeUtil;
@@ -21,6 +19,7 @@ public class PkiUtil {
 	}
 	// log5j日志
 	private static Logger log = Logger.getLogger();
+	private static PublicKeyInfo pk=new PublicKeyInfo();
 	/**
 	 * 发卡行公钥证书恢复
 	 * 
@@ -65,26 +64,28 @@ public class PkiUtil {
 		}
 
 		// 通过rid，caPubKeyIndex查询数据库得到密钥对象
-		ICAPublicKeyConfigDao icaPublicKeyConfigDao = (ICAPublicKeyConfigDao) SpringUtil.getBean("iCAkeyconfigDao");
-		CAPublicKeyConfig caPublicKeyConfig = (CAPublicKeyConfig) icaPublicKeyConfigDao.getCAPublicKey(rid, caPubKeyIndex);
+		//ICAPublicKeyConfigDao icaPublicKeyConfigDao = (ICAPublicKeyConfigDao) SpringUtil.getBean("iCAkeyconfigDao");
+		//CAPublicKeyConfig caPublicKeyConfig = (CAPublicKeyConfig) icaPublicKeyConfigDao.getCAPublicKey(rid, caPubKeyIndex);
+		String sectionName = rid+ "_CA_" +caPubKeyIndex;
+		PublicKeyInfo publicKeyInfo=pk.getPK(sectionName, rid, caPubKeyIndex);
 		// 如果密钥不存在 失败
-		if (caPublicKeyConfig == null) {
+		if (publicKeyInfo == null) {
 			log.error("capublickey not exists.");
 			cardissuerPublicKeyInfo.setErrorCode("F001");
 			return cardissuerPublicKeyInfo;
 		}
 
 		// 如果发卡行公钥证书的长度不同于获得的认证中心公钥模长度，那么动态数据认证失败
-		if (cardIssuerPubKeyCert.length() != caPublicKeyConfig.GetModule().length()) {
+		if (cardIssuerPubKeyCert.length() != publicKeyInfo.getModule().length()) {
 			log.error("capublickey length not equals to cardIssuerPubKeyCert length.");
 			cardissuerPublicKeyInfo.setErrorCode("F002");
 			return cardissuerPublicKeyInfo;
 		}
 		//输出ca word日志
-		logList.add("CA Public Key Modulus:\n"+caPublicKeyConfig.GetModule());
-		logList.add("CA Public Key Exponet:\n"+caPublicKeyConfig.GetExp());
+		logList.add("CA Public Key Modulus:\n"+publicKeyInfo.getModule());
+		logList.add("CA Public Key Exponet:\n"+publicKeyInfo.getExp());
 		// 恢复证书（解密）
-		String certText = CryptoUtil.rsa_decrypt(caPublicKeyConfig.GetModule(), caPublicKeyConfig.GetExp(), cardIssuerPubKeyCert);
+		String certText = CryptoUtil.rsa_decrypt(publicKeyInfo.getModule(), publicKeyInfo.getExp(), cardIssuerPubKeyCert);
 
 		if (WDAssert.isEmpty(certText)) {
 			log.error("rsa_decrypt cert error.");
@@ -109,7 +110,7 @@ public class PkiUtil {
 		}
 
 		// 组装模值
-		int Nca=caPublicKeyConfig.GetModule().length()/2;
+		int Nca=publicKeyInfo.getModule().length()/2;
 		String NrStr=cardissuerPublicKeyInfo.getPublicKeyLength();
 		//发卡行公钥长度
 		int Nr=DigitalTool.hexStringToAlgorism(NrStr);

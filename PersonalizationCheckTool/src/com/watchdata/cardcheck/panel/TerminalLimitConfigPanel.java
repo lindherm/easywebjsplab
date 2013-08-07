@@ -36,7 +36,6 @@ import com.watchdata.cardcheck.utils.PropertiesManager;
  * 
  * @Copyright: watchdata
  */
-@ContextConfiguration(locations = { "/applicationContext.xml" })
 public class TerminalLimitConfigPanel extends JPanel {
 
 	private static final long serialVersionUID = 8464687872814772188L;
@@ -48,10 +47,6 @@ public class TerminalLimitConfigPanel extends JPanel {
 	public static JTextField tacRejectField = new JTextField();
 
 	Color colorYellow = new Color(255, 255, 192);
-	private ITermInfoDao termDao;
-	private TermInfo termLimit = new TermInfo();
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext(
-			"classpath:applicationContext.xml");
 
 	/**
 	 * Create the panel

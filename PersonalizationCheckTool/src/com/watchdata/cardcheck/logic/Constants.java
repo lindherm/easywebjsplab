@@ -1,7 +1,5 @@
 package com.watchdata.cardcheck.logic;
 
-import com.watchdata.cardcheck.utils.Configuration;
-import com.watchdata.cardcheck.utils.SpringUtil;
 
 /**
  * 
@@ -12,8 +10,6 @@ import com.watchdata.cardcheck.utils.SpringUtil;
  * @Copyright: watchdata
  */
 public class Constants {
-	public static Configuration configuration = (Configuration) SpringUtil.getBean("config");;
-	
 	public static final String PSE = "315041592E5359532E4444463031";
 	public static final String PPSE = "325041592E5359532E4444463031";
 	

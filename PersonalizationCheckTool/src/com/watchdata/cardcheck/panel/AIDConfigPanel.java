@@ -23,8 +23,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.watchdata.cardcheck.configdao.AIDInfo;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
@@ -345,7 +343,6 @@ public class AIDConfigPanel extends JPanel {
 	};
 	
 	private ActionListener saveActionListener = new ActionListener() {
-		@Transactional
 		public void actionPerformed(final ActionEvent e) {
 			int selectedNum = table.getSelectedRows().length;
 			if (pm.getString("mv.aidconfig.edit").equals(buttonSave.getText())) {

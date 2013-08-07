@@ -27,11 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-
 import com.watchdata.cardcheck.configdao.StaticDataInfo;
-import com.watchdata.cardcheck.dao.IStaticDataDao;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
@@ -66,9 +62,7 @@ public class TestDataConfigPanel extends JPanel {
 	private JButton addButton;
 	public static JButton delButton;
 	public JComboBox comboBox;
-	private IStaticDataDao staticDataDao;
 	private PropertiesManager pm = new PropertiesManager();
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
 	private final String[] COLUMNS = new String[] { "DGI", "TAG", "值", "检测结果" };
 	private List<StaticDataInfo> sdList = new ArrayList<StaticDataInfo>();
 	private DefaultTableModel testDataTableModel = null;
@@ -92,7 +86,6 @@ public class TestDataConfigPanel extends JPanel {
 		// setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.dataConfig")));
 
 		apduHandler = new CommonAPDU();
-		staticDataDao = (IStaticDataDao) ctx.getBean("staticDataDao");
 
 		tagLabel = new JLabel();
 		tagLabel.setHorizontalAlignment(SwingConstants.RIGHT);

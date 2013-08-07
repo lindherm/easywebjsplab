@@ -15,11 +15,9 @@ import javax.swing.SwingConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import com.watchdata.cardcheck.utils.SpringUtil;
 import com.watchdata.cardpcsc.CardPcsc;
 import com.watchdata.commons.lang.WDByteUtil;
 
@@ -40,7 +38,6 @@ import com.watchdata.commons.lang.WDByteUtil;
 public class CardReaderPanel extends JPanel {
 
 	private static final long serialVersionUID = -6360462745055001746L;
-	private PcscChannel apduChannel = (PcscChannel) SpringUtil.getBean("apduChannel");
 	public static JComboBox comboBox;
 	private Configuration configuration = new Configuration();
 	private String[] cardReaderList;
@@ -75,7 +72,7 @@ public class CardReaderPanel extends JPanel {
 
 		comboBox = new JComboBox();
 		comboBoxModel = new DefaultComboBoxModel();
-		cardReaderList = apduChannel.getReaderList();
+		//cardReaderList = apduChannel.getReaderList();
 
 		if (cardReaderList != null && cardReaderList.length > 0) {
 			comboBoxModel = new DefaultComboBoxModel(cardReaderList);
@@ -101,7 +98,7 @@ public class CardReaderPanel extends JPanel {
 			@Override
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				// TODO Auto-generated method stub
-				cardReaderList = apduChannel.getReaderList();
+				//cardReaderList = apduChannel.getReaderList();
 				if (cardReaderList != null && cardReaderList.length > 0) {
 					comboBoxModel = new DefaultComboBoxModel(cardReaderList);
 					comboBox.setModel(comboBoxModel);
