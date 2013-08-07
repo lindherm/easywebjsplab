@@ -145,13 +145,13 @@ public class AIDConfigPanel extends JPanel {
 
 		buttonDel = new JButton();
 		buttonDel.setText(pm.getString("mv.aidconfig.del"));
-		buttonDel.setBounds(715, 330, 84, 21);
+		buttonDel.setBounds(710, 205, 84, 21);
 
 		add(buttonDel);
 
 		buttonSave = new JButton();
 		buttonSave.setText(pm.getString("mv.aidconfig.edit"));
-		buttonSave.setBounds(715, 425, 84, 21);
+		buttonSave.setBounds(710, 236, 84, 21);
 		add(buttonSave);
 		buttonAdd.addActionListener(addActionListener);
 		buttonDel.addActionListener(delActionListener);
@@ -343,8 +343,7 @@ public class AIDConfigPanel extends JPanel {
 
 		}
 	};
-
-	// 保存按钮监听事件
+	
 	private ActionListener saveActionListener = new ActionListener() {
 		@Transactional
 		public void actionPerformed(final ActionEvent e) {
