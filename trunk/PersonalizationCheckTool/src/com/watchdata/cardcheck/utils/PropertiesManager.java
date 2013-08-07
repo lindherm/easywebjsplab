@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
  */
 public class PropertiesManager {
 
-	 String baseName = "resource.resource";
+	 String baseName = "resource";
 	 public ResourceBundle res;
     public PropertiesManager() {
         try
