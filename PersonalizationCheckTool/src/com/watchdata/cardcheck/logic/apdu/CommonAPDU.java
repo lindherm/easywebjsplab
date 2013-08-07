@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.commons.lang.WDAssert;

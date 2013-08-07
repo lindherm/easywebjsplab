@@ -74,20 +74,22 @@ public class PBOCHandler extends BaseHandler {
 				logger.error("card reset falied");
 				tradeLabel.setText("      卡片复位失败！");
 				genWordUtil.add("卡片复位失败");
-				genWordUtil.close();
+				//genWordUtil.close();
 				return false;
 			}
 			logger.debug("atr:"+res.get("atr"));
-
 			// 复位报告内容
 			genWordUtil.add("atr", "Card Reset", res.get("atr"), new HashMap<String, String>());
+			
+			
+			
 			logger.debug("============================select PSE=================================");
 			HashMap<String, String> result = apduHandler.select(Constants.PSE);
 			if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 				logger.error("select PSE error,card return:" + result.get("sw"));
 				tradeLabel.setText("      选择PSE出错！");
 				genWordUtil.add("选择PSE出错");
-				genWordUtil.close();
+				//genWordUtil.close();
 				return false;
 			}
 
@@ -106,7 +108,7 @@ public class PBOCHandler extends BaseHandler {
 					logger.error("select aid is null");
 					tradeLabel.setText("      获取aid为空！");
 					genWordUtil.add("获取AID为空");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				if (termSupportUtil.isSupportAID(aid)) {
@@ -115,14 +117,14 @@ public class PBOCHandler extends BaseHandler {
 					logger.error("Terminal can not support the app");
 					tradeLabel.setText("      终端不支持此应用！");
 					genWordUtil.add("终端不支持此应用");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				if (!"9000".equals(result.get("sw"))) {
 					logger.error("select app get response:" + result.get("sw"));
 					tradeLabel.setText("      选择应用返回:" + result.get("sw"));
 					genWordUtil.add("选择应用出错");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				String pdol = result.get("9F38");
@@ -158,7 +160,7 @@ public class PBOCHandler extends BaseHandler {
 					tradeLabel.setText("获取DDOL数据出错!");
 					logger.error("PBOC get ddol param exception!");
 					genWordUtil.add("获取DDOL数据出错");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				result = apduHandler.gpo("83" + CommonHelper.getLVData(loadDolDataResult, 1));
@@ -168,6 +170,7 @@ public class PBOCHandler extends BaseHandler {
 
 				genWordUtil.add("LoadDolDataResult:" + loadDolDataResult);
 				genWordUtil.add("AIP:" + aip);
+				
 				// read record
 				logger.debug("=================================read record===========================");
 				List<APDUSendANDRes> aList = new ArrayList<APDUSendANDRes>();
@@ -219,7 +222,7 @@ public class PBOCHandler extends BaseHandler {
 					logger.error("DDA failed!");
 					tradeLabel.setText("动态数据认证失败!");
 					genWordUtil.add("动态数据认证失败");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				logger.debug("DDA validate successed!");
@@ -245,6 +248,7 @@ public class PBOCHandler extends BaseHandler {
 				String atc = result.get("9F36");
 				String iad = result.get("9F10");
 
+				logger.debug("=================================ARQC=================================");
 				String arpc = issuerDao.requestArpc(pan, panSerial, cdol1Data, aip, atc, iad, arqc);
 				logger.debug("online validate successed!");
 
@@ -260,7 +264,7 @@ public class PBOCHandler extends BaseHandler {
 					logger.error("external Authenticate failed,card return:" + result.get("sw"));
 					tradeLabel.setText("外部认证失败!");
 					genWordUtil.add("外部认证失败");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 
@@ -273,7 +277,6 @@ public class PBOCHandler extends BaseHandler {
 				result = apduHandler.generateAC(cdol2Data, AbstractAPDU.P1_TC);
 
 				genWordUtil.add(result.get("apdu"), "Generate AC2", result.get("res"), result);
-
 				genWordUtil.add("CDOL2 Data:" + cdol2Data);
 				logger.debug("========================PBOC trade finished!=======================");
 				genWordUtil.add("PBOC交易完成!");

@@ -31,7 +31,12 @@ public class PcscChannel implements IAPDUChannel{
 	public String send(String commandApdu) {
 		logger.debug("send[" + commandApdu.toUpperCase() + "]");
 		String recv = cardPcsc.SendApdu(WDByteUtil.HEX2Bytes(commandApdu));
-		logger.debug("recv[" + recv + "]");
+		if (recv.substring(recv.length() - 4,recv.length()).equalsIgnoreCase("9000")) {
+			logger.debug("recv[" + recv + "]");
+		}else {
+			logger.error("recv[" + recv + "]");
+		}
+		
 		return recv;
 	}
 	public String[] getReaderList(){
