@@ -51,9 +51,9 @@ public class RightPanel extends JPanel{
 		aidConfigPanel = new AIDConfigPanel();
 		caPublicKeyConfigPanel = new CAPublicKeyConfigPanel();
 		issuerKeyConfigPanel = new IssuerKeyConfigPanel();
-		terminalLimitConfigPanel = new TerminalLimitConfigPanel();
-		terminalPerformanceConfigPanel = new TerminalPerformanceConfigPanel();
-		terminalTypeConfigPanel = new TerminalTypeConfigPanel();
+		//terminalLimitConfigPanel = new TerminalLimitConfigPanel();
+		//terminalPerformanceConfigPanel = new TerminalPerformanceConfigPanel();
+		//terminalTypeConfigPanel = new TerminalTypeConfigPanel();
 		testDataConfigPanel = new TestDataConfigPanel();
 		tradePanel = new TradePanel();
 		setLayout(new BorderLayout());
