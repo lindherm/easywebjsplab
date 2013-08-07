@@ -372,6 +372,7 @@ public class ElectronicCashHandler extends BaseHandler {
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		NDC.push("[ElectronicCash ECPurcharse]");
 		logger.setLogDialogOn();
+		logger.debug("ElectronicCash ECPurcharse start...", 0);
 		genWordUtil = new GenReportUtil();
 		apduSendANDRes = new APDUSendANDRes();
 
