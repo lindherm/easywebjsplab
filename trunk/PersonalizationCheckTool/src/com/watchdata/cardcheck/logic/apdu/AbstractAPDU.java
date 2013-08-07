@@ -2,8 +2,6 @@ package com.watchdata.cardcheck.logic.apdu;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
-
 import com.watchdata.cardcheck.log.Log;
 /**
  * 
@@ -140,7 +138,7 @@ public class AbstractAPDU {
 			String value = apdu.substring(0, tagLen);
 			
 			resp.put(tag, value);
-			log.info(tag + "["+ value + "]");
+			log.info(tag + "\t"+tagLenStr+" "+ value);
 			//递归解析TLV
 			if(isComleteTag(tag)) parseTLV(resp,value);
 			

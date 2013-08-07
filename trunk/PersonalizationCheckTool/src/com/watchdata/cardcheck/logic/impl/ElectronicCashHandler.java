@@ -31,8 +31,6 @@ public class ElectronicCashHandler extends BaseHandler {
 	public void setIssuerDao(IIssuerDao issuerDao) {
 		this.issuerDao = issuerDao;
 	}
-
-	private APDUSendANDRes apduSendANDRes = null;
 	private GenReportUtil genWordUtil = null;
 
 	private PropertiesManager pm = new PropertiesManager();
@@ -54,12 +52,11 @@ public class ElectronicCashHandler extends BaseHandler {
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
-		NDC.push("[E cash earmark]");
+		NDC.push("[E cash load]");
 		logger.setLogDialogOn();
-		logger.debug("E cash earmark start...",0);
+		logger.debug("E cash load start...",0);
 
 		genWordUtil = new GenReportUtil();
-		apduSendANDRes = new APDUSendANDRes();
 
 		genWordUtil.open(pm.getString("mv.tradepanel.earmark"));
 		genWordUtil.addFileTitle("圈存交易检测报告");
@@ -67,47 +64,42 @@ public class ElectronicCashHandler extends BaseHandler {
 
 		try {
 			// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
+			logger.debug("=============================reset===================================");
 			HashMap<String, String> res = apduHandler.reset(readerName);
 			if (!"9000".equals(res.get("sw"))) {
 				logger.error("Card Reset falied");
 				tradeLabel.setText("      卡片复位失败！");
 				genWordUtil.add("卡片复位失败");
-				genWordUtil.close();
+				//genWordUtil.close();
 				return false;
 			}
 			// 复位报告内容
-			apduSendANDRes.setSendAPDU("atr");
-			apduSendANDRes.setDes("Card Reset");
-			apduSendANDRes.setResponseAPDU(res.get("atr"));
-			apduSendANDRes.setTagDes(new HashMap<String, String>());
-			genWordUtil.add(apduSendANDRes);
+			genWordUtil.add("atr", "Card Reset", res.get("atr"), new HashMap<String, String>());
 
+			logger.debug("============================select PSE=================================");
 			// 选择PSE应用
 			HashMap<String, String> result = apduHandler.select(Constants.PSE);
 			if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 				logger.error("ElectronicCashHandler ECLoad select PSE error,card return:" + result.get("sw"));
 				genWordUtil.add("选择PSE出错");
-				genWordUtil.close();
+				//genWordUtil.close();
 				return false;
 			}
-
 			// 选择pse报告内容
-			apduSendANDRes.setSendAPDU(result.get("apdu"));
-			apduSendANDRes.setDes("Select PSE");
-			apduSendANDRes.setResponseAPDU(result.get("res"));
-			apduSendANDRes.setTagDes(result);
-			genWordUtil.add(apduSendANDRes);
+			genWordUtil.add(result.get("apdu"), "Select PSE", result.get("res"), result);
 
 			if (WDAssert.isNotEmpty(result.get("88"))) {
+				logger.debug("==============================read dir================================");
 				// read dir, begin from 01
 				List<HashMap<String, String>>  readDirList = apduHandler.readDir(result.get("88"));
 				// select aid
 				String aid = readDirList.get(0).get("4F");
+				logger.debug("===============================select aid==============================");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("select aid is null");
 					tradeLabel.setText("      获取aid为空！");
 					genWordUtil.add("获取AID为空");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				if (termSupportUtil.isSupportAID(aid)) {
@@ -116,25 +108,21 @@ public class ElectronicCashHandler extends BaseHandler {
 					logger.error("Terminal can not support the app");
 					tradeLabel.setText("      终端不支持此应用！");
 					genWordUtil.add("终端不支持此应用");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				if (!"9000".equals(result.get("sw"))) {
 					logger.error("select app get response:" + result.get("sw"));
 					tradeLabel.setText("      选择应用返回:" + result.get("sw"));
 					genWordUtil.add("选择应用出错");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
-
 				// 选择aid报告内容
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("Select AID");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "Select AID", result.get("res"), result);
 
-				logger.info("=================================GET DATA=================================");
+				// get data
+				logger.debug("================================get data=============================");
 				HashMap<String, String> dataMap = new HashMap<String, String>();
 				String pdol = result.get("9F38");
 				result = apduHandler.getData("9F52");
@@ -157,30 +145,27 @@ public class ElectronicCashHandler extends BaseHandler {
 				String singleLimit = result.get("9F78");
 				result = apduHandler.getData("9F79");
 				String balance = result.get("9F79");
-
 				if (tradeMount > Integer.parseInt(singleLimit)) {
 					tradeLabel.setText("交易金额大于单笔交易金额上限!");
 					logger.error("ElectronicCashHandler ECLoad  single tradeMount is larger than the single top limit!");
 					genWordUtil.add("交易金额大于单笔交易金额上限");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				if (tradeMount + Integer.parseInt(balance) > Integer.parseInt(limit)) {
 					tradeLabel.setText("现有余额与交易金额之和大于电子现金余额上限!");
 					logger.error("balance plus trademount is larger than the top limit");
 					genWordUtil.add("现有余额与交易金额之和大于电子现金余额上限");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
-				// GET DATA 报告
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("GET DATA"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(dataMap); genWordUtil.add(apduSendANDRes);
-				 */
 				genWordUtil.add("PDOL Data:" + pdol);
 				genWordUtil.add("电子现金账户上限:" + limit);
 				genWordUtil.add("单笔交易上限:" + singleLimit);
 				genWordUtil.add("电子现金账户余额:" + balance);
-				logger.info("=================================GPO=================================");
+				
+				
+				logger.debug("==================================gpo==================================");
 				String loadDolDataResult = "";
 				try {
 					loadDolDataResult = loadDolData(pdol, param);
@@ -188,27 +173,24 @@ public class ElectronicCashHandler extends BaseHandler {
 					tradeLabel.setText("获取DDOL数据出错!");
 					logger.error("ElectronicCashHandler ECLoad get ddol param exception!");
 					genWordUtil.add("获取DDOL数据出错");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				result = apduHandler.gpo("83" + CommonHelper.getLVData(loadDolDataResult, 1));
 				String aip = result.get("82");
 
 				// GPO报告
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("GPO");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "GPO", result.get("res"), result);
+				
 				genWordUtil.add("LoadDolDataResult:" + loadDolDataResult);
 				genWordUtil.add("AIP:" + aip);
-				logger.info("=================================Read Record=================================");
+				
+				
+				// read record
+				logger.debug("=================================read record===========================");
 				String staticDataList = "";
-				ArrayList<String> fileList = CommonHelper.parseAppFileLocation(result.get("94"));
 				HashMap<String, String> cardRecordData = new HashMap<String, String>();
-				/*
-				 * for(String fileId:fileList){ HashMap<String,String> fileData = apduHandler.readRecord(fileId.substring(0, 2), fileId.substring(2,4)); //静态数据列表 if(fileId.indexOf("T")>0){ staticDataList = fileData.get("70"); } CommonHelper.copyMapData(cardRecordData,fileData); }
-				 */
+				
 				// Read Record 报告
 				List<APDUSendANDRes> aList = new ArrayList<APDUSendANDRes>();
 				cardRecordData = getCardRecordData(result.get("94"), aList);
@@ -220,18 +202,17 @@ public class ElectronicCashHandler extends BaseHandler {
 				}
 
 				// 联机请求
-				logger.info("=================================Internal Authenticate=================================");
+				logger.debug("=================================Internal Authenticate=================================");
 				String termRandom = WDStringUtil.getRandomHexString(8);
 				result = apduHandler.internalAuthenticate(termRandom);
 				// 内部认证报告
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("Internal Authenticate");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "Internal Authenticate", result.get("res"), result);
+				
 				genWordUtil.add("Random Data:" + termRandom);
 				genWordUtil.add("StaticDataList:" + staticDataList);
-				logger.info("=================================DDA=================================");
+				
+				
+				logger.debug("=================================DDA validate=================================");
 				String signedDynmicData = result.get("80");
 				String ddolDataList = termRandom;
 				String issuerPKCert = cardRecordData.get("90");
@@ -253,21 +234,17 @@ public class ElectronicCashHandler extends BaseHandler {
 				if (!dataAuthenticate.dynamicDataAuthenticate(icPKCert, icPKReminder, icPKExp, signedDynmicData, ddolDataList, logList)) {
 					logger.error("ElectronicCashHandler ECLoad DDA failed");
 					genWordUtil.add("动态数据认证失败");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
-				// 动态数据认证报告
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("DDA"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(new HashMap<String,String>()); genWordUtil.add(apduSendANDRes);
-				 */
-				/*
-				 * genWordUtil.add("SignedDynmicData:" + signedDynmicData); genWordUtil.add("DdolDataList:" + ddolDataList); genWordUtil.add("IssuerPKCert:" + issuerPKCert); genWordUtil.add("IssuerPKReminder:" + issuerPKReminder); genWordUtil.add("IssuerPKExponent:" + issuerPKExponent); genWordUtil.add("IcPKCert:" + icPKCert); genWordUtil.add("IcPKExp:" + icPKExp); genWordUtil.add("IcPKReminder:" + icPKReminder); genWordUtil.add("CaPKIndex:" + caPKIndex); genWordUtil.add("StaticDataList:" + staticDataList); genWordUtil.add("Pan:" + pan); genWordUtil.add("Rid:" + rid);
-				 */
 				genWordUtil.add("DDA中使用的数据如下");
 				for (String log : logList) {
 					genWordUtil.add(log);
 				}
-				logger.info("=================================Generate AC1=================================");
+				logger.debug("DDA validate successed!");
+				
+				
+				logger.debug("=================================Generate AC1=================================");
 				param.put("9F37", termRandom);
 				Date dateTime = new Date();
 				param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
@@ -275,67 +252,50 @@ public class ElectronicCashHandler extends BaseHandler {
 				String cdol1Data = loadDolData(cardRecordData.get("8C"), param);// 9F0206 9F0306 9F1A02 9505 5F2A02 9A03 9C01 9F3704 9F2103 9F4E14
 				result = apduHandler.generateAC(cdol1Data, AbstractAPDU.P1_ARQC);
 				// Generate AC1 报告
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("Generate AC1");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "Generate AC1", result.get("res"), result);
 				genWordUtil.add("CCDOL1 Data:" + cdol1Data);
-				logger.info("=================================验证ARQC=================================");
+				logger.debug("=================================ARQC=================================");
 				String arqc = result.get("9F26");
 				String atc = result.get("9F36");
 				String iad = result.get("9F10");
 				String arpc = issuerDao.requestArpc(pan, panSerial, cdol1Data, aip, atc, iad, arqc);
-				// ARQC报告
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("Check ARQC"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(new HashMap<String,String>()); genWordUtil.add(apduSendANDRes);
-				 */
+				logger.debug("online validate successed!");
+				
 				genWordUtil.add("验证ARQC中使用的数据");
 				genWordUtil.add("ARQC:" + arqc);
 				genWordUtil.add("ATC:" + atc);
 				genWordUtil.add("IAD:" + iad);
 				genWordUtil.add("ARPC:" + arpc);
-				logger.info("=================================外部认证=================================");
+				
+				logger.debug("=================================external Authenticate=================================");
 				result = apduHandler.externalAuthenticate(arpc + authRespCode);
 				if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 					logger.error("ElectronicCashHandler ECLoad external Authenticate failed,card return:" + result.get("sw"));
 					genWordUtil.add("外部认证失败");
-					genWordUtil.close();
+					//genWordUtil.close();
 					return false;
 				}
 				// 外部认证报告
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("External Authenticate");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
-				logger.info("=================================Generate AC2=================================");
+				genWordUtil.add(result.get("apdu"), "External Authenticate", result.get("res"), result);
+				
+				logger.debug("=================================Generate AC2=================================");
 				param.put("8A", authRespCode);
 				String cdol2Data = loadDolData(cardRecordData.get("8D"), param);
 				result = apduHandler.generateAC(cdol2Data, AbstractAPDU.P1_TC);
 				// Generate AC2报告
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("Generate AC2");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "Generate AC2", result.get("res"), result);
 				genWordUtil.add("CCDOL2 Data:" + cdol2Data);
-				logger.info("=================================PUT DATA=================================");
+				logger.debug("=================================PUT DATA=================================");
 				String[] script = issuerDao.generateLoadIssuerScript(pan, panSerial, atc, arqc, balance, tradeMount);
 				String issuerScript = script[0];
 				// 交易成功
 				result = apduHandler.putData(issuerScript);
 				// PUT DATA 报告
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("PUT DATA");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
-				genWordUtil.add("Issuer Script:" + issuerScript);
+				genWordUtil.add(result.get("apdu"), "PUT DATA", result.get("res"), result);
 
 				result = apduHandler.getData("9F79");
 				genWordUtil.add("电子现金账户余额：:" + result.get("9F79"));
-				logger.info("=================================E cash earmark Finished=================================");
+				logger.debug("=================================E cash load finished=================================");
 				genWordUtil.add("电子现金圈存交易完成!");
 				return true;
 			} else {
@@ -370,17 +330,18 @@ public class ElectronicCashHandler extends BaseHandler {
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
-		NDC.push("[ElectronicCash ECPurcharse]");
+		NDC.push("[e cash purcharse]");
 		logger.setLogDialogOn();
-		logger.debug("ElectronicCash ECPurcharse start...", 0);
+		logger.debug("e cash purcharse start...", 0);
+		
 		genWordUtil = new GenReportUtil();
-		apduSendANDRes = new APDUSendANDRes();
-
+		
 		genWordUtil.open(pm.getString("mv.tradepanel.ecash"));
 		genWordUtil.addFileTitle("消费交易检测报告");
 		genWordUtil.addTransactionName("电子现金消费");
 
 		try {
+			logger.debug("=============================reset===================================");
 			// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
 			HashMap<String, String> res = apduHandler.reset(readerName);
 			if (!"9000".equals(res.get("sw"))) {
@@ -390,14 +351,10 @@ public class ElectronicCashHandler extends BaseHandler {
 				genWordUtil.close();
 				return false;
 			}
-
 			// 复位报告内容
-			apduSendANDRes.setSendAPDU("atr");
-			apduSendANDRes.setDes("Card Reset");
-			apduSendANDRes.setResponseAPDU(res.get("atr"));
-			apduSendANDRes.setTagDes(new HashMap<String, String>());
-			genWordUtil.add(apduSendANDRes);
+			genWordUtil.add("atr", "Card Reset", res.get("atr"), new HashMap<String, String>());
 
+			logger.debug("============================select PSE=================================");
 			// 选择PSE应用
 			HashMap<String, String> result = apduHandler.select(Constants.PSE);
 			if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
@@ -409,17 +366,15 @@ public class ElectronicCashHandler extends BaseHandler {
 			}
 
 			// 选择pse报告内容
-			apduSendANDRes.setSendAPDU(result.get("apdu"));
-			apduSendANDRes.setDes("Select PSE");
-			apduSendANDRes.setResponseAPDU(result.get("res"));
-			apduSendANDRes.setTagDes(result);
-			genWordUtil.add(apduSendANDRes);
+			genWordUtil.add(result.get("apdu"), "Select PSE", result.get("res"), result);
 
 			if (WDAssert.isNotEmpty(result.get("88"))) {
+				logger.debug("==============================read dir================================");
 				// read dir, begin from 01
 				List<HashMap<String, String>>  readDirList = apduHandler.readDir(result.get("88"));
 				// select aid
 				String aid = readDirList.get(0).get("4F");
+				logger.debug("===============================select aid==============================");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("get AID null!");
 					tradeLabel.setText("      获取aid为空！");
@@ -445,13 +400,10 @@ public class ElectronicCashHandler extends BaseHandler {
 				}
 
 				// 选择aid报告内容
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("Select AID");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "Select AID", result.get("res"), result);
 
-				logger.info("=================================GET DATA=================================");
+				// get data
+				logger.debug("================================get data=============================");
 				HashMap<String, String> dataMap = new HashMap<String, String>();
 				String pdol = result.get("9F38");
 				result = apduHandler.getData("9F52");
@@ -480,14 +432,10 @@ public class ElectronicCashHandler extends BaseHandler {
 					genWordUtil.close();
 					return false;
 				}
-
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("GET DATA"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(dataMap); genWordUtil.add(apduSendANDRes);
-				 */
 				genWordUtil.add("PDOL Data:" + pdol);
 				genWordUtil.add("单笔交易上限:" + singleLimit);
 				genWordUtil.add("电子现金账户余额:" + balance);
-				logger.info("=================================GPO=================================");
+				logger.debug("==================================gpo==================================");
 				String loadDolDataResult = "";
 				try {
 					loadDolDataResult = loadDolData(pdol, param);
@@ -501,20 +449,16 @@ public class ElectronicCashHandler extends BaseHandler {
 				result = apduHandler.gpo("83" + CommonHelper.getLVData(loadDolDataResult, 1));
 				String aip = result.get("82");
 
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("GPO");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "GPO", result.get("res"), result);
+				
 				genWordUtil.add("LoadDolDataResult:" + loadDolDataResult);
 				genWordUtil.add("AIP:" + aip);
-				logger.info("=================================Read Record=================================");
+				
+				// read record
+				logger.debug("=================================read record===========================");
 				String staticDataList = "";
-				ArrayList<String> fileList = CommonHelper.parseAppFileLocation(result.get("94"));
 				HashMap<String, String> cardRecordData = new HashMap<String, String>();
-				/*
-				 * for(String fileId:fileList){ HashMap<String,String> fileData = apduHandler.readRecord(fileId.substring(0, 2), fileId.substring(2,4)); //静态数据列表 if(fileId.indexOf("T")>0){ staticDataList = fileData.get("70"); } CommonHelper.copyMapData(cardRecordData,fileData); }
-				 */
+
 				List<APDUSendANDRes> aList = new ArrayList<APDUSendANDRes>();
 				cardRecordData = getCardRecordData(result.get("94"), aList);
 				staticDataList = cardRecordData.get("staticDataList");
@@ -522,18 +466,16 @@ public class ElectronicCashHandler extends BaseHandler {
 				for (APDUSendANDRes apduSendANDRes2 : aList) {
 					genWordUtil.add(apduSendANDRes2);
 				}
-				logger.info("=================================Internal Authenticate=================================");
+				logger.debug("=======================internal Authenticate==============================");
 				String termRandom = WDStringUtil.getRandomHexString(8);
 				result = apduHandler.internalAuthenticate(termRandom);
 
-				apduSendANDRes.setSendAPDU(result.get("apdu"));
-				apduSendANDRes.setDes("Internal Authenticate");
-				apduSendANDRes.setResponseAPDU(result.get("res"));
-				apduSendANDRes.setTagDes(result);
-				genWordUtil.add(apduSendANDRes);
+				genWordUtil.add(result.get("apdu"), "Internal Authenticate", result.get("res"), result);
+
 				genWordUtil.add("RandomData:" + termRandom);
 				genWordUtil.add("StaticDataList:" + staticDataList);
-				logger.info("=================================DDA=================================");
+				// DDA,SDA
+				logger.debug("===========================DDA validate===============================");
 				String signedDynmicData = result.get("80");
 				String ddolDataList = termRandom;
 				String issuerPKCert = cardRecordData.get("90");
@@ -560,13 +502,8 @@ public class ElectronicCashHandler extends BaseHandler {
 					genWordUtil.close();
 					return false;
 				}
+				logger.debug("DDA validate successed!");
 
-				/*
-				 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("DDA"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(new HashMap<String,String>()); genWordUtil.add(apduSendANDRes);
-				 */
-				/*
-				 * genWordUtil.add("SignedDynmicData:" + signedDynmicData); genWordUtil.add("DdolDataList:" + ddolDataList); genWordUtil.add("IssuerPKCert:" + issuerPKCert); genWordUtil.add("IssuerPKReminder:" + issuerPKReminder); genWordUtil.add("IssuerPKExponent:" + issuerPKExponent); genWordUtil.add("IcPKCert:" + icPKCert); genWordUtil.add("IcPKExp:" + icPKExp); genWordUtil.add("IcPKReminder:" + icPKReminder); genWordUtil.add("CaPKIndex:" + caPKIndex); genWordUtil.add("StaticDataList:" + staticDataList); genWordUtil.add("Pan:" + pan); genWordUtil.add("Rid:" + rid);
-				 */
 				genWordUtil.add("DDA中使用到的数据");
 				for (String log : logList) {
 					genWordUtil.add(log);
@@ -578,31 +515,29 @@ public class ElectronicCashHandler extends BaseHandler {
 				param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
 				// 判断是否需要联机
 				if (Integer.parseInt(param.get("9F02")) > Integer.parseInt(balance)) {
-					logger.info("=================================联机Generate AC1=================================");
+					
+					logger.debug("=================================Generate AC1=================================");
 					String cdol1Data = loadDolData(cardRecordData.get("8C"), param);// 9F0206 9F0306 9F1A02 9505 5F2A02 9A03 9C01 9F3704 9F2103 9F4E14
 					result = apduHandler.generateAC(cdol1Data, AbstractAPDU.P1_ARQC);
 
-					apduSendANDRes.setSendAPDU(result.get("apdu"));
-					apduSendANDRes.setDes("OnLine Generate AC1");
-					apduSendANDRes.setResponseAPDU(result.get("res"));
-					apduSendANDRes.setTagDes(result);
-					genWordUtil.add(apduSendANDRes);
+					genWordUtil.add(result.get("apdu"), "Generate AC1", result.get("res"), result);
+					
 					genWordUtil.add("CCDOL1 Data:" + cdol1Data);
-					logger.info("=================================联机验证ARQC=================================");
+					
+					logger.debug("=================================ARQC=================================");
 					String arqc = result.get("9F26");
 					String atc = result.get("9F36");
 					String iad = result.get("9F10");
 					String arpc = issuerDao.requestArpc(pan, panSerial, cdol1Data, aip, atc, iad, arqc);
-
-					/*
-					 * apduSendANDRes.setSendAPDU(reportNoreqAndRes); apduSendANDRes.setDes("OnLine Check ARQC"); apduSendANDRes.setResponseAPDU(reportNoreqAndRes); apduSendANDRes.setTagDes(new HashMap<String,String>()); genWordUtil.add(apduSendANDRes);
-					 */
+					
+					logger.debug("online validate successed!");
 					genWordUtil.add("验证ARQC中使用的数据");
 					genWordUtil.add("ARQC:" + arqc);
 					genWordUtil.add("ATC:" + atc);
 					genWordUtil.add("IAD:" + iad);
 					genWordUtil.add("ARPC:" + arpc);
-					logger.info("=================================联机外部认证=================================");
+					
+					logger.debug("=================================联机外部认证=================================");
 					result = apduHandler.externalAuthenticate(arpc + authRespCode);
 					if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 						logger.error("ElectronicCashHandler ECPurcharse external Authenticate failed,card return:" + result.get("sw"));
@@ -611,38 +546,27 @@ public class ElectronicCashHandler extends BaseHandler {
 						genWordUtil.close();
 						return false;
 					}
-					apduSendANDRes.setSendAPDU(result.get("apdu"));
-					apduSendANDRes.setDes("OnLine External Authenticate");
-					apduSendANDRes.setResponseAPDU(result.get("res"));
-					apduSendANDRes.setTagDes(result);
-					genWordUtil.add(apduSendANDRes);
-					logger.info("=================================联机Generate AC2=================================");
+					genWordUtil.add(result.get("apdu"), "联机外部认证", result.get("res"), result);
+					
+					logger.debug("=================================联机Generate AC2=================================");
 					param.put("8A", authRespCode);
 					String cdol2Data = loadDolData(cardRecordData.get("8D"), param);
 					result = apduHandler.generateAC(cdol2Data, AbstractAPDU.P1_TC);
 
-					apduSendANDRes.setSendAPDU(result.get("apdu"));
-					apduSendANDRes.setDes("OnLine Generate AC2");
-					apduSendANDRes.setResponseAPDU(result.get("res"));
-					apduSendANDRes.setTagDes(result);
-					genWordUtil.add(apduSendANDRes);
+					genWordUtil.add(result.get("apdu"), "联机Generate AC2", result.get("res"), result);
 					genWordUtil.add("CCDOL2 Data:" + cdol2Data);
 				} else {
-					logger.info("=================================脱机Generate AC1=================================");
+					logger.debug("=================================脱机Generate AC1=================================");
 					String cdol1Data = loadDolData(cardRecordData.get("8C"), param);// 9F0206 9F0306 9F1A02 9505 5F2A02 9A03 9C01 9F3704 9F2103 9F4E14
 					result = apduHandler.generateAC(cdol1Data, AbstractAPDU.P1_TC);
 
-					apduSendANDRes.setSendAPDU(result.get("apdu"));
-					apduSendANDRes.setDes("OffLine Generate AC1");
-					apduSendANDRes.setResponseAPDU(result.get("res"));
-					apduSendANDRes.setTagDes(result);
-					genWordUtil.add(apduSendANDRes);
+					genWordUtil.add(result.get("apdu"), "脱机Generate AC1", result.get("res"), result);
 					genWordUtil.add("CCDOL1 Data:" + cdol1Data);
 				}
 
 				result = apduHandler.getData("9F79");
 				genWordUtil.add("电子现金账户余额:" + result.get("9F79"));
-				logger.info("=================================Finished=================================");
+				logger.debug("=================================e cash purcharse finished=================================");
 				genWordUtil.add("电子现金消费交易完成!");
 				
 				return true;
@@ -659,14 +583,5 @@ public class ElectronicCashHandler extends BaseHandler {
 			NDC.pop();
 			NDC.remove();
 		}
-	}
-
-	public static void main(String[] args) {
-		// Generic EMV Smartcard Reader 0
-		// Watchdata W5181 Contact Reader 0
-		// WatchData CRW-V Plus PC/SC Reader 0
-		ElectronicCashHandler electronicCashHandler = (ElectronicCashHandler) SpringUtil.getBean("electronicCashHandler");
-		// electronicCashHandler.ECLoad(100,"Watchdata W5181 Contact Reader  0",null);
-		// electronicCashHandler.ECPurcharse(136,"Watchdata W5181 Contact Reader  0");
 	}
 }

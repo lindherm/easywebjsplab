@@ -422,9 +422,9 @@ public class TestDataConfigPanel extends JPanel {
 
 	public void setTableWidth(JTable jt) {
 		TableColumnModel dd = jt.getColumnModel();
-		dd.getColumn(0).setPreferredWidth(60);
-		dd.getColumn(1).setPreferredWidth(60);
-		dd.getColumn(2).setPreferredWidth(430);
+		dd.getColumn(0).setPreferredWidth(100);
+		dd.getColumn(1).setPreferredWidth(100);
+		dd.getColumn(2).setPreferredWidth(350);
 		dd.getColumn(3).setPreferredWidth(160);
 	}
 }
