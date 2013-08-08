@@ -362,6 +362,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 			String B1 = tpconfig.substring(0, 2);
 			// 记住，截取到的字符串是16进制的，所以需要调用Integer.parseInt(B1, 16)才能正确还原为2进制
 			B1 = Integer.toBinaryString(Integer.parseInt(B1, 16));
+			System.out.println(B1);
 			if (B1.length() < 8) {
 				B1 = fillZero(B1);
 			}
@@ -377,6 +378,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 
 			String B2 = tpconfig.substring(2, 4);
 			B2 = Integer.toBinaryString(Integer.parseInt(B2, 16));
+			System.out.println(B2);
 			if (B2.length() < 8) {
 				B2 = fillZero(B2);
 			}
@@ -398,6 +400,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 
 			String B3 = tpconfig.substring(4);
 			B3 = Integer.toBinaryString(Integer.parseInt(B3, 16));
+			System.out.println(B3);
 			if (B3.length() < 8) {
 				B3 = fillZero(B3);
 			}
