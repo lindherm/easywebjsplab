@@ -346,7 +346,6 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
-				TerminalTypeConfigPanel.counCodeComboBox.requestFocus();
 			}
 		});
 		button_10.setText("终端类型管理");
