@@ -67,6 +67,7 @@ public class ElectronicCashHandler extends BaseHandler {
 				//genWordUtil.close();
 				return false;
 			}
+			logger.debug("atr:"+res.get("atr"));
 			// 复位报告内容
 			genWordUtil.add("atr", "Card Reset", res.get("atr"), new HashMap<String, String>());
 
@@ -345,6 +346,7 @@ public class ElectronicCashHandler extends BaseHandler {
 				genWordUtil.close();
 				return false;
 			}
+			logger.debug("atr:"+res.get("atr"));
 			// 复位报告内容
 			genWordUtil.add("atr", "Card Reset", res.get("atr"), new HashMap<String, String>());
 

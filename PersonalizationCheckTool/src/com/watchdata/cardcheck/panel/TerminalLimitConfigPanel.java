@@ -18,12 +18,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-
-import com.watchdata.cardcheck.dao.ITermInfoDao;
-import com.watchdata.cardcheck.dao.pojo.TermInfo;
+import com.watchdata.cardcheck.configdao.TermInfo;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 
@@ -54,8 +49,7 @@ public class TerminalLimitConfigPanel extends JPanel {
 	public TerminalLimitConfigPanel() {
 		super(new BorderLayout());
 		setLayout(null);
-		setBorder(JTBorderFactory.createTitleBorder(pm
-				.getString("mv.termlimit.termlimitconfig")));
+		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.termlimit.termlimitconfig")));
 		init();
 
 		tacRejectField.setDocument(new FixedSizePlainDocument(10));
@@ -63,27 +57,15 @@ public class TerminalLimitConfigPanel extends JPanel {
 		tacAccessField.setDocument(new FixedSizePlainDocument(10));
 		lowLimitField.setDocument(new FixedSizePlainDocument(8));
 		termIdField.setDocument(new FixedSizePlainDocument(8));
-		
-		termDao = (ITermInfoDao) ctx.getBean("termInfoDao");
-		termLimit = termDao.findTermLimt();
-		if (termLimit != null) {
-			tacRejectField.setText(termLimit.getTacReject() == null ? ""
-					: termLimit.getTacReject());
-			tacOnlineField.setText(termLimit.getTacOnline() == null ? ""
-					: termLimit.getTacOnline());
-			tacAccessField.setText(termLimit.getTacAccess() == null ? ""
-					: termLimit.getTacAccess());
-			lowLimitField.setText(termLimit.getLowLimitation() == null ? ""
-					: termLimit.getLowLimitation());
-			termIdField.setText(termLimit.getTermCode() == null ? ""
-					: termLimit.getTermCode());
-		}
+
+		/*
+		 * termDao = (ITermInfoDao) ctx.getBean("termInfoDao"); termLimit = termDao.findTermLimt(); if (termLimit != null) { tacRejectField.setText(termLimit.getTacReject() == null ? "" : termLimit.getTacReject()); tacOnlineField.setText(termLimit.getTacOnline() == null ? "" : termLimit.getTacOnline()); tacAccessField.setText(termLimit.getTacAccess() == null ? "" : termLimit.getTacAccess()); lowLimitField.setText(termLimit.getLowLimitation() == null ? "" : termLimit.getLowLimitation()); termIdField.setText(termLimit.getTermCode() == null ? "" : termLimit.getTermCode()); }
+		 */
 
 		final JLabel TermCodelabel = new JLabel();
 		TermCodelabel.setBounds(0, 50, 97, 20);
 		TermCodelabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TermCodelabel.setFont(new Font(pm.getString("mv.applicaiton.font"),
-				Font.BOLD, 12));
+		TermCodelabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		TermCodelabel.setText(pm.getString("mv.termlimit.termact"));
 		add(TermCodelabel);
 
@@ -92,15 +74,9 @@ public class TerminalLimitConfigPanel extends JPanel {
 		add(separator);
 
 		/*
-		 * final JSplitPane splitPane = new JSplitPane();
-		 * splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane.setDividerLocation(160); add(splitPane);
+		 * final JSplitPane splitPane = new JSplitPane(); splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT); splitPane.setDividerLocation(160); add(splitPane);
 		 * 
-		 * final JPanel terminalActPanel = new JPanel();
-		 * terminalActPanel.setLayout(null);
-		 * terminalActPanel.setBorder(JTBorderFactory
-		 * .createTitleBorder("终端行为代码"));
-		 * splitPane.setLeftComponent(terminalActPanel);
+		 * final JPanel terminalActPanel = new JPanel(); terminalActPanel.setLayout(null); terminalActPanel.setBorder(JTBorderFactory .createTitleBorder("终端行为代码")); splitPane.setLeftComponent(terminalActPanel);
 		 */
 
 		final JLabel tacRejectLabel = new JLabel();
@@ -123,10 +99,10 @@ public class TerminalLimitConfigPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				String c = String.valueOf(e.getKeyChar());
 				Pattern pattern = Pattern.compile("[0-9a-fA-F]*");
-				
-		        Matcher matcher = pattern.matcher(c);
-		        if (!(matcher.matches())) 
-		        	e.consume();
+
+				Matcher matcher = pattern.matcher(c);
+				if (!(matcher.matches()))
+					e.consume();
 			}
 		});
 		add(tacRejectField);
@@ -149,10 +125,10 @@ public class TerminalLimitConfigPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				String c = String.valueOf(e.getKeyChar());
 				Pattern pattern = Pattern.compile("[0-9a-fA-F]*");
-				
-		        Matcher matcher = pattern.matcher(c);
-		        if (!(matcher.matches())) 
-		        	e.consume();
+
+				Matcher matcher = pattern.matcher(c);
+				if (!(matcher.matches()))
+					e.consume();
 			}
 		});
 		add(tacOnlineField);
@@ -176,35 +152,26 @@ public class TerminalLimitConfigPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				String c = String.valueOf(e.getKeyChar());
 				Pattern pattern = Pattern.compile("[0-9a-fA-F]*");
-				
-		        Matcher matcher = pattern.matcher(c);
-		        if (!(matcher.matches())) 
-		        	e.consume();
+
+				Matcher matcher = pattern.matcher(c);
+				if (!(matcher.matches()))
+					e.consume();
 			}
 		});
 		add(tacAccessField);
 
 		/*
-		 * final JPanel panel_1 = new JPanel(); panel_1.setLayout(new
-		 * BorderLayout()); splitPane.setRightComponent(panel_1);
+		 * final JPanel panel_1 = new JPanel(); panel_1.setLayout(new BorderLayout()); splitPane.setRightComponent(panel_1);
 		 * 
-		 * final JSplitPane splitPane_1 = new JSplitPane();
-		 * splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane_1.setDividerLocation(100); panel_1.add(splitPane_1,
-		 * BorderLayout.CENTER);
+		 * final JSplitPane splitPane_1 = new JSplitPane(); splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT); splitPane_1.setDividerLocation(100); panel_1.add(splitPane_1, BorderLayout.CENTER);
 		 * 
-		 * final JPanel terminalLimitPanel = new JPanel();
-		 * terminalLimitPanel.setLayout(null);
-		 * terminalLimitPanel.setBorder(JTBorderFactory
-		 * .createTitleBorder("终端限制"));
-		 * splitPane_1.setLeftComponent(terminalLimitPanel);
+		 * final JPanel terminalLimitPanel = new JPanel(); terminalLimitPanel.setLayout(null); terminalLimitPanel.setBorder(JTBorderFactory .createTitleBorder("终端限制")); splitPane_1.setLeftComponent(terminalLimitPanel);
 		 */
 
 		final JLabel TermLimitLabel = new JLabel();
 		TermLimitLabel.setBounds(0, 250, 97, 20);
 		TermLimitLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TermLimitLabel.setFont(new Font(pm.getString("mv.applicaiton.font"),
-				Font.BOLD, 12));
+		TermLimitLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		TermLimitLabel.setText(pm.getString("mv.termlimit.termlimit"));
 		add(TermLimitLabel);
 
@@ -230,34 +197,26 @@ public class TerminalLimitConfigPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				String c = String.valueOf(e.getKeyChar());
 				Pattern pattern = Pattern.compile("[0-9a-fA-F]*");
-				
-		        Matcher matcher = pattern.matcher(c);
-		        if (!(matcher.matches())) 
-		        	e.consume();
+
+				Matcher matcher = pattern.matcher(c);
+				if (!(matcher.matches()))
+					e.consume();
 			}
 		});
 		add(lowLimitField);
 
 		/*
-		 * final JPanel panel_3 = new JPanel(); panel_3.setLayout(new
-		 * BorderLayout()); splitPane_1.setRightComponent(panel_3);
+		 * final JPanel panel_3 = new JPanel(); panel_3.setLayout(new BorderLayout()); splitPane_1.setRightComponent(panel_3);
 		 * 
-		 * final JSplitPane splitPane_2 = new JSplitPane();
-		 * splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane_2.setDividerLocation(100); splitPane_2.setDividerSize(0);
-		 * panel_3.add(splitPane_2);
+		 * final JSplitPane splitPane_2 = new JSplitPane(); splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT); splitPane_2.setDividerLocation(100); splitPane_2.setDividerSize(0); panel_3.add(splitPane_2);
 		 * 
-		 * final JPanel terminalIdPanel = new JPanel();
-		 * terminalIdPanel.setLayout(null);
-		 * terminalIdPanel.setBorder(JTBorderFactory.createTitleBorder("终端ID"));
-		 * splitPane_2.setLeftComponent(terminalIdPanel);
+		 * final JPanel terminalIdPanel = new JPanel(); terminalIdPanel.setLayout(null); terminalIdPanel.setBorder(JTBorderFactory.createTitleBorder("终端ID")); splitPane_2.setLeftComponent(terminalIdPanel);
 		 */
 
 		final JLabel TermIDLabel = new JLabel();
 		TermIDLabel.setBounds(0, 350, 97, 20);
 		TermIDLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TermIDLabel.setFont(new Font(pm.getString("mv.applicaiton.font"),
-				Font.BOLD, 12));
+		TermIDLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
 		TermIDLabel.setText(pm.getString("mv.termlimit.termid"));
 		add(TermIDLabel);
 
@@ -283,9 +242,9 @@ public class TerminalLimitConfigPanel extends JPanel {
 			public void keyTyped(KeyEvent e) {
 				String c = String.valueOf(e.getKeyChar());
 				Pattern pattern = Pattern.compile("[0-9a-zA-Z]*");
-					Matcher matcher = pattern.matcher(c);
-					if (!(matcher.matches()))
-						e.consume();
+				Matcher matcher = pattern.matcher(c);
+				if (!(matcher.matches()))
+					e.consume();
 			}
 		});
 
@@ -296,58 +255,32 @@ public class TerminalLimitConfigPanel extends JPanel {
 		saveButton.setBounds(359, 395, 84, 21);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
-				if (tacRejectField.getText().isEmpty()
-						|| tacOnlineField.getText().isEmpty()
-						|| tacAccessField.getText().isEmpty()
-						|| lowLimitField.getText().isEmpty()
-						|| termIdField.getText().isEmpty()) {
-					if(tacRejectField.getText().isEmpty()){
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.tac_refusenull"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+				/*if (tacRejectField.getText().isEmpty() || tacOnlineField.getText().isEmpty() || tacAccessField.getText().isEmpty() || lowLimitField.getText().isEmpty() || termIdField.getText().isEmpty()) {
+					if (tacRejectField.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.tac_refusenull"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						return;
-					}else if(tacOnlineField.getText().isEmpty()){
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.tac_onlinenull"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+					} else if (tacOnlineField.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.tac_onlinenull"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						return;
-						
-					}else if(tacAccessField.getText().isEmpty()){
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.tac_accessnull"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+
+					} else if (tacAccessField.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.tac_accessnull"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						return;
-						
-					}else if(lowLimitField.getText().isEmpty()){
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.lowlimitnull"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+
+					} else if (lowLimitField.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.lowlimitnull"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						return;
-						
-					}else if(termIdField.getText().isEmpty()){
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.termidnull"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+
+					} else if (termIdField.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.termidnull"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						return;
-					}else{
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.infonull"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.infonull"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					
+
 				} else {
-					String data = tacRejectField.getText() + "|"
-							+ tacOnlineField.getText() + "|"
-							+ tacAccessField.getText() + "|"
-							+ lowLimitField.getText() + "|"
-							+ termIdField.getText();
+					String data = tacRejectField.getText() + "|" + tacOnlineField.getText() + "|" + tacAccessField.getText() + "|" + lowLimitField.getText() + "|" + termIdField.getText();
 					int ret = checkData(data);
 
 					switch (ret) {
@@ -362,87 +295,56 @@ public class TerminalLimitConfigPanel extends JPanel {
 						if (termLimit == null) {
 							if (termDao.insertTermLimit(term)) {
 								termLimit = termDao.findTermLimt();
-								JOptionPane.showMessageDialog(null, pm
-										.getString("mv.termlimit.saveSuccess"),
-										pm.getString("mv.termlimit.info"),
-										JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.saveSuccess"), pm.getString("mv.termlimit.info"), JOptionPane.INFORMATION_MESSAGE);
 								return;
 							} else {
-								JOptionPane.showMessageDialog(null, pm
-										.getString("mv.termlimit.saveFailed"),
-										pm.getString("mv.termlimit.info"),
-										JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.saveFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 						} else {
 							if (termDao.updateTermLimit(term)) {
-								JOptionPane.showMessageDialog(null, pm
-										.getString("mv.termlimit.saveSuccess"),
-										pm.getString("mv.termlimit.info"),
-										JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.saveSuccess"), pm.getString("mv.termlimit.info"), JOptionPane.INFORMATION_MESSAGE);
 								return;
 							} else {
-								JOptionPane.showMessageDialog(null, pm
-										.getString("mv.termlimit.saveFailed"),
-										pm.getString("mv.termlimit.info"),
-										JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.saveFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 								return;
 							}
 						}
 					}
 					case 1: {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.refuseFailed"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.refuseFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						break;
 					}
 					case 2: {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.onlineFailed"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.onlineFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						break;
 					}
 					case 3: {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.accessFailed"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.accessFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						break;
 					}
 					case 4: {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.limitFailed"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.limitFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						break;
 					}
 					case 5: {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.idFailed"), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.idFailed"), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						break;
 					}
 					default: {
-						JOptionPane.showMessageDialog(null, pm
-								.getString("mv.termlimit.unknown "), pm
-								.getString("mv.termlimit.info"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, pm.getString("mv.termlimit.unknown "), pm.getString("mv.termlimit.info"), JOptionPane.ERROR_MESSAGE);
 						break;
 					}
 					}
 
-				}
+				}*/
 
 			}
 		});
 		add(saveButton);
 
 		/*
-		 * final JPanel panel_5 = new JPanel();
-		 * splitPane_2.setRightComponent(panel_5);
+		 * final JPanel panel_5 = new JPanel(); splitPane_2.setRightComponent(panel_5);
 		 */
 
 	}
@@ -461,8 +363,7 @@ public class TerminalLimitConfigPanel extends JPanel {
 		String result[] = data.split("[|]");
 		for (int i = 0; i < result.length; i++) {
 			int num[] = { 10, 10, 10, 8, 8 };
-			if (result[i].isEmpty() || !pattern.matcher(result[i]).matches()
-					|| result[i].length() != num[i]) {
+			if (result[i].isEmpty() || !pattern.matcher(result[i]).matches() || result[i].length() != num[i]) {
 				return i + 1;
 			}
 		}

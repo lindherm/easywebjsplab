@@ -7,19 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.dao.EmptyResultDataAccessException;
 
-import com.watchdata.cardcheck.dao.ITermInfoDao;
-import com.watchdata.cardcheck.dao.pojo.TermInfo;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 
 /**
@@ -55,13 +49,8 @@ public class TerminalTypeConfigPanel extends JPanel {
 	private JTextField tradeTypeValTextField;
 	private JLabel tradeTypeValLabel;
 	private JButton saveButton;
-	private ITermInfoDao termInfoDao;
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext(
-			"classpath:applicationContext.xml");
 	private static Logger log = Logger.getLogger(TerminalTypeConfigPanel.class);
 	private PropertiesManager pm = new PropertiesManager();
-	/*Color colorGreen = new Color(192, 255, 192);*/
-	private TermInfo termInfo = new TermInfo();
 
 	/**
 	 * Create the panel
@@ -71,23 +60,6 @@ public class TerminalTypeConfigPanel extends JPanel {
 		setLayout(null);
 		setBorder(null);
 		init();
-		termInfoDao = (ITermInfoDao) ctx.getBean("termInfoDao");
-		setBorder(JTBorderFactory.createTitleBorder(pm
-				.getString("mv.termtype.typeManage")));
-		termInfo = termInfoDao.findTermLimt();
-
-		/*final JSplitPane splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		splitPane.setDividerLocation(450);
-		splitPane.setDividerSize(0);
-		add(splitPane);
-
-		final JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBorder(JTBorderFactory.createTitleBorder(pm
-				.getString("mv.termtype.typeManage")));
-		splitPane.setLeftComponent(panel);*/
-		
 		final JLabel label_3 = new JLabel();
 		label_3.setBounds(0, 50, 97, 20);
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -227,7 +199,7 @@ public class TerminalTypeConfigPanel extends JPanel {
 		tradeTypeValTextField.setBounds(220, 410, 120, 20);
 		add(tradeTypeValTextField);
 		
-		if(termInfo != null){
+		/*if(termInfo != null){
 			counCodeValTextField.setText(termInfo.getCountryCode() == null ? "" : termInfo.getCountryCode());
 			counCodeComboBox.setSelectedItem(pm.getString("mv.termtype.countryCodeValue").equals(termInfo.getCountryCode()) ?  pm.getString("mv.termtype.countryCode") : "");
 			tradeCodeValTextField.setText(termInfo.getTradeType() == null ? "" : termInfo.getTradeType());
@@ -237,51 +209,19 @@ public class TerminalTypeConfigPanel extends JPanel {
 			tradeTypeValTextField.setText(termInfo.getTradeType() == null ? "" : termInfo.getTradeType());
 			tradeTypeComboBox.setSelectedItem(pm.getString("mv.termtype.tradeTypeValue").equals(termInfo.getTradeType()) ? pm.getString("mv.termtype.tradeTypeItem") : "");
 		}
-
+*/
 		// 保存配置
 		saveButton = new JButton();
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent arg0) {
-				if (getTermID() != null) {
+				/*if (getTermID() != null) {
 					saveTermType(getTermID());
-				}
+				}*/
 			}
 		});
 		saveButton.setText(pm.getString("mv.termtype.save"));
 		saveButton.setBounds(386, 475, 84, 21);
 		add(saveButton);
-
-		/*final JPanel panel_1 = new JPanel();
-		splitPane.setRightComponent(panel_1);*/
-		//
-	}
-
-	/**
-	 * @Title: getTermID
-	 * @Description 获取数据库中第一个终端的ID
-	 * @param
-	 * @return
-	 * @throws EmptyResultDataAccessException
-	 *             查询结果为空异常 Exception 其他数据库异常
-	 */
-	public String getTermID() {
-		String id = "";
-		try {
-			id = termInfoDao.getTermId();
-		} catch (EmptyResultDataAccessException e) {
-			JOptionPane.showMessageDialog(null, pm
-					.getString("mv.termtype.addTerm"), pm
-					.getString("mv.termtype.infoWindow"),
-					JOptionPane.INFORMATION_MESSAGE);
-			return null;
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, pm
-					.getString("mv.termtype.getidFail"), pm
-					.getString("mv.termtype.infoWindow"),
-					JOptionPane.ERROR_MESSAGE);
-			return null;
-		}
-		return id;
 	}
 
 	// 将终端类型保存到数据库中
@@ -293,7 +233,7 @@ public class TerminalTypeConfigPanel extends JPanel {
 		param[3] = tradeTypeValTextField.getText();
 		param[4] = termId;
 
-		if (param[0].toString().isEmpty()){
+		/*if (param[0].toString().isEmpty()){
 			JOptionPane.showMessageDialog(null, pm
 					.getString("mv.termtype.counCodeEmpty"), pm
 					.getString("mv.termtype.infoWindow"),
@@ -327,7 +267,7 @@ public class TerminalTypeConfigPanel extends JPanel {
 						.getString("mv.termtype.infoWindow"),
 						JOptionPane.ERROR_MESSAGE);
 			}
-		}
+		}*/
 	}
 
 	private void init() {
