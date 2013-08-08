@@ -9,18 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-
-import com.watchdata.cardcheck.dao.ITermPerformConfigDao;
-import com.watchdata.cardcheck.dao.pojo.TermPerformConfig;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 
 /**
@@ -35,17 +28,12 @@ import com.watchdata.cardcheck.utils.PropertiesManager;
  * 
  * @Copyright: watchdata
  */
-@ContextConfiguration(locations = { "/applicationContext.xml" })
 public class TerminalPerformanceConfigPanel extends JPanel {
 	Color colorYellow = new Color(255, 255, 192);
 	private PropertiesManager pm = new PropertiesManager();
 	/**
 	 * Create the panel
 	 */
-	public ApplicationContext ctx = new FileSystemXmlApplicationContext(
-			"classpath:applicationContext.xml");
-	private TermPerformConfig termPerConfig = new TermPerformConfig();
-	private ITermPerformConfigDao iTermPerConfigDao;
 	public static JCheckBox checkBox;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_2;
@@ -68,8 +56,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		termPermLabel.setBounds(0, 50, 97, 20);
 		termPermLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		termPermLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		termPermLabel.setText(pm
-				.getString("mv.terminalperformanceconfig.performance"));
+		termPermLabel.setText(pm.getString("mv.terminalperformanceconfig.performance"));
 		add(termPermLabel);
 
 		final JSeparator separator_1 = new JSeparator();
@@ -77,29 +64,23 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		add(separator_1);
 
 		/*
-		 * final JSplitPane splitPane = new JSplitPane();
-		 * splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		 * splitPane.setDividerSize(0); splitPane.setDividerLocation(500);
-		 * add(splitPane);
+		 * final JSplitPane splitPane = new JSplitPane(); splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT); splitPane.setDividerSize(0); splitPane.setDividerLocation(500); add(splitPane);
 		 * 
-		 * final JPanel panel = new JPanel(); panel.setLayout(null);
-		 * panel.setBorder(JTBorderFactory.createTitleBorder("终端性能"));
-		 * panel.setBackground(colorYellow); splitPane.setLeftComponent(panel);
+		 * final JPanel panel = new JPanel(); panel.setLayout(null); panel.setBorder(JTBorderFactory.createTitleBorder("终端性能")); panel.setBackground(colorYellow); splitPane.setLeftComponent(panel);
 		 */
-		
 
 		final JLabel byte1Label = new JLabel();
 		byte1Label.setHorizontalAlignment(SwingConstants.LEFT);
 		byte1Label.setBounds(30, 95, 210, 30);
 		byte1Label.setText(pm.getString("mv.terminalperformanceconfig.byte1"));
 		add(byte1Label);
-		
+
 		final JPanel byte1Panel = new JPanel();
 		byte1Panel.setLayout(null);
 		byte1Panel.setBorder(new TitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
 		byte1Panel.setBounds(30, 135, 215, 215);
 		add(byte1Panel);
-		
+
 		final JLabel label_2 = new JLabel();
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_2.setText(pm.getString("mv.terminalperformanceconfig.bit8"));
@@ -111,7 +92,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		/* checkBox.setBackground(colorYellow); */
 		checkBox.setBounds(90, 5, 120, 30);
 		byte1Panel.add(checkBox);
-		
+
 		final JLabel label_4 = new JLabel();
 		label_4.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_4.setText(pm.getString("mv.terminalperformanceconfig.bit7"));
@@ -119,12 +100,11 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		byte1Panel.add(label_4);
 
 		checkBox_2 = new JCheckBox();
-		checkBox_2.setText(pm
-				.getString("mv.terminalperformanceconfig.magnetic"));
+		checkBox_2.setText(pm.getString("mv.terminalperformanceconfig.magnetic"));
 		/* checkBox_2.setBackground(colorYellow); */
 		checkBox_2.setBounds(90, 50, 120, 30);
 		byte1Panel.add(checkBox_2);
-		
+
 		final JLabel label_6 = new JLabel();
 		label_6.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_6.setText(pm.getString("mv.terminalperformanceconfig.bit6"));
@@ -132,12 +112,11 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		byte1Panel.add(label_6);
 
 		checkBox_4 = new JCheckBox();
-		checkBox_4.setText(pm
-				.getString("mv.terminalperformanceconfig.contactic"));
+		checkBox_4.setText(pm.getString("mv.terminalperformanceconfig.contactic"));
 		/* checkBox_4.setBackground(colorYellow); */
 		checkBox_4.setBounds(90, 95, 120, 30);
 		byte1Panel.add(checkBox_4);
-		
+
 		final JLabel label_8 = new JLabel();
 		label_8.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_8.setText(pm.getString("mv.terminalperformanceconfig.bit51"));
@@ -173,8 +152,6 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		checkBox_1.setBounds(100, 5, 120, 30);
 		byte3Panel.add(checkBox_1);
 
-		
-
 		final JLabel label_5 = new JLabel();
 		label_5.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_5.setText(pm.getString("mv.terminalperformanceconfig.bit7"));
@@ -187,8 +164,6 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		checkBox_3.setBounds(100, 50, 120, 30);
 		byte3Panel.add(checkBox_3);
 
-		
-
 		final JLabel label_7 = new JLabel();
 		label_7.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_7.setText(pm.getString("mv.terminalperformanceconfig.bit6"));
@@ -196,13 +171,10 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		byte3Panel.add(label_7);
 
 		checkBox_5 = new JCheckBox();
-		checkBox_5
-				.setText(pm.getString("mv.terminalperformanceconfig.eatcard"));
+		checkBox_5.setText(pm.getString("mv.terminalperformanceconfig.eatcard"));
 		/* checkBox_5.setBackground(colorYellow); */
 		checkBox_5.setBounds(100, 95, 120, 30);
 		byte3Panel.add(checkBox_5);
-
-		
 
 		final JLabel label_10 = new JLabel();
 		label_10.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -232,7 +204,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		label_13.setText(pm.getString("mv.terminalperformanceconfig.byte2"));
 		label_13.setBounds(30, 365, 210, 30);
 		add(label_13);
-		
+
 		final JPanel byte2Panel = new JPanel();
 		byte2Panel.setBorder(new TitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
 		byte2Panel.setBounds(30, 405, 490, 130);
@@ -294,8 +266,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		byte2Panel.add(label_18);
 
 		checkBox_11 = new JCheckBox();
-		checkBox_11
-				.setText(pm.getString("mv.terminalperformanceconfig.verify"));
+		checkBox_11.setText(pm.getString("mv.terminalperformanceconfig.verify"));
 		/* checkBox_11.setBackground(colorYellow); */
 		checkBox_11.setBounds(360, 50, 120, 30);
 		byte2Panel.add(checkBox_11);
@@ -305,14 +276,14 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		label_19.setText(pm.getString("mv.terminalperformanceconfig.otherbits"));
 		label_19.setBounds(265, 95, 85, 30);
 		byte2Panel.add(label_19);
-		
+
 		final JLabel rufLabel_2 = new JLabel();
 		rufLabel_2.setText(pm.getString("mv.terminalperformanceconfig.ruf"));
 		rufLabel_2.setBounds(360, 95, 120, 30);
 		byte2Panel.add(rufLabel_2);
-		
+
 		init();
-		
+
 		final JButton saveButton = new JButton();
 		saveButton.setText(pm.getString("mv.terminalperformanceconfig.save"));
 		saveButton.setBounds(496, 584, 84, 21);
@@ -323,17 +294,9 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 				saveTermPerformConfig();
 			}
 		});
-		
-
-		
-
-		
-
-		
 
 		/*
-		 * final JPanel panel_1 = new JPanel();
-		 * splitPane.setRightComponent(panel_1);
+		 * final JPanel panel_1 = new JPanel(); splitPane.setRightComponent(panel_1);
 		 */
 
 	}
@@ -390,21 +353,15 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		valueStr = Integer.toHexString(Byte3);
 		termPerform += addStr(valueStr.toUpperCase(), "0", 2, 0);
 
-		termPerConfig = iTermPerConfigDao.findTermPerform();
+		/*termPerConfig = iTermPerConfigDao.findTermPerform();
 		if (null == termPerConfig) {
-			JOptionPane.showMessageDialog(null, pm
-					.getString("mv.terminalperformanceconfig.termid"), pm
-					.getString("mv.terminalperformanceconfig.infoWindow"),
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, pm.getString("mv.terminalperformanceconfig.termid"), pm.getString("mv.terminalperformanceconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		termPerConfig.setTermPerform(termPerform);
 		if (iTermPerConfigDao.updateTermPerform(termPerConfig)) {
-			JOptionPane.showMessageDialog(null, pm
-					.getString("mv.terminalperformanceconfig.savesuccess"), pm
-					.getString("mv.terminalperformanceconfig.infoWindow"),
-					JOptionPane.INFORMATION_MESSAGE);
-		}
+			JOptionPane.showMessageDialog(null, pm.getString("mv.terminalperformanceconfig.savesuccess"), pm.getString("mv.terminalperformanceconfig.infoWindow"), JOptionPane.INFORMATION_MESSAGE);
+		}*/
 
 	}
 
@@ -439,14 +396,13 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 	private void init() {
 		setName(pm.getString("mv.terminalperformanceconfig.name"));
 
-		iTermPerConfigDao = (ITermPerformConfigDao) ctx
-				.getBean("iTermPerConfigDao");
+	/*	iTermPerConfigDao = (ITermPerformConfigDao) ctx.getBean("iTermPerConfigDao");
 		// termPerConfig=null;
 		TermPerformConfig tpconfig = new TermPerformConfig();
 		tpconfig = null;
 		tpconfig = iTermPerConfigDao.findTermPerform();
-
-		if (tpconfig != null&&tpconfig.getTermPerform()!=null && tpconfig.getTermPerform().trim().length() > 5) {
+*/
+	/*	if (tpconfig != null && tpconfig.getTermPerform() != null && tpconfig.getTermPerform().trim().length() > 5) {
 			String B1 = tpconfig.getTermPerform().substring(0, 2);
 			// 记住，截取到的字符串是16进制的，所以需要调用Integer.parseInt(B1, 16)才能正确还原为2进制
 			B1 = Integer.toBinaryString(Integer.parseInt(B1, 16));
@@ -503,7 +459,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 				checkBox_6.setSelected(true);
 			}
 
-		}
+		}*/
 		/*
 		 * initModel(); initControls();
 		 */
