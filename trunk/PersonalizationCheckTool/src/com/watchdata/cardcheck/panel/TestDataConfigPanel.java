@@ -3,6 +3,7 @@ package com.watchdata.cardcheck.panel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -77,6 +81,10 @@ public class TestDataConfigPanel extends JPanel {
 	public RowRenderer rowRenderer;
 
 	public JComboBox comboBox_1;
+	
+	private JDialog dialog = new JDialog();
+	private JEditorPane ep = new JEditorPane();
+	private JScrollPane dlgscrollPane = new JScrollPane(ep);
 
 	public TestDataConfigPanel() {
 		super();
@@ -133,6 +141,28 @@ public class TestDataConfigPanel extends JPanel {
 		table = new JTable();
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					if (e.getClickCount() == 2) {
+						int row = table.rowAtPoint(e.getPoint());
+						int colum = table.columnAtPoint(e.getPoint());
+						Object ob = table.getValueAt(row, colum);
+						Point p = e.getLocationOnScreen();
+						dialog.setLocation(p);
+						if (table.getValueAt(row, colum-2).equals("8E")) {
+							ep.setText(parse8E(ob.toString()));
+						}else {
+							ep.setText(ob.toString());
+						}
+						
+						dialog.setVisible(true);
+					}
+				}
+			}
+		});
+		
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 		tableDataDisp();
 		setTableWidth(table);
@@ -150,6 +180,7 @@ public class TestDataConfigPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				log.setLogDialogOff();
+				comboBox.removeAllItems();
 				String reader = Config.getValue("Terminal_Data", "reader");
 				HashMap<String, String> res = apduHandler.reset(reader);
 				if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
@@ -283,6 +314,9 @@ public class TestDataConfigPanel extends JPanel {
 
 		addButton.addActionListener(addActionListener);
 		delButton.addActionListener(delActionListener);
+		
+		dialog.setSize(450, 350);
+		dialog.getContentPane().add(dlgscrollPane);
 	}
 
 	// 添加按钮监听事件
@@ -426,5 +460,35 @@ public class TestDataConfigPanel extends JPanel {
 		dd.getColumn(2).setPreferredWidth(40);
 		dd.getColumn(3).setPreferredWidth(350);
 		dd.getColumn(4).setPreferredWidth(160);
+	}
+	
+	public String parse8E(String str8E){
+		StringBuilder sb=new StringBuilder();
+		String x=str8E.substring(0,8);
+		String y=str8E.substring(8,16);
+		String cvmCode="";
+		String cvmType="";
+		
+		x=x+"------金额X（二进制）";
+		y=y+"------金额Y（二进制）";
+		sb.append(x).append("\n").append(y).append("\n");
+		sb.append("---------------------------------------\n");
+		int i=16;
+		while (i<str8E.length()) {
+			cvmCode=str8E.substring(i, i+2);
+			cvmType=str8E.substring(i+2,i+4);
+			
+			String binary=Integer.toBinaryString(Integer.parseInt(cvmCode, 16));
+			binary=WDStringUtil.paddingHeadZero(binary, 8);
+			
+			cvmCode=cvmCode+"------"+Config.getValue("CVM_CODE", binary.substring(0, 2));
+			cvmType=cvmType+"------"+Config.getValue("CVM_TYPE", binary.substring(2, 8));
+			i+=4;
+			sb.append(cvmCode).append("\n").append(cvmType).append("\n");
+			sb.append("---------------------------------------\n");
+		}
+		
+		System.out.println(sb.toString());
+		return sb.toString();
 	}
 }
