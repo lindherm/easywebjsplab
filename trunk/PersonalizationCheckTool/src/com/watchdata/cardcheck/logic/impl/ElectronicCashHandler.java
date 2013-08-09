@@ -305,6 +305,7 @@ public class ElectronicCashHandler extends BaseHandler {
 			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
+			apduHandler.close();
 		}
 	}
 
@@ -578,6 +579,7 @@ public class ElectronicCashHandler extends BaseHandler {
 			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
+			apduHandler.close();
 		}
 	}
 }

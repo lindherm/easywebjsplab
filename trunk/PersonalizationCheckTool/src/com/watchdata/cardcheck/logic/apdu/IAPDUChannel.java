@@ -22,5 +22,7 @@ public interface IAPDUChannel {
 	public boolean init(String readName);
 	
 	public String reset();
+	
+	public void close();
 
 }

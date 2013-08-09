@@ -63,11 +63,10 @@ public class TestDataConfigPanel extends JPanel {
 	public static JButton delButton;
 	public JComboBox comboBox;
 	private PropertiesManager pm = new PropertiesManager();
-	private final String[] COLUMNS = new String[] { "DGI", "TAG", "值", "检测结果" };
+	private final String[] COLUMNS = new String[] { "DGI", "TAG","LEN", "值", "检测结果" };
 	private List<StaticDataInfo> sdList = new ArrayList<StaticDataInfo>();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
-	private String[] comboData = { pm.getString("mv.testdata.appType"), pm.getString("mv.testdata.appType2"), pm.getString("mv.testdata.appType3") };
 	public static JProgressBar progressBar;
 	public CommonAPDU apduHandler;
 	public static Log log = new Log();
@@ -172,6 +171,7 @@ public class TestDataConfigPanel extends JPanel {
 						}
 					}
 				}
+				apduHandler.close();
 			}
 		});
 		comboBox.setBounds(88, 71, 180, 20);
@@ -228,20 +228,23 @@ public class TestDataConfigPanel extends JPanel {
 						TLV tlv = tlvList.find(tagHex);
 						if (tlv != null) {
 							String value = WDByteUtil.bytes2HEX(tlv.getValue());
-							table.setValueAt(value, i, 2);
-							table.setValueAt(1, i, 3);
+							String len=WDByteUtil.bytes2HEX(tlv.getL());
+							table.setValueAt(len, i, 2);
+							table.setValueAt(value, i, 3);
+							table.setValueAt(1, i, 4);
 						} else {
-							table.setValueAt(2, i, 3);
+							table.setValueAt(2, i, 4);
 						}
 					} else {
-						table.setValueAt(2, i, 3);
+						table.setValueAt(2, i, 4);
 					}
 				}
 				tcm = table.getColumnModel();
-				tc = tcm.getColumn(3);
+				tc = tcm.getColumn(4);
 				rowRenderer = new RowRenderer();
 				tc.setCellRenderer(rowRenderer);
 				table.repaint();
+				apduHandler.close();
 			}
 		});
 		button.setText("检测");
@@ -304,6 +307,7 @@ public class TestDataConfigPanel extends JPanel {
 
 			sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 			tableDataDisp();
+			setTableWidth(table);
 			table.repaint();
 		}
 	};
@@ -334,6 +338,7 @@ public class TestDataConfigPanel extends JPanel {
 				if (staticDataInfo.del("StaticDataTemplate", delDatas)) {
 					sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 					tableDataDisp();
+					setTableWidth(table);
 					table.repaint();
 
 					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
@@ -355,12 +360,13 @@ public class TestDataConfigPanel extends JPanel {
 	 */
 	public void tableDataDisp() {
 		int rowNum = sdList.size();
-		tableData = new Object[rowNum][4];
+		tableData = new Object[rowNum][5];
 		for (int i = 0; i < rowNum; i++) {
 			tableData[i][0] = sdList.get(i).getDgi();
 			tableData[i][1] = sdList.get(i).getTag();
-			tableData[i][2] = sdList.get(i).getValue();
-			tableData[i][3] = sdList.get(i).getResult();
+			tableData[i][2] ="";
+			tableData[i][3] = sdList.get(i).getValue();
+			tableData[i][4] = sdList.get(i).getResult();
 		}
 		testDataTableModel = new DefaultTableModel(tableData, COLUMNS) {
 			private static final long serialVersionUID = -9082031840487910439L;
@@ -402,9 +408,9 @@ public class TestDataConfigPanel extends JPanel {
 		private static final long serialVersionUID = -9128946524399930570L;
 
 		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			if (column == 3 && value.equals(1))
+			if (column == 4 && value.equals(1))
 				setBackground(Color.green);
-			else if (column == 3 && value.equals(2)) {
+			else if (column == 4 && value.equals(2)) {
 				setBackground(Color.red);
 			} else {
 				setBackground(Color.white);
@@ -415,9 +421,10 @@ public class TestDataConfigPanel extends JPanel {
 
 	public void setTableWidth(JTable jt) {
 		TableColumnModel dd = jt.getColumnModel();
-		dd.getColumn(0).setPreferredWidth(100);
-		dd.getColumn(1).setPreferredWidth(100);
-		dd.getColumn(2).setPreferredWidth(350);
-		dd.getColumn(3).setPreferredWidth(160);
+		dd.getColumn(0).setPreferredWidth(80);
+		dd.getColumn(1).setPreferredWidth(80);
+		dd.getColumn(2).setPreferredWidth(40);
+		dd.getColumn(3).setPreferredWidth(350);
+		dd.getColumn(4).setPreferredWidth(160);
 	}
 }

@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.PropertiesManager;
@@ -44,6 +45,7 @@ public class CardReaderPanel extends JPanel {
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
 	private CardPcsc cardPcsc = new CardPcsc();
+	PcscChannel apduChannel=new PcscChannel();
 
 	/**
 	 * Create the panel
@@ -51,7 +53,7 @@ public class CardReaderPanel extends JPanel {
 	public CardReaderPanel() {
 		super();
 		setLayout(null);
-		setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
+		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
 
 		final JLabel label = new JLabel();
 		label.setBounds(0, 50, 97, 20);
@@ -72,7 +74,7 @@ public class CardReaderPanel extends JPanel {
 
 		comboBox = new JComboBox();
 		comboBoxModel = new DefaultComboBoxModel();
-		//cardReaderList = apduChannel.getReaderList();
+		cardReaderList = apduChannel.getReaderList();
 
 		if (cardReaderList != null && cardReaderList.length > 0) {
 			comboBoxModel = new DefaultComboBoxModel(cardReaderList);

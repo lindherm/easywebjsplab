@@ -226,9 +226,8 @@ public class CommonAPDU extends AbstractAPDU {
 		String responseApdu = apduChannel.send(commandApdu);
 		return unpackApdu(responseApdu);
 	}
-
-	public void setApduChannel(IAPDUChannel apduChannel) {
-		this.apduChannel = apduChannel;
+	
+	public void close(){
+		apduChannel.close();
 	}
-
 }
