@@ -91,7 +91,7 @@ public class Log {
 
 	private void out(String info, int command) {
 		if (outLogDialog != null) {
-			outLogDialog.setVisible(true);
+			showUI();
 			Component[] component = outLogDialog.getContentPane().getComponents();
 			for (Component component2 : component) {
 
@@ -137,5 +137,11 @@ public class Log {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+	}
+	public void showUI(){
+		outLogDialog.setVisible(true);
+	}
+	public void hideUI(){
+		outLogDialog.setVisible(false);
 	}
 }

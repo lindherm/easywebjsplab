@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import com.sun.awt.AWTUtilities;
+
 public class OutLogDialog extends JDialog {
 
 	/**
@@ -36,6 +38,7 @@ public class OutLogDialog extends JDialog {
 		JScrollPane sp = new JScrollPane(jTextPane);
 		jTextPane.setFont(new Font("宋体", Font.PLAIN,14));
 		panel.add(sp);
+		AWTUtilities.setWindowOpacity(this, (float)0.7);
 		this.setLocationRelativeTo(null);
 	}
 
