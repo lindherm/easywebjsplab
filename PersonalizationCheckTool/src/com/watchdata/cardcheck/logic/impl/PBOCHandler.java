@@ -293,6 +293,7 @@ public class PBOCHandler extends BaseHandler {
 			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
+			apduHandler.close();
 		}
 
 	}

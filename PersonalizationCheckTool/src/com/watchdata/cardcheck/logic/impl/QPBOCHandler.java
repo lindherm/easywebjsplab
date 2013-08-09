@@ -205,6 +205,7 @@ public class QPBOCHandler extends BaseHandler {
 			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
+			apduHandler.close();
 		}
 	}
 

@@ -47,7 +47,7 @@ public class PcscChannel implements IAPDUChannel{
 		}
 	}
 	
-	public void destroy(){
+	public void close(){
 		cardPcsc.disConnectReader();
 	}
 }
