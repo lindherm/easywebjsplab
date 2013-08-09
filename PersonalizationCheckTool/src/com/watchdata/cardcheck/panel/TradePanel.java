@@ -590,11 +590,11 @@ public class TradePanel extends JImagePanel {
 						}
 						if ("qPBOC".equals(tradeType)) {
 							tradingSet(tradeType, money);
-							cancelButton.setEnabled(false);
-							qPBOCButton.setEnabled(false);
-							lendButton.setEnabled(false);
-							earmarkButton.setEnabled(false);
-							ecashButton.setEnabled(false);
+							//cancelButton.setEnabled(false);
+							//qPBOCButton.setEnabled(false);
+							//lendButton.setEnabled(false);
+							//earmarkButton.setEnabled(false);
+							//ecashButton.setEnabled(false);
 							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 								// 执行交易
 								qpbocHandler = new QPBOCHandler();
@@ -609,11 +609,11 @@ public class TradePanel extends JImagePanel {
 								return;
 							}
 							tradingSet(tradeType, money);
-							cancelButton.setEnabled(false);
-							qPBOCButton.setEnabled(false);
-							lendButton.setEnabled(false);
-							earmarkButton.setEnabled(false);
-							ecashButton.setEnabled(false);
+							//cancelButton.setEnabled(false);
+							//qPBOCButton.setEnabled(false);
+							//lendButton.setEnabled(false);
+							//earmarkButton.setEnabled(false);
+							//ecashButton.setEnabled(false);
 							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 								// 执行交易
 								pBOCHandler = new PBOCHandler();
@@ -628,11 +628,11 @@ public class TradePanel extends JImagePanel {
 								return;
 							}
 							tradingSet(tradeType, money);
-							cancelButton.setEnabled(false);
-							qPBOCButton.setEnabled(false);
-							lendButton.setEnabled(false);
-							earmarkButton.setEnabled(false);
-							ecashButton.setEnabled(false);
+							//cancelButton.setEnabled(false);
+							//qPBOCButton.setEnabled(false);
+							//lendButton.setEnabled(false);
+							//earmarkButton.setEnabled(false);
+							//ecashButton.setEnabled(false);
 							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 								// 执行交易
 								success = electronicCashHandler.ECPurcharse(tradeMount, readerName, tradingLabel, termSupportUtil);
@@ -646,11 +646,11 @@ public class TradePanel extends JImagePanel {
 								return;
 							}
 							tradingSet(tradeType, money);
-							cancelButton.setEnabled(false);
-							qPBOCButton.setEnabled(false);
-							lendButton.setEnabled(false);
-							earmarkButton.setEnabled(false);
-							ecashButton.setEnabled(false);
+							//cancelButton.setEnabled(false);
+							//qPBOCButton.setEnabled(false);
+							//lendButton.setEnabled(false);
+							//earmarkButton.setEnabled(false);
+							//ecashButton.setEnabled(false);
 							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 								// 执行交易
 								success = electronicCashHandler.ECLoad(tradeMount, readerName, tradingLabel, termSupportUtil);
@@ -764,10 +764,6 @@ public class TradePanel extends JImagePanel {
 			}
 		}
 	}
-
-	/*
-	 * public static void main(String[]args){ System.out.println(decimalDigitsLimit("2333.")); }
-	 */
 
 	public static void setTradeType(String tradeType) {
 		money.delete(0, money.length());
