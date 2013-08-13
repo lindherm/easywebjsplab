@@ -63,6 +63,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				AIDConfigPanel.textFieldAid.requestFocus();
 			}
 		});
@@ -89,6 +90,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				AIDConfigPanel.buttonDel.requestFocus();
 			}
 		});
@@ -126,6 +128,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				CAPublicKeyConfigPanel.RIDCombox.requestFocus();
 			}
 		});
@@ -150,6 +153,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
@@ -185,6 +189,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
@@ -223,6 +228,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				TerminalLimitConfigPanel.tacRejectField.requestFocus();
 			}
 		});
@@ -249,6 +255,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				TerminalLimitConfigPanel.lowLimitField.requestFocus();
 			}
 		});
@@ -274,6 +281,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				TerminalLimitConfigPanel.termIdField.requestFocus();
 			}
 		});
@@ -310,6 +318,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				TerminalPerformanceConfigPanel.checkBox.requestFocus();
 			}
 		});
@@ -345,6 +354,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.logoPanel.setVisible(false);	
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
@@ -381,6 +391,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.logoPanel.setVisible(false);	
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
 				CardReaderPanel.comboBox.requestFocus();
 			}
 		});
