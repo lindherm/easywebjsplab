@@ -6,7 +6,11 @@ import java.util.List;
 
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
+import com.watchdata.commons.crypto.WD3DesCryptoUtil;
+import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
+import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDAssert;
+import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.commons.lang.WDStringUtil;
 
 /**
@@ -227,7 +231,42 @@ public class CommonAPDU extends AbstractAPDU {
 		return unpackApdu(responseApdu);
 	}
 	
+	 private void externalAuthenticate(int p1,String encKey,String macKey,String dekKey)
+	    {
+	        String data;
+	        String hostRandom=WDStringUtil.getRandomHexString(16);
+	        String strResp1=apduChannel.send("00A4040000"); 
+	        String strResp=apduChannel.send("8050000008"+hostRandom); 
+	        
+	        String Rcard=strResp.substring(24,40); //random of card
+	        String Rter=hostRandom;   //random of terminal
+
+	        //host
+	        data=Rcard+Rter;
+	        String Host=WD3DesCryptoUtil.cbc_encrypt(encKey, data, Padding.NoPadding, "0000000000000000");
+	        Host = Host.substring(Host.length()-16);
+	        //Smac
+	        byte[] level=new byte[1];
+	        level[0]=(byte)p1;
+	        String strLevel=new String(WDByteUtil.bytes2HEX(level));
+	        data="8482"+strLevel+"0010"+Host;
+	        data=data+"80";
+	        while (data.length()%16!=0) {
+				data=data+"00";
+			}
+	       String Smac=WDPBOCUtil.triple_des_mac(macKey, data, Padding.NoPadding, "0000000000000000");
+	       int lc=Host.length()+Smac.length();
+	       String lcStr=Integer.toHexString(lc/2);
+	       String resp= apduChannel.send("8482"+strLevel+"00"+lcStr+Host+Smac);
+	    }
+	
 	public void close(){
 		apduChannel.close();
+	}
+	public static void main(String[] args) {
+		CommonAPDU commonAPDU=new CommonAPDU();
+		commonAPDU.reset("WatchData System CRW-VIuo 0");
+		commonAPDU.select(Constants.PSE);
+		commonAPDU.externalAuthenticate(1, "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F");
 	}
 }
