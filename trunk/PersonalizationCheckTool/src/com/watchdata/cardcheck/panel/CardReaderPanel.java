@@ -17,7 +17,6 @@ import javax.swing.event.PopupMenuListener;
 
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.cardcheck.utils.Config;
-import com.watchdata.cardcheck.utils.Configuration;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardpcsc.CardPcsc;
 import com.watchdata.commons.lang.WDByteUtil;
@@ -40,7 +39,6 @@ public class CardReaderPanel extends JPanel {
 
 	private static final long serialVersionUID = -6360462745055001746L;
 	public static JComboBox comboBox;
-	private Configuration configuration = new Configuration();
 	private String[] cardReaderList;
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
@@ -79,8 +77,9 @@ public class CardReaderPanel extends JPanel {
 		if (cardReaderList != null && cardReaderList.length > 0) {
 			comboBoxModel = new DefaultComboBoxModel(cardReaderList);
 			comboBox.setModel(comboBoxModel);
-			if (containCRConfig(configuration.getValue("cardreader"), cardReaderList)) {
-				comboBox.setSelectedItem(configuration.getValue("cardreader"));
+			String reader=Config.getValue("Terminal_Data", "reader");
+			if (containCRConfig(reader,cardReaderList)) {
+				comboBox.setSelectedItem(reader);
 			}
 		}
 		comboBox.setBounds(100, 95, 300, 20);

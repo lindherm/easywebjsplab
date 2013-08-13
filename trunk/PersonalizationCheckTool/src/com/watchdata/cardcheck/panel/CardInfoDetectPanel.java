@@ -1,9 +1,14 @@
 package com.watchdata.cardcheck.panel;
 
-import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class CardInfoDetectPanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public CardInfoDetectPanel() {
 		setLayout(null);
 		
