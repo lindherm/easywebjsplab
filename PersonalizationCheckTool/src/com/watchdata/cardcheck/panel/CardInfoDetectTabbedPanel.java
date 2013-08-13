@@ -20,14 +20,14 @@ import com.watchdata.cardcheck.app.RightPanel;
  * 
  */
 
-public class CardDetectTabbedPanel extends JPanel {
+public class CardInfoDetectTabbedPanel extends JPanel {
 
 	private static final long serialVersionUID = 547600566322611144L;
 
 	/**
 	 * Create the panel
 	 */
-	public CardDetectTabbedPanel() {
+	public CardInfoDetectTabbedPanel() {
 		super();
 		final GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7 };
