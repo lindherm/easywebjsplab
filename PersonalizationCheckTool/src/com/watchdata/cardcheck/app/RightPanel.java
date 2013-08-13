@@ -7,6 +7,7 @@ import javax.swing.JTabbedPane;
 
 import com.watchdata.cardcheck.panel.AIDConfigPanel;
 import com.watchdata.cardcheck.panel.CAPublicKeyConfigPanel;
+import com.watchdata.cardcheck.panel.CardInfoDetectPanel;
 import com.watchdata.cardcheck.panel.CardReaderPanel;
 import com.watchdata.cardcheck.panel.IssuerKeyConfigPanel;
 import com.watchdata.cardcheck.panel.LogoPanel;
@@ -37,6 +38,7 @@ public class RightPanel extends JPanel{
 	public static TerminalPerformanceConfigPanel terminalPerformanceConfigPanel = null;
 	public static TerminalTypeConfigPanel terminalTypeConfigPanel = null;
 	public static TestDataConfigPanel testDataConfigPanel = null;
+	public static CardInfoDetectPanel cardInfoDetectPanel = null;
 	public static TradePanel tradePanel = null;
 	public static LogoPanel logoPanel = null;
 	public static CardReaderPanel cardReaderPanel = new CardReaderPanel();
@@ -55,6 +57,7 @@ public class RightPanel extends JPanel{
 		terminalPerformanceConfigPanel = new TerminalPerformanceConfigPanel();
 		terminalTypeConfigPanel = new TerminalTypeConfigPanel();
 		testDataConfigPanel = new TestDataConfigPanel();
+		cardInfoDetectPanel=new CardInfoDetectPanel();
 		tradePanel = new TradePanel();
 		setLayout(new BorderLayout());
 		logoPanel = new LogoPanel();
