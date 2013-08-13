@@ -9,7 +9,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.watchdata.cardcheck.panel.CardDetectTabbedPanel;
+import com.watchdata.cardcheck.panel.CardInfoDetectTabbedPanel;
 import com.watchdata.cardcheck.panel.CheckTabbedPanel;
 import com.watchdata.cardcheck.panel.ConfigTabbedPanel;
 import com.watchdata.cardcheck.panel.TradeTabbedPanel;
@@ -29,7 +29,7 @@ public class LeftPanel extends JPanel {
 	private ConfigTabbedPanel configTabbedPanel = new ConfigTabbedPanel();
 	private TradeTabbedPanel tradeTabbedPanel = new TradeTabbedPanel();
 	private CheckTabbedPanel checkTabbedPanel = new CheckTabbedPanel();
-	private CardDetectTabbedPanel cardDetectTabbedPanel = new CardDetectTabbedPanel();
+	private CardInfoDetectTabbedPanel cardDetectTabbedPanel = new CardInfoDetectTabbedPanel();
 
 	/* private JScrollPane treePanel = null; */
 
