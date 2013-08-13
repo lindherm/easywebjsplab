@@ -35,14 +35,11 @@ public class Application extends JFrame {
 	public static Application frame;
 	private static final String titleStr = pm.getString("mv.application.appTitle");
 	private static MainMenuBar menuBar;
-	/* private static MainToolBar toolBar = null; */
 	private static Container contentPanel;
 	private static LeftPanel leftPanel;
 	public static RightPanel rightPanel;
 	private static JSplitPane splitPane;
 	private static BottomPanel bottomPanel;
-
-	/* private JTabbedPane mainTabbedPane; */
 
 	/**
 	 * @Title: main
@@ -53,10 +50,6 @@ public class Application extends JFrame {
 	 *             ， 产生异常时会采用默认的LookAndFeel不会影响程序功能实现
 	 */
 	public static void main(String[] args) {
-		/* initGlobalFontSetting(pm.getString("mv.application.font"), Font.PLAIN, 12); */
-		/*
-		 * EventQueue.invokeLater(new Runnable() { public void run() {
-		 */
 		try {
 			Properties props = new Properties();
 			props.put("logoString", "watchdata");
@@ -76,9 +69,6 @@ public class Application extends JFrame {
 		frame.setVisible(false);
 		init();
 		frame.setVisible(true);
-		/*
-		 * } });
-		 */
 	}
 
 	public Application() {
@@ -95,8 +85,6 @@ public class Application extends JFrame {
 	}
 
 	public static void init() {
-		/* initMenuBar(); */
-		/* initToolBar(); */
 		initContentPane();
 
 	}
@@ -105,12 +93,6 @@ public class Application extends JFrame {
 		menuBar = new MainMenuBar();
 		frame.setJMenuBar(menuBar);
 	}
-
-	/*
-	 * private static void initToolBar() { toolBar = new MainToolBar();
-	 * 
-	 * }
-	 */
 
 	private static void initContentPane() {
 		contentPanel = frame.getContentPane();
@@ -125,7 +107,6 @@ public class Application extends JFrame {
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false, leftPanel, rightPanel);
 		splitPane.setDividerLocation(200);
 		splitPane.setOneTouchExpandable(false);
-		/* contentPanel.add(toolBar, BorderLayout.NORTH); */
 		contentPanel.add(splitPane, BorderLayout.CENTER);
 		bottomPanel = new BottomPanel();
 		contentPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -141,17 +122,6 @@ public class Application extends JFrame {
 	 *             ，产生异常时会采用默认的LookAndFeel，更新皮肤功能不生效
 	 */
 	public void updateLookAndFeel(String lf) {
-		/*
-		 * try { // If new look handles the WindowDecorationStyle not in the same // manner as the old look // we have to reboot our application.
-		 * 
-		 * LookAndFeel oldLAF = UIManager.getLookAndFeel(); boolean oldDecorated = false; if (oldLAF instanceof MetalLookAndFeel) { oldDecorated = true; } if (oldLAF instanceof AbstractLookAndFeel) { oldDecorated = AbstractLookAndFeel.getTheme() .isWindowDecorationOn(); }
-		 * 
-		 * // reset to default theme if (lf.equals(GUIProperties.PLAF_FAST)) { FastLookAndFeel.setTheme("Default"); } else if (lf.equals(GUIProperties.PLAF_MCWIN)) { McWinLookAndFeel.setTheme("Default"); } else if (lf.equals(GUIProperties.PLAF_MINT)) { MintLookAndFeel.setTheme("Default"); } else if (lf.equals(GUIProperties.PLAF_CUSTOM)) { com.jtattoo.plaf. custom.systemx.SystemXLookAndFeel.setTheme("Default"); }
-		 * 
-		 * guiProps.setTheme("Default"); guiProps.setLookAndFeel(lf); UIManager.setLookAndFeel(guiProps.getLookAndFeel());
-		 * 
-		 * LookAndFeel newLAF = UIManager.getLookAndFeel(); boolean newDecorated = false; if (newLAF instanceof MetalLookAndFeel) { newDecorated = true; } if (newLAF instanceof AbstractLookAndFeel) { newDecorated = AbstractLookAndFeel.getTheme() .isWindowDecorationOn(); } if (oldDecorated != newDecorated) { // Reboot the application Rectangle savedBounds = getBounds(); dispose(); } else { // Update the application getRootPane().updateUI(); for (int i = 0; i < Frame.getFrames().length; i++) { SwingUtilities.updateComponentTreeUI(Frame.getFrames()[i]); } } } catch (Exception ex) { log.info("LookAndFeel unsupported, update LookAndFeel fail."); }
-		 */
 
 		try {
 			// reset to default theme
@@ -186,9 +156,6 @@ public class Application extends JFrame {
 			// Update the application
 			getRootPane().updateUI();
 			SwingUtilities.updateComponentTreeUI(this);
-			/*
-			 * menuBar.updateLookAndFeel(); leftPanel.updateLookAndFeel(); rightPanel.updateLookAndFeel();
-			 */
 		} catch (Exception ex) {
 			System.out.println("Failed loading L&F: " + guiProps.getLookAndFeel() + " Exception: " + ex.getMessage());
 		}
@@ -197,10 +164,6 @@ public class Application extends JFrame {
 	public GUIProperties getGuiProps() {
 		return guiProps;
 	}
-
-	/*
-	 * public void setMainTabbedPane(JTabbedPane tabPane) { mainTabbedPane = tabPane; }
-	 */
 
 	public static void initGlobalFontSetting(String fontName, int style, int size) {
 		Font fnt = new Font(fontName, style, size);
