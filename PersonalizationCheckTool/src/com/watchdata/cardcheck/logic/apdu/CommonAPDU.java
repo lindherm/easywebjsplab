@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bouncycastle.util.encoders.Hex;
+
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
+import com.watchdata.commons.crypto.WDDesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDAssert;
-import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.commons.lang.WDStringUtil;
 
 /**
@@ -23,10 +25,56 @@ import com.watchdata.commons.lang.WDStringUtil;
  */
 public class CommonAPDU extends AbstractAPDU {
 	private IAPDUChannel apduChannel;
+	private String secureityLevel;
+	private String encKey;
+	private String macKey;
+	private String delKey;
+	private String smac;
 
-	public CommonAPDU(){
-		apduChannel=new PcscChannel();
+	public String getSmac() {
+		return smac;
 	}
+
+	public void setSmac(String smac) {
+		this.smac = smac;
+	}
+
+	public String getEncKey() {
+		return encKey;
+	}
+
+	public void setEncKey(String encKey) {
+		this.encKey = encKey;
+	}
+
+	public String getMacKey() {
+		return macKey;
+	}
+
+	public void setMacKey(String macKey) {
+		this.macKey = macKey;
+	}
+
+	public String getDelKey() {
+		return delKey;
+	}
+
+	public void setDelKey(String delKey) {
+		this.delKey = delKey;
+	}
+
+	public String getSecureityLevel() {
+		return secureityLevel;
+	}
+
+	public void setSecureityLevel(String secureityLevel) {
+		this.secureityLevel = secureityLevel;
+	}
+
+	public CommonAPDU() {
+		apduChannel = new PcscChannel();
+	}
+
 	/**
 	 * 复位指令
 	 * 
@@ -80,9 +128,9 @@ public class CommonAPDU extends AbstractAPDU {
 		String responseApdu = apduChannel.send(commandApdu);
 
 		result = unpackApdu(responseApdu);
-		
+
 		result.put("apdu", commandApdu);
-		result.put("res", responseApdu.substring(0, responseApdu.length()-4));
+		result.put("res", responseApdu.substring(0, responseApdu.length() - 4));
 		return result;
 
 	}
@@ -94,7 +142,7 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @return
 	 */
 	public List<HashMap<String, String>> readDir(String sfi) {
-		List<HashMap<String, String>> dirList=new ArrayList<HashMap<String,String>>();
+		List<HashMap<String, String>> dirList = new ArrayList<HashMap<String, String>>();
 		int b = Integer.parseInt(sfi);
 		b = (b << 3) + 4;
 		int index = Integer.parseInt(sfi);
@@ -102,9 +150,9 @@ public class CommonAPDU extends AbstractAPDU {
 		while (true) {
 			String commandApdu = packApdu("READ_RECORD", "", WDStringUtil.paddingHeadZero(String.valueOf(index), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2));
 			responseApdu = apduChannel.send(commandApdu);
-			if (Constants.SW_SUCCESS.equalsIgnoreCase(responseApdu.substring(responseApdu.length() - 4))){
+			if (Constants.SW_SUCCESS.equalsIgnoreCase(responseApdu.substring(responseApdu.length() - 4))) {
 				dirList.add(unpackApdu(responseApdu));
-			}else {
+			} else {
 				break;
 			}
 			index++;
@@ -230,43 +278,87 @@ public class CommonAPDU extends AbstractAPDU {
 		String responseApdu = apduChannel.send(commandApdu);
 		return unpackApdu(responseApdu);
 	}
-	
-	 private void externalAuthenticate(int p1,String encKey,String macKey,String dekKey)
-	    {
-	        String data;
-	        String hostRandom=WDStringUtil.getRandomHexString(16);
-	        String strResp1=apduChannel.send("00A4040000"); 
-	        String strResp=apduChannel.send("8050000008"+hostRandom); 
-	        
-	        String Rcard=strResp.substring(24,40); //random of card
-	        String Rter=hostRandom;   //random of terminal
 
-	        //host
-	        data=Rcard+Rter;
-	        String Host=WD3DesCryptoUtil.cbc_encrypt(encKey, data, Padding.NoPadding, "0000000000000000");
-	        Host = Host.substring(Host.length()-16);
-	        //Smac
-	        byte[] level=new byte[1];
-	        level[0]=(byte)p1;
-	        String strLevel=new String(WDByteUtil.bytes2HEX(level));
-	        data="8482"+strLevel+"0010"+Host;
-	        data=data+"80";
-	        while (data.length()%16!=0) {
-				data=data+"00";
+	private void externalAuthenticate(String secureity_level, String keyVersion, String keyId, String kenc, String kmac, String kdek) {
+		String data;
+		String hostRandom = WDStringUtil.getRandomHexString(16);
+		// initializeUpdate
+		String strResp = apduChannel.send("8050" + keyVersion + keyId + "08" + hostRandom);
+
+		String Rcard = strResp.substring(24, 40); // random of card
+		String Rter = hostRandom; // random of terminal
+
+		String resp = strResp.substring(24, 28);
+
+		String encKey = WD3DesCryptoUtil.cbc_encrypt(kenc, "0182" + resp + "000000000000000000000000", Padding.NoPadding, "0000000000000000");
+		String macKey = WD3DesCryptoUtil.cbc_encrypt(kmac, "0101" + resp + "000000000000000000000000", Padding.NoPadding, "0000000000000000");
+		String dekKey = WD3DesCryptoUtil.cbc_encrypt(kdek, "0181" + resp + "000000000000000000000000", Padding.NoPadding, "0000000000000000");
+		setEncKey(encKey);
+		setMacKey(macKey);
+		setDelKey(dekKey);
+		// host
+		data = Rcard + Rter + "8000000000000000";
+		String Host = WD3DesCryptoUtil.cbc_encrypt(encKey, data, Padding.NoPadding, "0000000000000000");
+		Host = Host.substring(Host.length() - 16);
+		// Smac
+		data = "8482" + secureity_level + "0010" + Host;
+		data = data + "80";
+		while (data.length() % 16 != 0) {
+			data = data + "00";
+		}
+		String Smac = WDPBOCUtil.triple_des_mac(macKey, data, Padding.NoPadding, "0000000000000000");
+		int lc = Host.length() + Smac.length();
+		String lcStr = Integer.toHexString(lc / 2);
+		resp = apduChannel.send("8482" + secureity_level + "00" + lcStr + Host + Smac);
+		if (resp.equalsIgnoreCase("9000")) {
+			setSecureityLevel(secureity_level);
+			setSmac(Smac);
+		}
+	}
+
+	public String send(String apdu) {
+		String encIv;
+		if (getSecureityLevel().equalsIgnoreCase("00") || apdu.substring(0, 4).equalsIgnoreCase("00A4")) {
+			return apduChannel.send(apdu);
+		} else if (getSecureityLevel().equalsIgnoreCase("01")) {
+			int lc = Integer.parseInt(apdu.substring(8, 10), 16);
+			lc += 8;
+			
+			encIv=WDPBOCUtil.single_des_mac(getMacKey().substring(0, 16), getSmac(), Padding.NoPadding, "0000000000000000");
+			
+			String macData =apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + apdu.substring(10);
+			macData = macData + "80";
+			while (macData.length() % 16 != 0) {
+				macData = macData + "00";
 			}
-	       String Smac=WDPBOCUtil.triple_des_mac(macKey, data, Padding.NoPadding, "0000000000000000");
-	       int lc=Host.length()+Smac.length();
-	       String lcStr=Integer.toHexString(lc/2);
-	       String resp= apduChannel.send("8482"+strLevel+"00"+lcStr+Host+Smac);
-	    }
-	
-	public void close(){
+			String cMac = WDPBOCUtil.triple_des_mac(getMacKey(), macData.toUpperCase(), Padding.NoPadding, encIv);
+			
+			setSmac(cMac);
+			
+			apdu = apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + apdu.substring(10) + cMac;
+			
+			return apduChannel.send(apdu.toUpperCase());
+		} else if (getSecureityLevel().equalsIgnoreCase("03")) {
+
+		}
+		return apduChannel.send(apdu);
+	}
+
+	public void close() {
 		apduChannel.close();
 	}
+
 	public static void main(String[] args) {
-		CommonAPDU commonAPDU=new CommonAPDU();
+		CommonAPDU commonAPDU = new CommonAPDU();
 		commonAPDU.reset("WatchData System CRW-VIuo 0");
-		commonAPDU.select(Constants.PSE);
-		commonAPDU.externalAuthenticate(1, "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F");
+		commonAPDU.select("A000000003000000");
+		commonAPDU.externalAuthenticate("01", "00", "00", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F");
+		commonAPDU.send("84F28000024F00");
+		commonAPDU.send("84F24000024F00");
+		commonAPDU.send("84F22000024F00");
+		// System.out.println(WDDesCryptoUtil.ecb_encrypt("7eaf833923736721", "6552c9003658483c8000000000000000", Padding.NoPadding));
+		/*String encIv=WDPBOCUtil.single_des_mac("7eaf833923736721", "6552c9003658483c", Padding.NoPadding, "0000000000000000");
+		System.out.println(encIv);*/
+		
 	}
 }
