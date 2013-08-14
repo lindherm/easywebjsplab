@@ -276,6 +276,16 @@ public class CommonAPDU extends AbstractAPDU {
 		return unpackApdu(responseApdu);
 	}
 
+	/**
+	 * externalAuthenticate
+	 * 
+	 * @param secureity_level
+	 * @param keyVersion
+	 * @param keyId
+	 * @param kenc
+	 * @param kmac
+	 * @param kdek
+	 */
 	private void externalAuthenticate(String secureity_level, String keyVersion, String keyId, String kenc, String kmac, String kdek) {
 		String data;
 		String hostRandom = WDStringUtil.getRandomHexString(16);
@@ -313,6 +323,12 @@ public class CommonAPDU extends AbstractAPDU {
 		}
 	}
 
+	/**
+	 * send apdu command
+	 * 
+	 * @param apdu
+	 * @return
+	 */
 	public String send(String apdu) {
 		String encIv;
 		if (getSecureityLevel().equalsIgnoreCase("00") || apdu.substring(0, 4).equalsIgnoreCase("00A4")) {
@@ -320,20 +336,20 @@ public class CommonAPDU extends AbstractAPDU {
 		} else if (getSecureityLevel().equalsIgnoreCase("01")) {
 			int lc = Integer.parseInt(apdu.substring(8, 10), 16);
 			lc += 8;
-			
-			encIv=WDPBOCUtil.single_des_mac(getMacKey().substring(0, 16), getSmac(), Padding.NoPadding, "0000000000000000");
-			
-			String macData =apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + apdu.substring(10);
+
+			encIv = WDPBOCUtil.single_des_mac(getMacKey().substring(0, 16), getSmac(), Padding.NoPadding, "0000000000000000");
+
+			String macData = apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + apdu.substring(10);
 			macData = macData + "80";
 			while (macData.length() % 16 != 0) {
 				macData = macData + "00";
 			}
 			String cMac = WDPBOCUtil.triple_des_mac(getMacKey(), macData.toUpperCase(), Padding.NoPadding, encIv);
-			
+
 			setSmac(cMac);
-			
+
 			apdu = apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + apdu.substring(10) + cMac;
-			
+
 			return apduChannel.send(apdu.toUpperCase());
 		} else if (getSecureityLevel().equalsIgnoreCase("03")) {
 
@@ -353,9 +369,6 @@ public class CommonAPDU extends AbstractAPDU {
 		commonAPDU.send("84F28000024F00");
 		commonAPDU.send("84F24000024F00");
 		commonAPDU.send("84F22000024F00");
-		// System.out.println(WDDesCryptoUtil.ecb_encrypt("7eaf833923736721", "6552c9003658483c8000000000000000", Padding.NoPadding));
-		/*String encIv=WDPBOCUtil.single_des_mac("7eaf833923736721", "6552c9003658483c", Padding.NoPadding, "0000000000000000");
-		System.out.println(encIv);*/
-		
+
 	}
 }
