@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bouncycastle.util.encoders.Hex;
-
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
-import com.watchdata.commons.crypto.WDDesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDAssert;
