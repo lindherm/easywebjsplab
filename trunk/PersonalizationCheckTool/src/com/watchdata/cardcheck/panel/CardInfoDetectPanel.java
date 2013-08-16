@@ -260,7 +260,7 @@ public class CardInfoDetectPanel extends JPanel {
 		JButton btnNewButton_1 = new JButton("打开脚本");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jFileChooser = new JFileChooser(".");
+				JFileChooser jFileChooser = new JFileChooser("./prg/");
 				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("prg files", "prg");
 				jFileChooser.setFileFilter(fileNameExtensionFilter);
 

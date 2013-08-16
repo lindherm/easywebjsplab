@@ -12,7 +12,7 @@ import com.watchdata.cardcheck.log.Log;
  * @Copyright: watchdata
  */
 public class AbstractAPDU {
-	private static Log log = new Log();
+	public static Log log = new Log();
 	private static final String SPECIAL_TAG_LIST = "61|6F|A5|BF0C|77|70";
 	public static final String P1_ARQC = "80";
 	public static final String P1_TC = "40";
