@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,19 +21,11 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.watchdata.cardcheck.app.JImagePanel;
-import com.watchdata.cardcheck.configdao.AIDInfo;
-import com.watchdata.cardcheck.configdao.TermInfo;
-import com.watchdata.cardcheck.logic.impl.ElectronicCashHandler;
-import com.watchdata.cardcheck.logic.impl.PBOCHandler;
-import com.watchdata.cardcheck.logic.impl.QPBOCHandler;
+import com.watchdata.cardcheck.logic.impl.TradeThread;
 import com.watchdata.cardcheck.utils.Config;
-import com.watchdata.cardcheck.utils.FaceListener;
-import com.watchdata.cardcheck.utils.FaceThread;
 import com.watchdata.cardcheck.utils.FileUtil;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import com.watchdata.cardcheck.utils.TermSupportUtil;
 import com.watchdata.commons.lang.WDAssert;
-import com.watchdata.commons.lang.WDStringUtil;
 
 public class AtmPanel extends JImagePanel {
 
@@ -55,13 +46,6 @@ public class AtmPanel extends JImagePanel {
 	private static StringBuffer money = new StringBuffer();
 	private static String tradeType = "";
 	private String trading = "";
-	private String tradeResult = "";
-	private boolean success = false;
-
-	private ElectronicCashHandler electronicCashHandler;
-	private QPBOCHandler qpbocHandler;
-	private PBOCHandler pBOCHandler;
-	private TermInfo termInfo=new TermInfo();
 
 	// 终端性能列表，与配置界面上的配置型一致，从第一个字节开始
 	public enum TerminalSupportType {
@@ -69,9 +53,6 @@ public class AtmPanel extends JImagePanel {
 		// IC卡明文PIN校验、支持CDA、吞卡、支持DDA、支持SDA
 		TOUCHIC, TRACK, KEYBOARD, CERTIFICATECHECK, NOCVM, SIGN, LINKPIN, ICPINCHECK, SUPPORTCDA, EATCARD, SUPPORTDDA, SUPPORTSDA;
 	}
-
-	// 判断终端性能是否支持的辅助类
-	private TermSupportUtil termSupportUtil;
 
 	/**
 	 * Create the panel
@@ -549,140 +530,10 @@ public class AtmPanel extends JImagePanel {
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				FaceThread faceThread = new FaceThread();
-				money = new StringBuffer(moneyTextField.getText());
-				if ("".equals(tradeType)) {
-					JOptionPane.showMessageDialog(null, pm.getString("mv.tradepanel.selectTradeType"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					if (money.length() > 0) {
-						// 获取终端性能参数
-						String termPerform = "";
-						boolean touchSupport = false;
-						try {
-							termPerform =termInfo.getTermInfo("Terminal_Data").getTerminal_perform();
-							termPerform = Integer.toBinaryString(Integer.parseInt(termPerform, 16));
-							termPerform = WDStringUtil.paddingHeadZero(termPerform, 24);
-						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, "获取终端性能参数出错!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-						// 获取终端支持的AID列表
-						List<AIDInfo> aidlist = new AIDInfo().getAidInfos("SupAID");
-						// 判断终端性能
-						termSupportUtil = new TermSupportUtil(termPerform, aidlist);
-						// 判断是否支持接触式IC
-						if (termSupportUtil.isSupportTheFunction(TerminalSupportType.TOUCHIC)) {
-							touchSupport = true;
-						} else {
-							touchSupport = false;
-						}
-						electronicCashHandler = new ElectronicCashHandler(textPane);
-						// 读卡器驱动名称
-						String readerName =Config.getValue("Terminal_Data", "reader");
-						// 交易金额
-						int tradeMount = 0;
-						try {
-							// 将交易金额转换为int型
-							tradeMount = getTradeAmount(money.toString());
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							JOptionPane.showMessageDialog(null, e1.getMessage(), pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-						if ("qPBOC".equals(tradeType)) {
-							tradingSet(tradeType, money);
-							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
-								// 执行交易
-								qpbocHandler = new QPBOCHandler(textPane);
-								success = qpbocHandler.trade(readerName, tradeMount, termSupportUtil, tradingLabel);
-							} else {
-								tradingLabel.setText("终端不支持DDA!");
-								success = false;
-							}
-						} else if ("借贷记".equals(tradeType)) {
-							if (!touchSupport) {
-								JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
-								return;
-							}
-							tradingSet(tradeType, money);
-							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
-								// 执行交易
-								pBOCHandler = new PBOCHandler(textPane);
-								success = pBOCHandler.doTrade(tradeMount, readerName, tradingLabel, termSupportUtil);
-							} else {
-								tradingLabel.setText("终端不支持DDA!");
-								success = false;
-							}
-						} else if ("电子现金".equals(tradeType)) {
-							if (!touchSupport) {
-								JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
-								return;
-							}
-							tradingSet(tradeType, money);
-							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
-								// 执行交易
-								success = electronicCashHandler.ECPurcharse(tradeMount, readerName, tradingLabel, termSupportUtil);
-							} else {
-								tradingLabel.setText("终端不支持DDA!");
-								success = false;
-							}
-						} else if ("圈存".equals(tradeType)) {
-							if (!touchSupport) {
-								JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
-								return;
-							}
-							tradingSet(tradeType, money);
-							if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
-								// 执行交易
-								success = electronicCashHandler.ECLoad(tradeMount, readerName, tradingLabel, termSupportUtil);
-							} else {
-								tradingLabel.setText("终端不支持DDA!");
-								success = false;
-							}
-						}
-						faceThread.addListener(new FaceListener() {
-							@Override
-							public void UIOperate() {
-								try {
-									Thread.sleep(2000);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								if (success) {
-									trading = pm.getString("mv.tradepanel.tradeSuccess");
-									tradingLabel.setText(trading);
-									tradingLabel.repaint();
-									tradeType = "";
-									money.delete(0, money.length());
-								} else {
-									tradeResult = pm.getString("mv.tradepanel.tradeFail");
-									tradingLabel.setText(tradeResult);
-									tradingLabel.repaint();
-									tradeType = "";
-									money.delete(0, money.length());
-								}
-								try {
-									Thread.sleep(1000);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								tradingLabel.setVisible(false);
-								welcomLabel.setVisible(true);
-								cancelButton.setEnabled(true);
-								qPBOCButton.setEnabled(true);
-								lendButton.setEnabled(true);
-								earmarkButton.setEnabled(true);
-								ecashButton.setEnabled(true);
-								reportButton.setEnabled(true);
-							}
-						});
-						faceThread.start();
-					} else {
-						JOptionPane.showMessageDialog(null, pm.getString("mv.tradepanel.PlsEnterMoney"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
+				TradeThread tradeThread=new TradeThread(money, tradeType, tradingLabel, textPane);
+				Thread thread=new Thread(tradeThread);
+				thread.start();
+				
 			}
 		});
 
@@ -716,34 +567,6 @@ public class AtmPanel extends JImagePanel {
 		Matcher m = Pattern.compile(eg, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(moneyStr);
 		return m.find() ? true : false;
 
-	}
-
-	/**
-	 * 将界面上文本框中输入数据转换为int型
-	 * 
-	 * @param tradeAmount
-	 * @return
-	 * @throws Exception
-	 */
-	public int getTradeAmount(String tradeAmount) throws Exception {
-		if (tradeAmount.indexOf(".") > -1) {
-			String amountFront = tradeAmount.substring(0, tradeAmount.indexOf("."));
-			String amountTail = tradeAmount.substring(tradeAmount.indexOf(".") + 1);
-			if (amountTail.length() == 1) {
-				amountTail = amountTail + "0";
-			}
-			try {
-				return Integer.parseInt(amountFront + amountTail);
-			} catch (NumberFormatException e) {
-				throw new Exception("输入的交易金额超出了最大限额");
-			}
-		} else {
-			try {
-				return Integer.parseInt(tradeAmount + "00");
-			} catch (NumberFormatException e) {
-				throw new Exception("输入的交易金额超出了最大限额");
-			}
-		}
 	}
 
 	public static void setTradeType(String tradeType) {
