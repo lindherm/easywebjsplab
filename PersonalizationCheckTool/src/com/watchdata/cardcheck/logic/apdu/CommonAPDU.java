@@ -286,7 +286,7 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @param kmac
 	 * @param kdek
 	 */
-	private void externalAuthenticate(String secureity_level, String keyVersion, String keyId, String kenc, String kmac, String kdek) {
+	public void externalAuthenticate(String secureity_level, String keyVersion, String keyId, String kenc, String kmac, String kdek) {
 		String data;
 		String hostRandom = WDStringUtil.getRandomHexString(16);
 		// initializeUpdate
@@ -369,6 +369,6 @@ public class CommonAPDU extends AbstractAPDU {
 		commonAPDU.send("84F28000024F00");
 		commonAPDU.send("84F24000024F00");
 		commonAPDU.send("84F22000024F00");
-
+		commonAPDU.send("84F21000024F00");
 	}
 }
