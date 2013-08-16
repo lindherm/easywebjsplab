@@ -66,7 +66,7 @@ public class Application extends JFrame {
 			log.error("LookAndFeel unsupported.");
 		}
 		frame = new Application();
-		frame.setVisible(false);
+		//frame.setVisible(false);
 		init();
 		frame.setVisible(true);
 	}
@@ -87,11 +87,6 @@ public class Application extends JFrame {
 	public static void init() {
 		initContentPane();
 
-	}
-
-	private static void initMenuBar() {
-		menuBar = new MainMenuBar();
-		frame.setJMenuBar(menuBar);
 	}
 
 	private static void initContentPane() {

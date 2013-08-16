@@ -1,15 +1,19 @@
 package com.watchdata.cardcheck.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Enumeration;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -17,9 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JTree;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -41,6 +49,8 @@ public class CardInfoDetectPanel extends JPanel {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
+	public static CommonAPDU commonAPDU;
+	public JTextPane textPane;
 
 	public CardInfoDetectPanel() {
 		setName("卡片信息");
@@ -72,7 +82,7 @@ public class CardInfoDetectPanel extends JPanel {
 				DefaultMutableTreeNode root = (DefaultMutableTreeNode) dtm.getRoot();
 				root.removeAllChildren();
 				try {
-					CommonAPDU commonAPDU = new CommonAPDU();
+					commonAPDU = new CommonAPDU();
 					commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
 					commonAPDU.externalAuthenticate(textField_6.getText().trim(), textField_4.getText().trim(), textField_5.getText().trim(), textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim());
 					resp = commonAPDU.send("84F28000024F00");
@@ -89,10 +99,10 @@ public class CardInfoDetectPanel extends JPanel {
 							pos += 2;
 							String privilegesCode = resp.substring(pos, pos + 2);
 							pos += 2;
-							cardManager = new DefaultMutableTreeNode("CardManager=" + aid + ";" + Config.getValue("Card_Lifestyle", lifeStyleCode));
+							cardManager = new DefaultMutableTreeNode("Issuer Security Domain=" + aid + ";" + Config.getValue("Card_Lifestyle", lifeStyleCode));
 							root.add(cardManager);
 
-							DefaultMutableTreeNode apps = new DefaultMutableTreeNode("Applications");
+							DefaultMutableTreeNode apps = new DefaultMutableTreeNode("Application Instances");
 							cardManager.add(apps);
 
 							resp = commonAPDU.send("84F24000024F00");
@@ -112,12 +122,31 @@ public class CardInfoDetectPanel extends JPanel {
 									apps.add(aidNode);
 								}
 							}
-							// resp=commonAPDU.send("84F22000024F00");
 							DefaultMutableTreeNode loadFiles = new DefaultMutableTreeNode("Load Files");
 							cardManager.add(loadFiles);
+							resp = commonAPDU.send("84F22000024F00");
+							if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
+								pos = 0;
+								while (pos < resp.length() - 4) {
+									len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
+									pos += 2;
+									String loadFile = resp.substring(pos, 2 * len + pos);
+									pos += 2 * len;
+									lifeStyleCode = resp.substring(pos, pos + 2);
+									pos += 2;
+									privilegesCode = resp.substring(pos, pos + 2);
+									pos += 2;
+
+									DefaultMutableTreeNode loadFileNode = new DefaultMutableTreeNode(loadFile + ";" + Config.getValue("App_Lifestyle", lifeStyleCode));
+									loadFiles.add(loadFileNode);
+								}
+							}
+
+							DefaultMutableTreeNode loadFilesAndModules = new DefaultMutableTreeNode("Load Files and Modules");
+							cardManager.add(loadFilesAndModules);
 
 							resp = commonAPDU.send("84F21000024F00");
-							
+
 							if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
 								pos = 0;
 								while (pos < resp.length() - 4) {
@@ -133,13 +162,10 @@ public class CardInfoDetectPanel extends JPanel {
 									pos += 2;
 									len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
 									pos += 2;
-									String modules=resp.substring(pos,pos+2*len);
-									pos+=2*pos;
-									if (lifeStyleCode.equalsIgnoreCase("01")) {
-										lifeStyleCode="LOADED";
-									}
-									DefaultMutableTreeNode loadFileNode = new DefaultMutableTreeNode(loadFile +" "+modules+ ";" +lifeStyleCode );
-									loadFiles.add(loadFileNode);
+									String modules = resp.substring(pos, pos + 2 * len);
+									pos += 2 * pos;
+									DefaultMutableTreeNode loadFileNode = new DefaultMutableTreeNode(loadFile + ";" + Config.getValue("App_Lifestyle", lifeStyleCode));
+									loadFilesAndModules.add(loadFileNode);
 									DefaultMutableTreeNode executableModules = new DefaultMutableTreeNode(modules);
 									loadFileNode.add(executableModules);
 								}
@@ -147,8 +173,8 @@ public class CardInfoDetectPanel extends JPanel {
 						}
 					}
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage());
-				}finally{
+					e.printStackTrace();
+				} finally {
 					expandTree(tree, true);
 					tree.updateUI();
 				}
@@ -201,22 +227,76 @@ public class CardInfoDetectPanel extends JPanel {
 		add(textField_3);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "\u811A\u672C", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, null));
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(0, 70, 213)));
 		panel_1.setBounds(24, 270, 663, 252);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		panel_1.add(scrollPane_1);
 
-		JEditorPane editorPane = new JEditorPane();
-		scrollPane_1.setViewportView(editorPane);
+		textPane = new JTextPane(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean getScrollableTracksViewportWidth() {
+				return false;
+			}
+
+			@Override
+			public void setSize(Dimension d) {
+				if (d.width < getParent().getSize().width) {
+					d.width = getParent().getSize().width;
+				}
+				super.setSize(d);
+			}
+		};
+		scrollPane_1.setViewportView(textPane);
 
 		JButton btnNewButton_1 = new JButton("打开脚本");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jFileChooser = new JFileChooser(".");
+				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("prg files", "prg");
+				jFileChooser.setFileFilter(fileNameExtensionFilter);
+
+				int i = jFileChooser.showOpenDialog(null);
+				if (i == JFileChooser.APPROVE_OPTION) {
+					File file = jFileChooser.getSelectedFile();
+
+					FileInputStream fis;
+					try {
+						fis = new FileInputStream(file);
+						byte[] fileContent = new byte[fis.available()];
+						fis.read(fileContent);
+
+						textPane.setText(new String(fileContent));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+
+				}
+			}
+		});
 		btnNewButton_1.setBounds(697, 294, 93, 23);
 		add(btnNewButton_1);
 
 		JButton button = new JButton("执行");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+				String[] apdus = prg.split("\n");
+
+				for (String apdu : apdus) {
+					commonAPDU.send(apdu);
+				}
+			}
+		});
 		button.setBounds(697, 329, 93, 23);
 		add(button);
 
