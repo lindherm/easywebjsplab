@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JTextPane;
 
 import org.apache.log4j.NDC;
 
@@ -32,6 +33,10 @@ public class QPBOCHandler extends BaseHandler {
 	private static Log logger = new Log();
 	private IIssuerDao issuerDao=new IssuerDaoImpl();
 	private PropertiesManager pm = new PropertiesManager();
+	
+	public QPBOCHandler(JTextPane textPane){
+		logger.setLogArea(textPane);
+	}
 
 	public boolean trade(String readerName, int tradeMount,TermSupportUtil termSupportUtil,JLabel tradeLabel){
 		//生成交易检测报告
@@ -51,7 +56,6 @@ public class QPBOCHandler extends BaseHandler {
 		String termRandom = WDStringUtil.getRandomHexString(8);
 		param.put("9F37", termRandom);//终端随机数
 		NDC.push("[QPBOC]");
-		logger.setLogDialogOn();
 		logger.debug("QPBOC start...",0);
 		try{
 			// 复位

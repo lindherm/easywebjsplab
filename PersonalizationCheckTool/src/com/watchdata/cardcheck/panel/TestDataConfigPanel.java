@@ -179,7 +179,6 @@ public class TestDataConfigPanel extends JPanel {
 		comboBox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				log.setLogDialogOff();
 				comboBox.removeAllItems();
 				String reader = Config.getValue("Terminal_Data", "reader");
 				HashMap<String, String> res = apduHandler.reset(reader);
@@ -235,7 +234,6 @@ public class TestDataConfigPanel extends JPanel {
 					String p1 = dgi.substring(2);
 					String p2 = dgi.substring(0, 2);
 
-					log.setLogDialogOff();
 					String reader = Config.getValue("Terminal_Data", "reader");
 					HashMap<String, String> res = apduHandler.reset(reader);
 					if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {

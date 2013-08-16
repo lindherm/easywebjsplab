@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import com.watchdata.cardcheck.app.Application;
 import com.watchdata.cardcheck.app.RightPanel;
@@ -56,8 +55,8 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				TradePanel.setTradeTypeStr(pm.getString("mv.tradepanel.qPBOC"));
-				TradePanel.setTradeType(pm.getString("mv.tradepanel.qPBOC"));
+				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.qPBOC"));
+				AtmPanel.setTradeType(pm.getString("mv.tradepanel.qPBOC"));
 			}
 		});
 		qpbocButton.setActionCommand("交易");
@@ -84,8 +83,8 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				TradePanel.setTradeTypeStr(pm.getString("mv.tradepanel.lend"));
-				TradePanel.setTradeType(pm.getString("mv.tradepanel.lend")); 
+				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.lend"));
+				AtmPanel.setTradeType(pm.getString("mv.tradepanel.lend")); 
 			}
 		});
 		button.setText("借贷记");
@@ -111,8 +110,8 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				TradePanel.setTradeTypeStr(pm.getString("mv.tradepanel.ecash"));
-				TradePanel.setTradeType(pm.getString("mv.tradepanel.ecash"));
+				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.ecash"));
+				AtmPanel.setTradeType(pm.getString("mv.tradepanel.ecash"));
 			}
 		});
 		button_1.setText("电子现金");
@@ -138,8 +137,8 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				TradePanel.setTradeTypeStr(pm.getString("mv.tradepanel.earmark"));
-				TradePanel.setTradeType(pm.getString("mv.tradepanel.earmark"));
+				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.earmark"));
+				AtmPanel.setTradeType(pm.getString("mv.tradepanel.earmark"));
 			}
 		});
 		button_2.setText("圈存");
@@ -149,7 +148,6 @@ public class TradeTabbedPanel extends JPanel {
 		gridBagConstraints_4.gridy = 3;
 		gridBagConstraints_4.gridx = 0;
 		panel.add(button_2, gridBagConstraints_4);
-		//
 	}
 
 }

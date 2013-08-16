@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JTextPane;
 
 import org.apache.log4j.NDC;
 
@@ -28,7 +29,10 @@ public class ElectronicCashHandler extends BaseHandler {
 	private IIssuerDao issuerDao=new IssuerDaoImpl();
 	private GenReportUtil genWordUtil = null;
 	private PropertiesManager pm = new PropertiesManager();
-
+	
+	public ElectronicCashHandler(JTextPane textPane){
+		logger.setLogArea(textPane);
+	}
 	/**
 	 * @author peng.wang
 	 * @param tradeMount
@@ -47,7 +51,6 @@ public class ElectronicCashHandler extends BaseHandler {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		NDC.push("[E cash load]");
-		logger.setLogDialogOn();
 		logger.debug("E cash load start...",0);
 
 		genWordUtil = new GenReportUtil();
@@ -327,7 +330,6 @@ public class ElectronicCashHandler extends BaseHandler {
 		HashMap<String, String> param = new HashMap<String, String>();
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		NDC.push("[e cash purcharse]");
-		logger.setLogDialogOn();
 		logger.debug("e cash purcharse start...", 0);
 		
 		genWordUtil = new GenReportUtil();

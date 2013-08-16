@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.watchdata.cardcheck.configdao.AIDInfo;
-import com.watchdata.cardcheck.panel.TradePanel.TerminalSupportType;
+import com.watchdata.cardcheck.panel.AtmPanel.TerminalSupportType;
 
 /**
  * 

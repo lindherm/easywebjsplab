@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JTextPane;
 
 import org.apache.log4j.NDC;
 
@@ -38,6 +39,9 @@ public class PBOCHandler extends BaseHandler {
 	private GenReportUtil genWordUtil = null;
 
 	private PropertiesManager pm = new PropertiesManager();
+	public PBOCHandler(JTextPane textPane){
+		logger.setLogArea(textPane);
+	}
 	/**
 	 * @author juan.jiang
 	 * @param tradeMount
@@ -58,9 +62,7 @@ public class PBOCHandler extends BaseHandler {
 		param.put("9F7A", "00");
 	
 		NDC.push("[PBOC]");
-		logger.setLogDialogOn();
 		logger.debug("PBOC trade start...",0);
-
 		genWordUtil = new GenReportUtil();
 
 		genWordUtil.open(pm.getString("mv.tradepanel.lend"));
