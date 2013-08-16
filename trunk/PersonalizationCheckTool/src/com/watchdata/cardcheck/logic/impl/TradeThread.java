@@ -2,6 +2,7 @@ package com.watchdata.cardcheck.logic.impl;
 
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -15,24 +16,27 @@ import com.watchdata.cardcheck.utils.TermSupportUtil;
 import com.watchdata.commons.lang.WDStringUtil;
 
 public class TradeThread implements Runnable {
-public StringBuffer money;
-public JTextPane textPane;
-public String tradeType;
-public JLabel tradingLabel;
-public TermInfo termInfo=new TermInfo();
-private boolean success = false;
-private PropertiesManager pm = new PropertiesManager();
+	public StringBuffer money;
+	public JTextPane textPane;
+	public String tradeType;
+	public JLabel tradingLabel;
+	public JButton reportButton;
 
-public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JTextPane textPane){
-	this.money=money;
-	this.tradeType=tradeType;
-	this.textPane=textPane;
-	this.tradingLabel=tradingLabel;
-}
+	private boolean success = false;
+	private PropertiesManager pm = new PropertiesManager();
+
+	public TermInfo termInfo = new TermInfo();
+
+	public TradeThread(StringBuffer money, String tradeType, JLabel tradingLabel, JButton reportButton, JTextPane textPane) {
+		this.money = money;
+		this.tradeType = tradeType;
+		this.reportButton = reportButton;
+		this.textPane = textPane;
+		this.tradingLabel = tradingLabel;
+	}
+
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		//money = new StringBuffer(moneyTextField.getText());
 		if ("".equals(tradeType)) {
 			JOptionPane.showMessageDialog(null, pm.getString("mv.tradepanel.selectTradeType"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
 		} else {
@@ -41,7 +45,7 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 				String termPerform = "";
 				boolean touchSupport = false;
 				try {
-					termPerform =termInfo.getTermInfo("Terminal_Data").getTerminal_perform();
+					termPerform = termInfo.getTermInfo("Terminal_Data").getTerminal_perform();
 					termPerform = Integer.toBinaryString(Integer.parseInt(termPerform, 16));
 					termPerform = WDStringUtil.paddingHeadZero(termPerform, 24);
 				} catch (Exception e) {
@@ -58,9 +62,8 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 				} else {
 					touchSupport = false;
 				}
-				ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
 				// 读卡器驱动名称
-				String readerName =Config.getValue("Terminal_Data", "reader");
+				String readerName = Config.getValue("Terminal_Data", "reader");
 				// 交易金额
 				int tradeMount = 0;
 				try {
@@ -72,7 +75,7 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 					return;
 				}
 				if ("qPBOC".equals(tradeType)) {
-					//tradingSet(tradeType, money);
+					// tradingSet(tradeType, money);
 					if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 						// 执行交易
 						QPBOCHandler qpbocHandler = new QPBOCHandler(textPane);
@@ -86,7 +89,7 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 						JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					//tradingSet(tradeType, money);
+					// tradingSet(tradeType, money);
 					if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 						// 执行交易
 						PBOCHandler pBOCHandler = new PBOCHandler(textPane);
@@ -96,11 +99,12 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 						success = false;
 					}
 				} else if ("电子现金".equals(tradeType)) {
+					ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
 					if (!touchSupport) {
 						JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					//tradingSet(tradeType, money);
+					// tradingSet(tradeType, money);
 					if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 						// 执行交易
 						success = electronicCashHandler.ECPurcharse(tradeMount, readerName, tradingLabel, termSupportUtil);
@@ -109,11 +113,12 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 						success = false;
 					}
 				} else if ("圈存".equals(tradeType)) {
+					ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
 					if (!touchSupport) {
 						JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					//tradingSet(tradeType, money);
+					// tradingSet(tradeType, money);
 					if (termSupportUtil.isSupportTheFunction(TerminalSupportType.SUPPORTDDA)) {
 						// 执行交易
 						success = electronicCashHandler.ECLoad(tradeMount, readerName, tradingLabel, termSupportUtil);
@@ -122,53 +127,12 @@ public TradeThread(StringBuffer money,String tradeType,JLabel tradingLabel,JText
 						success = false;
 					}
 				}
-				/*faceThread.addListener(new FaceListener() {
-					@Override
-					public void UIOperate() {
-						try {
-							Thread.sleep(2000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						if (success) {
-							trading = pm.getString("mv.tradepanel.tradeSuccess");
-							tradingLabel.setText(trading);
-							tradingLabel.repaint();
-							tradeType = "";
-							money.delete(0, money.length());
-						} else {
-							tradeResult = pm.getString("mv.tradepanel.tradeFail");
-							tradingLabel.setText(tradeResult);
-							tradingLabel.repaint();
-							tradeType = "";
-							money.delete(0, money.length());
-						}
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						tradingLabel.setVisible(false);
-						welcomLabel.setVisible(true);
-						cancelButton.setEnabled(true);
-						qPBOCButton.setEnabled(true);
-						lendButton.setEnabled(true);
-						earmarkButton.setEnabled(true);
-						ecashButton.setEnabled(true);
-						reportButton.setEnabled(true);
-					}
-				});
-				faceThread.start();*/
-			/*} else {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.tradepanel.PlsEnterMoney"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-			}*/
+				reportButton.setEnabled(true);
+			}
 		}
+
 	}
 
-}
-	
 	/**
 	 * 将界面上文本框中输入数据转换为int型
 	 * 
