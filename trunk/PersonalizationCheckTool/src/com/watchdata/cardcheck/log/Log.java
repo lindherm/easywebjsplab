@@ -83,7 +83,6 @@ public class Log {
 				addLog(info, jTextPane, simpleAttributeSet);
 			}
 		}
-
 	}
 
 	private void addLog(String info, JTextPane textPane, SimpleAttributeSet attr) {
@@ -93,5 +92,6 @@ public class Log {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+		jTextPane.setCaretPosition(doc.getLength());
 	}
 }
