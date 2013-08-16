@@ -45,11 +45,11 @@ public class TradePanel extends JPanel {
 		};
 		
 		AtmPanel atmPanel = new AtmPanel(textPane);
-		atmPanel.setBounds(0, 0, 838, 556);
+		atmPanel.setBounds(0, 0, 826, 467);
 		add(atmPanel);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 555, 838, 132);
+		panel.setBounds(0, 467, 826, 220);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
