@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.TitledBorder;
+import java.awt.Color;
 
 public class TradePanel extends JPanel {
 
@@ -49,6 +51,7 @@ public class TradePanel extends JPanel {
 		add(atmPanel);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		panel.setBounds(0, 467, 826, 220);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
