@@ -35,6 +35,7 @@ import javax.swing.tree.TreePath;
 
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.utils.Config;
+import javax.swing.border.EtchedBorder;
 
 public class CardInfoDetectPanel extends JPanel {
 	/**
@@ -227,7 +228,7 @@ public class CardInfoDetectPanel extends JPanel {
 		add(textField_3);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.ABOVE_TOP, null, new Color(0, 70, 213)));
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		panel_1.setBounds(24, 270, 663, 252);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
