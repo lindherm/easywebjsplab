@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -25,7 +26,7 @@ import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -33,15 +34,16 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.utils.Config;
-import javax.swing.border.EtchedBorder;
 
 public class CardInfoDetectPanel extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static Log logger = new Log();
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -52,13 +54,14 @@ public class CardInfoDetectPanel extends JPanel {
 	private JTextField textField_6;
 	public static CommonAPDU commonAPDU;
 	public JTextPane textPane;
+	public JTextPane textPane_1;
 
 	public CardInfoDetectPanel() {
 		setName("卡片信息");
 		setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(330, 40, 460, 220);
+		panel.setBounds(330, 40, 493, 220);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
@@ -78,13 +81,18 @@ public class CardInfoDetectPanel extends JPanel {
 		JMenuItem mntmCardinfo = new JMenuItem("cardinfo");
 		mntmCardinfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				logger.setLogArea(textPane_1);
+				
 				String resp;
 				DefaultTreeModel dtm = (DefaultTreeModel) tree.getModel();
 				DefaultMutableTreeNode root = (DefaultMutableTreeNode) dtm.getRoot();
 				root.removeAllChildren();
 				try {
 					commonAPDU = new CommonAPDU();
-					commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
+					HashMap<String, String> res=commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
+					if (!"9000".equals(res.get("sw"))) {
+						logger.error("card reset error");
+					}
 					commonAPDU.externalAuthenticate(textField_6.getText().trim(), textField_4.getText().trim(), textField_5.getText().trim(), textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim());
 					resp = commonAPDU.send("84F28000024F00");
 
@@ -229,7 +237,7 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		panel_1.setBounds(24, 270, 663, 252);
+		panel_1.setBounds(24, 270, 684, 252);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
@@ -284,7 +292,7 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(697, 294, 93, 23);
+		btnNewButton_1.setBounds(730, 293, 93, 23);
 		add(btnNewButton_1);
 
 		JButton button = new JButton("执行");
@@ -298,7 +306,7 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 			}
 		});
-		button.setBounds(697, 329, 93, 23);
+		button.setBounds(730, 329, 93, 23);
 		add(button);
 
 		JLabel lblNewLabel_1 = new JLabel("version:");
@@ -328,6 +336,36 @@ public class CardInfoDetectPanel extends JPanel {
 		textField_6.setBounds(37, 162, 56, 18);
 		add(textField_6);
 		textField_6.setColumns(10);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		panel_2.setBounds(24, 520, 799, 159);
+		add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel_2.add(scrollPane_2, BorderLayout.CENTER);
+		
+		textPane_1 = new JTextPane(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean getScrollableTracksViewportWidth() {
+				return false;
+			}
+
+			@Override
+			public void setSize(Dimension d) {
+				if (d.width < getParent().getSize().width) {
+					d.width = getParent().getSize().width;
+				}
+				super.setSize(d);
+			}
+		};
+		scrollPane_2.setViewportView(textPane_1);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -370,5 +408,4 @@ public class CardInfoDetectPanel extends JPanel {
 			tree.collapsePath(parent);
 		}
 	}
-
 }

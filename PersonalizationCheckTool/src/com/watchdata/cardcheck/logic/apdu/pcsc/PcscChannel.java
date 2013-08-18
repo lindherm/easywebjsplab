@@ -2,7 +2,6 @@ package com.watchdata.cardcheck.logic.apdu.pcsc;
 
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.IAPDUChannel;
-import com.watchdata.cardcheck.panel.TradePanel;
 import com.watchdata.cardpcsc.CardPcsc;
 import com.watchdata.commons.lang.WDByteUtil;
 /**
@@ -20,7 +19,7 @@ public class PcscChannel implements IAPDUChannel{
 		if(cardPcsc==null){
 			cardPcsc = new CardPcsc();
 		}
-		logger.setLogArea(TradePanel.textPane);
+		//logger.setLogArea(TradePanel.textPane);
 	}
 	
 	public boolean init(String reader) {
