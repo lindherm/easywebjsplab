@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 public class Log {
 	private static Logger logger = Logger.getLogger(Logger.class);
 	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
-	public JTextPane jTextPane;
+	public static JTextPane jTextPane;
 
 	public Log() {
 	}

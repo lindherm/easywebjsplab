@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
-import com.watchdata.cardcheck.panel.TradePanel;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
@@ -31,7 +30,7 @@ public class CommonAPDU extends AbstractAPDU {
 
 	public CommonAPDU() {
 		apduChannel = new PcscChannel();
-		log.setLogArea(TradePanel.textPane);
+		//log.setLogArea(TradePanel.textPane);
 	}
 	public String getSmac() {
 		return smac;
