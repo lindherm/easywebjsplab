@@ -33,6 +33,7 @@ import javax.swing.tree.DefaultTreeModel;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.impl.CardInfoThread;
 import com.watchdata.cardcheck.utils.Config;
+import com.watchdata.commons.lang.WDAssert;
 
 public class CardInfoDetectPanel extends JPanel {
 	/**
@@ -190,6 +191,10 @@ public class CardInfoDetectPanel extends JPanel {
 		JButton button = new JButton("执行");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(WDAssert.isEmpty(textPane.getText())){
+					JOptionPane.showMessageDialog(null,"请先加载脚本！","信息框",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				Runnable runnable=new Runnable() {
 					public void run() {
 						String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
