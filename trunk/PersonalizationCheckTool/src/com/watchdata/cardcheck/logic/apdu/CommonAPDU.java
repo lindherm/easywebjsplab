@@ -120,7 +120,7 @@ public class CommonAPDU extends AbstractAPDU {
 	 */
 	public HashMap<String, String> readRecord(String sfi, String record) {
 		HashMap<String, String> result = new HashMap<String, String>();
-
+		log.debug("--------------------------------------------------------------"+CommonHelper.getDgiHead(sfi)+record);
 		String commandApdu = packApdu("READ_RECORD", "", record, sfi);
 		String responseApdu = apduChannel.send(commandApdu);
 
