@@ -10,8 +10,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -31,11 +29,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
-import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
+import com.watchdata.cardcheck.logic.impl.CardInfoThread;
 import com.watchdata.cardcheck.utils.Config;
 
 public class CardInfoDetectPanel extends JPanel {
@@ -43,7 +39,6 @@ public class CardInfoDetectPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Log logger = new Log();
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -81,112 +76,9 @@ public class CardInfoDetectPanel extends JPanel {
 		JMenuItem mntmCardinfo = new JMenuItem("cardinfo");
 		mntmCardinfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				logger.setLogArea(textPane_1);
-				
-				String resp;
-				DefaultTreeModel dtm = (DefaultTreeModel) tree.getModel();
-				DefaultMutableTreeNode root = (DefaultMutableTreeNode) dtm.getRoot();
-				root.removeAllChildren();
-				try {
-					commonAPDU = new CommonAPDU();
-					HashMap<String, String> res=commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
-					if (!"9000".equals(res.get("sw"))) {
-						logger.error("card reset error");
-					}
-					commonAPDU.externalAuthenticate(textField_6.getText().trim(), textField_4.getText().trim(), textField_5.getText().trim(), textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim());
-					resp = commonAPDU.send("84F28000024F00");
-
-					DefaultMutableTreeNode cardManager = null;
-					if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
-						int pos = 0;
-						while (pos < resp.length() - 4) {
-							int len = Integer.parseInt(resp.substring(pos, 2), 16);
-							pos += 2;
-							String aid = resp.substring(pos, 2 * len + pos);
-							pos += 2 * len;
-							String lifeStyleCode = resp.substring(pos, pos + 2);
-							pos += 2;
-							String privilegesCode = resp.substring(pos, pos + 2);
-							pos += 2;
-							cardManager = new DefaultMutableTreeNode("Issuer Security Domain=" + aid + ";" + Config.getValue("Card_Lifestyle", lifeStyleCode));
-							root.add(cardManager);
-
-							DefaultMutableTreeNode apps = new DefaultMutableTreeNode("Application Instances");
-							cardManager.add(apps);
-
-							resp = commonAPDU.send("84F24000024F00");
-
-							if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
-								pos = 0;
-								while (pos < resp.length() - 4) {
-									len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
-									pos += 2;
-									aid = resp.substring(pos, 2 * len + pos);
-									pos += 2 * len;
-									lifeStyleCode = resp.substring(pos, pos + 2);
-									pos += 2;
-									privilegesCode = resp.substring(pos, pos + 2);
-									pos += 2;
-									DefaultMutableTreeNode aidNode = new DefaultMutableTreeNode(aid + ";" + Config.getValue("App_Lifestyle", lifeStyleCode));
-									apps.add(aidNode);
-								}
-							}
-							DefaultMutableTreeNode loadFiles = new DefaultMutableTreeNode("Load Files");
-							cardManager.add(loadFiles);
-							resp = commonAPDU.send("84F22000024F00");
-							if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
-								pos = 0;
-								while (pos < resp.length() - 4) {
-									len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
-									pos += 2;
-									String loadFile = resp.substring(pos, 2 * len + pos);
-									pos += 2 * len;
-									lifeStyleCode = resp.substring(pos, pos + 2);
-									pos += 2;
-									privilegesCode = resp.substring(pos, pos + 2);
-									pos += 2;
-
-									DefaultMutableTreeNode loadFileNode = new DefaultMutableTreeNode(loadFile + ";" + Config.getValue("App_Lifestyle", lifeStyleCode));
-									loadFiles.add(loadFileNode);
-								}
-							}
-
-							DefaultMutableTreeNode loadFilesAndModules = new DefaultMutableTreeNode("Load Files and Modules");
-							cardManager.add(loadFilesAndModules);
-
-							resp = commonAPDU.send("84F21000024F00");
-
-							if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
-								pos = 0;
-								while (pos < resp.length() - 4) {
-									len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
-									pos += 2;
-									String loadFile = resp.substring(pos, 2 * len + pos);
-									pos += 2 * len;
-									lifeStyleCode = resp.substring(pos, pos + 2);
-									pos += 2;
-									privilegesCode = resp.substring(pos, pos + 2);
-									pos += 2;
-									String lifeStyleCode1 = resp.substring(pos, pos + 2);
-									pos += 2;
-									len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
-									pos += 2;
-									String modules = resp.substring(pos, pos + 2 * len);
-									pos += 2 * pos;
-									DefaultMutableTreeNode loadFileNode = new DefaultMutableTreeNode(loadFile + ";" + Config.getValue("App_Lifestyle", lifeStyleCode));
-									loadFilesAndModules.add(loadFileNode);
-									DefaultMutableTreeNode executableModules = new DefaultMutableTreeNode(modules);
-									loadFileNode.add(executableModules);
-								}
-							}
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					expandTree(tree, true);
-					tree.updateUI();
-				}
+				commonAPDU = new CommonAPDU();
+				CardInfoThread thread=new CardInfoThread(tree, commonAPDU, textField_6.getText().trim(), textField_4.getText().trim(), textField_5.getText().trim(), textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim(),textPane_1);
+				thread.start();
 			}
 		});
 		popupMenu.add(mntmCardinfo);
@@ -292,21 +184,27 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(730, 293, 93, 23);
+		btnNewButton_1.setBounds(718, 289, 93, 23);
 		add(btnNewButton_1);
 
 		JButton button = new JButton("执行");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
-				String[] apdus = prg.split("\n");
+				Runnable runnable=new Runnable() {
+					public void run() {
+						String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+						String[] apdus = prg.split("\n");
 
-				for (String apdu : apdus) {
-					commonAPDU.send(apdu);
-				}
+						for (String apdu : apdus) {
+							commonAPDU.send(apdu);
+						}
+					}
+				};
+				Thread thread=new Thread(runnable);
+				thread.start();
 			}
 		});
-		button.setBounds(730, 329, 93, 23);
+		button.setBounds(718, 321, 93, 23);
 		add(button);
 
 		JLabel lblNewLabel_1 = new JLabel("version:");
@@ -386,26 +284,5 @@ public class CardInfoDetectPanel extends JPanel {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
-	}
-
-	public void expandTree(JTree tree, boolean bo) {
-		TreeNode root = (TreeNode) tree.getModel().getRoot();
-		expandAll(tree, new TreePath(root), bo);
-	}
-
-	private void expandAll(JTree tree, TreePath parent, boolean expand) {
-		TreeNode node = (TreeNode) parent.getLastPathComponent();
-		if (node.getChildCount() >= 0) {
-			for (Enumeration e = node.children(); e.hasMoreElements();) {
-				TreeNode n = (TreeNode) e.nextElement();
-				TreePath path = parent.pathByAddingChild(n);
-				expandAll(tree, path, expand);
-			}
-		}
-		if (expand) {
-			tree.expandPath(parent);
-		} else {
-			tree.collapsePath(parent);
-		}
 	}
 }
