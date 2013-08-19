@@ -271,9 +271,14 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @return
 	 */
 	public HashMap<String, String> verifyPin(String pin) {
+		HashMap<String, String> result = new HashMap<String, String>();
+		pin=WDStringUtil.paddingTail("26"+pin, 16, "FF");
 		String commandApdu = packApdu("VERIFY", pin);
 		String responseApdu = apduChannel.send(commandApdu);
-		return unpackApdu(responseApdu);
+		result = unpackApdu(responseApdu);
+		result.put("apdu", commandApdu);
+		result.put("res", responseApdu);
+		return result;
 	}
 
 	/**

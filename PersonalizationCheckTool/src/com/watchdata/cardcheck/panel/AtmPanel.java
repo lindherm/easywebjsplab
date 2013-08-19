@@ -37,14 +37,13 @@ public class AtmPanel extends JImagePanel {
 	public static JButton earmarkButton;
 	public static JButton ecashButton;
 	public final JButton reportButton;
-	private static JLabel welcomLabel;
 	private static JLabel tradeTypeLabel;
 	private static JTextField tradeTypeField;
 	private static JLabel enterMoneyLabel;
 	private JLabel tradingLabel;
 	private PropertiesManager pm = new PropertiesManager();
 	private static StringBuffer money = new StringBuffer();
-	private static String tradeType = "";
+	public static String tradeType = "";
 
 	// 终端性能列表，与配置界面上的配置型一致，从第一个字节开始
 	public enum TerminalSupportType {
@@ -64,36 +63,25 @@ public class AtmPanel extends JImagePanel {
 		super(ImageIO.read(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/trade.png")));
 		
 		setLayout(null);
-		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.left.trade")));
-
-		welcomLabel = new JLabel();
-		welcomLabel.setText(pm.getString("mv.tradepanel.welcome"));
-		welcomLabel.setBounds(260, 125, 200, 20);
-		add(welcomLabel);
 
 		tradeTypeLabel = new JLabel();
 		tradeTypeLabel.setText(pm.getString("mv.tradepanel.tradeType"));
-		tradeTypeLabel.setBounds(260, 125, 64, 20);
+		tradeTypeLabel.setBounds(270, 115, 54, 20);
 		add(tradeTypeLabel);
-		tradeTypeLabel.setVisible(false);
 
 		tradeTypeField = new JTextField();
-		tradeTypeField.setBounds(325, 125, 120, 20);
+		tradeTypeField.setBounds(324, 115, 120, 20);
 		add(tradeTypeField);
-		tradeTypeField.setEditable(false);
-		tradeTypeField.setVisible(false);
 
 		enterMoneyLabel = new JLabel();
 		enterMoneyLabel.setText(pm.getString("mv.tradepanel.enterMoney"));
-		enterMoneyLabel.setBounds(260, 155, 64, 20);
+		enterMoneyLabel.setBounds(270, 145, 54, 20);
 		add(enterMoneyLabel);
-		enterMoneyLabel.setVisible(false);
 
 		moneyTextField = new JTextField();
-		moneyTextField.setBounds(325, 155, 120, 20);
+		moneyTextField.setBounds(324, 145, 120, 20);
 		moneyTextField.setText(money.toString());
 		add(moneyTextField);
-		moneyTextField.setVisible(false);
 		moneyTextField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -118,7 +106,7 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		tradingLabel = new JLabel();
-		tradingLabel.setBounds(260, 115, 200, 100);
+		tradingLabel.setBounds(335, 46, 200, 100);
 		add(tradingLabel);
 		tradingLabel.setVisible(false);
 
@@ -539,7 +527,6 @@ public class AtmPanel extends JImagePanel {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				welcomLabel.setVisible(true);
 				tradeTypeLabel.setVisible(false);
 				tradeTypeField.setVisible(false);
 				enterMoneyLabel.setVisible(false);
@@ -560,7 +547,6 @@ public class AtmPanel extends JImagePanel {
 	public static void setTradeType(String tradeType) {
 		money.delete(0, money.length());
 		moneyTextField.setText(money.toString());
-		welcomLabel.setVisible(false);
 		tradeTypeLabel.setVisible(true);
 		tradeTypeField.setVisible(true);
 		enterMoneyLabel.setVisible(true);
