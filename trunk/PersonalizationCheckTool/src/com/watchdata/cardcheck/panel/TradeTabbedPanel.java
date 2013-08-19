@@ -55,6 +55,7 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
+				RightPanel.cardInfoScanPanel.setVisible(false);
 				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.qPBOC"));
 				AtmPanel.setTradeType(pm.getString("mv.tradepanel.qPBOC"));
 			}
@@ -83,6 +84,7 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
+				RightPanel.cardInfoScanPanel.setVisible(false);
 				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.lend"));
 				AtmPanel.setTradeType(pm.getString("mv.tradepanel.lend")); 
 			}
@@ -110,6 +112,7 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
+				RightPanel.cardInfoScanPanel.setVisible(false);
 				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.ecash"));
 				AtmPanel.setTradeType(pm.getString("mv.tradepanel.ecash"));
 			}
@@ -137,6 +140,7 @@ public class TradeTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
+				RightPanel.cardInfoScanPanel.setVisible(false);
 				AtmPanel.setTradeTypeStr(pm.getString("mv.tradepanel.earmark"));
 				AtmPanel.setTradeType(pm.getString("mv.tradepanel.earmark"));
 			}

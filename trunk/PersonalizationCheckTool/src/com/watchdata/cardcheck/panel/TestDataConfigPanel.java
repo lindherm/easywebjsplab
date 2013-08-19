@@ -59,6 +59,7 @@ import com.watchdata.commons.lang.WDStringUtil;
 public class TestDataConfigPanel extends JPanel {
 
 	private static final long serialVersionUID = -4287626568370654541L;
+	public static Log logger=new Log();
 	public static JTable table;
 	private JLabel tagLabel;
 	private JLabel appTypeLabel;
@@ -179,6 +180,7 @@ public class TestDataConfigPanel extends JPanel {
 		comboBox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				logger.setLogArea(null);
 				comboBox.removeAllItems();
 				String reader = Config.getValue("Terminal_Data", "reader");
 				HashMap<String, String> res = apduHandler.reset(reader);
@@ -216,6 +218,7 @@ public class TestDataConfigPanel extends JPanel {
 		JButton button = new JButton();
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				logger.setLogArea(null);
 				if (comboBox.getSelectedItem() == null) {
 					JOptionPane.showMessageDialog(null, "请选择aid");
 					return;
