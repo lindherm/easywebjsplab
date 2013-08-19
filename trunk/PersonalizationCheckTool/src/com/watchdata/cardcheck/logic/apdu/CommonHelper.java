@@ -162,4 +162,16 @@ public class CommonHelper {
 		}
 		return res;
 	}
+
+	public static boolean parse8E(String str8E) {
+		int i = 16;
+		while (i < str8E.length()) {
+			String cvm = str8E.substring(i, i + 4);
+			if (cvm.endsWith("103")) {
+				return true;
+			}
+			i += 4;
+		}
+		return false;
+	}
 }

@@ -59,7 +59,7 @@ import com.watchdata.commons.lang.WDStringUtil;
 public class TestDataConfigPanel extends JPanel {
 
 	private static final long serialVersionUID = -4287626568370654541L;
-	public static Log logger=new Log();
+	public static Log logger = new Log();
 	public static JTable table;
 	private JLabel tagLabel;
 	private JLabel appTypeLabel;
@@ -68,7 +68,7 @@ public class TestDataConfigPanel extends JPanel {
 	public static JButton delButton;
 	public JComboBox comboBox;
 	private PropertiesManager pm = new PropertiesManager();
-	private final String[] COLUMNS = new String[] { "DGI", "TAG","LEN", "值", "检测结果" };
+	private final String[] COLUMNS = new String[] { "DGI", "TAG", "LEN", "值", "检测结果" };
 	private List<StaticDataInfo> sdList = new ArrayList<StaticDataInfo>();
 	private DefaultTableModel testDataTableModel = null;
 	private Object[][] tableData = null;
@@ -82,7 +82,7 @@ public class TestDataConfigPanel extends JPanel {
 	public RowRenderer rowRenderer;
 
 	public JComboBox comboBox_1;
-	
+
 	private JDialog dialog = new JDialog();
 	private JEditorPane ep = new JEditorPane();
 	private JScrollPane dlgscrollPane = new JScrollPane(ep);
@@ -141,7 +141,7 @@ public class TestDataConfigPanel extends JPanel {
 
 		table = new JTable();
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -152,18 +152,18 @@ public class TestDataConfigPanel extends JPanel {
 						Object ob = table.getValueAt(row, colum);
 						Point p = e.getLocationOnScreen();
 						dialog.setLocation(p);
-						if (table.getValueAt(row, colum-2).equals("8E")) {
+						if (table.getValueAt(row, colum - 2).equals("8E")) {
 							ep.setText(parse8E(ob.toString()));
-						}else {
+						} else {
 							ep.setText(ob.toString());
 						}
-						
+
 						dialog.setVisible(true);
 					}
 				}
 			}
 		});
-		
+
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 		tableDataDisp();
 		setTableWidth(table);
@@ -218,65 +218,115 @@ public class TestDataConfigPanel extends JPanel {
 		JButton button = new JButton();
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				logger.setLogArea(null);
-				if (comboBox.getSelectedItem() == null) {
-					JOptionPane.showMessageDialog(null, "请选择aid");
-					return;
-				}
+				Thread thread = new Thread(new Runnable() {
 
-				if (appTypeComboBox.getSelectedItem() == null) {
-					JOptionPane.showMessageDialog(null, "请选择应用类型");
-					return;
-				}
-
-				for (int i = 0; i < table.getRowCount(); i++) {
-					String aid = comboBox.getSelectedItem().toString().trim();
-					String dgi = table.getValueAt(i, 0).toString();
-					String tag = table.getValueAt(i, 1).toString();
-
-					String p1 = dgi.substring(2);
-					String p2 = dgi.substring(0, 2);
-
-					String reader = Config.getValue("Terminal_Data", "reader");
-					HashMap<String, String> res = apduHandler.reset(reader);
-					if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-						JOptionPane.showMessageDialog(null, res.get("sw"));
-					}
-
-					HashMap<String, String> result = apduHandler.select(aid);
-					if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
-						JOptionPane.showMessageDialog(null, res.get("sw"));
-					}
-
-					int b = Integer.parseInt(p2);
-					b = (b << 3) + 4;
-					HashMap<String, String> readRes = apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(Integer.parseInt(p1)), 2));
-
-					if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
-						TLVList tlvList = new TLVList(WDByteUtil.HEX2Bytes(readRes.get("res")), TLV.EMV);
-						tlvList = new TLVList(tlvList.find(0x70).getValue(), TLV.EMV);
-
-						int tagHex = Integer.parseInt(tag, 16);
-						TLV tlv = tlvList.find(tagHex);
-						if (tlv != null) {
-							String value = WDByteUtil.bytes2HEX(tlv.getValue());
-							String len=WDByteUtil.bytes2HEX(tlv.getL());
-							table.setValueAt(len, i, 2);
-							table.setValueAt(value, i, 3);
-							table.setValueAt(1, i, 4);
-						} else {
-							table.setValueAt(2, i, 4);
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						logger.setLogArea(null);
+						if (comboBox.getSelectedItem() == null) {
+							JOptionPane.showMessageDialog(null, "请选择aid");
+							return;
 						}
-					} else {
-						table.setValueAt(2, i, 4);
+
+						if (appTypeComboBox.getSelectedItem() == null) {
+							JOptionPane.showMessageDialog(null, "请选择应用类型");
+							return;
+						}
+
+						for (int i = 0; i < table.getRowCount(); i++) {
+							String aid = comboBox.getSelectedItem().toString().trim();
+							String dgi = table.getValueAt(i, 0).toString();
+							String tag = table.getValueAt(i, 1).toString();
+
+							String p1 = dgi.substring(2);
+							String p2 = dgi.substring(0, 2);
+
+							String reader = Config.getValue("Terminal_Data", "reader");
+							HashMap<String, String> res = apduHandler.reset(reader);
+							if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
+								JOptionPane.showMessageDialog(null, res.get("sw"));
+								return;
+							}
+
+							HashMap<String, String> pseResult = apduHandler.select(Constants.PSE);
+							if (!Constants.SW_SUCCESS.equalsIgnoreCase(pseResult.get("sw"))) {
+								JOptionPane.showMessageDialog(null, res.get("sw"));
+								return;
+							}
+
+							HashMap<String, String> aidResult = apduHandler.select(aid);
+							if (!Constants.SW_SUCCESS.equalsIgnoreCase(aidResult.get("sw"))) {
+								JOptionPane.showMessageDialog(null, res.get("sw"));
+								return;
+							}
+
+							if (dgi.equalsIgnoreCase("pse")) {
+								String pse = pseResult.get(tag);
+								if (WDAssert.isNotEmpty(pse)) {
+									table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(pse.length() / 2), 2)).toUpperCase(), i, 2);
+									table.setValueAt(pse, i, 3);
+									table.setValueAt("ok", i, 4);
+								} else {
+									table.setValueAt(pseResult.get("sw"), i, 4);
+								}
+							} else if (dgi.equalsIgnoreCase("ppse")) {
+								HashMap<String, String> ppseResult = apduHandler.select(Constants.PPSE);
+								if (!Constants.SW_SUCCESS.equalsIgnoreCase(ppseResult.get("sw"))) {
+									table.setValueAt(ppseResult.get("sw"), i, 4);
+								}else {
+									String ppse = ppseResult.get(tag);
+									if (WDAssert.isNotEmpty(ppse)) {
+										table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(ppse.length() / 2), 2)).toUpperCase(), i, 2);
+										table.setValueAt(ppse, i, 3);
+										table.setValueAt("ok", i, 4);
+									} else {
+										table.setValueAt("not found.", i, 4);
+									}
+								}
+							} else if (dgi.equalsIgnoreCase("aid")) {
+								String aidR = aidResult.get(tag);
+								if (WDAssert.isNotEmpty(aidR)) {
+									table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(aidR.length() / 2), 2)).toUpperCase(), i, 2);
+									table.setValueAt(aidR, i, 3);
+									table.setValueAt("ok", i, 4);
+								} else {
+									table.setValueAt("not found.", i, 4);
+								}
+							} else {
+								int b = Integer.parseInt(p2);
+								b = (b << 3) + 4;
+								HashMap<String, String> readRes = apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(Integer.parseInt(p1)), 2));
+
+								if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
+									TLVList tlvList = new TLVList(WDByteUtil.HEX2Bytes(readRes.get("res")), TLV.EMV);
+									tlvList = new TLVList(tlvList.find(0x70).getValue(), TLV.EMV);
+
+									int tagHex = Integer.parseInt(tag, 16);
+									TLV tlv = tlvList.find(tagHex);
+									if (tlv != null) {
+										String value = WDByteUtil.bytes2HEX(tlv.getValue());
+										String len = WDByteUtil.bytes2HEX(tlv.getL());
+										table.setValueAt(len, i, 2);
+										table.setValueAt(value, i, 3);
+										table.setValueAt("ok", i, 4);
+									} else {
+										table.setValueAt("not found.", i, 4);
+									}
+								} else {
+									table.setValueAt(readRes.get("sw"), i, 4);
+								}
+							}
+						}
+						tcm = table.getColumnModel();
+						tc = tcm.getColumn(4);
+						rowRenderer = new RowRenderer();
+						tc.setCellRenderer(rowRenderer);
+						table.repaint();
+						apduHandler.close();
 					}
-				}
-				tcm = table.getColumnModel();
-				tc = tcm.getColumn(4);
-				rowRenderer = new RowRenderer();
-				tc.setCellRenderer(rowRenderer);
-				table.repaint();
-				apduHandler.close();
+				});
+				thread.start();
 			}
 		});
 		button.setText("检测");
@@ -315,7 +365,7 @@ public class TestDataConfigPanel extends JPanel {
 
 		addButton.addActionListener(addActionListener);
 		delButton.addActionListener(delActionListener);
-		
+
 		dialog.setSize(450, 350);
 		dialog.getContentPane().add(dlgscrollPane);
 	}
@@ -334,9 +384,9 @@ public class TestDataConfigPanel extends JPanel {
 			if (Config.getItem("StaticDataTemplate", staticDataInfo.getTag()) == null) {
 				staticDataInfo.add("StaticDataTemplate", staticDataInfo);
 
-				JOptionPane.showMessageDialog(null, "添加数据成功！","提示框",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "添加数据成功！", "提示框", JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(null, "数据项已经存在！","提示框",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "数据项已经存在！", "提示框", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -399,7 +449,7 @@ public class TestDataConfigPanel extends JPanel {
 		for (int i = 0; i < rowNum; i++) {
 			tableData[i][0] = sdList.get(i).getDgi();
 			tableData[i][1] = sdList.get(i).getTag();
-			tableData[i][2] ="";
+			tableData[i][2] = "";
 			tableData[i][3] = sdList.get(i).getValue();
 			tableData[i][4] = sdList.get(i).getResult();
 		}
@@ -443,12 +493,12 @@ public class TestDataConfigPanel extends JPanel {
 		private static final long serialVersionUID = -9128946524399930570L;
 
 		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			if (column == 4 && value.equals(1))
-				setBackground(Color.green);
-			else if (column == 4 && value.equals(2)) {
-				setBackground(Color.red);
-			} else {
-				setBackground(Color.white);
+			if (column == 4) {
+				if (value.equals("ok")) {
+					setBackground(Color.green);
+				} else {
+					setBackground(Color.red);
+				}
 			}
 			return super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, column);
 		}
@@ -462,33 +512,33 @@ public class TestDataConfigPanel extends JPanel {
 		dd.getColumn(3).setPreferredWidth(350);
 		dd.getColumn(4).setPreferredWidth(160);
 	}
-	
-	public String parse8E(String str8E){
-		StringBuilder sb=new StringBuilder();
-		String x=str8E.substring(0,8);
-		String y=str8E.substring(8,16);
-		String cvmCode="";
-		String cvmType="";
-		
-		x=x+"------金额X（二进制）";
-		y=y+"------金额Y（二进制）";
+
+	public String parse8E(String str8E) {
+		StringBuilder sb = new StringBuilder();
+		String x = str8E.substring(0, 8);
+		String y = str8E.substring(8, 16);
+		String cvmCode = "";
+		String cvmCondtionCode="";
+
+		x = x + "------金额X（二进制）";
+		y = y + "------金额Y（二进制）";
 		sb.append(x).append("\n").append(y).append("\n");
 		sb.append("---------------------------------------\n");
-		int i=16;
-		while (i<str8E.length()) {
-			cvmCode=str8E.substring(i, i+2);
-			cvmType=str8E.substring(i+2,i+4);
-			
-			String binary=Integer.toBinaryString(Integer.parseInt(cvmCode, 16));
-			binary=WDStringUtil.paddingHeadZero(binary, 8);
-			
-			cvmCode=cvmCode+"------"+Config.getValue("CVM_CODE", binary.substring(0, 2));
-			cvmType=cvmType+"------"+Config.getValue("CVM_TYPE", binary.substring(2, 8));
-			i+=4;
-			sb.append(cvmCode).append("\n").append(cvmType).append("\n");
+		int i = 16;
+		while (i < str8E.length()) {
+			cvmCode = str8E.substring(i, i + 2);
+			cvmCondtionCode = str8E.substring(i + 2, i + 4);
+
+			String binary = Integer.toBinaryString(Integer.parseInt(cvmCode, 16));
+			binary = WDStringUtil.paddingHeadZero(binary, 8);
+
+			cvmCode = cvmCode + "------" + Config.getValue("CVM_CODE", binary.substring(0, 2))+";"+Config.getValue("CVM_TYPE", binary.substring(2, 8));
+			cvmCondtionCode = cvmCondtionCode + "------" + Config.getValue("CVM_Condition_Code", cvmCondtionCode);
+			i += 4;
+			sb.append(cvmCode).append("\n").append(cvmCondtionCode).append("\n");
 			sb.append("---------------------------------------\n");
 		}
-		
+
 		System.out.println(sb.toString());
 		return sb.toString();
 	}

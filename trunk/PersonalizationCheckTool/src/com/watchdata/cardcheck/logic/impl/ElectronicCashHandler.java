@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
 import org.apache.log4j.NDC;
@@ -199,6 +200,26 @@ public class ElectronicCashHandler extends BaseHandler {
 					genWordUtil.add(apduSendANDRes2);
 				}
 
+				// Verify PIN
+				if (WDAssert.isNotEmpty(cardRecordData.get("8E"))) {
+					logger.debug("=================================Verify PIN===========================");
+					if (CommonHelper.parse8E(cardRecordData.get("8E"))) {
+						String pin = JOptionPane.showInputDialog("请输入PIN：");
+						if (WDAssert.isNotEmpty(pin)) {
+							result = apduHandler.verifyPin(pin);
+							if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
+								logger.error("verify pin failed,card return:" + result.get("sw"));
+								genWordUtil.add(result.get("apdu"), "Verify PIN", result.get("res"), result);
+							} else {
+								logger.debug("verify pin pass!");
+								genWordUtil.add(result.get("apdu"), "Verify PIN", result.get("res"), result);
+							}
+						}else {
+							logger.error("verify pin failed,card return:" + result.get("sw"));
+						}
+					}
+				}
+				
 				// 联机请求
 				logger.debug("=================================Internal Authenticate=================================");
 				String termRandom = WDStringUtil.getRandomHexString(8);
@@ -465,6 +486,27 @@ public class ElectronicCashHandler extends BaseHandler {
 				for (APDUSendANDRes apduSendANDRes2 : aList) {
 					genWordUtil.add(apduSendANDRes2);
 				}
+				
+				// Verify PIN
+				if (WDAssert.isNotEmpty(cardRecordData.get("8E"))) {
+					logger.debug("=================================Verify PIN===========================");
+					if (CommonHelper.parse8E(cardRecordData.get("8E"))) {
+						String pin = JOptionPane.showInputDialog("请输入PIN：");
+						if (WDAssert.isNotEmpty(pin)) {
+							result = apduHandler.verifyPin(pin);
+							if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
+								logger.error("verify pin failed,card return:" + result.get("sw"));
+								genWordUtil.add(result.get("apdu"), "Verify PIN", result.get("res"), result);
+							} else {
+								logger.debug("verify pin pass!");
+								genWordUtil.add(result.get("apdu"), "Verify PIN", result.get("res"), result);
+							}
+						}else {
+							logger.error("verify pin failed,card return:" + result.get("sw"));
+						}
+					}
+				}
+				
 				logger.debug("=======================internal Authenticate==============================");
 				String termRandom = WDStringUtil.getRandomHexString(8);
 				result = apduHandler.internalAuthenticate(termRandom);

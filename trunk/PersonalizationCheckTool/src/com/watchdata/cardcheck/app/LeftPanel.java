@@ -9,10 +9,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.watchdata.cardcheck.panel.AtmPanel;
 import com.watchdata.cardcheck.panel.CardInfoDetectTabbedPanel;
 import com.watchdata.cardcheck.panel.CheckTabbedPanel;
 import com.watchdata.cardcheck.panel.ConfigTabbedPanel;
 import com.watchdata.cardcheck.panel.TradeTabbedPanel;
+import com.watchdata.cardcheck.utils.Config;
+import com.watchdata.cardcheck.utils.PropertiesManager;
 
 /**
  * @title LeftPanel.java
@@ -30,6 +33,7 @@ public class LeftPanel extends JPanel {
 	private TradeTabbedPanel tradeTabbedPanel = new TradeTabbedPanel();
 	private CheckTabbedPanel checkTabbedPanel = new CheckTabbedPanel();
 	private CardInfoDetectTabbedPanel cardDetectTabbedPanel = new CardInfoDetectTabbedPanel();
+	private PropertiesManager pm = new PropertiesManager();
 
 	public LeftPanel() {
 		super(new BorderLayout());
@@ -76,6 +80,10 @@ public class LeftPanel extends JPanel {
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
 					RightPanel.cardInfoScanPanel.setVisible(false);
+					AtmPanel.tradeType = pm.getString("mv.tradepanel.lend");
+					AtmPanel.setTradeType(AtmPanel.tradeType);
+					//更新交易状态
+					Config.setValue("Terminal_Data", "currentTradeType", pm.getString("mv.tradepanel.lend"));
 				} else if ("检测".equals(tabbedPane.getSelectedComponent().getName())) {
 					Application.rightPanel.add(RightPanel.testDataConfigPanel, BorderLayout.CENTER);
 					RightPanel.testDataConfigPanel.setVisible(true);
