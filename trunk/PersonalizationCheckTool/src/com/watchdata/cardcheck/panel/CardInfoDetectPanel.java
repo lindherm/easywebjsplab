@@ -30,6 +30,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.impl.CardInfoThread;
 import com.watchdata.cardcheck.utils.Config;
@@ -51,8 +52,10 @@ public class CardInfoDetectPanel extends JPanel {
 	public static CommonAPDU commonAPDU;
 	public JTextPane textPane;
 	public JTextPane textPane_1;
+	private static Log log=new Log();
 
 	public CardInfoDetectPanel() {
+		log.setLogArea(textPane_1);
 		setName("卡片信息");
 		setLayout(null);
 
@@ -197,11 +200,16 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 				Runnable runnable=new Runnable() {
 					public void run() {
-						String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
-						String[] apdus = prg.split("\n");
+						try {
+							String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+							String[] apdus = prg.split("\n");
 
-						for (String apdu : apdus) {
-							commonAPDU.send(apdu);
+							for (String apdu : apdus) {
+								commonAPDU.send(apdu);
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							log.error(e.getMessage());
 						}
 					}
 				};

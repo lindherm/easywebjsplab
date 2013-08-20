@@ -333,11 +333,12 @@ public class CommonAPDU extends AbstractAPDU {
 	 * 
 	 * @param apdu
 	 * @return
+	 * @throws Exception 
 	 */
-	public String send(String apdu) {
+	public String send(String apdu) throws Exception {
 		String encIv;
 		if (getSecureityLevel().equalsIgnoreCase("00") || apdu.substring(0, 4).equalsIgnoreCase("00A4")) {
-			return apduChannel.send(apdu);
+			//return apduChannel.send(apdu);
 		} else if (getSecureityLevel().equalsIgnoreCase("01")) {
 			int cla=(Integer.parseInt(apdu.substring(0,2),16) & 0xF0) | 0x04;
 			apdu=Integer.toHexString(cla) +apdu.substring(2);
@@ -356,10 +357,9 @@ public class CommonAPDU extends AbstractAPDU {
 			setSmac(cMac);
 
 			apdu = apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + apdu.substring(10) + cMac;
-
-			return apduChannel.send(apdu.toUpperCase());
+			
 		} else if (getSecureityLevel().equalsIgnoreCase("03")) {
-
+			
 		}
 		return apduChannel.send(apdu);
 	}
