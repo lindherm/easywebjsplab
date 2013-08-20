@@ -51,7 +51,7 @@ public class CardInfoThread extends Thread {
 				logger.error("card reset error");
 			}
 			commonAPDU.externalAuthenticate(secrityLevel,keyVersion,keyId,encKey,macKey,dekKey);
-			resp = commonAPDU.send("84F28000024F00");
+			resp = commonAPDU.send("80F28000024F00");
 
 			DefaultMutableTreeNode cardManager = null;
 			if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
@@ -71,7 +71,7 @@ public class CardInfoThread extends Thread {
 					DefaultMutableTreeNode apps = new DefaultMutableTreeNode("Application Instances");
 					cardManager.add(apps);
 
-					resp = commonAPDU.send("84F24000024F00");
+					resp = commonAPDU.send("80F24000024F00");
 
 					if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
 						pos = 0;
@@ -90,7 +90,7 @@ public class CardInfoThread extends Thread {
 					}
 					DefaultMutableTreeNode loadFiles = new DefaultMutableTreeNode("Load Files");
 					cardManager.add(loadFiles);
-					resp = commonAPDU.send("84F22000024F00");
+					resp = commonAPDU.send("80F22000024F00");
 					if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
 						pos = 0;
 						while (pos < resp.length() - 4) {
@@ -111,7 +111,7 @@ public class CardInfoThread extends Thread {
 					DefaultMutableTreeNode loadFilesAndModules = new DefaultMutableTreeNode("Load Files and Modules");
 					cardManager.add(loadFilesAndModules);
 
-					resp = commonAPDU.send("84F21000024F00");
+					resp = commonAPDU.send("80F21000024F00");
 
 					if (resp.substring(resp.length() - 4).equalsIgnoreCase("9000")) {
 						pos = 0;

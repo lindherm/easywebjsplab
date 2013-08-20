@@ -339,6 +339,8 @@ public class CommonAPDU extends AbstractAPDU {
 		if (getSecureityLevel().equalsIgnoreCase("00") || apdu.substring(0, 4).equalsIgnoreCase("00A4")) {
 			return apduChannel.send(apdu);
 		} else if (getSecureityLevel().equalsIgnoreCase("01")) {
+			int cla=(Integer.parseInt(apdu.substring(0,2),16) & 0xF0) | 0x04;
+			apdu=Integer.toHexString(cla) +apdu.substring(2);
 			int lc = Integer.parseInt(apdu.substring(8, 10), 16);
 			lc += 8;
 
@@ -367,13 +369,14 @@ public class CommonAPDU extends AbstractAPDU {
 	}
 
 	public static void main(String[] args) {
-		CommonAPDU commonAPDU = new CommonAPDU();
+		/*CommonAPDU commonAPDU = new CommonAPDU();
 		commonAPDU.reset("WatchData System CRW-VIuo 0");
 		commonAPDU.select("A000000003000000");
 		commonAPDU.externalAuthenticate("01", "00", "00", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F");
 		commonAPDU.send("84F28000024F00");
 		commonAPDU.send("84F24000024F00");
 		commonAPDU.send("84F22000024F00");
-		commonAPDU.send("84F21000024F00");
+		commonAPDU.send("84F21000024F00");*/
+		System.out.println();
 	}
 }
