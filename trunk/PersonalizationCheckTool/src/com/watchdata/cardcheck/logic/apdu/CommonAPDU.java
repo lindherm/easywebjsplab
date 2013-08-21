@@ -21,8 +21,8 @@ import com.watchdata.commons.lang.WDStringUtil;
  * @Copyright: watchdata
  */
 public class CommonAPDU extends AbstractAPDU {
-	private IAPDUChannel apduChannel;
-	private String secureityLevel;
+	public static IAPDUChannel apduChannel;
+	private String secureityLevel="00";
 	private String encKey;
 	private String macKey;
 	private String kekKey;
