@@ -54,9 +54,9 @@ public class LeftPanel extends JPanel {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				if ("配置".equals(tabbedPane.getSelectedComponent().getName())) {
-					Application.rightPanel.add(RightPanel.aidConfigPanel, BorderLayout.CENTER);
-					RightPanel.aidConfigPanel.setVisible(true);
-					RightPanel.logoPanel.setVisible(false);
+					Application.rightPanel.add(RightPanel.logoPanel, BorderLayout.CENTER);
+					RightPanel.logoPanel.setVisible(true);
+					RightPanel.aidConfigPanel.setVisible(false);
 					RightPanel.caPublicKeyConfigPanel.setVisible(false);
 					RightPanel.issuerKeyConfigPanel.setVisible(false);
 					RightPanel.terminalLimitConfigPanel.setVisible(false);
