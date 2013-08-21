@@ -164,6 +164,11 @@ public class CardInfoDetectPanel extends JPanel {
 					deriveData=initResp+"F003"+initResp+"0F03";
 					String keyDek=WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
 					CommonHelper.updateUI(textField_2, keyDek);
+					
+					Config.setValue("CardInfo", "KMC", kmc);
+					Config.setValue("CardInfo", "Kenc", keyEnc);
+					Config.setValue("CardInfo", "Kmac", keyMac);
+					Config.setValue("CardInfo", "Kdek", keyDek);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
