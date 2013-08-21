@@ -186,11 +186,11 @@ public class IssuerKeyConfigPanel extends JPanel {
 				
 				String udkMac=appKeyStr.substring(32, 64);
 				CommonHelper.updateUI(textField_1, udkMac);
-				CommonHelper.updateUI(textField_6, CommonHelper.getCheckValue(udkAc));
+				CommonHelper.updateUI(textField_6, CommonHelper.getCheckValue(udkMac));
 				
-				String udkEnc=appKeyStr.substring(0, 32);
+				String udkEnc=appKeyStr.substring(64, 96);
 				CommonHelper.updateUI(textField_2, udkEnc);
-				CommonHelper.updateUI(textField_7, CommonHelper.getCheckValue(udkAc));
+				CommonHelper.updateUI(textField_7, CommonHelper.getCheckValue(udkEnc));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
