@@ -10,8 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -26,15 +29,21 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
+import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.impl.CardInfoThread;
 import com.watchdata.cardcheck.utils.Config;
+import com.watchdata.commons.crypto.WD3DesCryptoUtil;
+import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDAssert;
+import com.watchdata.commons.lang.WDStringUtil;
 
 public class CardInfoDetectPanel extends JPanel {
 	/**
@@ -48,10 +57,10 @@ public class CardInfoDetectPanel extends JPanel {
 	private JTree tree;
 	private JTextField textField_4;
 	private JTextField textField_5;
-	private JTextField textField_6;
 	public static CommonAPDU commonAPDU;
 	public JTextPane textPane;
 	public JTextPane textPane_1;
+	public JComboBox comboBox;
 	private static Log log=new Log();
 
 	public CardInfoDetectPanel() {
@@ -81,7 +90,7 @@ public class CardInfoDetectPanel extends JPanel {
 		mntmCardinfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				commonAPDU = new CommonAPDU();
-				CardInfoThread thread=new CardInfoThread(tree, commonAPDU, textField_6.getText().trim(), textField_4.getText().trim(), textField_5.getText().trim(), textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim(),textPane_1);
+				CardInfoThread thread=new CardInfoThread(tree, commonAPDU, comboBox.getSelectedItem().toString().trim(), textField_4.getText().trim(), textField_5.getText().trim(), textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim(),textPane_1);
 				thread.start();
 			}
 		});
@@ -89,34 +98,34 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JLabel lblNewLabel = new JLabel("Kenc:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(10, 71, 54, 15);
+		lblNewLabel.setBounds(10, 99, 54, 15);
 		add(lblNewLabel);
 
 		textField = new JTextField();
-		textField.setBounds(74, 68, 240, 21);
+		textField.setBounds(74, 96, 240, 21);
 		add(textField);
 		textField.setColumns(10);
 		textField.setText(Config.getValue("CardInfo", "Kenc"));
 
 		JLabel lblKmac = new JLabel("Kmac:");
 		lblKmac.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblKmac.setBounds(10, 102, 54, 15);
+		lblKmac.setBounds(10, 130, 54, 15);
 		add(lblKmac);
 
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(74, 99, 240, 21);
+		textField_1.setBounds(74, 127, 240, 21);
 		textField_1.setText(Config.getValue("CardInfo", "Kmac"));
 		add(textField_1);
 
 		JLabel lblKdek = new JLabel("Kdek:");
 		lblKdek.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblKdek.setBounds(10, 130, 54, 15);
+		lblKdek.setBounds(10, 158, 54, 15);
 		add(lblKdek);
 
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(74, 127, 240, 21);
+		textField_2.setBounds(74, 155, 240, 21);
 		textField_2.setText(Config.getValue("CardInfo", "Kdek"));
 		add(textField_2);
 
@@ -129,6 +138,44 @@ public class CardInfoDetectPanel extends JPanel {
 		textField_3.setColumns(10);
 		textField_3.setBounds(74, 40, 240, 21);
 		textField_3.setText(Config.getValue("CardInfo", "KMC"));
+		textField_3.getDocument().addDocumentListener(new DocumentListener() {
+			public void insertUpdate(DocumentEvent e) {
+				String kmc=textField_3.getText().trim();
+				commonAPDU = new CommonAPDU();
+				HashMap<String, String> res=commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
+				
+				try {
+					commonAPDU.send("00A4040000");
+					String hostRandom = WDStringUtil.getRandomHexString(16);
+					String keyVersion=textField_4.getText().trim();
+					String keyId=textField_5.getText().trim();
+					// initializeUpdate
+					String strResp = commonAPDU.apduChannel.send("8050" + keyVersion + keyId + "08" + hostRandom);
+					String initResp=strResp.substring(8, 20);
+					
+					String deriveData=initResp+"F001"+initResp+"0F01";
+					String keyEnc=WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
+					CommonHelper.updateUI(textField, keyEnc);
+					
+					deriveData=initResp+"F002"+initResp+"0F02";
+					String keyMac=WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
+					CommonHelper.updateUI(textField_1, keyMac);
+					
+					deriveData=initResp+"F003"+initResp+"0F03";
+					String keyDek=WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
+					CommonHelper.updateUI(textField_2, keyDek);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
 		add(textField_3);
 
 		JPanel panel_1 = new JPanel();
@@ -222,31 +269,25 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JLabel lblNewLabel_1 = new JLabel("version:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setBounds(103, 165, 68, 15);
+		lblNewLabel_1.setBounds(139, 189, 60, 15);
 		add(lblNewLabel_1);
 
 		textField_4 = new JTextField();
 		textField_4.setText("00");
-		textField_4.setBounds(181, 163, 47, 18);
+		textField_4.setBounds(205, 187, 31, 18);
 		add(textField_4);
 		textField_4.setColumns(10);
 
 		JLabel lblId = new JLabel("id:");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblId.setBounds(223, 165, 34, 15);
+		lblId.setBounds(242, 189, 31, 15);
 		add(lblId);
 
 		textField_5 = new JTextField();
 		textField_5.setText("00");
 		textField_5.setColumns(10);
-		textField_5.setBounds(267, 162, 47, 18);
+		textField_5.setBounds(283, 187, 31, 18);
 		add(textField_5);
-
-		textField_6 = new JTextField();
-		textField_6.setText("01");
-		textField_6.setBounds(37, 162, 56, 18);
-		add(textField_6);
-		textField_6.setColumns(10);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
@@ -277,6 +318,11 @@ public class CardInfoDetectPanel extends JPanel {
 			}
 		};
 		scrollPane_2.setViewportView(textPane_1);
+		
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"00", "01", "03"}));
+		comboBox.setBounds(74, 186, 65, 21);
+		add(comboBox);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
