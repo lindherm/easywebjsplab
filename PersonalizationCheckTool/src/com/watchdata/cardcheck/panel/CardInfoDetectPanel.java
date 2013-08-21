@@ -105,6 +105,26 @@ public class CardInfoDetectPanel extends JPanel {
 		textField.setBounds(74, 96, 240, 21);
 		add(textField);
 		textField.setColumns(10);
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				Config.setValue("CardInfo", "Kenc", textField.getText().trim());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		textField.setText(Config.getValue("CardInfo", "Kenc"));
 
 		JLabel lblKmac = new JLabel("Kmac:");
@@ -116,6 +136,26 @@ public class CardInfoDetectPanel extends JPanel {
 		textField_1.setColumns(10);
 		textField_1.setBounds(74, 127, 240, 21);
 		textField_1.setText(Config.getValue("CardInfo", "Kmac"));
+		textField_1.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				Config.setValue("CardInfo", "Kmac", textField_1.getText().trim());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		add(textField_1);
 
 		JLabel lblKdek = new JLabel("Kdek:");
@@ -127,6 +167,26 @@ public class CardInfoDetectPanel extends JPanel {
 		textField_2.setColumns(10);
 		textField_2.setBounds(74, 155, 240, 21);
 		textField_2.setText(Config.getValue("CardInfo", "Kdek"));
+		textField_2.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				Config.setValue("CardInfo", "Kdek", textField_2.getText().trim());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		add(textField_2);
 
 		JLabel lblKmc = new JLabel("KMC:");
@@ -166,9 +226,6 @@ public class CardInfoDetectPanel extends JPanel {
 					CommonHelper.updateUI(textField_2, keyDek);
 					
 					Config.setValue("CardInfo", "KMC", kmc);
-					Config.setValue("CardInfo", "Kenc", keyEnc);
-					Config.setValue("CardInfo", "Kmac", keyMac);
-					Config.setValue("CardInfo", "Kdek", keyDek);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

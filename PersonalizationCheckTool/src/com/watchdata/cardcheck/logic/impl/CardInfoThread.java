@@ -125,16 +125,19 @@ public class CardInfoThread extends Thread {
 							pos += 2;
 							privilegesCode = resp.substring(pos, pos + 2);
 							pos += 2;
-							String lifeStyleCode1 = resp.substring(pos, pos + 2);
+							String modulesNum= resp.substring(pos, pos + 2);
 							pos += 2;
-							len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
-							pos += 2;
-							String modules = resp.substring(pos, pos + 2 * len);
-							pos += 2 * pos;
 							DefaultMutableTreeNode loadFileNode = new DefaultMutableTreeNode(loadFile + ";" + Config.getValue("App_Lifestyle", lifeStyleCode));
 							loadFilesAndModules.add(loadFileNode);
-							DefaultMutableTreeNode executableModules = new DefaultMutableTreeNode(modules);
-							loadFileNode.add(executableModules);
+							for (int i = 0; i < Integer.parseInt(modulesNum); i++) {
+								len = Integer.parseInt(resp.substring(pos, pos + 2), 16);
+								pos += 2;
+								String modules = resp.substring(pos, pos + 2 * len);
+								pos += 2 * len;
+
+								DefaultMutableTreeNode executableModules = new DefaultMutableTreeNode(modules);
+								loadFileNode.add(executableModules);
+							}
 						}
 					}
 				}
