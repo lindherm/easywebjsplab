@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import com.watchdata.commons.crypto.WD3DesCryptoUtil;
+import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.commons.lang.WDStringUtil;
@@ -173,5 +178,42 @@ public class CommonHelper {
 			i += 4;
 		}
 		return false;
+	}
+	/**
+	 * calculate checkvalue of the KeyComponent specified
+	 * 
+	 * @param KeyComponent
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getCheckValue(String keyComponent) throws Exception {
+		String res = "";
+		if (WDAssert.isEmpty(keyComponent)) {
+			throw new Exception("key is null.");
+		}
+		String dataInhex = "0000000000000000";
+		res = WD3DesCryptoUtil.ecb_encrypt(keyComponent, dataInhex, Padding.NoPadding);
+		System.out.println("encrypt:" + res);
+
+		res = res.substring(0, 8);
+		System.out.println("checkvalue:" + res);
+		return res;
+	}
+
+	/**
+	 * updateUI
+	 * 
+	 * @param com
+	 * @param target
+	 */
+	public static void updateUI(final JTextField com, final String target) {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				com.setText(target);
+			}
+		});
 	}
 }
