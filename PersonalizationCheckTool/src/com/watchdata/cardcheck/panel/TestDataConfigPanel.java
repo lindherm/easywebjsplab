@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -29,7 +28,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
@@ -48,6 +46,7 @@ import com.watchdata.cardcheck.configdao.StaticDataInfo;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
+import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.tlv.TLV;
 import com.watchdata.cardcheck.tlv.TLVList;
 import com.watchdata.cardcheck.utils.Config;
@@ -75,8 +74,6 @@ public class TestDataConfigPanel extends JPanel {
 	public static Log logger = new Log();
 	public static JXTreeTable table;
 	private JLabel tagLabel;
-	private JLabel appTypeLabel;
-	public static JComboBox appTypeComboBox;
 	private JButton addButton;
 	public static JButton delButton;
 	public JComboBox comboBox;
@@ -89,8 +86,6 @@ public class TestDataConfigPanel extends JPanel {
 
 	public TableColumnModel tcm;
 	public TableColumn tc;
-
-	public JComboBox comboBox_1;
 
 	private JDialog dialog = new JDialog();
 	private JEditorPane ep = new JEditorPane();
@@ -107,46 +102,22 @@ public class TestDataConfigPanel extends JPanel {
 
 		tagLabel = new JLabel();
 		tagLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		tagLabel.setBounds(238, 128, 40, 20);
+		tagLabel.setBounds(237, 44, 40, 20);
 		tagLabel.setText(pm.getString("mv.testdata.tag"));
 		add(tagLabel);
 
-		appTypeLabel = new JLabel();
-		appTypeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		appTypeLabel.setText(pm.getString("mv.testdata.appTypeName"));
-		appTypeLabel.setBounds(265, 71, 80, 20);
-		add(appTypeLabel);
-
-		appTypeComboBox = new JComboBox();
-		appTypeComboBox.addItem("借贷记");
-		appTypeComboBox.addItem("电子现金");
-		appTypeComboBox.addItem("QPBOC");
-		appTypeComboBox.setBounds(353, 71, 140, 20);
-		add(appTypeComboBox);
-
 		addButton = new JButton();
 		addButton.setText("增加");
-		addButton.setBounds(725, 127, 84, 21);
+		addButton.setBounds(730, 105, 84, 21);
 		add(addButton);
-
-		final JLabel editDataLabel = new JLabel();
-		editDataLabel.setBounds(0, 101, 97, 20);
-		editDataLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		editDataLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		editDataLabel.setText(pm.getString("mv.testdata.editData"));
-		add(editDataLabel);
-
-		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(53, 112, 730, 20);
-		add(separator_1);
 
 		delButton = new JButton();
 		delButton.setText(pm.getString("mv.testdata.delete"));
-		delButton.setBounds(725, 199, 84, 21);
+		delButton.setBounds(730, 136, 84, 21);
 		add(delButton);
 
 		final JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 171, 710, 510);
+		scrollPane.setBounds(10, 87, 710, 562);
 
 		/*
 		 * table = new JTable(); table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -157,8 +128,8 @@ public class TestDataConfigPanel extends JPanel {
 		 * 
 		 * dialog.setVisible(true); } } } });
 		 */
-		table = new JXTreeTable(); 
-		table.setName("componentTreeTable"); 
+		table = new JXTreeTable();
+		table.setName("componentTreeTable");
 		configureComponents();
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 		refreshModel(sdList);
@@ -168,7 +139,7 @@ public class TestDataConfigPanel extends JPanel {
 		JLabel lblAid = new JLabel();
 		lblAid.setText("AID：");
 		lblAid.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAid.setBounds(16, 71, 64, 20);
+		lblAid.setBounds(10, 44, 40, 20);
 		add(lblAid);
 
 		comboBox = new JComboBox();
@@ -201,14 +172,8 @@ public class TestDataConfigPanel extends JPanel {
 				apduHandler.close();
 			}
 		});
-		comboBox.setBounds(88, 71, 180, 20);
+		comboBox.setBounds(47, 44, 180, 20);
 		add(comboBox);
-
-		JLabel lblDgi = new JLabel();
-		lblDgi.setText("DGI：");
-		lblDgi.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDgi.setBounds(16, 128, 64, 20);
-		add(lblDgi);
 
 		JButton button = new JButton();
 		button.addActionListener(new ActionListener() {
@@ -224,129 +189,67 @@ public class TestDataConfigPanel extends JPanel {
 							return;
 						}
 
-						if (appTypeComboBox.getSelectedItem() == null) {
-							JOptionPane.showMessageDialog(null, "请选择应用类型");
+						String aid = comboBox.getSelectedItem().toString().trim();
+						String reader = Config.getValue("Terminal_Data", "reader");
+						HashMap<String, String> res = apduHandler.reset(reader);
+						if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
+							JOptionPane.showMessageDialog(null, res.get("sw"));
 							return;
 						}
 
-						for (int i = 0; i < table.getRowCount(); i++) {
-							String aid = comboBox.getSelectedItem().toString().trim();
-							String dgi = table.getValueAt(i, 0).toString();
-							String tag = table.getValueAt(i, 1).toString();
+						HashMap<String, String> pseResult = apduHandler.select(Constants.PSE);
+						if (!Constants.SW_SUCCESS.equalsIgnoreCase(pseResult.get("sw"))) {
+							JOptionPane.showMessageDialog(null, res.get("sw"));
+							return;
+						}
 
-							String p1 = dgi.substring(2);
-							String p2 = dgi.substring(0, 2);
+						HashMap<String, String> aidResult = apduHandler.select(aid);
+						if (!Constants.SW_SUCCESS.equalsIgnoreCase(aidResult.get("sw"))) {
+							JOptionPane.showMessageDialog(null, res.get("sw"));
+							return;
+						}
 
-							String reader = Config.getValue("Terminal_Data", "reader");
-							HashMap<String, String> res = apduHandler.reset(reader);
-							if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-								JOptionPane.showMessageDialog(null, res.get("sw"));
-								return;
-							}
-
-							HashMap<String, String> pseResult = apduHandler.select(Constants.PSE);
-							if (!Constants.SW_SUCCESS.equalsIgnoreCase(pseResult.get("sw"))) {
-								JOptionPane.showMessageDialog(null, res.get("sw"));
-								return;
-							}
-
-							HashMap<String, String> aidResult = apduHandler.select(aid);
-							if (!Constants.SW_SUCCESS.equalsIgnoreCase(aidResult.get("sw"))) {
-								JOptionPane.showMessageDialog(null, res.get("sw"));
-								return;
-							}
-
-							if (dgi.equalsIgnoreCase("pse")) {
-								String pse = pseResult.get(tag);
-								if (WDAssert.isNotEmpty(pse)) {
-									table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(pse.length() / 2), 2)).toUpperCase(), i, 2);
-									table.setValueAt(pse, i, 3);
-									table.setValueAt("ok", i, 4);
-								} else {
-									table.setValueAt(pseResult.get("sw"), i, 4);
-								}
-							} else if (dgi.equalsIgnoreCase("ppse")) {
-								HashMap<String, String> ppseResult = apduHandler.select(Constants.PPSE);
-								if (!Constants.SW_SUCCESS.equalsIgnoreCase(ppseResult.get("sw"))) {
-									table.setValueAt(ppseResult.get("sw"), i, 4);
-								} else {
-									String ppse = ppseResult.get(tag);
-									if (WDAssert.isNotEmpty(ppse)) {
-										table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(ppse.length() / 2), 2)).toUpperCase(), i, 2);
-										table.setValueAt(ppse, i, 3);
-										table.setValueAt("ok", i, 4);
-									} else {
-										table.setValueAt("not found.", i, 4);
-									}
-								}
-							} else if (dgi.equalsIgnoreCase("aid")) {
-								String aidR = aidResult.get(tag);
-								if (WDAssert.isNotEmpty(aidR)) {
-									table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(aidR.length() / 2), 2)).toUpperCase(), i, 2);
-									table.setValueAt(aidR, i, 3);
-									table.setValueAt("ok", i, 4);
-								} else {
-									table.setValueAt("not found.", i, 4);
-								}
-							} else {
-								int b = Integer.parseInt(p2);
-								b = (b << 3) + 4;
-								HashMap<String, String> readRes = apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(Integer.parseInt(p1)), 2));
-
+						for (int sfi = 1; sfi <= 31; sfi++) {
+							for (int rec = 1; rec <= 16; rec++) {
+								int sfi1 = (sfi << 3) | 4;
+								HashMap<String, String> readRes = apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
 								if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
-									TLVList tlvList = new TLVList(WDByteUtil.HEX2Bytes(readRes.get("res")), TLV.EMV);
-									tlvList = new TLVList(tlvList.find(0x70).getValue(), TLV.EMV);
-
-									int tagHex = Integer.parseInt(tag, 16);
-									TLV tlv = tlvList.find(tagHex);
-									if (tlv != null) {
-										String value = WDByteUtil.bytes2HEX(tlv.getValue());
-										String len = WDByteUtil.bytes2HEX(tlv.getL());
-										table.setValueAt(len, i, 2);
-										table.setValueAt(value, i, 3);
-										table.setValueAt("ok", i, 4);
-									} else {
-										table.setValueAt("not found.", i, 4);
+									for (int i = 0; i < table.getRowCount(); i++) {
+										String tag = table.getValueAt(i, 0).toString();
+										if (readRes.containsKey(tag)) {
+											JXTreeNode jxTreeNode = (JXTreeNode) table.getTreeTableModel().getChild(table.getTreeTableModel().getRoot(), i);
+											jxTreeNode.getChildren().add(new JXTreeNode(tag, CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2)) + WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2), readRes.get(tag), Config.getValue("TAG", tag)));
+											
+										}
 									}
-								} else {
-									table.setValueAt(readRes.get("sw"), i, 4);
 								}
 							}
 						}
-						tcm = table.getColumnModel();
-						tc = tcm.getColumn(4);
-						table.repaint();
 						apduHandler.close();
+						expandAll();
 					}
 				});
 				thread.start();
 			}
 		});
 		button.setText("检测");
-		button.setBounds(725, 261, 84, 21);
+		button.setBounds(730, 198, 84, 21);
 		add(button);
-
-		comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(88, 128, 140, 20);
-		add(comboBox_1);
-
-		Collection<String> dgiCollections = Config.getItems("DGI");
-		for (String dgi : dgiCollections) {
-			comboBox_1.addItem(dgi);
-		}
+		
 		comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(286, 128, 140, 20);
+		comboBox_2.setBounds(285, 44, 140, 20);
 		add(comboBox_2);
 
 		JButton button_1 = new JButton();
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
+				refreshModel(sdList);
 				table.repaint();
 			}
 		});
 		button_1.setText("刷新");
-		button_1.setBounds(725, 230, 84, 21);
+		button_1.setBounds(730, 167, 84, 21);
 		add(button_1);
 
 		Collection<String> tagCollections = Config.getItems("TAG");
@@ -365,7 +268,6 @@ public class TestDataConfigPanel extends JPanel {
 	private ActionListener addActionListener = new ActionListener() {
 		public void actionPerformed(final ActionEvent arg0) {
 			StaticDataInfo staticDataInfo = new StaticDataInfo();
-			staticDataInfo.setDgi(comboBox_1.getSelectedItem().toString());
 			staticDataInfo.setTag(comboBox_2.getSelectedItem().toString());
 
 			if (Config.getItem("StaticDataTemplate", staticDataInfo.getTag()) == null) {
