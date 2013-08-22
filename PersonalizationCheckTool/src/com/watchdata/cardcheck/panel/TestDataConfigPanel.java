@@ -24,6 +24,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.treetable.TreeTableModel;
 
 import com.watchdata.cardcheck.configdao.StaticDataInfo;
 import com.watchdata.cardcheck.log.Log;
@@ -98,15 +99,6 @@ public class TestDataConfigPanel extends JPanel {
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 87, 710, 562);
 
-		/*
-		 * table = new JTable(); table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		 * 
-		 * table.addMouseListener(new MouseAdapter() {
-		 * 
-		 * @Override public void mouseClicked(MouseEvent e) { if (SwingUtilities.isLeftMouseButton(e)) { if (e.getClickCount() == 2) { int row = table.rowAtPoint(e.getPoint()); int colum = table.columnAtPoint(e.getPoint()); Object ob = table.getValueAt(row, colum); Point p = e.getLocationOnScreen(); dialog.setLocation(p); if (table.getValueAt(row, colum - 2).equals("8E")) { ep.setText(parse8E(ob.toString())); } else { ep.setText(ob.toString()); }
-		 * 
-		 * dialog.setVisible(true); } } } });
-		 */
 		table = new JXTreeTable();
 		table.setName("componentTreeTable");
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
@@ -163,6 +155,9 @@ public class TestDataConfigPanel extends JPanel {
 					public void run() {
 						// TODO Auto-generated method stub
 						logger.setLogArea(null);
+						TreeTableModel treeTableModel=table.getTreeTableModel();
+						JXTreeNode root=(JXTreeNode)treeTableModel.getRoot();
+						
 						if (comboBox.getSelectedItem() == null) {
 							JOptionPane.showMessageDialog(null, "请选择aid");
 							return;
@@ -175,6 +170,7 @@ public class TestDataConfigPanel extends JPanel {
 							JOptionPane.showMessageDialog(null, res.get("sw"));
 							return;
 						}
+						
 
 						HashMap<String, String> pseResult = apduHandler.select(Constants.PSE);
 						if (!Constants.SW_SUCCESS.equalsIgnoreCase(pseResult.get("sw"))) {
@@ -182,12 +178,28 @@ public class TestDataConfigPanel extends JPanel {
 							return;
 						}
 
+						for (int i = 0; i < table.getRowCount(); i++) {
+							String tag = table.getValueAt(i, 0).toString();
+							if (pseResult.containsKey(tag)) {
+								JXTreeNode jxTreeNode = (JXTreeNode)table.getTreeTableModel().getChild(root, i);
+								jxTreeNode.getChildren().add(new JXTreeNode("", "PSE", pseResult.get(tag),""));
+							}
+						}
+						
 						HashMap<String, String> aidResult = apduHandler.select(aid);
 						if (!Constants.SW_SUCCESS.equalsIgnoreCase(aidResult.get("sw"))) {
 							JOptionPane.showMessageDialog(null, res.get("sw"));
 							return;
 						}
-
+						
+						for (int i = 0; i < table.getRowCount(); i++) {
+							String tag = table.getValueAt(i, 0).toString();
+							if (pseResult.containsKey(tag)) {
+								JXTreeNode jxTreeNode = (JXTreeNode)table.getTreeTableModel().getChild(root, i);
+								jxTreeNode.getChildren().add(new JXTreeNode("", "SELECT AID", pseResult.get(tag),""));
+							}
+						}
+						
 						for (int sfi = 1; sfi <= 31; sfi++) {
 							for (int rec = 1; rec <= 16; rec++) {
 								int sfi1 = (sfi << 3) | 4;
@@ -196,9 +208,8 @@ public class TestDataConfigPanel extends JPanel {
 									for (int i = 0; i < table.getRowCount(); i++) {
 										String tag = table.getValueAt(i, 0).toString();
 										if (readRes.containsKey(tag)) {
-											JXTreeNode jxTreeNode = (JXTreeNode) table.getTreeTableModel().getChild(table.getTreeTableModel().getRoot(), i);
-											jxTreeNode.getChildren().add(new JXTreeNode(tag, CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2)) + WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2), readRes.get(tag),""));
-											table.setValueAt("ok", i, 3);
+											JXTreeNode jxTreeNode = (JXTreeNode)table.getTreeTableModel().getChild(root, i);
+											jxTreeNode.getChildren().add(new JXTreeNode("", CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2)) + WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2), readRes.get(tag),""));
 										}
 									}
 								}
@@ -346,8 +357,8 @@ public class TestDataConfigPanel extends JPanel {
 
 	public void setTableWidth(JTable jt) {
 		TableColumnModel dd = jt.getColumnModel();
-		dd.getColumn(0).setPreferredWidth(100);
-		dd.getColumn(1).setPreferredWidth(40);
+		dd.getColumn(0).setPreferredWidth(80);
+		dd.getColumn(1).setPreferredWidth(80);
 		dd.getColumn(2).setPreferredWidth(360);
 		dd.getColumn(3).setPreferredWidth(120);
 	}
