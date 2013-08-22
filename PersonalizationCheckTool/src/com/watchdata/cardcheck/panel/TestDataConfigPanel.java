@@ -1,10 +1,5 @@
 package com.watchdata.cardcheck.panel;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -23,36 +18,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.decorator.AbstractHighlighter;
-import org.jdesktop.swingx.decorator.ColorHighlighter;
-import org.jdesktop.swingx.decorator.HighlightPredicate;
-import org.jdesktop.swingx.demos.tree.TreeDemoIconValues.LazyLoadingIconValue;
-import org.jdesktop.swingx.demos.tree.XTreeDemo;
-import org.jdesktop.swingx.renderer.DefaultTableRenderer;
-import org.jdesktop.swingx.renderer.DefaultTreeRenderer;
-import org.jdesktop.swingx.renderer.IconValue;
-import org.jdesktop.swingx.renderer.StringValue;
-import org.jdesktop.swingx.renderer.StringValues;
-import org.jdesktop.swingx.util.PaintUtils;
-import org.jdesktop.swingxset.util.DemoUtils;
 
 import com.watchdata.cardcheck.configdao.StaticDataInfo;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
-import com.watchdata.cardcheck.tlv.TLV;
-import com.watchdata.cardcheck.tlv.TLVList;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
-import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.commons.lang.WDStringUtil;
 
 /**
@@ -90,7 +70,6 @@ public class TestDataConfigPanel extends JPanel {
 	private JDialog dialog = new JDialog();
 	private JEditorPane ep = new JEditorPane();
 	private JScrollPane dlgscrollPane = new JScrollPane(ep);
-	private AbstractHighlighter mouseOverHighlighter;
 
 	public TestDataConfigPanel() {
 		super();
@@ -130,10 +109,10 @@ public class TestDataConfigPanel extends JPanel {
 		 */
 		table = new JXTreeTable();
 		table.setName("componentTreeTable");
-		configureComponents();
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 		refreshModel(sdList);
 		scrollPane.setViewportView(table);
+		setTableWidth(table);
 		add(scrollPane);
 
 		JLabel lblAid = new JLabel();
@@ -218,15 +197,15 @@ public class TestDataConfigPanel extends JPanel {
 										String tag = table.getValueAt(i, 0).toString();
 										if (readRes.containsKey(tag)) {
 											JXTreeNode jxTreeNode = (JXTreeNode) table.getTreeTableModel().getChild(table.getTreeTableModel().getRoot(), i);
-											jxTreeNode.getChildren().add(new JXTreeNode(tag, CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2)) + WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2), readRes.get(tag), Config.getValue("TAG", tag)));
-											
+											jxTreeNode.getChildren().add(new JXTreeNode(tag, CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2)) + WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2), readRes.get(tag),""));
+											table.setValueAt("ok", i, 3);
 										}
 									}
 								}
 							}
 						}
-						apduHandler.close();
 						expandAll();
+						apduHandler.close();
 					}
 				});
 				thread.start();
@@ -245,6 +224,7 @@ public class TestDataConfigPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
 				refreshModel(sdList);
+				setTableWidth(table);
 				table.repaint();
 			}
 		});
@@ -280,6 +260,8 @@ public class TestDataConfigPanel extends JPanel {
 			}
 
 			sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
+			refreshModel(sdList);
+			setTableWidth(table);
 			table.repaint();
 		}
 	};
@@ -347,70 +329,6 @@ public class TestDataConfigPanel extends JPanel {
 		return sb.toString();
 	}
 
-	private void configureComponents() {
-		StringValue sv = new StringValue() {
-
-			@Override
-			public String getString(Object value) {
-				if (value instanceof Component) {
-					Component component = (Component) value;
-					String simpleName = component.getClass().getSimpleName();
-					if (simpleName.length() == 0) {
-						// anonymous class
-						simpleName = component.getClass().getSuperclass().getSimpleName();
-					}
-					return simpleName;
-				}
-				return StringValues.TO_STRING.getString(value);
-			}
-		};
-		StringValue keyValue = new StringValue() {
-
-			@Override
-			public String getString(Object value) {
-				if (value == null)
-					return "";
-				String simpleClassName = value.getClass().getSimpleName();
-				if (simpleClassName.length() == 0) {
-					// anonymous class
-					simpleClassName = value.getClass().getSuperclass().getSimpleName();
-				}
-				return simpleClassName + ".png";
-			}
-		};
-		// <snip> JXTreeTable rendering
-		// IconValue provides node icon (same as in XTreeDemo)
-		IconValue iv = new LazyLoadingIconValue(XTreeDemo.class, keyValue, "fallback.png");
-		// create and set a tree renderer using the custom Icon-/StringValue
-		table.setTreeCellRenderer(new DefaultTreeRenderer(iv, sv));
-		// string representation for use of Dimension/Point class
-		StringValue locSize = new StringValue() {
-
-			@Override
-			public String getString(Object value) {
-				int x;
-				int y;
-				if (value instanceof Dimension) {
-					x = ((Dimension) value).width;
-					y = ((Dimension) value).height;
-				} else if (value instanceof Point) {
-					x = ((Point) value).x;
-					y = ((Point) value).y;
-				} else {
-					return StringValues.TO_STRING.getString(value);
-				}
-				return "(" + x + ", " + y + ")";
-			}
-		};
-		table.setDefaultRenderer(Point.class, new DefaultTableRenderer(locSize, JLabel.CENTER));
-		table.setDefaultRenderer(Dimension.class, table.getDefaultRenderer(Point.class));
-		mouseOverHighlighter = new ColorHighlighter(HighlightPredicate.NEVER, PaintUtils.setSaturation(Color.MAGENTA, 0.3f), null);
-		table.addHighlighter(mouseOverHighlighter);
-
-		table.setColumnControlVisible(true);
-		DemoUtils.setSnippet("JXTreeTable rendering", table);
-	}
-
 	public void refreshModel(List<StaticDataInfo> sdList) {
 		table.setTreeTableModel(new MyTreeTableModel(sdList));
 		expandAll();
@@ -424,5 +342,13 @@ public class TestDataConfigPanel extends JPanel {
 
 	public void collapseAll() {
 		table.collapseAll();
+	}
+
+	public void setTableWidth(JTable jt) {
+		TableColumnModel dd = jt.getColumnModel();
+		dd.getColumn(0).setPreferredWidth(100);
+		dd.getColumn(1).setPreferredWidth(40);
+		dd.getColumn(2).setPreferredWidth(360);
+		dd.getColumn(3).setPreferredWidth(120);
 	}
 }
