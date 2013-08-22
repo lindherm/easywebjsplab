@@ -62,7 +62,6 @@ public class CheckTabbedPanel extends JPanel {
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
 				RightPanel.cardInfoScanPanel.setVisible(false);
-				TestDataConfigPanel.appTypeComboBox.requestFocus();
 			}
 		});
 		button.setText("增加数据");
