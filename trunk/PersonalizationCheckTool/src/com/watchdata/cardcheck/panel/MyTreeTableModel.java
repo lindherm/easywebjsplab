@@ -5,7 +5,6 @@ import java.util.List;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 
 import com.watchdata.cardcheck.configdao.StaticDataInfo;
-import com.watchdata.cardcheck.utils.Config;
 
 public class MyTreeTableModel extends AbstractTreeTableModel
 
@@ -16,7 +15,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 		root = new JXTreeNode("CheckList", " "," "," ");
 		List<JXTreeNode> child=root.getChildren();
 		for (StaticDataInfo staticDataInfo : sdList) {
-			child.add(new JXTreeNode(staticDataInfo.getTag(),staticDataInfo.getDgi(),staticDataInfo.getValue(),Config.getValue("TAG", staticDataInfo.getTag())));
+			child.add(new JXTreeNode(staticDataInfo.getTag(),staticDataInfo.getDgi(),staticDataInfo.getValue(),""));
 		}
 	}
 
@@ -35,7 +34,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 			case 2:
 				return "value";
 			case 3:
-				return "DESC";
+				return "result";
 			default:
 				return "Unknown";
 		}
@@ -54,7 +53,7 @@ public class MyTreeTableModel extends AbstractTreeTableModel
 			case 2:
 				return treenode.getValue();
 			case 3:
-				return treenode.getDesc();
+				return treenode.getResult();
 			default:
 				return "Unknown";
 		}
@@ -102,14 +101,20 @@ class JXTreeNode{
 	private String tag;
 	private String dgi;
 	private String value;
-	private String desc;
-	private List<JXTreeNode> children = new ArrayList<JXTreeNode>();
+	private String result;
 
+	private List<JXTreeNode> children = new ArrayList<JXTreeNode>();
 	public JXTreeNode(String tag,String dgi,String value,String desc){
 		this.tag=tag;
 		this.dgi=dgi;
 		this.value=value;
-		this.desc=desc;
+		this.result=desc;
+	}
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
 	}
 	public String getTag() {
 		return tag;
@@ -133,14 +138,6 @@ class JXTreeNode{
 
 	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public void setDesc(String desc) {
-		this.desc = desc;
 	}
 
 	public List<JXTreeNode> getChildren() {
