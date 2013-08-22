@@ -2,6 +2,7 @@ package com.watchdata.cardcheck.panel;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
@@ -23,13 +25,24 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+
+import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.decorator.AbstractHighlighter;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.demos.tree.TreeDemoIconValues.LazyLoadingIconValue;
+import org.jdesktop.swingx.demos.tree.XTreeDemo;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.jdesktop.swingx.renderer.DefaultTreeRenderer;
+import org.jdesktop.swingx.renderer.IconValue;
+import org.jdesktop.swingx.renderer.StringValue;
+import org.jdesktop.swingx.renderer.StringValues;
+import org.jdesktop.swingx.util.PaintUtils;
+import org.jdesktop.swingxset.util.DemoUtils;
 
 import com.watchdata.cardcheck.configdao.StaticDataInfo;
 import com.watchdata.cardcheck.log.Log;
@@ -60,7 +73,7 @@ public class TestDataConfigPanel extends JPanel {
 
 	private static final long serialVersionUID = -4287626568370654541L;
 	public static Log logger = new Log();
-	public static JTable table;
+	public static JXTreeTable table;
 	private JLabel tagLabel;
 	private JLabel appTypeLabel;
 	public static JComboBox appTypeComboBox;
@@ -68,10 +81,7 @@ public class TestDataConfigPanel extends JPanel {
 	public static JButton delButton;
 	public JComboBox comboBox;
 	private PropertiesManager pm = new PropertiesManager();
-	private final String[] COLUMNS = new String[] { "DGI", "TAG", "LEN", "值", "检测结果" };
 	private List<StaticDataInfo> sdList = new ArrayList<StaticDataInfo>();
-	private DefaultTableModel testDataTableModel = null;
-	private Object[][] tableData = null;
 	public static JProgressBar progressBar;
 	public CommonAPDU apduHandler;
 	public static Log log = new Log();
@@ -79,13 +89,13 @@ public class TestDataConfigPanel extends JPanel {
 
 	public TableColumnModel tcm;
 	public TableColumn tc;
-	public RowRenderer rowRenderer;
 
 	public JComboBox comboBox_1;
 
 	private JDialog dialog = new JDialog();
 	private JEditorPane ep = new JEditorPane();
 	private JScrollPane dlgscrollPane = new JScrollPane(ep);
+	private AbstractHighlighter mouseOverHighlighter;
 
 	public TestDataConfigPanel() {
 		super();
@@ -137,38 +147,23 @@ public class TestDataConfigPanel extends JPanel {
 
 		final JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 171, 710, 510);
-		add(scrollPane);
 
-		table = new JTable();
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (SwingUtilities.isLeftMouseButton(e)) {
-					if (e.getClickCount() == 2) {
-						int row = table.rowAtPoint(e.getPoint());
-						int colum = table.columnAtPoint(e.getPoint());
-						Object ob = table.getValueAt(row, colum);
-						Point p = e.getLocationOnScreen();
-						dialog.setLocation(p);
-						if (table.getValueAt(row, colum - 2).equals("8E")) {
-							ep.setText(parse8E(ob.toString()));
-						} else {
-							ep.setText(ob.toString());
-						}
-
-						dialog.setVisible(true);
-					}
-				}
-			}
-		});
-
+		/*
+		 * table = new JTable(); table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		 * 
+		 * table.addMouseListener(new MouseAdapter() {
+		 * 
+		 * @Override public void mouseClicked(MouseEvent e) { if (SwingUtilities.isLeftMouseButton(e)) { if (e.getClickCount() == 2) { int row = table.rowAtPoint(e.getPoint()); int colum = table.columnAtPoint(e.getPoint()); Object ob = table.getValueAt(row, colum); Point p = e.getLocationOnScreen(); dialog.setLocation(p); if (table.getValueAt(row, colum - 2).equals("8E")) { ep.setText(parse8E(ob.toString())); } else { ep.setText(ob.toString()); }
+		 * 
+		 * dialog.setVisible(true); } } } });
+		 */
+		table = new JXTreeTable(); 
+		table.setName("componentTreeTable"); 
+		configureComponents();
 		sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
-		tableDataDisp();
-		setTableWidth(table);
-		table.repaint();
+		refreshModel(sdList);
 		scrollPane.setViewportView(table);
+		add(scrollPane);
 
 		JLabel lblAid = new JLabel();
 		lblAid.setText("AID：");
@@ -274,7 +269,7 @@ public class TestDataConfigPanel extends JPanel {
 								HashMap<String, String> ppseResult = apduHandler.select(Constants.PPSE);
 								if (!Constants.SW_SUCCESS.equalsIgnoreCase(ppseResult.get("sw"))) {
 									table.setValueAt(ppseResult.get("sw"), i, 4);
-								}else {
+								} else {
 									String ppse = ppseResult.get(tag);
 									if (WDAssert.isNotEmpty(ppse)) {
 										table.setValueAt((WDStringUtil.paddingHeadZero(Integer.toHexString(ppse.length() / 2), 2)).toUpperCase(), i, 2);
@@ -320,8 +315,6 @@ public class TestDataConfigPanel extends JPanel {
 						}
 						tcm = table.getColumnModel();
 						tc = tcm.getColumn(4);
-						rowRenderer = new RowRenderer();
-						tc.setCellRenderer(rowRenderer);
 						table.repaint();
 						apduHandler.close();
 					}
@@ -349,8 +342,6 @@ public class TestDataConfigPanel extends JPanel {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
-				tableDataDisp();
-				setTableWidth(table);
 				table.repaint();
 			}
 		});
@@ -373,10 +364,6 @@ public class TestDataConfigPanel extends JPanel {
 	// 添加按钮监听事件
 	private ActionListener addActionListener = new ActionListener() {
 		public void actionPerformed(final ActionEvent arg0) {
-			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.addInfo"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
 			StaticDataInfo staticDataInfo = new StaticDataInfo();
 			staticDataInfo.setDgi(comboBox_1.getSelectedItem().toString());
 			staticDataInfo.setTag(comboBox_2.getSelectedItem().toString());
@@ -391,8 +378,6 @@ public class TestDataConfigPanel extends JPanel {
 			}
 
 			sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
-			tableDataDisp();
-			setTableWidth(table);
 			table.repaint();
 		}
 	};
@@ -401,10 +386,6 @@ public class TestDataConfigPanel extends JPanel {
 	private ActionListener delActionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(final ActionEvent arg0) {
-			if (getEditableRow().size() > 0) {
-				JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.saveBefoeDelete"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
 			int selectedNum = table.getSelectedRows().length;
 
 			int[] selectIndex = table.getSelectedRows();
@@ -422,8 +403,6 @@ public class TestDataConfigPanel extends JPanel {
 				}
 				if (staticDataInfo.del("StaticDataTemplate", delDatas)) {
 					sdList = staticDataInfo.getStaticDataInfos("StaticDataTemplate");
-					tableDataDisp();
-					setTableWidth(table);
 					table.repaint();
 
 					JOptionPane.showMessageDialog(null, pm.getString("mv.testdata.deleteSuccess"), pm.getString("mv.testdata.InfoWindow"), JOptionPane.INFORMATION_MESSAGE);
@@ -436,89 +415,12 @@ public class TestDataConfigPanel extends JPanel {
 
 	private JComboBox comboBox_2;
 
-	/**
-	 * @Title: tableDataDisp
-	 * @Description 将从数据库中查出的数据显示在table中
-	 * @param
-	 * @return
-	 * @throws
-	 */
-	public void tableDataDisp() {
-		int rowNum = sdList.size();
-		tableData = new Object[rowNum][5];
-		for (int i = 0; i < rowNum; i++) {
-			tableData[i][0] = sdList.get(i).getDgi();
-			tableData[i][1] = sdList.get(i).getTag();
-			tableData[i][2] = "";
-			tableData[i][3] = sdList.get(i).getValue();
-			tableData[i][4] = sdList.get(i).getResult();
-		}
-		testDataTableModel = new DefaultTableModel(tableData, COLUMNS) {
-			private static final long serialVersionUID = -9082031840487910439L;
-
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		table.setModel(testDataTableModel);
-	}
-
-	/**
-	 * @Title: getEditableRow
-	 * @Description 获取当前处于可编辑状态的行号
-	 * @param
-	 * @return 表格中可编辑的行号
-	 * @throws
-	 */
-	public List<Integer> getEditableRow() {
-		List<Integer> selectedRowNum = new ArrayList<Integer>();
-		for (int i = 0; i < table.getRowCount(); i++) {
-			if (table.isCellEditable(i, 0)) {
-				selectedRowNum.add(i);
-			}
-		}
-		return selectedRowNum;
-	}
-
-	/**
-	 * @title TestDataConfigPanel.java
-	 * @description table的行渲染器，用来设置行背景色
-	 * @author pei.li 2012-3-28
-	 * @version 1.0.0
-	 * @modify
-	 * @copyright watchdata
-	 */
-	private class RowRenderer extends DefaultTableCellRenderer {
-		private static final long serialVersionUID = -9128946524399930570L;
-
-		public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			if (column == 4) {
-				if (value.equals("ok")) {
-					setBackground(Color.green);
-				} else {
-					setBackground(Color.red);
-				}
-			}
-			return super.getTableCellRendererComponent(t, value, isSelected, hasFocus, row, column);
-		}
-	}
-
-	public void setTableWidth(JTable jt) {
-		TableColumnModel dd = jt.getColumnModel();
-		dd.getColumn(0).setPreferredWidth(80);
-		dd.getColumn(1).setPreferredWidth(80);
-		dd.getColumn(2).setPreferredWidth(40);
-		dd.getColumn(3).setPreferredWidth(350);
-		dd.getColumn(4).setPreferredWidth(160);
-	}
-
 	public String parse8E(String str8E) {
 		StringBuilder sb = new StringBuilder();
 		String x = str8E.substring(0, 8);
 		String y = str8E.substring(8, 16);
 		String cvmCode = "";
-		String cvmCondtionCode="";
+		String cvmCondtionCode = "";
 
 		x = x + "------金额X（二进制）";
 		y = y + "------金额Y（二进制）";
@@ -532,7 +434,7 @@ public class TestDataConfigPanel extends JPanel {
 			String binary = Integer.toBinaryString(Integer.parseInt(cvmCode, 16));
 			binary = WDStringUtil.paddingHeadZero(binary, 8);
 
-			cvmCode = cvmCode + "------" + Config.getValue("CVM_CODE", binary.substring(0, 2))+";"+Config.getValue("CVM_TYPE", binary.substring(2, 8));
+			cvmCode = cvmCode + "------" + Config.getValue("CVM_CODE", binary.substring(0, 2)) + ";" + Config.getValue("CVM_TYPE", binary.substring(2, 8));
 			cvmCondtionCode = cvmCondtionCode + "------" + Config.getValue("CVM_Condition_Code", cvmCondtionCode);
 			i += 4;
 			sb.append(cvmCode).append("\n").append(cvmCondtionCode).append("\n");
@@ -541,5 +443,84 @@ public class TestDataConfigPanel extends JPanel {
 
 		System.out.println(sb.toString());
 		return sb.toString();
+	}
+
+	private void configureComponents() {
+		StringValue sv = new StringValue() {
+
+			@Override
+			public String getString(Object value) {
+				if (value instanceof Component) {
+					Component component = (Component) value;
+					String simpleName = component.getClass().getSimpleName();
+					if (simpleName.length() == 0) {
+						// anonymous class
+						simpleName = component.getClass().getSuperclass().getSimpleName();
+					}
+					return simpleName;
+				}
+				return StringValues.TO_STRING.getString(value);
+			}
+		};
+		StringValue keyValue = new StringValue() {
+
+			@Override
+			public String getString(Object value) {
+				if (value == null)
+					return "";
+				String simpleClassName = value.getClass().getSimpleName();
+				if (simpleClassName.length() == 0) {
+					// anonymous class
+					simpleClassName = value.getClass().getSuperclass().getSimpleName();
+				}
+				return simpleClassName + ".png";
+			}
+		};
+		// <snip> JXTreeTable rendering
+		// IconValue provides node icon (same as in XTreeDemo)
+		IconValue iv = new LazyLoadingIconValue(XTreeDemo.class, keyValue, "fallback.png");
+		// create and set a tree renderer using the custom Icon-/StringValue
+		table.setTreeCellRenderer(new DefaultTreeRenderer(iv, sv));
+		// string representation for use of Dimension/Point class
+		StringValue locSize = new StringValue() {
+
+			@Override
+			public String getString(Object value) {
+				int x;
+				int y;
+				if (value instanceof Dimension) {
+					x = ((Dimension) value).width;
+					y = ((Dimension) value).height;
+				} else if (value instanceof Point) {
+					x = ((Point) value).x;
+					y = ((Point) value).y;
+				} else {
+					return StringValues.TO_STRING.getString(value);
+				}
+				return "(" + x + ", " + y + ")";
+			}
+		};
+		table.setDefaultRenderer(Point.class, new DefaultTableRenderer(locSize, JLabel.CENTER));
+		table.setDefaultRenderer(Dimension.class, table.getDefaultRenderer(Point.class));
+		mouseOverHighlighter = new ColorHighlighter(HighlightPredicate.NEVER, PaintUtils.setSaturation(Color.MAGENTA, 0.3f), null);
+		table.addHighlighter(mouseOverHighlighter);
+
+		table.setColumnControlVisible(true);
+		DemoUtils.setSnippet("JXTreeTable rendering", table);
+	}
+
+	public void refreshModel(List<StaticDataInfo> sdList) {
+		table.setTreeTableModel(new MyTreeTableModel(sdList));
+		expandAll();
+		table.repaint();
+		table.packColumn(table.getHierarchicalColumn(), -1);
+	}
+
+	public void expandAll() {
+		table.expandAll();
+	}
+
+	public void collapseAll() {
+		table.collapseAll();
 	}
 }
