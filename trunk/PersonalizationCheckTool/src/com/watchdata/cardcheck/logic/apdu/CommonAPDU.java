@@ -120,7 +120,8 @@ public class CommonAPDU extends AbstractAPDU {
 	 */
 	public HashMap<String, String> readRecord(String sfi, String record) {
 		HashMap<String, String> result = new HashMap<String, String>();
-		log.debug("--------------------------------------------------------------" + CommonHelper.getDgiHead(sfi) + record);
+		String dgiHead=CommonHelper.getDgiHead(sfi);
+		log.debug("--------------------------------------------------------------" + dgiHead + record);
 		String commandApdu = packApdu("READ_RECORD", "", record, sfi);
 		String responseApdu = apduChannel.send(commandApdu);
 
@@ -132,6 +133,32 @@ public class CommonAPDU extends AbstractAPDU {
 
 	}
 
+	/**
+	 * 读记录指令
+	 * 
+	 * @param sfi
+	 *            短文件标识
+	 * @param record
+	 *            记录号
+	 * @return
+	 */
+	public HashMap<String, String> readRecordCommon(String sfi, String record) {
+		HashMap<String, String> result = new HashMap<String, String>();
+		String dgiHead=CommonHelper.getDgiHead(sfi);
+		log.debug("--------------------------------------------------------------" + dgiHead + record);
+		String commandApdu = packApdu("READ_RECORD", "", record, sfi);
+		String responseApdu = apduChannel.send(commandApdu);
+
+		if (dgiHead.equalsIgnoreCase("0B")) {
+			result.put("res", responseApdu);
+		}else {
+			result = unpackApdu(responseApdu);
+		}
+		result.put("apdu", commandApdu);
+		result.put("res", responseApdu.substring(0, responseApdu.length() - 4));
+		return result;
+
+	}
 	/**
 	 * 读目录指令
 	 * 
