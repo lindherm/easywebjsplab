@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -36,7 +37,6 @@ import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
-import javax.swing.JRadioButton;
 
 /**
  * TestDataConfigPanel.java
@@ -73,6 +73,8 @@ public class TestDataConfigPanel extends JPanel {
 	private JDialog dialog = new JDialog();
 	private JEditorPane ep = new JEditorPane();
 	private JScrollPane dlgscrollPane = new JScrollPane(ep);
+	JRadioButton pse ;
+	JRadioButton ppse ;
 
 	public TestDataConfigPanel() {
 		super();
@@ -169,36 +171,39 @@ public class TestDataConfigPanel extends JPanel {
 						String reader = Config.getValue("Terminal_Data", "reader");
 						HashMap<String, String> res = apduHandler.reset(reader);
 						if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-							JOptionPane.showMessageDialog(null, res.get("sw"));
+							JOptionPane.showMessageDialog(null, res.get("apdu")+"="+res.get("sw"),"提示框",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
+						if (pse.isSelected()) {
+							res = apduHandler.select(Constants.PSE);
+						}else if (ppse.isSelected()) {
+							res = apduHandler.select(Constants.PPSE);
+						}
 						
-
-						HashMap<String, String> pseResult = apduHandler.select(Constants.PSE);
-						if (!Constants.SW_SUCCESS.equalsIgnoreCase(pseResult.get("sw"))) {
-							JOptionPane.showMessageDialog(null, res.get("sw"));
+						if (!Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
+							JOptionPane.showMessageDialog(null, res.get("apdu")+"="+res.get("sw"),"提示框",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 
 						for (int i = 0; i < table.getRowCount(); i++) {
 							String tag = table.getValueAt(i, 0).toString();
-							if (pseResult.containsKey(tag)) {
+							if (res.containsKey(tag)) {
 								JXTreeNode jxTreeNode = (JXTreeNode)table.getTreeTableModel().getChild(root, i);
-								jxTreeNode.getChildren().add(new JXTreeNode("", "PSE", pseResult.get(tag),""));
+								jxTreeNode.getChildren().add(new JXTreeNode("", "PSE", res.get(tag),""));
 							}
 						}
 						
 						HashMap<String, String> aidResult = apduHandler.select(aid);
 						if (!Constants.SW_SUCCESS.equalsIgnoreCase(aidResult.get("sw"))) {
-							JOptionPane.showMessageDialog(null, res.get("sw"));
+							JOptionPane.showMessageDialog(null, res.get("apdu")+"="+res.get("sw"),"提示框",JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 						
 						for (int i = 0; i < table.getRowCount(); i++) {
 							String tag = table.getValueAt(i, 0).toString();
-							if (pseResult.containsKey(tag)) {
+							if (res.containsKey(tag)) {
 								JXTreeNode jxTreeNode = (JXTreeNode)table.getTreeTableModel().getChild(root, i);
-								jxTreeNode.getChildren().add(new JXTreeNode("", "SELECT AID", pseResult.get(tag),""));
+								jxTreeNode.getChildren().add(new JXTreeNode("", "SELECT AID", res.get(tag),""));
 							}
 						}
 						
@@ -247,17 +252,17 @@ public class TestDataConfigPanel extends JPanel {
 		
 		ButtonGroup buttonGroup=new ButtonGroup();
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("PSE");
-		rdbtnNewRadioButton.setSelected(true);
-		rdbtnNewRadioButton.setBounds(383, 43, 59, 23);
-		add(rdbtnNewRadioButton);
+		pse = new JRadioButton("PSE");
+		pse.setSelected(true);
+		pse.setBounds(383, 43, 59, 23);
+		add(pse);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("PPSE");
-		rdbtnNewRadioButton_1.setBounds(444, 43, 59, 23);
-		add(rdbtnNewRadioButton_1);
+		ppse = new JRadioButton("PPSE");
+		ppse.setBounds(444, 43, 59, 23);
+		add(ppse);
 
-		buttonGroup.add(rdbtnNewRadioButton);
-		buttonGroup.add(rdbtnNewRadioButton_1);
+		buttonGroup.add(pse);
+		buttonGroup.add(ppse);
 		
 		Collection<String> tagCollections = Config.getItems("TAG");
 		for (String tag : tagCollections) {
