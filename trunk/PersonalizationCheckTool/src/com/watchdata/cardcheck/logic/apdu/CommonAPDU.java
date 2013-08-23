@@ -22,7 +22,7 @@ import com.watchdata.commons.lang.WDStringUtil;
  */
 public class CommonAPDU extends AbstractAPDU {
 	public static IAPDUChannel apduChannel;
-	private String secureityLevel="00";
+	private String secureityLevel = "00";
 	private String encKey;
 	private String macKey;
 	private String kekKey;
@@ -32,6 +32,7 @@ public class CommonAPDU extends AbstractAPDU {
 		apduChannel = new PcscChannel();
 		// log.setLogArea(TradePanel.textPane);
 	}
+
 	public String getKekKey() {
 		return kekKey;
 	}
@@ -120,7 +121,7 @@ public class CommonAPDU extends AbstractAPDU {
 	 */
 	public HashMap<String, String> readRecord(String sfi, String record) {
 		HashMap<String, String> result = new HashMap<String, String>();
-		String dgiHead=CommonHelper.getDgiHead(sfi);
+		String dgiHead = CommonHelper.getDgiHead(sfi);
 		log.debug("--------------------------------------------------------------" + dgiHead + record);
 		String commandApdu = packApdu("READ_RECORD", "", record, sfi);
 		String responseApdu = apduChannel.send(commandApdu);
@@ -144,14 +145,14 @@ public class CommonAPDU extends AbstractAPDU {
 	 */
 	public HashMap<String, String> readRecordCommon(String sfi, String record) {
 		HashMap<String, String> result = new HashMap<String, String>();
-		String dgiHead=CommonHelper.getDgiHead(sfi);
+		String dgiHead = CommonHelper.getDgiHead(sfi);
 		log.debug("--------------------------------------------------------------" + dgiHead + record);
 		String commandApdu = packApdu("READ_RECORD", "", record, sfi);
 		String responseApdu = apduChannel.send(commandApdu);
 
 		if (dgiHead.equalsIgnoreCase("0B")) {
 			result.put("res", responseApdu);
-		}else {
+		} else {
 			result = unpackApdu(responseApdu);
 		}
 		result.put("apdu", commandApdu);
@@ -159,6 +160,7 @@ public class CommonAPDU extends AbstractAPDU {
 		return result;
 
 	}
+
 	/**
 	 * 读目录指令
 	 * 
@@ -183,6 +185,26 @@ public class CommonAPDU extends AbstractAPDU {
 		}
 
 		return dirList;
+	}
+
+	/**
+	 * 读目录指令
+	 * 
+	 * @param sfi
+	 * @return
+	 */
+	public HashMap<String, String> readDirCommon(String sfi, String rec) {
+		HashMap<String, String> result = new HashMap<String, String>();
+		int b = Integer.parseInt(sfi,16);
+		b = (b << 3) + 4;
+		String responseApdu = "";
+		String commandApdu = packApdu("READ_RECORD", "", WDStringUtil.paddingHeadZero(rec, 2), WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2));
+		responseApdu = apduChannel.send(commandApdu);
+		if (Constants.SW_SUCCESS.equalsIgnoreCase(responseApdu.substring(responseApdu.length() - 4))) {
+			result.put("apdu", commandApdu);
+			result.put("res", responseApdu);
+		}
+		return result;
 	}
 
 	/**
@@ -286,9 +308,13 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @return
 	 */
 	public HashMap<String, String> getData(String tag) {
+		HashMap<String, String> result = new HashMap<String, String>();
 		String commandApdu = packApdu("GET_DATA", "", tag.substring(0, 2), tag.substring(2, 4));
 		String responseApdu = apduChannel.send(commandApdu);
-		return unpackApdu(responseApdu);
+		result = unpackApdu(responseApdu);
+		result.put("apdu", commandApdu);
+		result.put("res", responseApdu);
+		return result;
 	}
 
 	/**
@@ -389,7 +415,7 @@ public class CommonAPDU extends AbstractAPDU {
 			int cla = (Integer.parseInt(apdu.substring(0, 2), 16) & 0xF0) | 0x04;
 			apdu = Integer.toHexString(cla) + apdu.substring(2);
 			int lc = Integer.parseInt(apdu.substring(8, 10), 16);
-			int L=lc;
+			int L = lc;
 			lc += 8;
 
 			String encIv = WDPBOCUtil.single_des_mac(getMacKey().substring(0, 16), getSmac(), Padding.NoPadding, "0000000000000000");
@@ -402,16 +428,16 @@ public class CommonAPDU extends AbstractAPDU {
 			String cMac = WDPBOCUtil.triple_des_mac(getMacKey(), macData.toUpperCase(), Padding.NoPadding, encIv);
 
 			setSmac(cMac);
-			
+
 			String encData = apdu.substring(10);
-			encData =encData + "80";
+			encData = encData + "80";
 			L = L + 8 - L % 8;
-			while (encData.length()<2*L) {
+			while (encData.length() < 2 * L) {
 				encData = encData + "00";
 			}
-			lc=encData.length()/2+8;
+			lc = encData.length() / 2 + 8;
 			String encResult = WD3DesCryptoUtil.cbc_encrypt(getEncKey(), encData, Padding.NoPadding, "0000000000000000");
-			
+
 			apdu = apdu.substring(0, 8) + WDStringUtil.paddingHeadZero(Integer.toHexString(lc), 2) + encResult + cMac;
 		}
 		return apduChannel.send(apdu);
