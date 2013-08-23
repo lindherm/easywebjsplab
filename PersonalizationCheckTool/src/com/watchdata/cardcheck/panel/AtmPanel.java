@@ -1,5 +1,6 @@
 package com.watchdata.cardcheck.panel;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileFilter;
 
 import com.watchdata.cardcheck.app.JImagePanel;
@@ -502,7 +504,7 @@ public class AtmPanel extends JImagePanel {
 		okButton.setContentAreaFilled(false);// 设置不画按钮背景
 		okButton.setBorderPainted(false);
 		okButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/OK.png")));
-		okButton.setBounds(390, 330, 70, 31);
+		okButton.setBounds(385, 330, 70, 31);
 		add(okButton);
 
 		final JButton cancelButton = new JButton();
@@ -511,8 +513,14 @@ public class AtmPanel extends JImagePanel {
 		cancelButton.setContentAreaFilled(false);// 设置不画按钮背景
 		cancelButton.setBorderPainted(false);
 		cancelButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/cancel.png")));
-		cancelButton.setBounds(390, 290, 70, 31);
+		cancelButton.setBounds(385, 290, 70, 31);
 		add(cancelButton);
+		
+		JButton button = new JButton();
+		button.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/log.png")));
+		button.setFocusPainted(false);
+		button.setBounds(385, 370, 70, 31);
+		add(button);
 
 		okButton.addActionListener(new ActionListener() {
 			@Override

@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -35,6 +36,7 @@ import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
+import javax.swing.JRadioButton;
 
 /**
  * TestDataConfigPanel.java
@@ -203,7 +205,7 @@ public class TestDataConfigPanel extends JPanel {
 						for (int sfi = 1; sfi <= 31; sfi++) {
 							for (int rec = 1; rec <= 16; rec++) {
 								int sfi1 = (sfi << 3) | 4;
-								HashMap<String, String> readRes = apduHandler.readRecord(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
+								HashMap<String, String> readRes = apduHandler.readRecordCommon(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
 								if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
 									for (int i = 0; i < table.getRowCount(); i++) {
 										String tag = table.getValueAt(i, 0).toString();
@@ -227,7 +229,7 @@ public class TestDataConfigPanel extends JPanel {
 		add(button);
 		
 		comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(285, 44, 140, 20);
+		comboBox_2.setBounds(285, 44, 69, 20);
 		add(comboBox_2);
 
 		JButton button_1 = new JButton();
@@ -242,7 +244,21 @@ public class TestDataConfigPanel extends JPanel {
 		button_1.setText("刷新");
 		button_1.setBounds(730, 167, 84, 21);
 		add(button_1);
+		
+		ButtonGroup buttonGroup=new ButtonGroup();
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("PSE");
+		rdbtnNewRadioButton.setSelected(true);
+		rdbtnNewRadioButton.setBounds(383, 43, 59, 23);
+		add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("PPSE");
+		rdbtnNewRadioButton_1.setBounds(444, 43, 59, 23);
+		add(rdbtnNewRadioButton_1);
 
+		buttonGroup.add(rdbtnNewRadioButton);
+		buttonGroup.add(rdbtnNewRadioButton_1);
+		
 		Collection<String> tagCollections = Config.getItems("TAG");
 		for (String tag : tagCollections) {
 			comboBox_2.addItem(tag);
@@ -359,7 +375,7 @@ public class TestDataConfigPanel extends JPanel {
 		TableColumnModel dd = jt.getColumnModel();
 		dd.getColumn(0).setPreferredWidth(80);
 		dd.getColumn(1).setPreferredWidth(80);
-		dd.getColumn(2).setPreferredWidth(360);
+		dd.getColumn(2).setPreferredWidth(400);
 		dd.getColumn(3).setPreferredWidth(120);
 	}
 }
