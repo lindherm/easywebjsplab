@@ -84,6 +84,34 @@ public class CommonHelper {
 
 		return tagList;
 	}
+	
+	/**
+	 * 解析TL格式的数据，如PDOL/DDOL/CDOL等
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static ArrayList<String> parseTLDataCommon(String data) {
+		ArrayList<String> tagList = new ArrayList<String>();
+		StringBuffer apdu = new StringBuffer(data);
+		while (true) {
+			String tag = apdu.substring(0, 2);
+			apdu.delete(0, 2);
+			if ((Integer.parseInt(tag, 16) & 0x1F) == 0x1F) {
+				tag += apdu.substring(0, 2);
+				apdu.delete(0, 2);
+			}
+			// length
+			tag += apdu.substring(0, 2);
+			apdu.delete(0, 2);
+			
+			tagList.add(tag);
+			if (apdu.length() <= 0)
+				break;
+		}
+
+		return tagList;
+	}
 
 	/**
 	 * 解析AFL
@@ -215,5 +243,10 @@ public class CommonHelper {
 				com.setText(target);
 			}
 		});
+	}
+	public static void main(String[] args) {
+		int b = Integer.parseInt("b",16);
+		b = (b << 3) + 4;
+		System.out.println(Integer.toHexString(b));
 	}
 }
