@@ -69,7 +69,7 @@ public class CardInfoDetectPanel extends JPanel {
 		setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(330, 40, 493, 220);
+		panel.setBounds(320, 40, 493, 220);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
@@ -98,11 +98,11 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JLabel lblNewLabel = new JLabel("Kenc:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(10, 99, 54, 15);
+		lblNewLabel.setBounds(0, 99, 54, 15);
 		add(lblNewLabel);
 
 		textField = new JTextField();
-		textField.setBounds(74, 96, 240, 21);
+		textField.setBounds(64, 96, 240, 21);
 		add(textField);
 		textField.setColumns(10);
 		textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -129,12 +129,12 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JLabel lblKmac = new JLabel("Kmac:");
 		lblKmac.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblKmac.setBounds(10, 130, 54, 15);
+		lblKmac.setBounds(0, 130, 54, 15);
 		add(lblKmac);
 
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(74, 127, 240, 21);
+		textField_1.setBounds(64, 127, 240, 21);
 		textField_1.setText(Config.getValue("CardInfo", "Kmac"));
 		textField_1.getDocument().addDocumentListener(new DocumentListener() {
 			
@@ -160,12 +160,12 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JLabel lblKdek = new JLabel("Kdek:");
 		lblKdek.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblKdek.setBounds(10, 158, 54, 15);
+		lblKdek.setBounds(0, 158, 54, 15);
 		add(lblKdek);
 
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(74, 155, 240, 21);
+		textField_2.setBounds(64, 155, 240, 21);
 		textField_2.setText(Config.getValue("CardInfo", "Kdek"));
 		textField_2.getDocument().addDocumentListener(new DocumentListener() {
 			
@@ -191,12 +191,12 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JLabel lblKmc = new JLabel("KMC:");
 		lblKmc.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblKmc.setBounds(10, 43, 54, 15);
+		lblKmc.setBounds(0, 43, 54, 15);
 		add(lblKmc);
 
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
-		textField_3.setBounds(74, 40, 240, 21);
+		textField_3.setBounds(64, 40, 240, 21);
 		textField_3.setText(Config.getValue("CardInfo", "KMC"));
 		textField_3.getDocument().addDocumentListener(new DocumentListener() {
 			public void insertUpdate(DocumentEvent e) {
@@ -242,7 +242,7 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		panel_1.setBounds(24, 270, 684, 252);
+		panel_1.setBounds(0, 270, 684, 252);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
@@ -272,6 +272,8 @@ public class CardInfoDetectPanel extends JPanel {
 		scrollPane_1.setViewportView(textPane);
 
 		JButton btnNewButton_1 = new JButton("打开脚本");
+		btnNewButton_1.setFocusPainted(false);
+		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser jFileChooser = new JFileChooser("./prg/");
@@ -297,10 +299,12 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 			}
 		});
-		btnNewButton_1.setBounds(718, 289, 93, 23);
+		btnNewButton_1.setBounds(694, 291, 80, 23);
 		add(btnNewButton_1);
 
 		JButton button = new JButton("执行");
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(WDAssert.isEmpty(textPane.getText())){
@@ -326,34 +330,34 @@ public class CardInfoDetectPanel extends JPanel {
 				thread.start();
 			}
 		});
-		button.setBounds(718, 321, 93, 23);
+		button.setBounds(694, 323, 80, 23);
 		add(button);
 
 		JLabel lblNewLabel_1 = new JLabel("version:");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setBounds(139, 189, 60, 15);
+		lblNewLabel_1.setBounds(129, 189, 60, 15);
 		add(lblNewLabel_1);
 
 		textField_4 = new JTextField();
 		textField_4.setText("00");
-		textField_4.setBounds(205, 187, 31, 18);
+		textField_4.setBounds(195, 187, 31, 18);
 		add(textField_4);
 		textField_4.setColumns(10);
 
 		JLabel lblId = new JLabel("id:");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblId.setBounds(242, 189, 31, 15);
+		lblId.setBounds(232, 189, 31, 15);
 		add(lblId);
 
 		textField_5 = new JTextField();
 		textField_5.setText("00");
 		textField_5.setColumns(10);
-		textField_5.setBounds(283, 187, 31, 18);
+		textField_5.setBounds(273, 187, 31, 18);
 		add(textField_5);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		panel_2.setBounds(24, 520, 799, 159);
+		panel_2.setBounds(0, 523, 799, 159);
 		add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
@@ -383,7 +387,7 @@ public class CardInfoDetectPanel extends JPanel {
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"00", "01", "03"}));
-		comboBox.setBounds(74, 186, 65, 21);
+		comboBox.setBounds(64, 186, 65, 21);
 		add(comboBox);
 	}
 
