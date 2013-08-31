@@ -7,7 +7,6 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.swing.JFrame;
-import javax.swing.JRootPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -66,31 +65,20 @@ public class Application extends JFrame {
 			log.error("LookAndFeel unsupported.");
 		}
 		frame = new Application();
-		//frame.setVisible(false);
-		init();
 		frame.setVisible(true);
 	}
 
 	public Application() {
 		super(titleStr);
-		setFont(new Font("", Font.BOLD, 15));
-		setSize(1050, 750);
-		setLocationRelativeTo(null);
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setUndecorated(true);
-		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-		UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
-
-	}
-
-	public static void init() {
 		initContentPane();
-
+		setFont(new Font("", Font.BOLD, 15));
+		getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
 	}
 
-	private static void initContentPane() {
-		contentPanel = frame.getContentPane();
+	private void initContentPane() {
+		contentPanel = getContentPane();
 		contentPanel.setLayout(new BorderLayout());
 		leftPanel = new LeftPanel();
 		try {
