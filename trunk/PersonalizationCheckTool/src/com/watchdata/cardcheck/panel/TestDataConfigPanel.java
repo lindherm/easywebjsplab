@@ -101,7 +101,7 @@ public class TestDataConfigPanel extends JPanel {
 		add(delButton);
 
 		final JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 87, 710, 562);
+		scrollPane.setBounds(0, 87, 720, 562);
 
 		table = new JXTreeTable();
 		table.setName("componentTreeTable");

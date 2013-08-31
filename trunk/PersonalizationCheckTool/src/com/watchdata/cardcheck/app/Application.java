@@ -33,7 +33,6 @@ public class Application extends JFrame {
 	public static GUIProperties guiProps = new GUIProperties();
 	public static Application frame;
 	private static final String titleStr = pm.getString("mv.application.appTitle");
-	private static MainMenuBar menuBar;
 	private static Container contentPanel;
 	private static LeftPanel leftPanel;
 	public static RightPanel rightPanel;
@@ -87,9 +86,9 @@ public class Application extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, false, leftPanel, rightPanel);
-		splitPane.setDividerLocation(200);
-		splitPane.setOneTouchExpandable(false);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftPanel, rightPanel);
+		splitPane.setDividerLocation(150);
+		splitPane.setOneTouchExpandable(true);
 		contentPanel.add(splitPane, BorderLayout.CENTER);
 		bottomPanel = new BottomPanel();
 		contentPanel.add(bottomPanel, BorderLayout.SOUTH);

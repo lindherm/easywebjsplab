@@ -16,6 +16,7 @@ import com.watchdata.cardcheck.panel.ConfigTabbedPanel;
 import com.watchdata.cardcheck.panel.TradeTabbedPanel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
+import java.awt.FlowLayout;
 
 /**
  * @title LeftPanel.java
@@ -44,9 +45,12 @@ public class LeftPanel extends JPanel {
 		panel.setBorder(new TitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
 		add(panel);
 
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.add(configTabbedPanel.getName(), configTabbedPanel);
 		panel.add(tabbedPane);
+		FlowLayout flowLayout = (FlowLayout) tradeTabbedPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
 		tabbedPane.add(tradeTabbedPanel.getName(), tradeTabbedPanel);
 		tabbedPane.add(checkTabbedPanel.getName(), checkTabbedPanel);
 		tabbedPane.add(cardDetectTabbedPanel.getName(), cardDetectTabbedPanel);
