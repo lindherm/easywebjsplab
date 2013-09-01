@@ -17,6 +17,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.watchdata.cardcheck.app.Application;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FixedSizePlainDocument;
 import com.watchdata.cardcheck.utils.PropertiesManager;
@@ -242,9 +243,11 @@ public class TerminalLimitConfigPanel extends JPanel {
 				Config.setValue("Terminal_Data", "9F1B", lowLimitField.getText().trim());
 				Config.setValue("Terminal_Data", "9F1C", termIdField.getText().trim());
 				
-				JOptionPane.showMessageDialog(null, "保存成功！");
+				JOptionPane.showMessageDialog(Application.frame, "保存成功！");
 			}
 		});
+		saveButton.setFocusPainted(false);
+		saveButton.setBorderPainted(false);
 		add(saveButton);
 
 	}

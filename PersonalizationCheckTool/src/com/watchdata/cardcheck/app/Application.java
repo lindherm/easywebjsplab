@@ -2,7 +2,9 @@ package com.watchdata.cardcheck.app;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -51,7 +53,7 @@ public class Application extends JFrame {
 		try {
 			Properties props = new Properties();
 			props.put("logoString", "watchdata");
-			props.put("textShadow", "off");
+			//props.put("textShadow", "off");
 			props.put("systemTextFont", "宋体 PLAIN 13");
 			props.put("controlTextFont", "宋体 PLAIN 13");
 			props.put("menuTextFont", "宋体 PLAIN 13");
@@ -70,10 +72,17 @@ public class Application extends JFrame {
 	public Application() {
 		super(titleStr);
 		initContentPane();
-		setFont(new Font("", Font.BOLD, 15));
-		getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
+		//setFont(new Font("", Font.BOLD, 14));
+		// JFrame打开后全屏。
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setBounds(0, 0, screenSize.width, screenSize.height-20);
+		// JFrame打开后居中。
+		//setLocationRelativeTo(getOwner());
+		//getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
+		//setAlwaysOnTop(true);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
+		//UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
 	}
 
 	private void initContentPane() {

@@ -116,7 +116,9 @@ public class AIDConfigPanel extends JPanel {
 
 		buttonAdd = new JButton();
 		buttonAdd.setText(pm.getString("mv.aidconfig.add"));
-		buttonAdd.setBounds(658, 96, 84, 21);
+		buttonAdd.setBounds(710, 96, 84, 21);
+		buttonAdd.setFocusPainted(false);
+		buttonAdd.setBorderPainted(false);
 		add(buttonAdd);
 
 		final JLabel addAIDLabel = new JLabel();
@@ -144,12 +146,15 @@ public class AIDConfigPanel extends JPanel {
 		buttonDel = new JButton();
 		buttonDel.setText(pm.getString("mv.aidconfig.del"));
 		buttonDel.setBounds(710, 205, 84, 21);
-
+		buttonDel.setFocusPainted(false);
+		buttonDel.setBorderPainted(false);
 		add(buttonDel);
 
 		buttonSave = new JButton();
 		buttonSave.setText(pm.getString("mv.aidconfig.edit"));
 		buttonSave.setBounds(710, 236, 84, 21);
+		buttonSave.setFocusPainted(false);
+		buttonSave.setBorderPainted(false);
 		add(buttonSave);
 		buttonAdd.addActionListener(addActionListener);
 		buttonDel.addActionListener(delActionListener);

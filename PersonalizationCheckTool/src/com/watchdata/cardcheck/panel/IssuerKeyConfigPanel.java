@@ -164,6 +164,8 @@ public class IssuerKeyConfigPanel extends JPanel {
 			}
 
 		});
+		button_1.setFocusPainted(false);
+		button_1.setBorderPainted(false);
 		add(button_1);
 
 		JLabel label = new JLabel();

@@ -125,6 +125,8 @@ public class CardReaderPanel extends JPanel {
 			}
 		});
 		button.setBounds(507, 92, 84, 21);
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
 		add(button);
 
 		final JButton btnNewButton = new JButton("打开端口");
@@ -138,6 +140,8 @@ public class CardReaderPanel extends JPanel {
 			}
 		});
 		btnNewButton.setBounds(413, 92, 84, 21);
+		btnNewButton.setFocusPainted(false);
+		btnNewButton.setBorderPainted(false);
 		add(btnNewButton);
 
 		btnNewButton_1.addActionListener(new ActionListener() {
@@ -148,8 +152,9 @@ public class CardReaderPanel extends JPanel {
 			}
 		});
 		btnNewButton_1.setBounds(601, 92, 84, 21);
+		btnNewButton_1.setFocusPainted(false);
+		btnNewButton_1.setBorderPainted(false);
 		add(btnNewButton_1);
-		//
 	}
 
 	public boolean containCRConfig(String cardReaderConfig, String[] cardReaderList) {

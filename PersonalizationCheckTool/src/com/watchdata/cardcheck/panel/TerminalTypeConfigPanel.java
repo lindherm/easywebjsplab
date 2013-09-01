@@ -121,6 +121,8 @@ public class TerminalTypeConfigPanel extends JPanel {
 		});
 		saveButton.setText(pm.getString("mv.termtype.save"));
 		saveButton.setBounds(169, 296, 84, 21);
+		saveButton.setFocusPainted(false);
+		saveButton.setBorderPainted(false);
 		add(saveButton);
 
 	}
