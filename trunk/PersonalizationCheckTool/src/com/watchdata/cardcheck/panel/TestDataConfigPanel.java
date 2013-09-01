@@ -93,11 +93,15 @@ public class TestDataConfigPanel extends JPanel {
 		addButton = new JButton();
 		addButton.setText("增加");
 		addButton.setBounds(730, 105, 84, 21);
+		addButton.setFocusPainted(false);
+		addButton.setBorderPainted(false);
 		add(addButton);
 
 		delButton = new JButton();
 		delButton.setText(pm.getString("mv.testdata.delete"));
 		delButton.setBounds(730, 136, 84, 21);
+		delButton.setFocusPainted(false);
+		delButton.setBorderPainted(false);
 		add(delButton);
 
 		final JScrollPane scrollPane = new JScrollPane();
@@ -151,6 +155,8 @@ public class TestDataConfigPanel extends JPanel {
 		add(comboBox);
 
 		JButton button = new JButton();
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread thread = new Thread(new Runnable() {
@@ -248,6 +254,8 @@ public class TestDataConfigPanel extends JPanel {
 		});
 		button_1.setText("刷新");
 		button_1.setBounds(730, 167, 84, 21);
+		button_1.setFocusPainted(false);
+		button_1.setBorderPainted(false);
 		add(button_1);
 		
 		ButtonGroup buttonGroup=new ButtonGroup();

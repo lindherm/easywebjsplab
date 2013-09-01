@@ -239,6 +239,8 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		final JButton delButton1 = new JButton();
 		delButton1.setText(pm.getString("mv.capublickeyconfig.del"));
 		delButton1.setBounds(715, 100, 84, 21);
+		delButton1.setFocusPainted(false);
+		delButton1.setBorderPainted(false);
 		add(delButton1);
 		// 删除
 		delButton1.addActionListener(new ActionListener() {
@@ -275,6 +277,8 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		final JButton modifyButton = new JButton();
 		modifyButton.setText(pm.getString("mv.capublickeyconfig.modify"));
 		modifyButton.setBounds(715, 129, 84, 21);
+		modifyButton.setFocusPainted(false);
+		modifyButton.setBorderPainted(false);
 		add(modifyButton);
 		modifyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -258,6 +258,8 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 		final JButton saveButton = new JButton();
 		saveButton.setText(pm.getString("mv.terminalperformanceconfig.save"));
 		saveButton.setBounds(123, 623, 84, 21);
+		saveButton.setFocusPainted(false);
+		saveButton.setBorderPainted(false);
 		add(saveButton);
 		// 保存按钮消息响应函数
 		saveButton.addActionListener(new ActionListener() {
