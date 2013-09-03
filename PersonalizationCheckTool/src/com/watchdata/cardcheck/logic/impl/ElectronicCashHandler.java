@@ -50,7 +50,13 @@ public class ElectronicCashHandler extends BaseHandler {
 		// issuerDao = (IIssuerDao) SpringUtil.getBean("issuerDao");
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
+		String termRandom = WDStringUtil.getRandomHexString(8);
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
+		param.put("9F37", termRandom);
+		Date dateTime = new Date();
+		param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
+		param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
+		param.put("9F66", "46800000");// 非接触能力
 		NDC.push("[E cash load]");
 		logger.debug("E cash load start...",0);
 
@@ -222,7 +228,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				
 				// 联机请求
 				logger.debug("=================================Internal Authenticate=================================");
-				String termRandom = WDStringUtil.getRandomHexString(8);
 				result = apduHandler.internalAuthenticate(termRandom);
 				// 内部认证报告
 				genWordUtil.add(result.get("apdu"), "Internal Authenticate", result.get("res"), result);
@@ -264,10 +269,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				
 				
 				logger.debug("=================================Generate AC1=================================");
-				param.put("9F37", termRandom);
-				Date dateTime = new Date();
-				param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
-				param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
 				String cdol1Data = loadDolData(cardRecordData.get("8C"), param);// 9F0206 9F0306 9F1A02 9505 5F2A02 9A03 9C01 9F3704 9F2103 9F4E14
 				result = apduHandler.generateAC(cdol1Data, AbstractAPDU.P1_ARQC);
 				// Generate AC1 报告
@@ -349,7 +350,13 @@ public class ElectronicCashHandler extends BaseHandler {
 		// issuerDao = (IIssuerDao) SpringUtil.getBean("issuerDao");
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
+		String termRandom = WDStringUtil.getRandomHexString(8);
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
+		Date dateTime = new Date();
+		param.put("9F37", termRandom);
+		param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
+		param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
+		param.put("9F66", "46800000");// 非接触能力
 		NDC.push("[e cash purcharse]");
 		logger.debug("e cash purcharse start...", 0);
 		
@@ -508,7 +515,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				}
 				
 				logger.debug("=======================internal Authenticate==============================");
-				String termRandom = WDStringUtil.getRandomHexString(8);
 				result = apduHandler.internalAuthenticate(termRandom);
 
 				genWordUtil.add(result.get("apdu"), "Internal Authenticate", result.get("res"), result);
@@ -549,11 +555,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				for (String log : logList) {
 					genWordUtil.add(log);
 				}
-
-				Date dateTime = new Date();
-				param.put("9F37", termRandom);
-				param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
-				param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
 				// 判断是否需要联机
 				if (Integer.parseInt(param.get("9F02")) > Integer.parseInt(balance)) {
 					
