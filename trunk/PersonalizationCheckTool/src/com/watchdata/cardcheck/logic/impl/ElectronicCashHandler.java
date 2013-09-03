@@ -47,7 +47,6 @@ public class ElectronicCashHandler extends BaseHandler {
 	 * @return
 	 */
 	public boolean ECLoad(int tradeMount, String readerName, JLabel tradeLabel, TermSupportUtil termSupportUtil) {
-		// issuerDao = (IIssuerDao) SpringUtil.getBean("issuerDao");
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
 		String termRandom = WDStringUtil.getRandomHexString(8);
