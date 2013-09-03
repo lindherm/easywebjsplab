@@ -55,6 +55,7 @@ public class QPBOCHandler extends BaseHandler {
 		param.put("9F21",getFormatDate(dateTime,Constants.FORMAT_TIME));
 		String termRandom = WDStringUtil.getRandomHexString(8);
 		param.put("9F37", termRandom);//终端随机数
+		param.put("9F66", "2A000000");// 非接触能力
 		NDC.push("[QPBOC]");
 		logger.debug("QPBOC start...",0);
 		try{

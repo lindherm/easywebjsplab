@@ -59,10 +59,15 @@ public class PBOCHandler extends BaseHandler {
 	public boolean doTrade(int tradeMount, String readerName, JLabel tradeLabel, TermSupportUtil termSupportUtil) {
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
+		String termRandom = WDStringUtil.getRandomHexString(8);
 		param.put("9F02", WDStringUtil.paddingHeadZero(String.valueOf(tradeMount), 12));
 		// param.put("9C","40");
 		param.put("9F7A", "00");
-
+		param.put("9F37", termRandom);
+		Date dateTime = new Date();
+		param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
+		param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
+		param.put("9F66", "46800000");// 非接触能力
 		NDC.push("[PBOC]");
 		logger.debug("PBOC trade start...", 0);
 		genWordUtil = new GenReportUtil();
@@ -205,8 +210,6 @@ public class PBOCHandler extends BaseHandler {
 				}
 
 				// Internal Authenticate
-				String termRandom = WDStringUtil.getRandomHexString(8);
-
 				logger.debug("=======================internal Authenticate==============================");
 				result = apduHandler.internalAuthenticate(termRandom);
 				String signedDynmicData = result.get("80");
@@ -248,10 +251,6 @@ public class PBOCHandler extends BaseHandler {
 				}
 				// Generate arqc
 				logger.debug("==========================Generate AC1================================");
-				param.put("9F37", termRandom);
-				Date dateTime = new Date();
-				param.put("9A", getFormatDate(dateTime, Constants.FORMAT_SHORT_DATE));
-				param.put("9F21", getFormatDate(dateTime, Constants.FORMAT_TIME));
 				String cdol1Data = loadDolData(cardRecordData.get("8C"), param);// 9F0206 9F0306 9F1A02 9505 5F2A02 9A03 9C01 9F3704 9F2103 9F4E14
 				result = apduHandler.generateAC(cdol1Data, AbstractAPDU.P1_ARQC);
 

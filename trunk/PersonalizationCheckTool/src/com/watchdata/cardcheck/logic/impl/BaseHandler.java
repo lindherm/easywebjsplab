@@ -32,7 +32,7 @@ public class BaseHandler {
 			tradeDefaultPara.put("9F7A", "01"); // 电子现金终端指示器
 			tradeDefaultPara.put("5F2A", "0156"); // 交易货币代码
 			tradeDefaultPara.put("9F1A", "0156"); // 终端国家代码
-			tradeDefaultPara.put("9F66", "B6000000");// 非接触能力
+			//tradeDefaultPara.put("9F66", "B6000000");// 非接触能力
 			tradeDefaultPara.put("9F03", "000000000000");// 其他金额
 			tradeDefaultPara.put("9F4E", "ABEDF8D910F0CBD8EBEDF8D910F0CBD8E5A81BA0");// 商户名称
 			tradeDefaultPara.put("95", "0000000000");// 终端验证结果（TVR）
