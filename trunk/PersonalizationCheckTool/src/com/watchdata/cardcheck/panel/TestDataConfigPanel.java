@@ -1,5 +1,7 @@
 package com.watchdata.cardcheck.panel;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,6 +23,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -73,11 +76,12 @@ public class TestDataConfigPanel extends JPanel {
 	private JDialog dialog = new JDialog();
 	private JEditorPane ep = new JEditorPane();
 	private JScrollPane dlgscrollPane = new JScrollPane(ep);
-	JRadioButton pse ;
-	JRadioButton ppse ;
-
+	public JRadioButton pse ;
+	public JRadioButton ppse ;
+	public JTextPane textPane_1;
 	public TestDataConfigPanel() {
 		super();
+		log.setLogArea(textPane_1);
 		setLayout(null);
 		setName(pm.getString("mv.testdata.name"));
 		// setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.dataConfig")));
@@ -105,7 +109,7 @@ public class TestDataConfigPanel extends JPanel {
 		add(delButton);
 
 		final JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 87, 720, 562);
+		scrollPane.setBounds(0, 87, 720, 376);
 
 		table = new JXTreeTable();
 		table.setName("componentTreeTable");
@@ -271,6 +275,35 @@ public class TestDataConfigPanel extends JPanel {
 
 		buttonGroup.add(pse);
 		buttonGroup.add(ppse);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 473, 720, 238);
+		add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel.add(scrollPane_2);
+		
+		textPane_1 = new JTextPane(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean getScrollableTracksViewportWidth() {
+				return false;
+			}
+
+			@Override
+			public void setSize(Dimension d) {
+				if (d.width < getParent().getSize().width) {
+					d.width = getParent().getSize().width;
+				}
+				super.setSize(d);
+			}
+		};
+		scrollPane_2.setViewportView(textPane_1);
 		
 		Collection<String> tagCollections = Config.getItems("TAG");
 		for (String tag : tagCollections) {
