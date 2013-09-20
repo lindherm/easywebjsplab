@@ -35,8 +35,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 	public static void init(Context cx, Scriptable scope, boolean sealed) {
 		prototypeSecurityDomain.activatePrototypeMap(MAX_PROTOTYPE_ID);
-		prototypeSecurityDomain.setPrototype(ScriptableObject
-				.getObjectPrototype(scope));
+		prototypeSecurityDomain.setPrototype(ScriptableObject.getObjectPrototype(scope));
 		prototypeSecurityDomain.setParentScope(scope);
 		if (sealed)
 			prototypeSecurityDomain.sealObject();
@@ -121,9 +120,8 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			return super.getInstanceIdValue(id);
 	}
 
-	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
-			Scriptable thisObj, Object args[]) {
-		
+	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope, Scriptable thisObj, Object args[]) {
+
 		if (!f.hasTag(SECURITYDOMAIN_TAG))
 			return super.execIdCall(f, cx, scope, thisObj, args);
 		int id = f.methodId();
@@ -138,24 +136,19 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			return realThis(thisObj, f).jsFunction_getStatus(cx, scope, args);
 
 		case 5: // '\005'
-			return realThis(thisObj, f).jsFunction_installForInstall(cx, scope,
-					args);
+			return realThis(thisObj, f).jsFunction_installForInstall(cx, scope, args);
 
 		case 4: // '\004'
-			return realThis(thisObj, f).jsFunction_installForExtradition(cx,
-					scope, args);
+			return realThis(thisObj, f).jsFunction_installForExtradition(cx, scope, args);
 
 		case 6: // '\006'
-			return realThis(thisObj, f)
-					.jsFunction_installForInstallAndSelectable(cx, scope, args);
+			return realThis(thisObj, f).jsFunction_installForInstallAndSelectable(cx, scope, args);
 
 		case 7: // '\007'
-			return realThis(thisObj, f).jsFunction_installForLoad(cx, scope,
-					args);
+			return realThis(thisObj, f).jsFunction_installForLoad(cx, scope, args);
 
 		case 8: // '\b'
-			return realThis(thisObj, f).jsFunction_installForPersonalization(
-					cx, scope, args);
+			return realThis(thisObj, f).jsFunction_installForPersonalization(cx, scope, args);
 
 		case 9: // '\t'
 			return realThis(thisObj, f).jsFunction_load(cx, scope, args);
@@ -185,129 +178,97 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			return null;
 
 		case 11: // '\013'
-			return realThis(thisObj, f).jsFunction_openSecureChannel(cx, scope,
-					args);
+			return realThis(thisObj, f).jsFunction_openSecureChannel(cx, scope, args);
 		case 18: // '\021'
 			realThis(thisObj, f).jsFunction_closeSecureChannel(cx, scope, args);
 			return null;
-		
+
 		case 20:
 			return realThis(thisObj, f).jsFunction_putKeyLmk(cx, scope, args);
 		case 21:
 			return realThis(thisObj, f).jsFunction_putKeyStd(cx, scope, args);
 		case 22:
-			 realThis(thisObj, f).jsFunction_storeDataLmk(cx, scope, args);
-			 return null;
+			realThis(thisObj, f).jsFunction_storeDataLmk(cx, scope, args);
+			return null;
 		case 23:
-			 realThis(thisObj, f).jsFunction_setPan(cx, scope, args);
-			 return null;
+			realThis(thisObj, f).jsFunction_setPan(cx, scope, args);
+			return null;
 		}
 		throw new IllegalArgumentException(String.valueOf(id));
 	}
 
-	private NativeGPSecurityDomain realThis(Scriptable thisObj,
-			IdFunctionObject f) {
+	private NativeGPSecurityDomain realThis(Scriptable thisObj, IdFunctionObject f) {
 		if (!(thisObj instanceof NativeGPSecurityDomain))
 			throw IdScriptableObject.incompatibleCallError(f);
 		else
 			return (NativeGPSecurityDomain) thisObj;
 	}
 
-	private NativeByteString jsFunction_sendApdu(Context cx, Scriptable scope,
-			Object args[]) {
-		if (!(args[0] instanceof Number) || !(args[1] instanceof Number)
-				|| !(args[2] instanceof Number) || !(args[3] instanceof Number))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+	private NativeByteString jsFunction_sendApdu(Context cx, Scriptable scope, Object args[]) {
+		if (!(args[0] instanceof Number) || !(args[1] instanceof Number) || !(args[2] instanceof Number) || !(args[3] instanceof Number))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		NativeByteString defaultData = null;
 		Number defaultLE = new Integer(-1);
 		Number defaultSW = new Integer(36864);
 		if (args.length == 4) {
-			NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0],
-					(Number) args[1], (Number) args[2], (Number) args[3],
-					defaultData, defaultLE, defaultSW);
+			NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0], (Number) args[1], (Number) args[2], (Number) args[3], defaultData, defaultLE, defaultSW);
 			return NativeByteString.newByteString(cx, scope, sNew);
 		}
 		if (args.length == 5)
 			if (!(args[4] instanceof NativeByteString)) {
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			} else {
-				NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0],
-						(Number) args[1], (Number) args[2], (Number) args[3],
-						(NativeByteString) args[4], defaultLE, defaultSW);
+				NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0], (Number) args[1], (Number) args[2], (Number) args[3], (NativeByteString) args[4], defaultLE, defaultSW);
 				return NativeByteString.newByteString(cx, scope, sNew);
 			}
 		if (args.length == 6)
-			if (!(args[4] instanceof NativeByteString)
-					|| !(args[5] instanceof Number)) {
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[4] instanceof NativeByteString) || !(args[5] instanceof Number)) {
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			} else {
-				NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0],
-						(Number) args[1], (Number) args[2], (Number) args[3],
-						(NativeByteString) args[4], (Number) args[5], defaultSW);
+				NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0], (Number) args[1], (Number) args[2], (Number) args[3], (NativeByteString) args[4], (Number) args[5], defaultSW);
 				return NativeByteString.newByteString(cx, scope, sNew);
 			}
 		if (args.length == 7) {
-			if (!(args[4] instanceof NativeByteString)
-					|| !(args[5] instanceof Number)
-					|| !(args[6] instanceof Number)) {
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[4] instanceof NativeByteString) || !(args[5] instanceof Number) || !(args[6] instanceof Number)) {
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			} else {
-				NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0],
-						(Number) args[1], (Number) args[2], (Number) args[3],
-						(NativeByteString) args[4], (Number) args[5],
-						(Number) args[6]);
+				NativeByteString sNew = wrapApdu(cx, scope, (Number) args[0], (Number) args[1], (Number) args[2], (Number) args[3], (NativeByteString) args[4], (Number) args[5], (Number) args[6]);
 				return NativeByteString.newByteString(cx, scope, sNew);
 			}
 		} else {
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1041)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1041)).toString());
 		}
 	}
 
-	private NativeByteString jsFunction_getData(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_getData(Context cx, Scriptable scope, Object args[]) {
 		int tag = 0;
 		Number SW = new Integer(36864);
 		if (args.length < 1 || args.length > 2)
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (!(args[0] instanceof Number))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 2) {
 			if (!(args[1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			SW = (Number) args[1];
 		}
 		tag = ((Number) args[0]).intValue();
 		Byte P1 = new Byte((byte) (tag / 256));
 		Byte P2 = new Byte((byte) (tag % 256));
-		wrapApdu(cx, scope, new Integer(128), new Integer(202), P1, P2, null,
-				new Integer(0), SW);
+		wrapApdu(cx, scope, new Integer(128), new Integer(202), P1, P2, null, new Integer(0), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_getStatus(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_getStatus(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
 		if (args.length < 3 || args.length > 4)
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
-		if (!(args[0] instanceof Number)
-				|| !(args[1] instanceof NativeByteString)
-				|| !(args[2] instanceof Boolean))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof Number) || !(args[1] instanceof NativeByteString) || !(args[2] instanceof Boolean))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 4) {
 			if (!(args[3] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			SW = (Number) args[3];
 		}
 		int type = ((Number) args[0]).intValue();
@@ -332,216 +293,133 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		}
 		if (((Boolean) args[2]).booleanValue())
 			P2 = new Integer(1);
-		wrapApdu(cx, scope, new Integer(128), new Integer(242), P1, P2,
-				(NativeByteString) args[1], new Integer(-1), SW);
+		wrapApdu(cx, scope, new Integer(128), new Integer(242), P1, P2, (NativeByteString) args[1], new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_installForExtradition(Context cx,
-			Scriptable scope, Object args[]) {
+	private NativeByteString jsFunction_installForExtradition(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
-		if (!(args[0] instanceof NativeByteString)
-				|| !(args[1] instanceof NativeByteString)
-				|| !(args[2] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof NativeByteString) || !(args[2] instanceof NativeByteString))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 3)
 			SW = new Integer(36864);
 		else if (args.length == 4)
 			SW = (Number) args[3];
 		else
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		String secDomAID = ((NativeByteString) args[0]).toString();
 		String appAID = ((NativeByteString) args[1]).toString();
 		String token = ((NativeByteString) args[2]).toString();
-		String strCommData = Hex.byteToString((byte) (secDomAID.length() / 2))
-				+ secDomAID + "00"
-				+ Hex.byteToString((byte) (appAID.length() / 2)) + appAID
-				+ "00" + "00" + Hex.byteToString((byte) (token.length() / 2))
-				+ token;
-		NativeByteString comData = new NativeByteString(strCommData,
-				new Integer(1000));
-		wrapApdu(cx, scope, new Integer(128), new Integer(230),
-				new Integer(32), new Integer(0), comData, new Integer(-1), SW);
+		String strCommData = Hex.byteToString((byte) (secDomAID.length() / 2)) + secDomAID + "00" + Hex.byteToString((byte) (appAID.length() / 2)) + appAID + "00" + "00" + Hex.byteToString((byte) (token.length() / 2)) + token;
+		NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(128), new Integer(230), new Integer(32), new Integer(0), comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_installForLoad(Context cx,
-			Scriptable scope, Object args[]) {
+	private NativeByteString jsFunction_installForLoad(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
-		if (!(args[0] instanceof NativeByteString)
-				|| !(args[1] instanceof NativeByteString)
-				|| !(args[2] instanceof NativeByteString)
-				|| !(args[3] instanceof NativeByteString)
-				|| !(args[4] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof NativeByteString) || !(args[2] instanceof NativeByteString) || !(args[3] instanceof NativeByteString) || !(args[4] instanceof NativeByteString))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 5)
 			SW = new Integer(36864);
 		else if (args.length == 6)
 			SW = (Number) args[5];
 		else
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1041)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1041)).toString());
 		String loadFileAID = ((NativeByteString) args[0]).toString();
 		String secDomAID = ((NativeByteString) args[1]).toString();
 		String loadDBHash = ((NativeByteString) args[2]).toString();
 		String loadParam = ((NativeByteString) args[3]).toString();
 		String loadToken = ((NativeByteString) args[4]).toString();
-		String strCommData = Hex
-				.byteToString((byte) (loadFileAID.length() / 2))
-				+ loadFileAID
-				+ Hex.byteToString((byte) (secDomAID.length() / 2))
-				+ secDomAID
-				+ Hex.byteToString((byte) (loadDBHash.length() / 2))
-				+ loadDBHash
-				+ Hex.byteToString((byte) (loadParam.length() / 2))
-				+ loadParam
-				+ Hex.byteToString((byte) (loadToken.length() / 2)) + loadToken;
-		NativeByteString comData = new NativeByteString(strCommData,
-				new Integer(1000));
-		wrapApdu(cx, scope, new Integer(128), new Integer(230), new Integer(2),
-				new Integer(0), comData, new Integer(-1), SW);
+		String strCommData = Hex.byteToString((byte) (loadFileAID.length() / 2)) + loadFileAID + Hex.byteToString((byte) (secDomAID.length() / 2)) + secDomAID + Hex.byteToString((byte) (loadDBHash.length() / 2)) + loadDBHash + Hex.byteToString((byte) (loadParam.length() / 2)) + loadParam + Hex.byteToString((byte) (loadToken.length() / 2)) + loadToken;
+		NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(128), new Integer(230), new Integer(2), new Integer(0), comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_installForPersonalization(Context cx,
-			Scriptable scope, Object args[]) {
+	private NativeByteString jsFunction_installForPersonalization(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
 		if (!(args[0] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 1)
 			SW = new Integer(36864);
 		else if (args.length == 2)
 			SW = (Number) args[1];
 		else
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1041)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1041)).toString());
 		String appAID = ((NativeByteString) args[0]).toString();
-		String strCommData = "0000"
-				+ Hex.byteToString((byte) (appAID.length() / 2)) + appAID
-				+ "000000";
-		NativeByteString comData = new NativeByteString(strCommData,
-				new Integer(1000));
-		wrapApdu(cx, scope, new Integer(128), new Integer(230),
-				new Integer(32), new Integer(0), comData, new Integer(-1), SW);
+		String strCommData = "0000" + Hex.byteToString((byte) (appAID.length() / 2)) + appAID + "000000";
+		NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(128), new Integer(230), new Integer(32), new Integer(0), comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_installForInstall(Context cx,
-			Scriptable scope, Object args[]) {
+	private NativeByteString jsFunction_installForInstall(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
-		if (!(args[0] instanceof NativeByteString)
-				|| !(args[1] instanceof NativeByteString)
-				|| !(args[2] instanceof NativeByteString)
-				|| !(args[3] instanceof NativeByteString)
-				|| !(args[4] instanceof NativeByteString)
-				|| !(args[5] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof NativeByteString) || !(args[2] instanceof NativeByteString) || !(args[3] instanceof NativeByteString) || !(args[4] instanceof NativeByteString) || !(args[5] instanceof NativeByteString))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 6)
 			SW = new Integer(36864);
 		else if (args.length == 7)
 			SW = (Number) args[6];
 		else
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1041)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1041)).toString());
 		String execLFAID = ((NativeByteString) args[0]).toString();
 		String execModAID = ((NativeByteString) args[1]).toString();
 		String execInsAID = ((NativeByteString) args[2]).toString();
 		String privileges = ((NativeByteString) args[3]).toString();
 		String installParam = ((NativeByteString) args[4]).toString();
 		String installToken = ((NativeByteString) args[5]).toString();
-		String strCommData = Hex.byteToString((byte) (execLFAID.length() / 2))
-				+ execLFAID
-				+ Hex.byteToString((byte) (execModAID.length() / 2))
-				+ execModAID
-				+ Hex.byteToString((byte) (execInsAID.length() / 2))
-				+ execInsAID + "01" + privileges
-				+ Hex.byteToString((byte) (installParam.length() / 2))
-				+ installParam
-				+ Hex.byteToString((byte) (installToken.length() / 2))
-				+ installToken;
-		NativeByteString comData = new NativeByteString(strCommData,
-				new Integer(1000));
-		wrapApdu(cx, scope, new Integer(128), new Integer(230),
-				new Integer(12), new Integer(0), comData, new Integer(-1), SW);
+		String strCommData = Hex.byteToString((byte) (execLFAID.length() / 2)) + execLFAID + Hex.byteToString((byte) (execModAID.length() / 2)) + execModAID + Hex.byteToString((byte) (execInsAID.length() / 2)) + execInsAID + "01" + privileges + Hex.byteToString((byte) (installParam.length() / 2)) + installParam + Hex.byteToString((byte) (installToken.length() / 2)) + installToken;
+		NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(128), new Integer(230), new Integer(12), new Integer(0), comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_installForInstallAndSelectable(
-			Context cx, Scriptable scope, Object args[]) {
+	private NativeByteString jsFunction_installForInstallAndSelectable(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
-		if (!(args[0] instanceof NativeByteString)
-				|| !(args[1] instanceof NativeByteString)
-				|| !(args[2] instanceof NativeByteString)
-				|| !(args[3] instanceof NativeByteString)
-				|| !(args[4] instanceof NativeByteString)
-				|| !(args[5] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof NativeByteString) || !(args[2] instanceof NativeByteString) || !(args[3] instanceof NativeByteString) || !(args[4] instanceof NativeByteString) || !(args[5] instanceof NativeByteString))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 6)
 			SW = new Integer(36864);
 		else if (args.length == 7)
 			SW = (Number) args[6];
 		else
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1041)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1041)).toString());
 		String execLFAID = ((NativeByteString) args[0]).toString();
 		String execModAID = ((NativeByteString) args[1]).toString();
 		String execInsAID = ((NativeByteString) args[2]).toString();
 		String privileges = ((NativeByteString) args[3]).toString();
 		String installParam = ((NativeByteString) args[4]).toString();
 		String installToken = ((NativeByteString) args[5]).toString();
-		String strCommData = Hex.byteToString((byte) (execLFAID.length() / 2))
-				+ execLFAID
-				+ Hex.byteToString((byte) (execModAID.length() / 2))
-				+ execModAID
-				+ Hex.byteToString((byte) (execInsAID.length() / 2))
-				+ execInsAID + "01" + privileges
-				+ Hex.byteToString((byte) (installParam.length() / 2))
-				+ installParam
-				+ Hex.byteToString((byte) (installToken.length() / 2))
-				+ installToken;
-		NativeByteString comData = new NativeByteString(strCommData,
-				new Integer(1000));
-		wrapApdu(cx, scope, new Integer(128), new Integer(230),
-				new Integer(12), new Integer(0), comData, new Integer(-1), SW);
+		String strCommData = Hex.byteToString((byte) (execLFAID.length() / 2)) + execLFAID + Hex.byteToString((byte) (execModAID.length() / 2)) + execModAID + Hex.byteToString((byte) (execInsAID.length() / 2)) + execInsAID + "01" + privileges + Hex.byteToString((byte) (installParam.length() / 2)) + installParam + Hex.byteToString((byte) (installToken.length() / 2)) + installToken;
+		NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(128), new Integer(230), new Integer(12), new Integer(0), comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_load(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_load(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
 		if (!(args[0] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		String arrayBlock[] = null;
 		arrayBlock = parseFileStructure((NativeByteString) args[0]);
 		if (arrayBlock == null)
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		for (int i = 0; i < arrayBlock.length; i++) {
 			log.debug(arrayBlock[i]);
 			String strCommData = arrayBlock[i];
-			NativeByteString comData = new NativeByteString(strCommData,
-					new Integer(1000));
+			NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
 			if (i < arrayBlock.length - 1)
-				wrapApdu(cx, scope, new Integer(128), new Integer(232),
-						new Integer(0), new Integer(i), comData,
-						new Integer(-1), SW);
+				wrapApdu(cx, scope, new Integer(128), new Integer(232), new Integer(0), new Integer(i), comData, new Integer(-1), SW);
 			else
-				wrapApdu(cx, scope, new Integer(128), new Integer(232),
-						new Integer(128), new Integer(i), comData, new Integer(
-								-1), SW);
+				wrapApdu(cx, scope, new Integer(128), new Integer(232), new Integer(128), new Integer(i), comData, new Integer(-1), SW);
 		}
 
 		NativeByteString sNew = card.response;
@@ -581,12 +459,10 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		return result;
 	}
 
-	private NativeByteString jsFunction_loadByName(Context cx,
-			Scriptable scope, Object args[]) {
+	private NativeByteString jsFunction_loadByName(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
 		if (!(args[0] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		String strName = ((NativeByteString) args[0]).toString();
 		byte bName[] = Hex.decode(strName);
 		String filePathName = Hex.HexToASC(bName, 0, bName.length);
@@ -597,26 +473,21 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		} catch (Exception e) {
 			// e.printStackTrace();
 			log.error(e.getMessage());
-			throw new EvaluatorException((new GPError("GPSecurityDomain", 0, 0,
-					"extract jar file error!")).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 0, 0, "extract jar file error!")).toString());
 		}
 		log.debug("content=" + strFileContent);
-		NativeByteString byteContent = new NativeByteString(strFileContent,
-				new Integer(1000));
+		NativeByteString byteContent = new NativeByteString(strFileContent, new Integer(1000));
 		String arrayBlockFromFile[] = null;
 		arrayBlockFromFile = parseFileStructure(byteContent);
 		int numBlockFromPara = (args.length - 1) / 2;
-		String arrayBlock[] = new String[arrayBlockFromFile.length
-				+ numBlockFromPara];
-		System.arraycopy(arrayBlockFromFile, 0, arrayBlock, 0,
-				arrayBlockFromFile.length);
+		String arrayBlock[] = new String[arrayBlockFromFile.length + numBlockFromPara];
+		System.arraycopy(arrayBlockFromFile, 0, arrayBlock, 0, arrayBlockFromFile.length);
 		for (int j = 0; j < numBlockFromPara; j++) {
 			NativeByteString bsAID = (NativeByteString) args[j * 2 + 1];
 			NativeByteString bsDAP = (NativeByteString) args[j * 2 + 2];
 			byte bAID[] = new byte[bsAID.GetLength() + 1];
 			byte bDAP[] = new byte[bsDAP.GetLength() + 1];
-			byte block[] = new byte[bsAID.GetLength() + 1 + bsDAP.GetLength()
-					+ 1 + 2];
+			byte block[] = new byte[bsAID.GetLength() + 1 + bsDAP.GetLength() + 1 + 2];
 			bAID[0] = (byte) bsAID.GetLength();
 			bDAP[0] = (byte) bsDAP.GetLength();
 			if (j < numBlockFromPara - 1)
@@ -632,8 +503,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 			System.arraycopy(bDAP, 0, block, 2, bDAP.length);
 			System.arraycopy(bAID, 0, block, 2 + bDAP.length, bAID.length);
-			arrayBlock[arrayBlockFromFile.length + j] = new String(Hex
-					.encode(block));
+			arrayBlock[arrayBlockFromFile.length + j] = new String(Hex.encode(block));
 		}
 
 		for (int j = 0; j < arrayBlock.length; j++)
@@ -642,16 +512,11 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		for (int i = 0; i < arrayBlock.length; i++) {
 			log.debug("arrayBlock[" + i + "]=" + arrayBlock[i]);
 			String strCommData = arrayBlock[i];
-			NativeByteString comData = new NativeByteString(strCommData,
-					new Integer(1000));
+			NativeByteString comData = new NativeByteString(strCommData, new Integer(1000));
 			if (i < arrayBlock.length - 1)
-				wrapApdu(cx, scope, new Integer(128), new Integer(232),
-						new Integer(0), new Integer(i), comData,
-						new Integer(-1), SW);
+				wrapApdu(cx, scope, new Integer(128), new Integer(232), new Integer(0), new Integer(i), comData, new Integer(-1), SW);
 			else
-				wrapApdu(cx, scope, new Integer(128), new Integer(232),
-						new Integer(128), new Integer(i), comData, new Integer(
-								-1), SW);
+				wrapApdu(cx, scope, new Integer(128), new Integer(232), new Integer(128), new Integer(i), comData, new Integer(-1), SW);
 		}
 
 		NativeByteString sNew = card.response;
@@ -660,12 +525,10 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 	private String extractJarFileAndGetContent(String filePathName) {
 		if (!filePathName.endsWith(".jar") && !filePathName.endsWith(".cap"))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		File f = new File(filePathName);
 		if (!f.exists())
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		String strFileContent = "";
 		try {
 			int BUFFER = 2048;
@@ -681,8 +544,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				int i;
 				while ((i = jis.read(data, 0, BUFFER)) != -1) {
 					dest.write(data, 0, i);
-					strFileContent = strFileContent.concat(Hex.HexToASC(data,
-							0, i));
+					strFileContent = strFileContent.concat(Hex.HexToASC(data, 0, i));
 				}
 				dest.flush();
 				dest.close();
@@ -691,14 +553,12 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		} catch (Exception e) {
 			// e.printStackTrace();
 			log.error("file error");
-			throw new EvaluatorException((new GPError("GPSecurityDomain", 0, 0,
-					"extract jar file error")).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 0, 0, "extract jar file error")).toString());
 		}
 		return strFileContent;
 	}
 
-	private NativeByteString jsFunction_select(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_select(Context cx, Scriptable scope, Object args[]) {
 		String strData = "A0000000031010";
 		if (args.length == 1) {
 			strData = (String) args[0];
@@ -707,88 +567,68 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		Number SW = new Integer(36864);
 		if (args.length == 2) {
 			if (!(args[1] instanceof Boolean))
-				throw new EvaluatorException((new GPError("GPSecurityDoamin",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDoamin", 1035)).toString());
 			if (((Boolean) args[1]).booleanValue())
 				P2 = new Integer(2);
 			else
 				P2 = new Integer(0);
 		} else if (args.length == 3) {
 			if (!(args[0] instanceof Boolean) || !(args[1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDoamin",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDoamin", 1035)).toString());
 			if (((Boolean) args[1]).booleanValue())
 				P2 = new Integer(2);
 			else
 				P2 = new Integer(0);
 			SW = (Number) args[2];
 		}
-		NativeByteString comData = new NativeByteString(strData, new Integer(
-				1000));
-		wrapApdu(cx, scope, new Integer(0), new Integer(164), new Integer(4),
-				P2, comData, new Integer(-1), SW);
+		NativeByteString comData = new NativeByteString(strData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(0), new Integer(164), new Integer(4), P2, comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_deleteAID(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_deleteAID(Context cx, Scriptable scope, Object args[]) {
 		Number SW = new Integer(36864);
 		NativeByteString AID;
 		if (args.length == 1) {
 			if (!(args[0] instanceof NativeByteString))
-				throw new EvaluatorException((new GPError("GPSecurityDoamin",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDoamin", 1035)).toString());
 			AID = (NativeByteString) args[0];
 		} else if (args.length == 2) {
-			if (!(args[0] instanceof NativeByteString)
-					|| !(args[1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDoamin",
-						1035)).toString());
+			if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDoamin", 1035)).toString());
 			AID = (NativeByteString) args[0];
 			SW = (Number) args[1];
 		} else {
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDoamin", 1032)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDoamin", 1032)).toString());
 		}
 		String L = Hex.byteToString((byte) AID.GetLength());
 		String strData = "4F" + L + AID;
-		NativeByteString comData = new NativeByteString(strData, new Integer(
-				1000));
-		wrapApdu(cx, scope, new Integer(128), new Integer(228), new Integer(0),
-				new Integer(0), comData, new Integer(-1), SW);
+		NativeByteString comData = new NativeByteString(strData, new Integer(1000));
+		wrapApdu(cx, scope, new Integer(128), new Integer(228), new Integer(0), new Integer(0), comData, new Integer(-1), SW);
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
 
-	private NativeByteString jsFunction_putKey(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_putKey(Context cx, Scriptable scope, Object args[]) {
 		Boolean More = new Boolean(false);
 		Number SW = new Integer(36864);
 		if (args.length % 3 == 1) {
 			if (!(args[args.length - 1] instanceof Boolean))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			More = (Boolean) args[args.length - 1];
 		}
 		if (args.length % 3 == 2) {
-			if (!(args[args.length - 2] instanceof Boolean)
-					|| !(args[args.length - 1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[args.length - 2] instanceof Boolean) || !(args[args.length - 1] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			More = (Boolean) args[args.length - 2];
 			SW = (Number) args[args.length - 1];
 		}
-		if (!(args[0] instanceof Number) || !(args[1] instanceof Number)
-				|| !(args[2] instanceof Number))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof Number) || !(args[1] instanceof Number) || !(args[2] instanceof Number))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		for (int i = 1; i < args.length / 3; i++)
-			if (!(args[i * 3] instanceof Number)
-					|| !(args[i * 3 + 1] instanceof NativeKey)
-					|| !(args[i * 3 + 2] instanceof NativeByteString))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[i * 3] instanceof Number) || !(args[i * 3 + 1] instanceof NativeKey) || !(args[i * 3 + 2] instanceof NativeByteString))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 
 		Number P1 = new Integer(0);
 		Number P2 = new Integer(0);
@@ -808,80 +648,63 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			NativeByteString keyBlob = ((NativeKey) args[i * 3 + 1]).getBlob();
 			NativeByteString encryptedKey;
 			if (secureChannel instanceof NativeGPScp01)
-				encryptedKey = ((NativeGPScp01) secureChannel).encryptKek(cx,
-						scope, keyBlob);
+				encryptedKey = ((NativeGPScp01) secureChannel).encryptKek(cx, scope, keyBlob);
 			else
-				encryptedKey = ((NativeGPScp02) secureChannel).encryptKek(cx,
-						scope, keyBlob);
+				encryptedKey = ((NativeGPScp02) secureChannel).encryptKek(cx, scope, keyBlob);
 			String strEncryptedKey = encryptedKey.toString();
 			String kcv = ((NativeByteString) args[i * 3 + 2]).toString();
 			String strType = Hex.byteToString((byte) type);
-			String strLKey = Hex
-					.byteToString((byte) (strEncryptedKey.length() / 2));
+			String strLKey = Hex.byteToString((byte) (strEncryptedKey.length() / 2));
 			kcv = kcv.substring(0, 6);
-			strData = strData + strType + strLKey + strEncryptedKey + "03"
-					+ kcv;
+			strData = strData + strType + strLKey + strEncryptedKey + "03" + kcv;
 		}
 
-		NativeByteString comData = new NativeByteString(strData, new Integer(
-				GPConstant.HEX));
+		NativeByteString comData = new NativeByteString(strData, new Integer(GPConstant.HEX));
 
 		// send command
 		// change INS from oxD8 to test watchdata card
-		this.securityDomain.wrapApdu(cx, scope, new Integer(0x80), new Integer(
-				0xD8), P1, P2, comData, new Integer(-1), SW);
+		this.securityDomain.wrapApdu(cx, scope, new Integer(0x80), new Integer(0xD8), P1, P2, comData, new Integer(-1), SW);
 
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
-	
-    private void jsFunction_setPan(Context cx, Scriptable scope,Object[] args)
-    {
-        if(args[0] instanceof String)
-        {
-            this.pan=(String)args[0];
-            
-        }
-        else
-            throw new EvaluatorException( ( new GPError("GPScp02", GPError.INVALID_TYPE)).toString());
-    }
-	
+
+	private void jsFunction_setPan(Context cx, Scriptable scope, Object[] args) {
+		if (args[0] instanceof String) {
+			this.pan = (String) args[0];
+
+		} else
+			throw new EvaluatorException((new GPError("GPScp02", GPError.INVALID_TYPE)).toString());
+	}
+
 	/**
 	 * putKey的三把密钥均为采用lms保护的
+	 * 
 	 * @param @param cx
 	 * @param @param scope
 	 * @param @param args
 	 * @return void
 	 * @throws Exception
 	 */
-	private NativeByteString jsFunction_putKeyLmk(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_putKeyLmk(Context cx, Scriptable scope, Object args[]) {
 		Boolean More = new Boolean(false);
 		Number SW = new Integer(36864);
 		if (args.length % 3 == 1) {
 			if (!(args[args.length - 1] instanceof Boolean))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			More = (Boolean) args[args.length - 1];
 		}
 		if (args.length % 3 == 2) {
-			if (!(args[args.length - 2] instanceof Boolean)
-					|| !(args[args.length - 1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[args.length - 2] instanceof Boolean) || !(args[args.length - 1] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			More = (Boolean) args[args.length - 2];
 			SW = (Number) args[args.length - 1];
 		}
-		if (!(args[0] instanceof Number) || !(args[1] instanceof Number)
-				|| !(args[2] instanceof Number))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof Number) || !(args[1] instanceof Number) || !(args[2] instanceof Number))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		for (int i = 1; i < args.length / 3; i++)
-			if (!(args[i * 3] instanceof Number)
-					|| !(args[i * 3 + 1] instanceof NativeKey)
-					|| !(args[i * 3 + 2] instanceof NativeByteString))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[i * 3] instanceof Number) || !(args[i * 3 + 1] instanceof NativeKey) || !(args[i * 3 + 2] instanceof NativeByteString))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 
 		Number P1 = new Integer(0);
 		Number P2 = new Integer(0);
@@ -902,77 +725,64 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			NativeByteString encryptedKey;
 			log.debug("keyBlob:" + keyBlob);
 			if (secureChannel instanceof NativeGPScp01)
-				encryptedKey = ((NativeGPScp01) secureChannel).encryptKekLmk(cx,
-						scope, keyBlob);
+				encryptedKey = ((NativeGPScp01) secureChannel).encryptKekLmk(cx, scope, keyBlob);
 			else
-				encryptedKey = ((NativeGPScp02) secureChannel).encryptKekLmk(cx,
-						scope, keyBlob);
+				encryptedKey = ((NativeGPScp02) secureChannel).encryptKekLmk(cx, scope, keyBlob);
 			String strEncryptedKey = encryptedKey.toString();
 			log.debug("encrypto key:" + strEncryptedKey);
 			Integer ee = new Integer(GPConstant.HEX);
 			NativeByteString p4 = new NativeByteString("0000000000000000", ee);
-			log.debug("MingwenKSCkeka:" + getSecureChannelMacKey(cx,scope).strBlob);
-			String strDecryptedKey = NativeCrypto.decrypt(getSecureChannelMacKey(cx,scope) , new Integer(NativeCrypto.DES_ECB), new NativeByteString(strEncryptedKey,ee),p4).toString();
+			log.debug("MingwenKSCkeka:" + getSecureChannelMacKey(cx, scope).strBlob);
+			String strDecryptedKey = NativeCrypto.decrypt(getSecureChannelMacKey(cx, scope), new Integer(NativeCrypto.DES_ECB), new NativeByteString(strEncryptedKey, ee), p4).toString();
 			log.debug("decrypto key:" + strDecryptedKey);
-			
+
 			String kcv = NativeKey.getKcv(strDecryptedKey);
 			log.debug("KCV:" + kcv);
 			String strType = Hex.byteToString((byte) type);
-			String strLKey = Hex
-					.byteToString((byte) (strEncryptedKey.length() / 2));
+			String strLKey = Hex.byteToString((byte) (strEncryptedKey.length() / 2));
 			kcv = kcv.substring(0, 6);
-			strData = strData + strType + strLKey + strEncryptedKey + "03"
-					+ kcv;
+			strData = strData + strType + strLKey + strEncryptedKey + "03" + kcv;
 			log.debug("strData:" + strData);
 		}
 
-		NativeByteString comData = new NativeByteString(strData, new Integer(
-				GPConstant.HEX));
+		NativeByteString comData = new NativeByteString(strData, new Integer(GPConstant.HEX));
 
 		// send command
 		// change INS from oxD8 to test watchdata card
-		this.securityDomain.wrapApdu(cx, scope, new Integer(0x80), new Integer(
-				0xD8), P1, P2, comData, new Integer(-1), SW );
+		this.securityDomain.wrapApdu(cx, scope, new Integer(0x80), new Integer(0xD8), P1, P2, comData, new Integer(-1), SW);
 
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
-	/**天津农行定制
-	 * putKey的三把密钥是session key加密过的。
+
+	/**
+	 * 天津农行定制 putKey的三把密钥是session key加密过的。
+	 * 
 	 * @param @param cx
 	 * @param @param scope
 	 * @param @param args
 	 * @return void
 	 * @throws Exception
 	 */
-	private NativeByteString jsFunction_putKeyStd(Context cx, Scriptable scope,
-			Object args[]) {
+	private NativeByteString jsFunction_putKeyStd(Context cx, Scriptable scope, Object args[]) {
 		Boolean More = new Boolean(false);
 		Number SW = new Integer(36864);
 		if (args.length % 3 == 1) {
 			if (!(args[args.length - 1] instanceof Boolean))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			More = (Boolean) args[args.length - 1];
 		}
 		if (args.length % 3 == 2) {
-			if (!(args[args.length - 2] instanceof Boolean)
-					|| !(args[args.length - 1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[args.length - 2] instanceof Boolean) || !(args[args.length - 1] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			More = (Boolean) args[args.length - 2];
 			SW = (Number) args[args.length - 1];
 		}
-		if (!(args[0] instanceof Number) || !(args[1] instanceof Number)
-				|| !(args[2] instanceof Number))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+		if (!(args[0] instanceof Number) || !(args[1] instanceof Number) || !(args[2] instanceof Number))
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		for (int i = 1; i < args.length / 3; i++)
-			if (!(args[i * 3] instanceof Number)
-					|| !(args[i * 3 + 1] instanceof NativeKey)
-					|| !(args[i * 3 + 2] instanceof NativeByteString))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[i * 3] instanceof Number) || !(args[i * 3 + 1] instanceof NativeKey) || !(args[i * 3 + 2] instanceof NativeByteString))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 
 		Number P1 = new Integer(0);
 		Number P2 = new Integer(0);
@@ -993,87 +803,69 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			String strEncryptedKey = keyBlob.toString();
 			String kcv = ((NativeByteString) args[i * 3 + 2]).toString();
 			String strType = Hex.byteToString((byte) type);
-			String strLKey = Hex
-					.byteToString((byte) (strEncryptedKey.length() / 2));
+			String strLKey = Hex.byteToString((byte) (strEncryptedKey.length() / 2));
 			kcv = kcv.substring(0, 6);
-			strData = strData + strType + strLKey + strEncryptedKey + "03"
-					+ kcv;
+			strData = strData + strType + strLKey + strEncryptedKey + "03" + kcv;
 		}
 
-		NativeByteString comData = new NativeByteString(strData, new Integer(
-				GPConstant.HEX));
+		NativeByteString comData = new NativeByteString(strData, new Integer(GPConstant.HEX));
 
 		// send command
 		// change INS from oxD8 to test watchdata card
-		this.securityDomain.wrapApduLmk(cx, scope, new Integer(0x80), new Integer(
-				0xD8), P1, P2, comData, new Integer(-1), SW);
+		this.securityDomain.wrapApduLmk(cx, scope, new Integer(0x80), new Integer(0xD8), P1, P2, comData, new Integer(-1), SW);
 
 		NativeByteString sNew = card.response;
 		return sNew;
 	}
-	private void jsFunction_setStatus(Context cx, Scriptable scope,
-			Object args[]) {
+
+	private void jsFunction_setStatus(Context cx, Scriptable scope, Object args[]) {
 		Number P2 = new Integer(0);
 		Number SW = new Integer(36864);
 		NativeByteString AID;
 		if (args.length == 2) {
-			if (!(args[0] instanceof NativeByteString)
-					|| !(args[1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			AID = (NativeByteString) args[0];
 			P2 = (Number) args[1];
 		} else if (args.length == 3) {
-			if (!(args[0] instanceof NativeByteString)
-					|| !(args[1] instanceof Number)
-					|| !(args[2] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[0] instanceof NativeByteString) || !(args[1] instanceof Number) || !(args[2] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			AID = (NativeByteString) args[0];
 			P2 = (Number) args[1];
 			SW = (Number) args[2];
 		} else {
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		}
 		NativeByteString comData = AID;
-		wrapApdu(cx, scope, new Integer(128), new Integer(240),
-				new Integer(128), P2, comData, new Integer(-1), SW);
+		wrapApdu(cx, scope, new Integer(128), new Integer(240), new Integer(128), P2, comData, new Integer(-1), SW);
 	}
 
 	/**
-	 *农行,session key is lmk
+	 * 农行,session key is lmk
+	 * 
 	 * @param cx
 	 * @param scope
 	 * @param args
 	 */
-	private void jsFunction_storeDataLmk(Context cx, Scriptable scope,
-			Object[] args) {
+	private void jsFunction_storeDataLmk(Context cx, Scriptable scope, Object[] args) {
 		Number Last = new Integer(0x00);
 		Number SW = new Integer(0x9000);
 		Number Init = new Integer(0x00);
 		String pan = "";
 		if (!(args[0] instanceof NativeByteString))
-			throw new EvaluatorException((new GPError("GPSecurityDomain",
-					GPError.INVALID_TYPE)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 		if (args.length == 2) {
 			if (!(args[1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						GPError.INVALID_TYPE)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 			Last = (Number) args[1];
 		} else if (args.length == 3) {
-			if ((!(args[1] instanceof Number))
-					|| (!(args[2] instanceof Number)))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						GPError.INVALID_TYPE)).toString());
+			if ((!(args[1] instanceof Number)) || (!(args[2] instanceof Number)))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 			Last = (Number) args[1];
 			SW = (Number) args[2];
 		} else if (args.length == 4) {
-			if ((!(args[1] instanceof Number))
-					|| (!(args[2] instanceof Number))
-					|| (!(args[3] instanceof Number)))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						GPError.INVALID_TYPE)).toString());
+			if ((!(args[1] instanceof Number)) || (!(args[2] instanceof Number)) || (!(args[3] instanceof Number)))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 			Last = (Number) args[1];
 			SW = (Number) args[2];
 			Init = (Number) args[3];
@@ -1087,9 +879,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		// we don't know how to deal with the encrypted DGI(1101,9102,)
 		// so we use inti parameter to express encrypted DGI
 		/*
-		 * if(args.length==4) { if(Last.booleanValue()==true) P1=new
-		 * Integer(Init.intValue()); else P1=new Integer(Init.intValue()); }
-		 * else {
+		 * if(args.length==4) { if(Last.booleanValue()==true) P1=new Integer(Init.intValue()); else P1=new Integer(Init.intValue()); } else {
 		 */
 		// **************************************************************************
 		if (Last.intValue() == 1) { // the last block
@@ -1098,8 +888,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			P1 = new Integer(0x60);
 		} else if (Last.intValue() == 3) {
 			P1 = new Integer(0x20);
-		} 
-		else
+		} else
 			P1 = new Integer(0x00);
 		// }
 
@@ -1108,8 +897,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		NativeByteString comData = (NativeByteString) args[0];
 
 		// send command
-		wrapApduLmk(cx, scope, new Integer(0x80), new Integer(0xE2), P1, P2,
-				comData, new Integer(-1), SW);
+		wrapApduLmk(cx, scope, new Integer(0x80), new Integer(0xE2), P1, P2, comData, new Integer(-1), SW);
 
 		// update the p2
 		if (Last.intValue() == 1)
@@ -1119,37 +907,28 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 	}
 
-	
-	private void jsFunction_storeData(Context cx, Scriptable scope,
-			Object[] args) {
+	private void jsFunction_storeData(Context cx, Scriptable scope, Object[] args) {
 		Number Last = new Integer(0x00);
 		Number SW = new Integer(0x9000);
 		Number Init = new Integer(0x00);
 		if (!(args[0] instanceof NativeByteString))
-			throw new EvaluatorException((new GPError("GPSecurityDomain",
-					GPError.INVALID_TYPE)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 		if (args.length == 2) {
 			if (!(args[1] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						GPError.INVALID_TYPE)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 			Last = (Number) args[1];
 		} else if (args.length == 3) {
-			if ((!(args[1] instanceof Number))
-					|| (!(args[2] instanceof Number)))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						GPError.INVALID_TYPE)).toString());
+			if ((!(args[1] instanceof Number)) || (!(args[2] instanceof Number)))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 			Last = (Number) args[1];
 			SW = (Number) args[2];
 		} else if (args.length == 4) {
-			if ((!(args[1] instanceof Number))
-					|| (!(args[2] instanceof Number))
-					|| (!(args[3] instanceof Number)))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						GPError.INVALID_TYPE)).toString());
+			if ((!(args[1] instanceof Number)) || (!(args[2] instanceof Number)) || (!(args[3] instanceof Number)))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", GPError.INVALID_TYPE)).toString());
 			Last = (Number) args[1];
 			SW = (Number) args[2];
 			Init = (Number) args[3];
-			//p2_storeData=Init.intValue();
+			// p2_storeData=Init.intValue();
 		}
 
 		Number P1 = new Integer(0x00);
@@ -1159,9 +938,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		// we don't know how to deal with the encrypted DGI(1101,9102,)
 		// so we use inti parameter to express encrypted DGI
 		/*
-		 * if(args.length==4) { if(Last.booleanValue()==true) P1=new
-		 * Integer(Init.intValue()); else P1=new Integer(Init.intValue()); }
-		 * else {
+		 * if(args.length==4) { if(Last.booleanValue()==true) P1=new Integer(Init.intValue()); else P1=new Integer(Init.intValue()); } else {
 		 */
 		// **************************************************************************
 		if (Last.intValue() == 1) { // the last block
@@ -1170,8 +947,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			P1 = new Integer(0x60);
 		} else if (Last.intValue() == 3) {
 			P1 = new Integer(0x20);
-		} 
-		else
+		} else
 			P1 = new Integer(0x00);
 		// }
 
@@ -1180,8 +956,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		NativeByteString comData = (NativeByteString) args[0];
 
 		// send command
-		wrapApdu(cx, scope, new Integer(0x80), new Integer(0xE2), P1, P2,
-				comData, new Integer(-1), SW);
+		wrapApdu(cx, scope, new Integer(0x80), new Integer(0xE2), P1, P2, comData, new Integer(-1), SW);
 
 		// update the p2
 		if (Last.intValue() == 1)
@@ -1190,30 +965,25 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			p2_storeData++;
 
 	}
-	private void jsFunction_storeEmvData(Context cx, Scriptable scope,
-			Object args[]) {
+
+	private void jsFunction_storeEmvData(Context cx, Scriptable scope, Object args[]) {
 		Boolean Last = new Boolean(false);
 		Number SW = new Integer(36864);
 		Number Init = new Integer(0);
 		if (!(args[0] instanceof NativeByteString))
-			throw new EvaluatorException(
-					(new GPError("GPSecurityDomain", 1035)).toString());
+			throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 		if (args.length == 2) {
 			if (!(args[1] instanceof Boolean))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			Last = (Boolean) args[1];
 		} else if (args.length == 3) {
 			if (!(args[1] instanceof Boolean) || !(args[2] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			Last = (Boolean) args[1];
 			SW = (Number) args[2];
 		} else if (args.length == 4) {
-			if (!(args[1] instanceof Boolean) || !(args[2] instanceof Number)
-					|| !(args[3] instanceof Number))
-				throw new EvaluatorException((new GPError("GPSecurityDomain",
-						1035)).toString());
+			if (!(args[1] instanceof Boolean) || !(args[2] instanceof Number) || !(args[3] instanceof Number))
+				throw new EvaluatorException((new GPError("GPSecurityDomain", 1035)).toString());
 			Last = (Boolean) args[1];
 			SW = (Number) args[2];
 			Init = (Number) args[3];
@@ -1226,8 +996,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 			P1 = new Integer(0);
 		P2 = new Integer(p2_storeData);
 		NativeByteString comData = (NativeByteString) args[0];
-		wrapApdu(cx, scope, new Integer(128), new Integer(226), P1, P2,
-				comData, new Integer(-1), SW);
+		wrapApdu(cx, scope, new Integer(128), new Integer(226), P1, P2, comData, new Integer(-1), SW);
 		if (Last.booleanValue())
 			p2_storeData = Init.intValue();
 		else
@@ -1243,20 +1012,16 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		return byteArray;
 	}
 
-	private Number jsFunction_openSecureChannel(Context cx, Scriptable scope,
-			Object args[]) {
+	private Number jsFunction_openSecureChannel(Context cx, Scriptable scope, Object args[]) {
 		int level = ((Number) args[0]).intValue();
 		String strLevel = ((Number) args[0]).toString();
-		String strSecureChannel = "level=" + strLevel + ";"
-				+ profile.SecureChannel.OpenSecureChannel.Script.Script;
-		Object result = cx.evaluateString(scope, strSecureChannel,
-				"OpenSecureChannel", 0, null);
+		String strSecureChannel = "level=" + strLevel + ";" + profile.SecureChannel.OpenSecureChannel.Script.Script;
+		Object result = cx.evaluateString(scope, strSecureChannel, "OpenSecureChannel", 0, null);
 		secureLevel = level;
 		return new Integer(level);
 	}
 
-	public void jsFunction_closeSecureChannel(Context cx, Scriptable scope,
-			Object args[]) {
+	public void jsFunction_closeSecureChannel(Context cx, Scriptable scope, Object args[]) {
 		int level = 0;
 		if (args.length > 0) {
 			level = ((Number) args[0]).intValue();
@@ -1510,10 +1275,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 	}
 
 	/**
-	 * Wrap Apdu with secureLevel, this function should be realized in GP
-	 * Profile by Wrap scriptfragment accroding to GP Script and Profile
-	 * specification. so it is not a corrent soluation. only for version
-	 * inherit.
+	 * Wrap Apdu with secureLevel, this function should be realized in GP Profile by Wrap scriptfragment accroding to GP Script and Profile specification. so it is not a corrent soluation. only for version inherit.
 	 * 
 	 * @param cx
 	 * @param scope
@@ -1533,9 +1295,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 	 *            SW(default is 0x9000)
 	 * @return the response of APDU
 	 */
-	public NativeByteString wrapApdu(Context cx, Scriptable scope, Number p1,
-			Number p2, Number p3, Number p4, NativeByteString p5, Number p6,
-			Number p7) {
+	public NativeByteString wrapApdu(Context cx, Scriptable scope, Number p1, Number p2, Number p3, Number p4, NativeByteString p5, Number p6, Number p7) {
 		int CLA, INS, PP1, PP2, LE, sw;
 		CLA = (int) p1.intValue();
 		INS = (int) p2.intValue();
@@ -1565,8 +1325,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 		// the select command (00 A4....) is special (can't be compute MAC or
 		// DES)
-		if ((secureLevel == GPConstant.NO_SECUREITY_LEVEL)
-				|| ((CLA == 0x00) && (INS == 0xA4))) {
+		if ((secureLevel == GPConstant.NO_SECUREITY_LEVEL) || ((CLA == 0x00) && (INS == 0xA4))) {
 			if (data == null)
 				theLastCommData = null;
 			else {
@@ -1576,9 +1335,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		} else {
 			switch (secureLevel) {
 			/*
-			 * case NO_SECUREITY_LEVEL: if(data==null) theLastCommData=null;
-			 * else { theLastCommData=new byte[data.length];
-			 * System.arraycopy(data,0,theLastCommData,0,data.length); } break;
+			 * case NO_SECUREITY_LEVEL: if(data==null) theLastCommData=null; else { theLastCommData=new byte[data.length]; System.arraycopy(data,0,theLastCommData,0,data.length); } break;
 			 */
 			case GPConstant.C_MAC:
 				CLA = (CLA & 0xF0) | 0x04;
@@ -1591,8 +1348,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				if (data != null)
 					System.arraycopy(data, 0, macData, 5, data.length);
 				try {
-					macKey = Hex.decode(getSecureChannelMacKey(cx, scope)
-							.getBlob().toString());
+					macKey = Hex.decode(getSecureChannelMacKey(cx, scope).getBlob().toString());
 					log.debug("Key=" + new String(Hex.encode(macKey)));
 				} catch (Exception err) {
 					// err.printStackTrace();
@@ -1603,21 +1359,15 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					log.debug("macData=" + new String(Hex.encode(macData)));
 					log.debug("IV=" + new String(Hex.encode(IV)));
 					byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
-					String enIv = CryptoUtil.singleDESEncrypt(new String(Hex
-							.encode(macKey)), new String(Hex.encode(IV)));
+					String enIv = CryptoUtil.singleDESEncrypt(new String(Hex.encode(macKey)), new String(Hex.encode(IV)));
 					log.debug("加密后的IV=" + enIv);
 					IV = Hex.decode(enIv);
 					log.debug("Hex.decode(enIv)" + enIv);
-					macResult = Hex.decode((NativeCrypto.sign(
-							getSecureChannelMacKey(cx, scope), new Integer(
-									NativeCrypto.DES_MAC_EMV),
-							new NativeByteString(macData),
-							new NativeByteString(IV))).toString());
+					macResult = Hex.decode((NativeCrypto.sign(getSecureChannelMacKey(cx, scope), new Integer(NativeCrypto.DES_MAC_EMV), new NativeByteString(macData), new NativeByteString(IV))).toString());
 
 					// macResult = Crypto.DESsign(macKey, Crypto.DES_MAC,
 					// macData, IV);
-					setSecureChannelSmac(cx, scope, new String(Hex
-							.encode(macResult)));
+					setSecureChannelSmac(cx, scope, new String(Hex.encode(macResult)));
 					log.debug("macResult=" + new String(Hex.encode(macResult)));
 				} catch (Exception e) {
 					// e.printStackTrace();
@@ -1626,8 +1376,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				if (data != null) {
 					theLastCommData = new byte[data.length + 8];
 					System.arraycopy(data, 0, theLastCommData, 0, data.length);
-					System.arraycopy(macResult, 0, theLastCommData,
-							data.length, 8);
+					System.arraycopy(macResult, 0, theLastCommData, data.length, 8);
 				} else {
 					theLastCommData = new byte[8];
 					System.arraycopy(macResult, 0, theLastCommData, 0, 8);
@@ -1644,8 +1393,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				if (data != null)
 					System.arraycopy(data, 0, macData, 5, data.length);
 				try {
-					macKey = Hex.decode(getSecureChannelMacKey(cx, scope)
-							.getBlob().toString());
+					macKey = Hex.decode(getSecureChannelMacKey(cx, scope).getBlob().toString());
 					log.debug("Key=" + new String(Hex.encode(macKey)));
 				} catch (Exception err) {
 					// err.printStackTrace();
@@ -1656,20 +1404,14 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					log.debug("macData=" + new String(Hex.encode(macData)));
 					log.debug("IV=" + new String(Hex.encode(IV)));
 					byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
-					String enIv = CryptoUtil.singleDESEncrypt(new String(Hex
-							.encode(macKey)), new String(Hex.encode(IV)));
+					String enIv = CryptoUtil.singleDESEncrypt(new String(Hex.encode(macKey)), new String(Hex.encode(IV)));
 					log.debug("加密后的IV=" + enIv);
 					IV = Hex.decode(enIv);
 
-					macResult = Hex.decode((NativeCrypto.sign(
-							getSecureChannelMacKey(cx, scope), new Integer(
-									NativeCrypto.DES_MAC_EMV),
-							new NativeByteString(macData),
-							new NativeByteString(IV))).toString());
+					macResult = Hex.decode((NativeCrypto.sign(getSecureChannelMacKey(cx, scope), new Integer(NativeCrypto.DES_MAC_EMV), new NativeByteString(macData), new NativeByteString(IV))).toString());
 					// macResult = Crypto.DESsign(macKey, Crypto.DES_MAC,
 					// macData, IV);
-					setSecureChannelSmac(cx, scope, new String(Hex
-							.encode(macResult)));
+					setSecureChannelSmac(cx, scope, new String(Hex.encode(macResult)));
 					log.debug("macResult=" + new String(Hex.encode(macResult)));
 				} catch (Exception e) {
 					// e.printStackTrace();
@@ -1691,17 +1433,14 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					System.arraycopy(data, 0, dataToEncrypt, 0, L);
 					byte[] paddingData = { (byte) 0x80, 0, 0, 0, 0, 0, 0, 0 };
 					if (((L) % 8) != 0) {
-						System.arraycopy(paddingData, 0, dataToEncrypt, L,
-								desLength - L);
+						System.arraycopy(paddingData, 0, dataToEncrypt, L, desLength - L);
 					} else {
-						System.arraycopy(paddingData, 0, dataToEncrypt, L,
-								desLength - L);
+						System.arraycopy(paddingData, 0, dataToEncrypt, L, desLength - L);
 					}
 
 					byte[] encKey = new byte[16];
 					try {
-						encKey = Hex.decode(getSecureChannelEncKey(cx, scope)
-								.getBlob().toString());
+						encKey = Hex.decode(getSecureChannelEncKey(cx, scope).getBlob().toString());
 						log.debug("encKey=" + new String(Hex.encode(encKey)));
 					} catch (Exception err) {
 						// err.printStackTrace();
@@ -1709,21 +1448,14 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					}
 					byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
 					try {
-						log.debug("encdata="
-								+ new String(Hex.encode(dataToEncrypt)));
-						encResult = Hex.decode(NativeCrypto.encrypt(
-								getSecureChannelEncKey(cx, scope),
-								new Integer(NativeCrypto.DES_CBC),
-								new NativeByteString(dataToEncrypt),
-								new NativeByteString(iv)).toString());
-						log.debug("encResult="
-								+ new String(Hex.encode(encResult)));
+						log.debug("encdata=" + new String(Hex.encode(dataToEncrypt)));
+						encResult = Hex.decode(NativeCrypto.encrypt(getSecureChannelEncKey(cx, scope), new Integer(NativeCrypto.DES_CBC), new NativeByteString(dataToEncrypt), new NativeByteString(iv)).toString());
+						log.debug("encResult=" + new String(Hex.encode(encResult)));
 						// encResult = Crypto.encrypt(encKey, Crypto.DES_CBC,
 						// dataToEncrypt, iv);
 					} catch (Exception e) {
 						e.printStackTrace();
-						throw new EvaluatorException((new GPError("Crypto", 0,
-								0, e.getMessage())).toString());
+						throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
 					}
 				}
 
@@ -1731,27 +1463,22 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 				if (data != null) {
 					theLastCommData = new byte[encResult.length + 8];
-					System.arraycopy(encResult, 0, theLastCommData, 0,
-							encResult.length);
-					System.arraycopy(macResult, 0, theLastCommData,
-							encResult.length, 8);
+					System.arraycopy(encResult, 0, theLastCommData, 0, encResult.length);
+					System.arraycopy(macResult, 0, theLastCommData, encResult.length, 8);
 				} else {
 					theLastCommData = new byte[8];
 					System.arraycopy(macResult, 0, theLastCommData, 0, 8);
 				}
-				log.debug("theLastCommData="
-						+ new String(Hex.encode(theLastCommData)));
+				log.debug("theLastCommData=" + new String(Hex.encode(theLastCommData)));
 				break;
 			default:
-				throw new EvaluatorException((new GPError("GP_Global", 0, 0,
-						"level value is invalid")).toString());
+				throw new EvaluatorException((new GPError("GP_Global", 0, 0, "level value is invalid")).toString());
 			}
 		}
 
 		// send command
 		byte[] resp = new byte[500];
-		resp = this.card.sendApdu(cx, scope, CLA, INS, PP1, PP2,
-				theLastCommData, LE);
+		resp = this.card.sendApdu(cx, scope, CLA, INS, PP1, PP2, theLastCommData, LE);
 
 		if (resp[0] == 0x6C) { // 6CXX would resend command with correct length
 								// when T=0
@@ -1768,12 +1495,8 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		return sNew;
 	}
 
-	
-	/**天津农行，修改计算mac的方法，sessionkey is lmk
-	 * Wrap Apdu with secureLevel, this function should be realized in GP
-	 * Profile by Wrap scriptfragment accroding to GP Script and Profile
-	 * specification. so it is not a corrent soluation. only for version
-	 * inherit.
+	/**
+	 * 天津农行，修改计算mac的方法，sessionkey is lmk Wrap Apdu with secureLevel, this function should be realized in GP Profile by Wrap scriptfragment accroding to GP Script and Profile specification. so it is not a corrent soluation. only for version inherit.
 	 * 
 	 * @param cx
 	 * @param scope
@@ -1793,9 +1516,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 	 *            SW(default is 0x9000)
 	 * @return the response of APDU
 	 */
-	public NativeByteString wrapApduLmk(Context cx, Scriptable scope, Number p1,
-			Number p2, Number p3, Number p4, NativeByteString p5, Number p6,
-			Number p7) {
+	public NativeByteString wrapApduLmk(Context cx, Scriptable scope, Number p1, Number p2, Number p3, Number p4, NativeByteString p5, Number p6, Number p7) {
 		int CLA, INS, PP1, PP2, LE, sw;
 		CLA = (int) p1.intValue();
 		INS = (int) p2.intValue();
@@ -1825,8 +1546,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 		// the select command (00 A4....) is special (can't be compute MAC or
 		// DES)
-		if ((secureLevel == GPConstant.NO_SECUREITY_LEVEL)
-				|| ((CLA == 0x00) && (INS == 0xA4))) {
+		if ((secureLevel == GPConstant.NO_SECUREITY_LEVEL) || ((CLA == 0x00) && (INS == 0xA4))) {
 			if (data == null)
 				theLastCommData = null;
 			else {
@@ -1836,9 +1556,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		} else {
 			switch (secureLevel) {
 			/*
-			 * case NO_SECUREITY_LEVEL: if(data==null) theLastCommData=null;
-			 * else { theLastCommData=new byte[data.length];
-			 * System.arraycopy(data,0,theLastCommData,0,data.length); } break;
+			 * case NO_SECUREITY_LEVEL: if(data==null) theLastCommData=null; else { theLastCommData=new byte[data.length]; System.arraycopy(data,0,theLastCommData,0,data.length); } break;
 			 */
 			case GPConstant.C_MAC:
 				CLA = (CLA & 0xF0) | 0x04;
@@ -1851,8 +1569,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				if (data != null)
 					System.arraycopy(data, 0, macData, 5, data.length);
 				try {
-					macKey = Hex.decode(getSecureChannelMacKey(cx, scope)
-							.getBlob().toString());
+					macKey = Hex.decode(getSecureChannelMacKey(cx, scope).getBlob().toString());
 					log.debug("Key=" + new String(Hex.encode(macKey)));
 				} catch (Exception err) {
 					// err.printStackTrace();
@@ -1862,24 +1579,23 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					IV = Hex.decode(getSecureChannelSmac(cx, scope));
 					log.debug("macData=" + new String(Hex.encode(macData)));
 					log.debug("IV=" + new String(Hex.encode(IV)));
-					//byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
-					/*String enIv = CryptoUtil.singleDESEncrypt(new String(Hex
-							.encode(macKey)), new String(Hex.encode(IV)));*/
-					System.out.println("pan:"+pan);
-					NativeByteString iv = new NativeByteString("0000000000000000",ee);
-					String enIv = (NativeCrypto.encryptConnByPan(new NativeByteString(getSecureChannelMacKey(cx, scope).strBlob.substring(0, 16),ee),
-							NativeCrypto.ABC_DES_CBC,new NativeByteString(new String(Hex.encode(IV)),ee),iv,pan)).toString();
+					// byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
+					/*
+					 * String enIv = CryptoUtil.singleDESEncrypt(new String(Hex .encode(macKey)), new String(Hex.encode(IV)));
+					 */
+					System.out.println("pan:" + pan);
+					NativeByteString iv = new NativeByteString("0000000000000000", ee);
+					String enIv = (NativeCrypto.encryptConnByPan(new NativeByteString(getSecureChannelMacKey(cx, scope).strBlob.substring(0, 16), ee), NativeCrypto.ABC_DES_CBC, new NativeByteString(new String(Hex.encode(IV)), ee), iv, pan)).toString();
 					log.debug("加密后的IV=" + enIv);
-					/*byte[] paddedData = CryptoUtil.getEncryptBlock(getSecureChannelSmac(cx, scope));
-					String enIv = (NativeCrypto.encryptConnByPan(new NativeByteString(getSecureChannelMacKey(cx, scope).strBlob.substring(0, 16),ee),
-					NativeCrypto.ABC_DES_CBC,new NativeByteString(new String(Hex.encode(paddedData)),ee),iv,pan)).toString().substring(0,16);*/
-					
+					/*
+					 * byte[] paddedData = CryptoUtil.getEncryptBlock(getSecureChannelSmac(cx, scope)); String enIv = (NativeCrypto.encryptConnByPan(new NativeByteString(getSecureChannelMacKey(cx, scope).strBlob.substring(0, 16),ee), NativeCrypto.ABC_DES_CBC,new NativeByteString(new String(Hex.encode(paddedData)),ee),iv,pan)).toString().substring(0,16);
+					 */
+
 					IV = Hex.decode(enIv);
 
 					macResult = Hex.decode((NativeCrypto.macConnByPan(getSecureChannelMacKey(cx, scope), 1, new NativeByteString(macData), new NativeByteString(IV), pan)).toString());
-					
-					setSecureChannelSmac(cx, scope, new String(Hex
-							.encode(macResult)));
+
+					setSecureChannelSmac(cx, scope, new String(Hex.encode(macResult)));
 					log.debug("macResult=" + new String(Hex.encode(macResult)));
 				} catch (Exception e) {
 					// e.printStackTrace();
@@ -1888,8 +1604,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				if (data != null) {
 					theLastCommData = new byte[data.length + 8];
 					System.arraycopy(data, 0, theLastCommData, 0, data.length);
-					System.arraycopy(macResult, 0, theLastCommData,
-							data.length, 8);
+					System.arraycopy(macResult, 0, theLastCommData, data.length, 8);
 				} else {
 					theLastCommData = new byte[8];
 					System.arraycopy(macResult, 0, theLastCommData, 0, 8);
@@ -1906,8 +1621,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 				if (data != null)
 					System.arraycopy(data, 0, macData, 5, data.length);
 				try {
-					macKey = Hex.decode(getSecureChannelMacKey(cx, scope)
-							.getBlob().toString());
+					macKey = Hex.decode(getSecureChannelMacKey(cx, scope).getBlob().toString());
 					log.debug("Key=" + new String(Hex.encode(macKey)));
 				} catch (Exception err) {
 					// err.printStackTrace();
@@ -1918,20 +1632,14 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					log.debug("macData=" + new String(Hex.encode(macData)));
 					log.debug("IV=" + new String(Hex.encode(IV)));
 					byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
-					String enIv = CryptoUtil.singleDESEncrypt(new String(Hex
-							.encode(macKey)), new String(Hex.encode(IV)));
+					String enIv = CryptoUtil.singleDESEncrypt(new String(Hex.encode(macKey)), new String(Hex.encode(IV)));
 					log.debug("加密后的IV=" + enIv);
 					IV = Hex.decode(enIv);
 
-					macResult = Hex.decode((NativeCrypto.sign(
-							getSecureChannelMacKey(cx, scope), new Integer(
-									NativeCrypto.DES_MAC_EMV),
-							new NativeByteString(macData),
-							new NativeByteString(IV))).toString());
+					macResult = Hex.decode((NativeCrypto.sign(getSecureChannelMacKey(cx, scope), new Integer(NativeCrypto.DES_MAC_EMV), new NativeByteString(macData), new NativeByteString(IV))).toString());
 					// macResult = Crypto.DESsign(macKey, Crypto.DES_MAC,
 					// macData, IV);
-					setSecureChannelSmac(cx, scope, new String(Hex
-							.encode(macResult)));
+					setSecureChannelSmac(cx, scope, new String(Hex.encode(macResult)));
 					log.debug("macResult=" + new String(Hex.encode(macResult)));
 				} catch (Exception e) {
 					// e.printStackTrace();
@@ -1953,17 +1661,14 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					System.arraycopy(data, 0, dataToEncrypt, 0, L);
 					byte[] paddingData = { (byte) 0x80, 0, 0, 0, 0, 0, 0, 0 };
 					if (((L) % 8) != 0) {
-						System.arraycopy(paddingData, 0, dataToEncrypt, L,
-								desLength - L);
+						System.arraycopy(paddingData, 0, dataToEncrypt, L, desLength - L);
 					} else {
-						System.arraycopy(paddingData, 0, dataToEncrypt, L,
-								desLength - L);
+						System.arraycopy(paddingData, 0, dataToEncrypt, L, desLength - L);
 					}
 
 					byte[] encKey = new byte[16];
 					try {
-						encKey = Hex.decode(getSecureChannelEncKey(cx, scope)
-								.getBlob().toString());
+						encKey = Hex.decode(getSecureChannelEncKey(cx, scope).getBlob().toString());
 						log.debug("encKey=" + new String(Hex.encode(encKey)));
 					} catch (Exception err) {
 						// err.printStackTrace();
@@ -1971,21 +1676,14 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 					}
 					byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0 };
 					try {
-						log.debug("encdata="
-								+ new String(Hex.encode(dataToEncrypt)));
-						encResult = Hex.decode(NativeCrypto.encrypt(
-								getSecureChannelEncKey(cx, scope),
-								new Integer(NativeCrypto.DES_CBC),
-								new NativeByteString(dataToEncrypt),
-								new NativeByteString(iv)).toString());
-						log.debug("encResult="
-								+ new String(Hex.encode(encResult)));
+						log.debug("encdata=" + new String(Hex.encode(dataToEncrypt)));
+						encResult = Hex.decode(NativeCrypto.encrypt(getSecureChannelEncKey(cx, scope), new Integer(NativeCrypto.DES_CBC), new NativeByteString(dataToEncrypt), new NativeByteString(iv)).toString());
+						log.debug("encResult=" + new String(Hex.encode(encResult)));
 						// encResult = Crypto.encrypt(encKey, Crypto.DES_CBC,
 						// dataToEncrypt, iv);
 					} catch (Exception e) {
 						e.printStackTrace();
-						throw new EvaluatorException((new GPError("Crypto", 0,
-								0, e.getMessage())).toString());
+						throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
 					}
 				}
 
@@ -1993,27 +1691,22 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 
 				if (data != null) {
 					theLastCommData = new byte[encResult.length + 8];
-					System.arraycopy(encResult, 0, theLastCommData, 0,
-							encResult.length);
-					System.arraycopy(macResult, 0, theLastCommData,
-							encResult.length, 8);
+					System.arraycopy(encResult, 0, theLastCommData, 0, encResult.length);
+					System.arraycopy(macResult, 0, theLastCommData, encResult.length, 8);
 				} else {
 					theLastCommData = new byte[8];
 					System.arraycopy(macResult, 0, theLastCommData, 0, 8);
 				}
-				log.debug("theLastCommData="
-						+ new String(Hex.encode(theLastCommData)));
+				log.debug("theLastCommData=" + new String(Hex.encode(theLastCommData)));
 				break;
 			default:
-				throw new EvaluatorException((new GPError("GP_Global", 0, 0,
-						"level value is invalid")).toString());
+				throw new EvaluatorException((new GPError("GP_Global", 0, 0, "level value is invalid")).toString());
 			}
 		}
 
 		// send command
 		byte[] resp = new byte[500];
-		resp = this.card.sendApdu(cx, scope, CLA, INS, PP1, PP2,
-				theLastCommData, LE);
+		resp = this.card.sendApdu(cx, scope, CLA, INS, PP1, PP2, theLastCommData, LE);
 
 		if (resp[0] == 0x6C) { // 6CXX would resend command with correct length
 								// when T=0
@@ -2029,6 +1722,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		NativeByteString sNew = new NativeByteString(strResp, ee);
 		return sNew;
 	}
+
 	private NativeKey getSecureChannelMacKey(Context cx, Scriptable scope) {
 		if (secureChannel instanceof NativeGPScp01)
 			return ((NativeGPScp01) secureChannel).getMacKey(cx, scope);
@@ -2062,6 +1756,7 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 		else if (secureChannel instanceof NativeGPScp02)
 			((NativeGPScp02) secureChannel).setSmac(cx, scope, smac);
 	}
+
 	public String getPan() {
 		return pan;
 	}
@@ -2117,5 +1812,4 @@ public class NativeGPSecurityDomain extends IdScriptableObject {
 	public int secureLevel;
 	private String pan;
 
-	
 }

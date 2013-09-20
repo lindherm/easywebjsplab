@@ -25,8 +25,7 @@ public class DataMaping {
 	 * @return
 	 * @throws Exception
 	 */
-	public String getDataElement(int index, String delement, HashMap varHashMap)
-			throws Exception {
+	public String getDataElement(int index, String delement, HashMap varHashMap) throws Exception {
 		try {
 			tagRecordMap = (HashMap) varHashMap.get("" + index);
 			String tag = delement.toLowerCase();

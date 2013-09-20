@@ -111,7 +111,7 @@ public class ScriptEngine {
 		try {
 			prepareScriptContext(selectedFragment, appfile, cardfile);
 		} catch (Exception e) {
-			//PV.getInstance().setStopFlag(true);
+			// PV.getInstance().setStopFlag(true);
 			return new String[] { "编译脚本出错" + e };
 		}
 
@@ -119,21 +119,21 @@ public class ScriptEngine {
 		try {
 			for (int i = 0; i < count; i++) {
 
-				//boolean fd = PV.getInstance().getStopFlag();
-				//if (!fd) {
-					personData = getIcInfo(i, varHashMap);
+				// boolean fd = PV.getInstance().getStopFlag();
+				// if (!fd) {
+				personData = getIcInfo(i, varHashMap);
 
-					allPersonDatas[i] = personData;
-					continue;
-				//} else {
-					//break;
-				//}
+				allPersonDatas[i] = personData;
+				continue;
+				// } else {
+				// break;
+				// }
 
 			}
 
 			return allPersonDatas;
 		} catch (Exception e) {
-			//PV.getInstance().setFlag(true);
+			// PV.getInstance().setFlag(true);
 			e.printStackTrace();
 			throw e;
 
@@ -176,10 +176,10 @@ public class ScriptEngine {
 		NativeByteString snew = (NativeByteString) ScriptRuntime.getObjectElem(dataArray, "CPS_Output", cx);
 		if (!succflag)
 			throw new Exception("evaluateScript error");
-			
+
 		HashMap tagRecordMap = (HashMap) varHashMap.get("" + i);
 		String pan = (String) tagRecordMap.get("pan");
-		
+
 		varHashMap.put("" + i, null);
 		varHashMap.remove("" + i);
 		return (pan + "|" + snew.toString());
@@ -499,8 +499,8 @@ public class ScriptEngine {
 		na.card.setApduChannel(apduChannel);
 		na.crypto = new NativeCrypto();
 		CryptoEngineForKmsKey cefk = new CryptoEngineForKmsKey();
-		//cefk.setKmsi(kmsi);
-		//cefk.setKmsServer(kmsServer);
+		// cefk.setKmsi(kmsi);
+		// cefk.setKmsServer(kmsServer);
 		NativeCrypto.cryptoEngine.set(cefk);
 		na.crypto.setObjectPrototype();
 		if (na.profile.SecureChannel.SecureChannel.equals("SCP01")) {
@@ -534,8 +534,8 @@ public class ScriptEngine {
 		ngpa.card.profile = cardProfile;
 		ngpa.crypto = new NativeCrypto();
 		CryptoEngineForClearTextKey cefk = new CryptoEngineForClearTextKey();
-		//cefk.setKmsi(kmsi);
-		//cefk.setKmsServer(kmsServer);
+		// cefk.setKmsi(kmsi);
+		// cefk.setKmsServer(kmsServer);
 		NativeCrypto.cryptoEngine.set(cefk);
 		ngpa.crypto.setObjectPrototype();
 		ngpa.securityDomain = new NativeGPSecurityDomain();
@@ -562,8 +562,8 @@ public class ScriptEngine {
 		sd.card.profile = cardProfile;
 		sd.crypto = new NativeCrypto();
 		CryptoEngineForClearTextKey cefk = new CryptoEngineForClearTextKey();
-		//cefk.setKmsi(kmsi);
-		//cefk.setKmsServer(kmsServer);
+		// cefk.setKmsi(kmsi);
+		// cefk.setKmsServer(kmsServer);
 		NativeCrypto.cryptoEngine.set(cefk);
 
 		sd.crypto.setObjectPrototype();
