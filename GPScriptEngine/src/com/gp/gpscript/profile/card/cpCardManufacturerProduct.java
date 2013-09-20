@@ -1,29 +1,24 @@
 package com.gp.gpscript.profile.card;
 
-import java.lang.*;
-
 import org.apache.log4j.Logger;
-import org.w3c.dom.*;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import com.gp.gpscript.profile.*;
+import com.gp.gpscript.profile.ProfileNode;
+import com.gp.gpscript.profile.xPathNode;
 
 /**
- * CardManufacturerProduct elements are used to describe the ��product�� from a
- * Card Manufacturer��s standpoint, namely the platform on the card and the chip
- * features. This is different from a Card Issuer��s viewpoint of ��product,��
- * which is the smart card with a portfolio of applications on it.
+ * CardManufacturerProduct elements are used to describe the ��product�� from a Card Manufacturer��s standpoint, namely the platform on the card and the chip features. This is different from a Card Issuer��s viewpoint of ��product,�� which is the smart card with a portfolio of applications on it.
  */
 public class cpCardManufacturerProduct extends ProfileNode {
 	private Logger log = Logger.getLogger(cpCardManufacturerProduct.class);
 	/**
-	 * Name of the product given by the card Manufacturer. Example: Acme
-	 * Corporation��s MegaCard
+	 * Name of the product given by the card Manufacturer. Example: Acme Corporation��s MegaCard
 	 */
 	public String Name;
 	/**
-	 * Version of the product assigned by the Card Manufacturer. No standard
-	 * convention for version is specified for Card Manufacturer��s Product
-	 * Example: 1.0.0
+	 * Version of the product assigned by the Card Manufacturer. No standard convention for version is specified for Card Manufacturer��s Product Example: 1.0.0
 	 */
 	public String Version;
 	/**
@@ -69,7 +64,6 @@ public class cpCardManufacturerProduct extends ProfileNode {
 			log.error("Description " + e.getMessage());
 		}
 
-		
 		try {
 			xpString = "CardManufacturer";
 			nl = xPathNode.getNodeList(xpString, node);
