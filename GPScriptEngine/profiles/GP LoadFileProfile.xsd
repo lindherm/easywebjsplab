@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.2 U (http://www.xmlspy.com) by Erick Wong (Emerging Technologies) -->
+<gp:schema xmlns:gp="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<gp:element name="ConflictRule">
+		<gp:annotation>
+			<gp:documentation>General conflict rule representation.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:attribute name="Source" type="gp:string" use="required"/>
+			<gp:attribute name="Target" type="gp:string" use="required"/>
+			<gp:attribute name="Rule" type="rule" use="required"/>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="ConflictRules">
+		<gp:annotation>
+			<gp:documentation>Contains the rules which the profile must satisfy before being utilized.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:sequence>
+				<gp:element ref="ConflictRule" minOccurs="0" maxOccurs="unbounded"/>
+			</gp:sequence>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="Description" type="gp:string"/>
+	<gp:annotation>
+		<gp:documentation>General freeform container for description text fields.</gp:documentation>
+	</gp:annotation>
+	<gp:element name="LoadFileInfo">
+		<gp:annotation>
+			<gp:documentation>General information about the load file.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:attribute name="Filename" type="gp:string" use="required"/>
+			<gp:attribute name="AID" type="gp:hexBinary" use="required"/>
+			<gp:attribute name="Version" type="version" use="required"/>
+			<gp:attribute name="NonVolatileCodeSpaceLimit" type="gp:integer"/>
+			<gp:attribute name="NonVolatileDataSpaceMin" type="gp:integer"/>
+			<gp:attribute name="VolatileDataSpaceMin" type="gp:integer"/>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="LoadFileProfile">
+		<gp:annotation>
+			<gp:documentation>Parent or root element of Load File Profile.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:sequence>
+				<gp:element ref="Description" minOccurs="0"/>
+				<gp:element ref="Revisions"/>
+				<gp:element ref="ConflictRules"/>
+				<gp:element ref="LoadFileInfo"/>
+				<gp:element ref="Modules"/>
+			</gp:sequence>
+			<gp:attribute name="UniqueID" type="gp:hexBinary" use="required"/>
+			<gp:attribute name="ProfileVersion" type="version" use="required"/>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="Module">
+		<gp:annotation>
+			<gp:documentation>Information about individual modules within the load file.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:sequence>
+				<gp:element ref="Description" minOccurs="0"/>
+			</gp:sequence>
+			<gp:attribute name="ModuleID" type="gp:hexBinary" use="required"/>
+			<gp:attribute name="AID" type="gp:hexBinary" use="required"/>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="Modules">
+		<gp:annotation>
+			<gp:documentation>Placeholder element for one or more Module elements.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:sequence>
+				<gp:element ref="Module" minOccurs="0" maxOccurs="unbounded"/>
+			</gp:sequence>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="Revision">
+		<gp:annotation>
+			<gp:documentation>Specific revision information.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:sequence>
+				<gp:element ref="Description" minOccurs="0"/>
+				<gp:element ref="Signature" minOccurs="0"/>
+			</gp:sequence>
+			<gp:attribute name="ProfileID" type="gp:hexBinary"/>
+			<gp:attribute name="Version" type="version" use="required"/>
+			<gp:attribute name="Date" type="gp:date" use="required"/>
+			<gp:attribute name="Time" type="gp:time" use="required"/>
+			<gp:attribute name="By" type="gp:string" use="required"/>
+			<gp:attribute name="Digest" type="gp:hexBinary" use="required"/>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="Revisions">
+		<gp:annotation>
+			<gp:documentation>Container for a list of revision notices.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType>
+			<gp:sequence>
+				<gp:element ref="Revision" maxOccurs="unbounded"/>
+			</gp:sequence>
+		</gp:complexType>
+	</gp:element>
+	<gp:element name="Signature">
+		<gp:annotation>
+			<gp:documentation>Signature for profile authentication purposes.</gp:documentation>
+		</gp:annotation>
+		<gp:complexType/>
+	</gp:element>
+	<gp:simpleType name="version">
+		<gp:annotation>
+			<gp:documentation>GlobalPlatform specification version adhered to.  The scripting version must always match the profile version.</gp:documentation>
+		</gp:annotation>
+		<gp:restriction base="gp:string">
+			<gp:pattern value="\d\.\d\.\d"/>
+		</gp:restriction>
+	</gp:simpleType>
+	<gp:simpleType name="rule">
+		<gp:restriction base="gp:string">
+			<gp:enumeration value="=="/>
+			<gp:enumeration value="!="/>
+			<gp:enumeration value="&gt;"/>
+			<gp:enumeration value="&lt;"/>
+			<gp:enumeration value="&gt;="/>
+			<gp:enumeration value="&lt;="/>
+		</gp:restriction>
+	</gp:simpleType>
+</gp:schema>

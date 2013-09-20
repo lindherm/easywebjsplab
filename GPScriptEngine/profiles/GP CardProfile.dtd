@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT CardProfile (Description?, Revisions, CardManufacturerProduct, ConflictRules, LoadFileInstances, ApplicationInstances, CardInfo)>
+<!ATTLIST CardProfile
+	UniqueID CDATA #REQUIRED
+	ProfileVersion CDATA #REQUIRED
+>
+<!ELEMENT ApplicationInstances (ApplicationInstance)>
+<!ELEMENT ApplicationInstance (Privileges)>
+<!ATTLIST ApplicationInstance
+	ProfileID CDATA #REQUIRED
+	Label CDATA #IMPLIED
+	Aid CDATA #REQUIRED
+	LifeCycle CDATA #REQUIRED
+	SecurityDomain CDATA #IMPLIED
+	VolatileDataSpaceLimit CDATA #IMPLIED
+	NonVolatileDataSpaceLimit CDATA #IMPLIED
+	AppSpecificInstallParams CDATA #IMPLIED
+	Order CDATA #IMPLIED
+>
+<!ELEMENT CardInfo (ResourcesAvailable, OnLoad)>
+<!ELEMENT CardManufacturer EMPTY>
+<!ATTLIST CardManufacturer
+	Name CDATA #REQUIRED
+	PlasticStockID CDATA #IMPLIED
+>
+<!ELEMENT CardManufacturerProduct (Description?, CardManufacturer, Chip, Platform)>
+<!ATTLIST CardManufacturerProduct
+	Name CDATA #REQUIRED
+	Version CDATA #REQUIRED
+>
+<!ELEMENT Chip (Description?, Resources, Powers?, Clock?, Communication, CryptoEngine?)>
+<!ATTLIST Chip
+	Name CDATA #REQUIRED
+	Model CDATA #REQUIRED
+	Version CDATA #REQUIRED
+	ChipManufacturer CDATA #REQUIRED
+>
+<!ELEMENT Clock EMPTY>
+<!ATTLIST Clock
+	Unit CDATA #REQUIRED
+	Min CDATA #REQUIRED
+	Max CDATA #REQUIRED
+>
+<!ELEMENT Communication (Contact*, Contactless*)>
+<!ELEMENT Contact (Protocols?)>
+<!ATTLIST Contact
+	PPS (TRUE | FALSE) #IMPLIED
+	Unit CDATA #IMPLIED
+	BaudRateMin CDATA #IMPLIED
+	BaudRateMax CDATA #IMPLIED
+>
+<!ELEMENT Contactless (Protocols?)>
+<!ATTLIST Contact
+	Unit CDATA #IMPLIED
+	BaudRateMin CDATA #IMPLIED
+	BaudRateMax CDATA #IMPLIED
+>
+<!ELEMENT LoadFileInstance EMPTY>
+<!ATTLIST LoadFileInstance
+	ProfileID CDATA #REQUIRED
+	Label CDATA #IMPLIED
+	LifeCycle CDATA #REQUIRED
+	Masked (TRUE | FALSE) #REQUIRED
+	SecurityDomainAid CDATA #IMPLIED
+	Order CDATA #IMPLIED
+	NonVolatileCodeSpaceLimit CDATA #IMPLIED
+>
+<!ELEMENT LoadFileInstances (LoadFileInstance)>
+<!ELEMENT Platform EMPTY>
+<!ATTLIST Platform
+	Type CDATA #REQUIRED
+	Version CDATA #REQUIRED
+	OSPlatform CDATA #REQUIRED
+	OSVersion CDATA #REQUIRED
+	Implementor CDATA #IMPLIED
+>
+<!ELEMENT Power EMPTY>
+<!ATTLIST Power
+	Unit CDATA #REQUIRED
+	Value CDATA #REQUIRED
+>
+<!ELEMENT Powers (Power*)>
+<!ELEMENT Protocol EMPTY>
+<!ATTLIST Protocol
+	Type CDATA #REQUIRED
+	MaxApduLen CDATA #REQUIRED
+>
+<!ELEMENT Protocols (Protocol*)>
+<!ELEMENT Resources EMPTY>
+<!ATTLIST Resources
+	Unit CDATA #REQUIRED
+	ROM CDATA #REQUIRED
+	RAM CDATA #REQUIRED
+	EEPROM CDATA #REQUIRED
+	Flash CDATA #REQUIRED
+	GarbageCollection (TRUE | FALSE) #IMPLIED
+>
+<!ELEMENT ResourcesAvailable EMPTY>
+<!ATTLIST ResourcesAvailable
+	Unit CDATA #REQUIRED
+	RAM CDATA #REQUIRED
+	EEPROM CDATA #REQUIRED
+	Flash CDATA #REQUIRED
+>
+<!ELEMENT OnLoad (SimpleScript?, Execute*)>
+<!ELEMENT ConflictRules EMPTY>
+<!ATTLIST ConflictRules
+	Source CDATA #REQUIRED
+	Target CDATA #REQUIRED
+	Rule CDATA #REQUIRED
+>
+<!ELEMENT SimpleScript EMPTY>
+<!ELEMENT Execute EMPTY>
+<!ATTLIST Execute
+	Name CDATA #REQUIRED
+	ScriptName CDATA #IMPLIED
+>
+<!ELEMENT CryptoEngine (Description?, KeyTypes?, Algorithm*)>
+<!ELEMENT Algorithm EMPTY>
+<!ATTLIST Algorithm
+	Name CDATA #REQUIRED
+>
+<!ELEMENT Description EMPTY>
+<!ELEMENT Key EMPTY>
+<!ATTLIST Key
+	Name CDATA #REQUIRED
+	ProfileID CDATA #REQUIRED
+	Version CDATA #IMPLIED
+>
+<!ELEMENT KeyType EMPTY>
+<!ATTLIST KeyType
+	Name CDATA #REQUIRED
+	MaxLength CDATA #REQUIRED
+>
+<!ELEMENT KeyTypes (KeyType*)>
+<!ELEMENT Privileges EMPTY>
+<!ATTLIST Privileges
+	SecurityDomain (TRUE | FALSE) #IMPLIED
+	DAPVerification (TRUE | FALSE) #IMPLIED
+	DelegatedManagement (TRUE | FALSE) #IMPLIED
+	CardManagerLock (TRUE | FALSE) #IMPLIED
+	CardTerminate (TRUE | FALSE) #IMPLIED
+	DefaultSelected (TRUE | FALSE) #IMPLIED
+	CVMChange (TRUE | FALSE) #IMPLIED
+	ManadatedDAPVerification (TRUE | FALSE) #IMPLIED
+>
+<!ELEMENT Revisions (Revision)>
+<!ELEMENT Revision (Description?, Signature?)>
+<!ATTLIST Revision
+	ProfileID CDATA #IMPLIED
+	Version CDATA #REQUIRED
+	Date CDATA #REQUIRED
+	Time CDATA #REQUIRED
+	By CDATA #REQUIRED
+	Digest CDATA #REQUIRED
+>
+<!ELEMENT Signature EMPTY>
