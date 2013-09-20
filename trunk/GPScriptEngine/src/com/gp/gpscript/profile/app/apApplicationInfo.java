@@ -1,11 +1,12 @@
 package com.gp.gpscript.profile.app;
 
-import  java.lang.*;
-
 import org.apache.log4j.Logger;
-import  org.w3c.dom.*;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import com.gp.gpscript.profile.*;
+import com.gp.gpscript.profile.ProfileNode;
+import com.gp.gpscript.profile.xPathNode;
 
 public class apApplicationInfo extends ProfileNode
 {private static Logger log = Logger.getLogger(apApplicationInfo.class);

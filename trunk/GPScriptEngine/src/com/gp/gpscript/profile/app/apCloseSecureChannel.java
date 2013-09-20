@@ -1,20 +1,14 @@
 package com.gp.gpscript.profile.app;
 
-import java.lang.*;
-import org.w3c.dom.*;
-
 import org.apache.log4j.Logger;
-import org.apache.xalan.xpath.*;
-import org.apache.xalan.xpath.xml.*;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import com.gp.gpscript.profile.*;
+import com.gp.gpscript.profile.ProfileNode;
+import com.gp.gpscript.profile.xPathNode;
 
 /**
- * The CloseSecureChannel contains a script. The script operates on the object
- * and has access to the keys and data created for the Application Profile in
- * the scripting environment. For example, if the Application Profile identifies
- * a GlobalPlatform Security Domain (Type = OP, Subtype = SD or CM), then the
- * script is written for this object.
+ * The CloseSecureChannel contains a script. The script operates on the object and has access to the keys and data created for the Application Profile in the scripting environment. For example, if the Application Profile identifies a GlobalPlatform Security Domain (Type = OP, Subtype = SD or CM), then the script is written for this object.
  */
 public class apCloseSecureChannel extends ProfileNode {
 	private static Logger log = Logger.getLogger(apCloseSecureChannel.class);
@@ -72,7 +66,7 @@ public class apCloseSecureChannel extends ProfileNode {
 				Script = new apScript(nl.item(0));
 			}
 		} catch (Exception e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 			log.error(e.getMessage());
 		}
 
