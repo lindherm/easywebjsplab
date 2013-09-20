@@ -3,10 +3,8 @@ package com.gp.gpscript.engine;
 import com.gp.gpscript.script.GPKeyCryptoEngine;
 import com.gp.gpscript.script.NativeByteString;
 import com.gp.gpscript.script.NativeKey;
-import com.watchdata.commons.crypto.WD3DesCryptoUtil;
-import com.watchdata.commons.crypto.WDCryptoUtil;
 
-public class CryptoEngineForKmsKey implements GPKeyCryptoEngine{
+public class CryptoEngineForKmsKey implements GPKeyCryptoEngine {
 
 	@Override
 	public int init(String p1, String p2) {
@@ -23,7 +21,7 @@ public class CryptoEngineForKmsKey implements GPKeyCryptoEngine{
 	@Override
 	public void close() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -125,13 +123,13 @@ public class CryptoEngineForKmsKey implements GPKeyCryptoEngine{
 	@Override
 	public void deriveKey(NativeKey p1, Number p2, NativeByteString p3, NativeKey p4) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deriveOddKey(NativeKey p1, Number p2, NativeByteString p3, NativeKey p4) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -149,13 +147,13 @@ public class CryptoEngineForKmsKey implements GPKeyCryptoEngine{
 	@Override
 	public void generateKey(Number p1, NativeKey p2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void generateKeyPair(Number p1, NativeKey p2, NativeKey p3) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -179,20 +177,19 @@ public class CryptoEngineForKmsKey implements GPKeyCryptoEngine{
 	@Override
 	public void wrap(NativeKey p1, Number p2, NativeKey p3, NativeKey p4, NativeByteString p5) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void unwrap(Number p1, NativeKey p2, NativeKey p3, NativeByteString p4) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void unwrapWrap(Number p1, NativeKey p2, Number p3, NativeKey p4, NativeKey p5, NativeByteString p6, NativeByteString p7) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 }
