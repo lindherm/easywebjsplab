@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by et8 (et8) -->
+<!-- edited with XML Spy v4.4 (http://www.xmlspy.com) by sunjg (watchdata) -->
+<CardProfile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="GP CardProfile.xsd" UniqueID="00000000001111" ProfileVersion="1.0.0">
+	<Description>![CDATA[A Card Manufacturer's OP-DES16 Card Profile]]</Description>
+	<Revisions>
+		<Revision ProfileID="00000000001111" Version="1.0.0" Date="2002-04-16" Time="15:54:00" By="Erick Wong" Digest="12"/>
+	</Revisions>
+	<CardManufacturerProduct Name="A Card Manufacturer's OP-DES16 Card" Version="1.0.0">
+		<Description>![CDATA[Core OP-DES16 Card Product with VSDC2.0.1, Visa Cash1.6.1, PSE2.0, and Smart Access 1.0.]]</Description>
+		<CardManufacturer Name="A Card Manufacturer"/>
+		<Chip Name="Philips" Model="P8WE6017" Version="1.0.0" ChipManufacturer="PHILIPS">
+			<Description>![CDATA[Manufactured by Philips]]</Description>
+			<Resources Unit="bytes" ROM="48000" RAM="1200" EEPROM="16000" Flash="0"/>
+			<Powers>
+				<Power Unit="V" Value="5"/>
+			</Powers>
+			<!-- My guess at clock speed.  I know it supports 5 MHz. -->
+			<Clock Unit="MHz" Min="0" Max="5"/>
+			<Communication>
+				<Contact>
+					<!-- I just put in 1024 as a filler - need to find out what max apdu length is -->
+					<Protocols>
+						<Protocol Type="T0" MaxApduLen="1024"/>
+						<Protocol Type="T1" MaxApduLen="1024"/>
+					</Protocols>
+				</Contact>
+			</Communication>
+			<CryptoEngine>
+				<!-- Not sure of the length of the CMK key - I put in 1024 as a filler -->
+				<KeyTypes>
+					<KeyType Name="InitialCMK" MaxLength="1024"/>
+				</KeyTypes>
+				<Algorithm Name="CKM_DES3_ECB"/>
+			</CryptoEngine>
+		</Chip>
+		<Platform Type="JAVA" Version="2.1.1" OSPlatform="GP" OSVersion="2.0.1" Implementor="IBM"/>
+	</CardManufacturerProduct>
+	<ConflictRules>
+		<!-- Ensure profiles conform to the save version of the Profile specifications -->
+		<ConflictRule Source="CardProfile.ProfileVersion" Target="ApplicationProfile.ProfileVersion" Rule="=="/>
+		<!-- Ensure same load file isn't loaded twice -->
+		<ConflictRule Source="CardProfile.LoadFileInstances.LoadFileInstance.ProfileID" Target="LoadFileProfile.UniqueID" Rule="!="/>
+		<!-- Ensure no conflicts between installed application instance AIDs and AIDs of load file modules -->
+		<ConflictRule Source="CardProfile.ApplicationInstances.ApplicationInstance.AID" Target="LoadFileProfile.Module.AID" Rule="!="/>
+		<!-- Ensure no conflicts between installed application instance AIDs and AIDs of load files -->
+		<ConflictRule Source="CardProfile.ApplicationInstances.ApplicationInstance.AID" Target="LoadFileProfile.LoadFileInfo.AID" Rule="!="/>
+	</ConflictRules>
+	<LoadFileInstances>
+		<LoadFileInstance ProfileID="000000000001" LifeCycle="INSTALL" Masked="true" Label="Visa Load File" Order="1"/>
+		<LoadFileInstance ProfileID="1234" LifeCycle="INSTALL" Masked="true" Label="Card Manager Application"/>
+	</LoadFileInstances>
+	<ApplicationInstances>
+		<ApplicationInstance ProfileID="0000100001" Aid="A12345" LifeCycle="SECURED"/>
+		<ApplicationInstance ProfileID="00001AAAAA" Aid="A0000000031010" LifeCycle="SELECTABLE"/>
+	</ApplicationInstances>
+	<CardInfo>
+		<ResourcesAvailable Unit="" RAM="256" EEPROM="4000" Flash="2000"/>
+		<OnLoad>
+			<Execute Name="CIN" ScriptName="RetrieveCIN"/>
+		</OnLoad>
+	</CardInfo>
+</CardProfile>

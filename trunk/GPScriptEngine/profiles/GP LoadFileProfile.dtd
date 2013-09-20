@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT LoadFileProfile (Description?, Revisions, ConflictRules, LoadFileInfo, Modules?)>
+<!ATTLIST LoadFileProfile
+	UniqueID CDATA #REQUIRED
+	ProfileVersion CDATA #REQUIRED
+>
+<!ELEMENT LoadFileInfo EMPTY>
+<!ATTLIST LoadFileInfo
+	FileName CDATA #REQUIRED
+	AID CDATA #REQUIRED
+	Version CDATA #REQUIRED
+	NonVolatileCodeSpaceLimit CDATA #REQUIRED
+	NonVolatileDataSpaceMin CDATA #REQUIRED
+	VolatileDataSpaceMin CDATA #REQUIRED
+>
+<!ELEMENT Module (Description?)>
+<!ATTLIST Module
+	ModuleID CDATA #REQUIRED
+	AID CDATA #REQUIRED
+>
+<!ELEMENT Modules (Module*)>
+<!ELEMENT ConflictRules EMPTY>
+<!ATTLIST ConflictRules
+	Source CDATA #REQUIRED
+	Target CDATA #REQUIRED
+	Rule CDATA #REQUIRED
+>
+<!ELEMENT Description EMPTY>
+<!ELEMENT Revisions (Revision)>
+<!ELEMENT Revision (Description?, Signature?)>
+<!ATTLIST Revision
+	ProfileID CDATA #IMPLIED
+	Version CDATA #REQUIRED
+	Date CDATA #REQUIRED
+	Time CDATA #REQUIRED
+	By CDATA #REQUIRED
+	Digest CDATA #REQUIRED
+>
+<!ELEMENT Signature EMPTY>

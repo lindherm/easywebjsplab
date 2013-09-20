@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT ApplicationProfile (Description?, Revisions, ConflictRules, ApplicationInfo, Key*, DataElement*, Function*, SecureChannel?, ScriptFragment*)>
+<!ATTLIST ApplicationProfile
+	UniqueID CDATA #REQUIRED
+	ProfileVersion CDATA #REQUIRED
+>
+<!ELEMENT ApplicationInfo (Privileges, LifeCycles, Codes)>
+<!ATTLIST ApplicationInfo
+	Version CDATA #REQUIRED
+	Type (OP | MULTOS | W4SC | OTHER) #REQUIRED
+	Subtype (CM | SD | APP) #REQUIRED
+	Owner CDATA #REQUIRED
+	Developer CDATA #REQUIRED
+	Provider CDATA #REQUIRED
+	Domain CDATA #REQUIRED
+	VolatileDataSpaceMin CDATA #REQUIRED
+	NonVolatileDataSpaceMin CDATA #REQUIRED
+	VolatileDataSpaceMax CDATA #IMPLIED
+	NonVolatileDataSpaceMax CDATA #IMPLIED
+	AppSpecificInstallParams CDATA #IMPLIED
+>
+<!ELEMENT Codes (Code)>
+<!ELEMENT Code EMPTY>
+<!ATTLIST Code
+	ProfileID CDATA #IMPLIED
+	ModuleID CDATA #REQUIRED
+>
+<!ELEMENT DataElement (Field*)>
+<!ATTLIST DataElement
+	Name CDATA #REQUIRED
+	External (true | false) #REQUIRED
+	Type (BYTESTRING | BYTEBUFFER | STRING | NUMBER | BOOLEAN | OBJECT) #REQUIRED
+	Encoding (HEX | ASCII | BASE64 | UTF8 | CN) #REQUIRED
+	FixedLength (true | false) #IMPLIED
+	Length CDATA #IMPLIED
+	Value CDATA #IMPLIED
+	Tag CDATA #IMPLIED
+	TagEncoding (EMV | DGI) #IMPLIED
+	ReadWrite (true | false) #IMPLIED
+	Update (true | false) #IMPLIED
+	Optional (true | false) #IMPLIED
+	MandatoryAudit (true | false) #IMPLIED
+>
+<!ELEMENT Declaration EMPTY>
+<!ATTLIST Declaration
+	Name CDATA #REQUIRED
+	External (true | false) #IMPLIED
+	Encoding (HEX | ASCII | BASE64 | UTF8 | CN) #IMPLIED
+	Value CDATA #IMPLIED
+	ReadWrite CDATA #IMPLIED
+	Update CDATA #IMPLIED
+	Optional CDATA #IMPLIED
+	MandatoryAudit (true | false) #IMPLIED
+>
+<!ELEMENT Field EMPTY>
+<!ATTLIST Field
+	Name CDATA #REQUIRED
+	Type CDATA #REQUIRED
+	Offset CDATA #REQUIRED
+	Length CDATA #REQUIRED
+>
+<!ELEMENT Function (Declaration*, Description?, Key*, Script)>
+<!ATTLIST Function
+	Name CDATA #REQUIRED
+>
+<!ELEMENT LifeCycles (LifeCycle+)>
+<!ELEMENT LifeCycle EMPTY>
+<!ATTLIST LifeCycle
+	Name CDATA #REQUIRED
+	Value CDATA #IMPLIED
+	Label CDATA #IMPLIED
+>
+<!ELEMENT ScriptFragment (Description?, ConflictRules*, Declaration*, Key*, Script)>
+<!ATTLIST ScriptFragment
+	Name CDATA #REQUIRED
+	StartLifeCycle CDATA #REQUIRED
+	EndLifeCycle CDATA #REQUIRED
+	SecureChannel (NONE | SCP01 | SCP02 | OTHER) #IMPLIED
+	SecurityLevel (C_MAC_R_MAC_ENC | C_MAC_R_MAC | C_MAC | C_MAC_ENC | R_MAC | NO_SECURITY_LEVEL) #IMPLIED
+	Active (true | false) #REQUIRED
+>
+<!ELEMENT SecureChannel (OpenSecureChannel?, CloseSecureChannel?, Wrap?)>
+<!ATTLIST SecureChannel
+	SecureChannel (NONE | SCP01 | SCP02 | OTHER) #REQUIRED
+	Option CDATA #IMPLIED
+	SecurityLevel (C_MAC_R_MAC_ENC | C_MAC_R_MAC | C_MAC | C_MAC_ENC | R_MAC | NO_SECURITY_LEVEL) #IMPLIED
+>
+<!ELEMENT OpenSecureChannel (Declaration*, Key*, Script)>
+<!ATTLIST OpenSecureChannel
+	Param CDATA #REQUIRED
+>
+<!ELEMENT CloseSecureChannel (Declaration*, Key*, Script)>
+<!ELEMENT Wrap (Declaration*, Key*, Script)>
+<!ELEMENT Script ANY>
+<!ELEMENT ConflictRules (ConflictRule*)>
+<!ELEMENT ConflictRule EMPTY>
+<!ATTLIST ConflictRule
+	Source CDATA #REQUIRED
+	Target CDATA #REQUIRED
+	Rule CDATA #REQUIRED
+>
+<!ELEMENT Description EMPTY>
+<!ELEMENT Key EMPTY>
+<!ATTLIST Key
+	Name CDATA #REQUIRED
+	ProfileID CDATA #REQUIRED
+>
+<!ELEMENT Privileges EMPTY>
+<!ATTLIST Privileges
+	SecurityDomain (true | false) #IMPLIED
+	DAPVerification (true | false) #IMPLIED
+	DelegatedManagement (true | false) #IMPLIED
+	CardManagerLock (true | false) #IMPLIED
+	CardTerminate (true | false) #IMPLIED
+	DefaultSelected (true | false) #IMPLIED
+	CVMChange (true | false) #IMPLIED
+	ManadatedDAPVerification (true | false) #IMPLIED
+>
+<!ELEMENT Revisions (Revision)>
+<!ELEMENT Revision (Description?, Signature?)>
+<!ATTLIST Revision
+	ProfileID CDATA #IMPLIED
+	Version CDATA #REQUIRED
+	Date CDATA #REQUIRED
+	Time CDATA #REQUIRED
+	By CDATA #REQUIRED
+	Digest CDATA #REQUIRED
+>
+<!ELEMENT Signature EMPTY>
