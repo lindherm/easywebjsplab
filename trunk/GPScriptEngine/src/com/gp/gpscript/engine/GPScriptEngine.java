@@ -22,7 +22,7 @@ public class GPScriptEngine {
 		 */
 		mapValues.put("pan", "6230760027000000018F");
 		mapBean.put("" + 0, mapValues);
-		ScriptEngine se = new ScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean, 0, 1);
+		ScriptEngine se = new ScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean,1);
 
 		String[] a = se.execEngine();
 		System.out.println(a[0]);
