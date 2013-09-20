@@ -56,14 +56,12 @@ import com.watchdata.kms.kmsi.IKms;
 public class ScriptEngine {
 
 	private Logger log = Logger.getLogger(ScriptEngine.class);
-	public boolean hasImportFlag;
 	private ArrayList<String> paraList;
 	private int count = 0;
 	private String cardfile = "";
 	private String appfile = "";
 	private String selectedFragment = "";
-	private int type;
-	private HashMap varHashMap;
+	private HashMap<String,HashMap<String, String>> varHashMap;
 	private ApduChannel apduChannel;
 	private Script script;
 	private ApplicationProfile appProfile;
@@ -78,7 +76,7 @@ public class ScriptEngine {
 	public String track3Data = "";
 	private IKms kmsi;
 
-	public ScriptEngine(String selectedFragment, String appfile, String cardfile, HashMap varHashMap, int type, int count) throws Exception {
+	public ScriptEngine(String selectedFragment, String appfile, String cardfile, HashMap<String,HashMap<String, String>> varHashMap,int count) throws Exception {
 		apduChannel = null;
 		script = null;
 		appProfile = null;
@@ -91,8 +89,6 @@ public class ScriptEngine {
 		this.appfile = appfile;
 		this.cardfile = cardfile;
 		this.count = count;
-		this.type = type;
-
 	}
 
 	/**
@@ -111,52 +107,37 @@ public class ScriptEngine {
 		try {
 			prepareScriptContext(selectedFragment, appfile, cardfile);
 		} catch (Exception e) {
-			// PV.getInstance().setStopFlag(true);
 			return new String[] { "编译脚本出错" + e };
 		}
 
-		hasImportFlag = false;
 		try {
 			for (int i = 0; i < count; i++) {
-
-				// boolean fd = PV.getInstance().getStopFlag();
-				// if (!fd) {
 				personData = getIcInfo(i, varHashMap);
-
 				allPersonDatas[i] = personData;
-				continue;
-				// } else {
-				// break;
-				// }
-
 			}
 
 			return allPersonDatas;
 		} catch (Exception e) {
-			// PV.getInstance().setFlag(true);
 			e.printStackTrace();
 			throw e;
 
-		} finally {
-
 		}
-
 	}
 
 	/**
-	 * 组织个人化数据
+	 * 组织数据
 	 * 
 	 * @param i
 	 * @throws Exception
 	 */
-	private String getIcInfo(int i, HashMap varHashMap) throws Exception {
+	private String getIcInfo(int i, HashMap<String,HashMap<String, String>> varHashMap) throws Exception {
+		//数据映射到脚本变量
 		try {
-
 			dataMapping(i);
 		} catch (Exception e) {
-
 			throw e;
 		}
+		//执行脚本
 		boolean succflag = false;
 		try {
 			succflag = evaluateScript();
@@ -175,11 +156,12 @@ public class ScriptEngine {
 			dataArray = null;
 		NativeByteString snew = (NativeByteString) ScriptRuntime.getObjectElem(dataArray, "CPS_Output", cx);
 		if (!succflag)
-			throw new Exception("evaluateScript error");
+			throw new Exception("evaluateScript error.");
 
-		HashMap tagRecordMap = (HashMap) varHashMap.get("" + i);
-		String pan = (String) tagRecordMap.get("pan");
+		HashMap<String,String> tagRecordMap = (HashMap<String,String>) varHashMap.get("" + i);
+		String pan =tagRecordMap.get("pan");
 
+		//clear back
 		varHashMap.put("" + i, null);
 		varHashMap.remove("" + i);
 		return (pan + "|" + snew.toString());
@@ -195,46 +177,46 @@ public class ScriptEngine {
 	 * @return
 	 * @throws JavaScriptException
 	 */
-	public boolean prepareScriptContext(String selectedFragment, String appfile, String cardfile) throws JavaScriptException {
+	public boolean prepareScriptContext(String selectedFragment, String appfile, String cardfile) throws Exception {
+		//创建rhino js脚本环境
 		cx = Context.enter();
 		if (sharedScope == null) {
-			sharedScope = cx.initStandardObjects(null);
+			sharedScope = cx.initStandardObjects();
+			//初始化GP对象
 			InitGPObject(cx, sharedScope);
+			
 			Scriptable jsArgs = Context.toObject(System.out, sharedScope);
 			sharedScope.put("out", sharedScope, jsArgs);
 		}
 		scope = cx.newObject(sharedScope);
 		scope.setPrototype(sharedScope);
 		scope.setParentScope(null);
+		
+		//初始化card和app profile object
 		try {
 			cardProfile = new CardProfile(cardfile);
 			appProfile = new ApplicationProfile(appfile, 0);
 		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				throw e;
-			} catch (Exception ce) {
-				e.printStackTrace();
-			}
 			Context.exit();
-			return false;
+			e.printStackTrace();
+			throw e;
 		}
+		//创建应用OBJECT
 		Application app = new Application(appfile, cx, scope, 0);
 		gpApp = createApplication(cx, scope, app, cardProfile);
 		if (gpApp == null) {
 			log.debug("create Application or GPApplication or GPSecurityDomain failed!");
-
 			Context.exit();
 			return false;
 		}
+		//编译脚本片段
 		script = createScript(cx, appProfile, selectedFragment);
 		if (script == null) {
 			log.debug("create script object failed!");
 			Context.exit();
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	public boolean evaluateScript() throws Exception {
@@ -303,7 +285,6 @@ public class ScriptEngine {
 	 */
 	private Script createScript(Context cx, ApplicationProfile profile, String strFragment) {
 		Script script = cx.compileString(getScriptString(profile, strFragment), strFragment, 1, null);
-
 		return script;
 	}
 
@@ -339,10 +320,10 @@ public class ScriptEngine {
 				keyArray = null;
 				app = null;
 			}
+			//设置声明的数据元素值
 			if (app.ap.DataElement != null) {
 				for (int i = 0; i < app.ap.DataElement.length; i++) {
 					SetDataElement(cx, scope, index, dataArray, app.ap.DataElement[i]);
-
 				}
 
 			} else {
@@ -351,7 +332,6 @@ public class ScriptEngine {
 			if (app.ap.Key != null) {
 				for (int i = 0; i < app.ap.Key.length; i++)
 					SetKeyElement(cx, scope, keyArray, app.ap.Key[i].Name, app.ap.Key[i].ProfileID, app.ap.Key[i].External);
-
 			} else {
 				throw new Exception("you should define the key in application profile");
 			}
@@ -401,7 +381,6 @@ public class ScriptEngine {
 	 * @param selectedScript
 	 * @return 脚本元素
 	 */
-	@SuppressWarnings("unchecked")
 	public static String[] parseSelectedScript(String selectedScript) {
 		Vector<String> vt = new Vector<String>();
 		selectedScript = selectedScript.trim();
@@ -413,7 +392,6 @@ public class ScriptEngine {
 			startIndex = index + 1;
 			i++;
 		}
-
 		vt.add(selectedScript.substring(startIndex, selectedScript.length()));
 		String result[] = new String[++i];
 		for (int j = 0; j < i; j++) {
@@ -438,7 +416,7 @@ public class ScriptEngine {
 	 * @param appFile
 	 * @return
 	 */
-	public static String[] getAppProfileScriptFragmentList(String appFile) {
+	public String[] getAppProfileScriptFragmentList(String appFile) {
 		ApplicationProfile appProfile = new ApplicationProfile(appFile);
 		if (appProfile == null)
 			return null;
