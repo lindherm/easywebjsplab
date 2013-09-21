@@ -14,8 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class Water extends JFrame implements Runnable, MouseListener,
-		MouseMotionListener {
+public class Water extends JFrame implements Runnable, MouseListener, MouseMotionListener {
 
 	private int width, height, hwidth, hheight;
 	private MemoryImageSource source;
@@ -39,7 +38,7 @@ public class Water extends JFrame implements Runnable, MouseListener,
 		super("Water");
 		initialize();
 	}
-	
+
 	private void initialize() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(762, 502);
@@ -47,7 +46,7 @@ public class Water extends JFrame implements Runnable, MouseListener,
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		try {
-			im = ImageIO.read(getClass().getResource("/images/frame_20101210.png"));
+			im = ImageIO.read(getClass().getResource("/images/71cf3bc79f3df8dc6baabdbecc11728b4710280d.jpg"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -66,8 +65,7 @@ public class Water extends JFrame implements Runnable, MouseListener,
 		texture = new int[width * height];
 		oldind = width;
 		newind = width * (height + 3);
-		PixelGrabber pg = new PixelGrabber(im, 0, 0, width, height, texture, 0,
-				width);
+		PixelGrabber pg = new PixelGrabber(im, 0, 0, width, height, texture, 0, width);
 		try {
 			pg.grabPixels();
 		} catch (InterruptedException e) {
@@ -161,8 +159,7 @@ public class Water extends JFrame implements Runnable, MouseListener,
 
 			try {
 				startTime += delay;
-				Thread.sleep(Math
-						.max(0, startTime - System.currentTimeMillis()));
+				Thread.sleep(Math.max(0, startTime - System.currentTimeMillis()));
 			} catch (InterruptedException e) {
 				break;
 			}
@@ -189,8 +186,7 @@ public class Water extends JFrame implements Runnable, MouseListener,
 		mapind = oldind;
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				short data = (short) ((ripplemap[mapind - width]
-						+ ripplemap[mapind + width] + ripplemap[mapind - 1] + ripplemap[mapind + 1]) >> 1);
+				short data = (short) ((ripplemap[mapind - width] + ripplemap[mapind + width] + ripplemap[mapind - 1] + ripplemap[mapind + 1]) >> 1);
 				data -= ripplemap[newind + i];
 				data -= data >> 5;
 				ripplemap[newind + i] = data;
@@ -221,7 +217,7 @@ public class Water extends JFrame implements Runnable, MouseListener,
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				new Water();
