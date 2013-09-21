@@ -7,7 +7,7 @@ import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 
-import com.gp.gpscript.keymgr.util.encoders.Hex;
+import com.gp.gpscript.utils.Hex;
 
 /**
  * 

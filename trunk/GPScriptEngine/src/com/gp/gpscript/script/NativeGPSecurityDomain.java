@@ -23,8 +23,8 @@ import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import com.gp.gpscript.keymgr.util.encoders.Hex;
-import com.gp.gpscript.util.CryptoUtil;
+import com.gp.gpscript.utils.CryptoUtil;
+import com.gp.gpscript.utils.Hex;
 
 // Referenced classes of package com.watchdata.gpscript.script:
 //            GPError, NativeByteString, NativeKey, NativeGPScp01, 

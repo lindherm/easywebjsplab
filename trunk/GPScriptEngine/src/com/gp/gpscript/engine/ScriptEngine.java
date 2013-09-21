@@ -13,7 +13,6 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 
-import com.gp.gpscript.keymgr.util.encoders.Hex;
 import com.gp.gpscript.profile.app.ApplicationProfile;
 import com.gp.gpscript.profile.app.apDataElement;
 import com.gp.gpscript.profile.card.CardProfile;
@@ -37,7 +36,9 @@ import com.gp.gpscript.script.NativeSecureChannel;
 import com.gp.gpscript.script.NativeTLV;
 import com.gp.gpscript.script.NativeTLVList;
 import com.gp.gpscript.script.TLV;
+import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.kms.kmsi.IKms;
+import com.watchdata.kms.kmsi.IKmsException;
 
 /**
  * <p>ScriptEngine</p>
@@ -78,12 +79,14 @@ public class ScriptEngine {
 
 	public ScriptEngine(String selectedFragment, String appfile, String cardfile, HashMap<String,HashMap<String, String>> varHashMap,int count) throws Exception {
 		apduChannel = null;
+		
 		script = null;
 		appProfile = null;
 		cardProfile = null;
 		gpApp = null;
 		scope = null;
 		cx = null;
+		
 		this.varHashMap = varHashMap;
 		this.selectedFragment = selectedFragment;
 		this.appfile = appfile;
@@ -476,10 +479,10 @@ public class ScriptEngine {
 		na.card.profile = cardProfile;
 		na.card.setApduChannel(apduChannel);
 		na.crypto = new NativeCrypto();
-		CryptoEngineForKmsKey cefk = new CryptoEngineForKmsKey();
+		Hsm hsm = new Hsm();
 		// cefk.setKmsi(kmsi);
 		// cefk.setKmsServer(kmsServer);
-		NativeCrypto.cryptoEngine.set(cefk);
+		NativeCrypto.cryptoEngine.set(hsm);
 		na.crypto.setObjectPrototype();
 		if (na.profile.SecureChannel.SecureChannel.equals("SCP01")) {
 			na.secureChannel = new NativeGPScp01(cx, scope, na.card);
@@ -511,7 +514,7 @@ public class ScriptEngine {
 		ngpa.card.setApduChannel(apduChannel);
 		ngpa.card.profile = cardProfile;
 		ngpa.crypto = new NativeCrypto();
-		CryptoEngineForClearTextKey cefk = new CryptoEngineForClearTextKey();
+		Hsm cefk = new Hsm();
 		// cefk.setKmsi(kmsi);
 		// cefk.setKmsServer(kmsServer);
 		NativeCrypto.cryptoEngine.set(cefk);
@@ -539,7 +542,7 @@ public class ScriptEngine {
 		sd.card.setApduChannel(apduChannel);
 		sd.card.profile = cardProfile;
 		sd.crypto = new NativeCrypto();
-		CryptoEngineForClearTextKey cefk = new CryptoEngineForClearTextKey();
+		Hsm cefk = new Hsm();
 		// cefk.setKmsi(kmsi);
 		// cefk.setKmsServer(kmsServer);
 		NativeCrypto.cryptoEngine.set(cefk);
@@ -604,7 +607,7 @@ public class ScriptEngine {
 				if (allDGI == null) {
 					ScriptRuntime.setObjectElem(objArray, strName, null, cx);
 				} else {
-					byte dgi[] = Hex.decode(allDGI);
+					byte dgi[] = WDByteUtil.HEX2Bytes(allDGI);//Hex.decode(allDGI);
 					int tag = dgi[0] * 256 + dgi[1];
 					byte value[] = new byte[dgi.length - 3];
 					System.arraycopy(dgi, 3, value, 0, dgi.length - 3);

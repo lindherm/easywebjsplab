@@ -5,6 +5,15 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 
 public class GPScriptEngine {
+	private ScriptEngine scriptEngine;
+	
+	public GPScriptEngine(String selectedFragment,String secript,String cardProfilePath,HashMap<String, HashMap<String, String>> dealdata,int dataCount) throws Exception{
+		scriptEngine = new ScriptEngine(selectedFragment,secript,cardProfilePath,dealdata,dataCount);
+	}
+	
+	public String[] execEngine() throws Exception{
+		return scriptEngine.execEngine();
+	}
 	public static void main(String[] args) throws Exception {
 		FileInputStream fis = new FileInputStream(new File(System.getProperty("user.dir") + "/hbyh.xml"));
 		int len = fis.available();
@@ -22,9 +31,9 @@ public class GPScriptEngine {
 		 */
 		mapValues.put("pan", "6230760027000000018F");
 		mapBean.put("" + 0, mapValues);
-		ScriptEngine se = new ScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean,1);
-
-		String[] a = se.execEngine();
+		//ScriptEngine se = new ScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean,1);
+		GPScriptEngine gpScriptEngine=new GPScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean,1);
+		String[] a = gpScriptEngine.execEngine();
 		System.out.println(a[0]);
 	}
 }

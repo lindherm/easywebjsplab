@@ -1,4 +1,4 @@
-package com.gp.gpscript.util;
+package com.gp.gpscript.utils;
 
 public class HexStr {
 	public static String stringToHex(String s) {

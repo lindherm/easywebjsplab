@@ -5,16 +5,16 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.params.KeyParameter;
 
-import com.gp.gpscript.keymgr.util.encoders.Hex;
 import com.gp.gpscript.script.GPConstant;
 import com.gp.gpscript.script.GPKeyCryptoEngine;
 import com.gp.gpscript.script.NativeByteString;
 import com.gp.gpscript.script.NativeKey;
+import com.gp.gpscript.utils.Hex;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDByteUtil;
 
-public class CryptoEngineForClearTextKey implements GPKeyCryptoEngine {
+public class Hsm implements GPKeyCryptoEngine {
 	private Logger log = Logger.getLogger(getClass().getName());
 
 	public int init(String string, String string1) {

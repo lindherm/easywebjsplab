@@ -2,7 +2,7 @@ package com.gp.gpscript.script;
 
 import org.apache.log4j.Logger;
 
-import com.gp.gpscript.keymgr.util.encoders.Hex;
+import com.gp.gpscript.utils.Hex;
 
 public class TLV {
 	private static Logger log = Logger.getLogger(TLV.class);
