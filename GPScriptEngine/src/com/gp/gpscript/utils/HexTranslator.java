@@ -1,4 +1,4 @@
-package com.gp.gpscript.keymgr.util.encoders;
+package com.gp.gpscript.utils;
 
 /**
  * Converters for going from hex to binary and back. Note: this class assumes ASCII processing.

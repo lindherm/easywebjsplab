@@ -8,7 +8,7 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import com.gp.gpscript.keymgr.util.encoders.Hex;
+import com.gp.gpscript.utils.Hex;
 
 /**
  * 

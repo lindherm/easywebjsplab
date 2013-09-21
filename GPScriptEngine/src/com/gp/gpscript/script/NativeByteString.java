@@ -11,9 +11,9 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import com.gp.gpscript.keymgr.util.encoders.Base64;
-import com.gp.gpscript.keymgr.util.encoders.Hex;
-import com.gp.gpscript.util.HexStr;
+import com.gp.gpscript.utils.HexStr;
+import com.gp.gpscript.utils.Base64;
+import com.gp.gpscript.utils.Hex;
 import com.watchdata.commons.lang.WDBase64;
 import com.watchdata.commons.lang.WDByteUtil;
 

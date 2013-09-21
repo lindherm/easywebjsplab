@@ -1,4 +1,4 @@
-package com.gp.gpscript.util;
+package com.gp.gpscript.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;

@@ -1,4 +1,4 @@
-package com.gp.gpscript.keymgr.util.encoders;
+package com.gp.gpscript.utils;
 
 
 /**
