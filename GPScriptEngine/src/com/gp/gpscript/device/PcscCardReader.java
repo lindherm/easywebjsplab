@@ -25,7 +25,7 @@ public class PcscCardReader implements ApduChannel {
 	@Override
 	public byte[] sendApdu(int CLA, int INS, int P1, int P2, byte[] toSendData, int LE) {
 		// TODO Auto-generated method stub
-		return cardPcsc.SendApdu(CLA, INS, P1, P2, toSendData, LE).getBytes();
+		return cardPcsc.SendApdu(CLA, INS, P1, P2, toSendData, 0x00).getBytes();
 	}
 
 	@Override
