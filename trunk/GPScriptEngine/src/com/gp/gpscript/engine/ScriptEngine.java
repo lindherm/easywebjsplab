@@ -38,7 +38,6 @@ import com.gp.gpscript.script.NativeTLVList;
 import com.gp.gpscript.script.TLV;
 import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.kms.kmsi.IKms;
-import com.watchdata.kms.kmsi.IKmsException;
 
 /**
  * <p>ScriptEngine</p>
@@ -56,28 +55,24 @@ import com.watchdata.kms.kmsi.IKmsException;
  */
 public class ScriptEngine {
 
-	private Logger log = Logger.getLogger(ScriptEngine.class);
-	private ArrayList<String> paraList;
-	private int count = 0;
-	private String cardfile = "";
-	private String appfile = "";
-	private String selectedFragment = "";
-	private HashMap<String,HashMap<String, String>> varHashMap;
-	private ApduChannel apduChannel;
-	private Script script;
-	private ApplicationProfile appProfile;
-	private CardProfile cardProfile;
-	private Scriptable gpApp;
-	private Scriptable scope;
-	private Context cx;
-	private static Scriptable sharedScope;
+	public Logger log = Logger.getLogger(ScriptEngine.class);
+	public ArrayList<String> paraList;
+	public int count = 0;
+	public String cardProfilePath = "";
+	public String secript = "";
+	public String selectedFragment = "";
+	public HashMap<String,HashMap<String, String>> varHashMap;
+	public ApduChannel apduChannel;
+	public Script script;
+	public ApplicationProfile appProfile;
+	public CardProfile cardProfile;
+	public Scriptable gpApp;
+	public Scriptable scope;
+	public Context cx;
+	public static Scriptable sharedScope;
 	public ArrayList<String> textList = new ArrayList<String>();
-	public String track1Data = "";
-	public String track2Data = "";
-	public String track3Data = "";
-	private IKms kmsi;
 
-	public ScriptEngine(String selectedFragment, String appfile, String cardfile, HashMap<String,HashMap<String, String>> varHashMap,int count) throws Exception {
+	public ScriptEngine(String selectedFragment, String secript, String cardProfilePath) throws Exception {
 		apduChannel = null;
 		
 		script = null;
@@ -87,88 +82,25 @@ public class ScriptEngine {
 		scope = null;
 		cx = null;
 		
-		this.varHashMap = varHashMap;
 		this.selectedFragment = selectedFragment;
-		this.appfile = appfile;
-		this.cardfile = cardfile;
+		this.secript = secript;
+		this.cardProfilePath = cardProfilePath;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
 		this.count = count;
 	}
 
-	/**
-	 * 脚本执行
-	 * 
-	 * @param selectedFragment
-	 * @param appfile
-	 * @param cardfile
-	 * @throws IKmsException
-	 * @throws Exception
-	 */
-	public String[] execEngine() throws Exception {
-
-		String[] allPersonDatas = new String[count];
-		String personData = "";
-		try {
-			prepareScriptContext(selectedFragment, appfile, cardfile);
-		} catch (Exception e) {
-			return new String[] { "编译脚本出错" + e };
-		}
-
-		try {
-			for (int i = 0; i < count; i++) {
-				personData = getIcInfo(i, varHashMap);
-				allPersonDatas[i] = personData;
-			}
-
-			return allPersonDatas;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-
-		}
+	public HashMap<String, HashMap<String, String>> getVarHashMap() {
+		return varHashMap;
 	}
 
-	/**
-	 * 组织数据
-	 * 
-	 * @param i
-	 * @throws Exception
-	 */
-	private String getIcInfo(int i, HashMap<String,HashMap<String, String>> varHashMap) throws Exception {
-		//数据映射到脚本变量
-		try {
-			dataMapping(i);
-		} catch (Exception e) {
-			throw e;
-		}
-		//执行脚本
-		boolean succflag = false;
-		try {
-			succflag = evaluateScript();
-		} catch (Exception e) {
-			throw new Exception("脚本引擎出错,请检查!");
-		}
-
-		NativeArray dataArray;
-		if (gpApp instanceof NativeApplication)
-			dataArray = ((NativeApplication) gpApp).data;
-		else if (gpApp instanceof NativeGPApplication)
-			dataArray = ((NativeGPApplication) gpApp).data;
-		else if (gpApp instanceof NativeGPSecurityDomain)
-			dataArray = ((NativeGPSecurityDomain) gpApp).data;
-		else
-			dataArray = null;
-		NativeByteString snew = (NativeByteString) ScriptRuntime.getObjectElem(dataArray, "CPS_Output", cx);
-		if (!succflag)
-			throw new Exception("evaluateScript error.");
-
-		HashMap<String,String> tagRecordMap = (HashMap<String,String>) varHashMap.get("" + i);
-		String pan =tagRecordMap.get("pan");
-
-		//clear back
-		varHashMap.put("" + i, null);
-		varHashMap.remove("" + i);
-		return (pan + "|" + snew.toString());
-
+	public void setVarHashMap(HashMap<String, HashMap<String, String>> varHashMap) {
+		this.varHashMap = varHashMap;
 	}
 
 	/**
@@ -680,13 +612,4 @@ public class ScriptEngine {
 	public void setParaList(ArrayList<String> paraList) {
 		this.paraList = paraList;
 	}
-
-	public IKms getKmsi() {
-		return kmsi;
-	}
-
-	public void setKmsi(IKms kmsi) {
-		this.kmsi = kmsi;
-	}
-
 }
