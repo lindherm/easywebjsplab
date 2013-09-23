@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.ScriptRuntime;
 
+import com.gp.gpscript.device.PcscCardReader;
 import com.gp.gpscript.script.NativeApplication;
 import com.gp.gpscript.script.NativeByteString;
 import com.gp.gpscript.script.NativeGPApplication;
@@ -16,6 +17,7 @@ import com.watchdata.kms.kmsi.IKmsException;
 public class GPScriptEngine extends ScriptEngine{
 	public GPScriptEngine(String selectedFragment,String secript,String cardProfilePath) throws Exception {
 		super(selectedFragment, secript, cardProfilePath);
+		apduChannel=new PcscCardReader("WatchData CRW-V Plus PC/SC Reader 0");
 	}
 	
 	/**
