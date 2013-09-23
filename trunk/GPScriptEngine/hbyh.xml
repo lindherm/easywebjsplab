@@ -682,6 +682,7 @@
 		    		
 				
 		CPS_Output=myObject.CPS_Output;
+		GPSystem.trace("CPS_Output: "+CPS_Output);
 			
 		      
 		       		//1. Select application
