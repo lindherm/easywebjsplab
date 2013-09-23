@@ -37,7 +37,6 @@ import com.gp.gpscript.script.NativeTLV;
 import com.gp.gpscript.script.NativeTLVList;
 import com.gp.gpscript.script.TLV;
 import com.watchdata.commons.lang.WDByteUtil;
-import com.watchdata.kms.kmsi.IKms;
 
 /**
  * <p>ScriptEngine</p>
@@ -60,6 +59,7 @@ public class ScriptEngine {
 	public int count = 0;
 	public String cardProfilePath = "";
 	public String secript = "";
+	public String iccdata;
 	public String selectedFragment = "";
 	public HashMap<String,HashMap<String, String>> varHashMap;
 	public ApduChannel apduChannel;
@@ -87,6 +87,14 @@ public class ScriptEngine {
 		this.cardProfilePath = cardProfilePath;
 	}
 
+	public String getIccdata() {
+		return iccdata;
+	}
+
+	public void setIccdata(String iccdata) {
+		this.iccdata = iccdata;
+	}
+	
 	public int getCount() {
 		return count;
 	}

@@ -28,9 +28,9 @@ public class DataMaping {
 	public String getDataElement(int index, String delement, HashMap varHashMap) throws Exception {
 		try {
 			tagRecordMap = (HashMap) varHashMap.get("" + index);
-			String tag = delement.toLowerCase();
-			if (tagRecordMap.containsKey(tag)) {
-				String tgvalue = (String) tagRecordMap.get(tag);
+			//String tag = delement.toLowerCase();
+			if (tagRecordMap.containsKey(delement)) {
+				String tgvalue = (String) tagRecordMap.get(delement);
 				if (tgvalue != null && tgvalue instanceof String) {
 					return (String) tgvalue;
 				} else {
