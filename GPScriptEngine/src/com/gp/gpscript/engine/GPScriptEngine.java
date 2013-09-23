@@ -4,16 +4,104 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 
-public class GPScriptEngine {
-	private ScriptEngine scriptEngine;
+import org.mozilla.javascript.NativeArray;
+import org.mozilla.javascript.ScriptRuntime;
+
+import com.gp.gpscript.script.NativeApplication;
+import com.gp.gpscript.script.NativeByteString;
+import com.gp.gpscript.script.NativeGPApplication;
+import com.gp.gpscript.script.NativeGPSecurityDomain;
+import com.watchdata.kms.kmsi.IKmsException;
+
+public class GPScriptEngine extends ScriptEngine{
+	public GPScriptEngine(String selectedFragment,String secript,String cardProfilePath) throws Exception {
+		super(selectedFragment, secript, cardProfilePath);
+	}
 	
+	/**
+	 * 脚本执行
+	 * 
+	 * @param selectedFragment
+	 * @param appfile
+	 * @param cardfile
+	 * @throws IKmsException
+	 * @throws Exception
+	 */
+	public String[] execEngineDP() throws Exception {
+
+		String[] allPersonDatas = new String[count];
+		String personData = "";
+		try {
+			prepareScriptContext(selectedFragment, secript, cardProfilePath);
+		} catch (Exception e) {
+			return new String[] { "编译脚本出错" + e };
+		}
+
+		try {
+			for (int i = 0; i < count; i++) {
+				personData = getIcInfo(i, varHashMap);
+				allPersonDatas[i] = personData;
+			}
+
+			return allPersonDatas;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+
+		}
+	}
+
+	/**
+	 * 组织数据
+	 * 
+	 * @param i
+	 * @throws Exception
+	 */
+	private String getIcInfo(int i, HashMap<String,HashMap<String, String>> varHashMap) throws Exception {
+		//数据映射到脚本变量
+		try {
+			dataMapping(i);
+		} catch (Exception e) {
+			throw e;
+		}
+		//执行脚本
+		boolean succflag = false;
+		try {
+			succflag = evaluateScript();
+		} catch (Exception e) {
+			throw new Exception("脚本引擎出错,请检查!");
+		}
+
+		NativeArray dataArray;
+		if (gpApp instanceof NativeApplication)
+			dataArray = ((NativeApplication) gpApp).data;
+		else if (gpApp instanceof NativeGPApplication)
+			dataArray = ((NativeGPApplication) gpApp).data;
+		else if (gpApp instanceof NativeGPSecurityDomain)
+			dataArray = ((NativeGPSecurityDomain) gpApp).data;
+		else
+			dataArray = null;
+		NativeByteString snew = (NativeByteString) ScriptRuntime.getObjectElem(dataArray, "CPS_Output", cx);
+		if (!succflag)
+			throw new Exception("evaluateScript error.");
+
+		HashMap<String,String> tagRecordMap = (HashMap<String,String>) varHashMap.get("" + i);
+		String pan =tagRecordMap.get("pan");
+
+		//clear back
+		varHashMap.put("" + i, null);
+		varHashMap.remove("" + i);
+		return (pan + "|" + snew.toString());
+
+	}
+/*	
 	public GPScriptEngine(String selectedFragment,String secript,String cardProfilePath,HashMap<String, HashMap<String, String>> dealdata,int dataCount) throws Exception{
 		scriptEngine = new ScriptEngine(selectedFragment,secript,cardProfilePath,dealdata,dataCount);
-	}
+	}*/
 	
-	public String[] execEngine() throws Exception{
+	/*public String[] execEngine() throws Exception{
 		return scriptEngine.execEngine();
-	}
+	}*/
 	public static void main(String[] args) throws Exception {
 		FileInputStream fis = new FileInputStream(new File(System.getProperty("user.dir") + "/hbyh.xml"));
 		int len = fis.available();
@@ -32,8 +120,10 @@ public class GPScriptEngine {
 		mapValues.put("pan", "6230760027000000018F");
 		mapBean.put("" + 0, mapValues);
 		//ScriptEngine se = new ScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean,1);
-		GPScriptEngine gpScriptEngine=new GPScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml", mapBean,1);
-		String[] a = gpScriptEngine.execEngine();
+		GPScriptEngine gpScriptEngine=new GPScriptEngine("VSDC Data Preparation", new String(fileByte), System.getProperty("user.dir") + "/profiles/GPCardProfile.xml");
+		gpScriptEngine.setVarHashMap(mapBean);
+		gpScriptEngine.setCount(1);
+		String[] a = gpScriptEngine.execEngineDP();
 		System.out.println(a[0]);
 	}
 }
