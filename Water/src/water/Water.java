@@ -41,8 +41,6 @@ public class Water extends JFrame implements Runnable, MouseListener, MouseMotio
 
 	private void initialize() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(762, 502);
-		this.setLocationRelativeTo(null);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		try {
@@ -87,6 +85,8 @@ public class Water extends JFrame implements Runnable, MouseListener, MouseMotio
 		};
 		this.setContentPane(pnlMain);
 		this.setVisible(true);
+		this.setSize(width, height);
+		this.setLocationRelativeTo(null);
 	}
 
 	public void start() {
