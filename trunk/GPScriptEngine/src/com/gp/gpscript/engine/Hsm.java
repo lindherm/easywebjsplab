@@ -1,18 +1,23 @@
 package com.gp.gpscript.engine;
 
-import org.apache.log4j.Logger;
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
-import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.params.KeyParameter;
+import java.math.BigInteger;
 
+import org.apache.log4j.Logger;
+import org.mozilla.javascript.EvaluatorException;
+
+import com.gp.gpscript.keymgr.crypto.AsymmetricCipherKeyPair;
+import com.gp.gpscript.keymgr.crypto.CipherParameters;
+import com.gp.gpscript.keymgr.crypto.Crypto;
+import com.gp.gpscript.keymgr.crypto.CryptoException;
+import com.gp.gpscript.keymgr.crypto.params.KeyParameter;
+import com.gp.gpscript.keymgr.crypto.params.RSAKeyParameters;
+import com.gp.gpscript.keymgr.crypto.params.RSAPrivateCrtKeyParameters;
 import com.gp.gpscript.script.GPConstant;
+import com.gp.gpscript.script.GPError;
 import com.gp.gpscript.script.GPKeyCryptoEngine;
 import com.gp.gpscript.script.NativeByteString;
 import com.gp.gpscript.script.NativeKey;
 import com.gp.gpscript.utils.Hex;
-import com.watchdata.commons.crypto.WD3DesCryptoUtil;
-import com.watchdata.commons.jce.JceBase.Padding;
-import com.watchdata.commons.lang.WDByteUtil;
 
 public class Hsm implements GPKeyCryptoEngine {
 	private Logger log = Logger.getLogger(getClass().getName());
@@ -27,47 +32,54 @@ public class Hsm implements GPKeyCryptoEngine {
 
 	public void close() {
 	}
-
-	public NativeByteString macConnByPan(NativeKey p1, Number p2, NativeByteString p3, NativeByteString p4, String p5) {
+	
+	public NativeByteString macConnByPan(NativeKey p1, Number p2,
+			NativeByteString p3, NativeByteString p4, String p5) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public NativeByteString decryptConnByPan(NativeKey p1, Number p2, NativeByteString p3, NativeByteString p4, String p5) {
+	public NativeByteString decryptConnByPan(NativeKey p1, Number p2,
+			NativeByteString p3, NativeByteString p4, String p5) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public NativeByteString decryptEncryptConnByPan(NativeKey p1, Number p2, NativeByteString p3, Number p4, NativeByteString p5, NativeByteString p6, NativeByteString p7, String p8) {
+	public NativeByteString decryptEncryptConnByPan(NativeKey p1, Number p2,
+			NativeByteString p3, Number p4, NativeByteString p5,
+			NativeByteString p6, NativeByteString p7, String p8) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public NativeByteString wrapKeyConnByPan(NativeKey p1, Number p2, NativeByteString p3, NativeByteString p4, String p5) {
+	public NativeByteString wrapKeyConnByPan(NativeKey p1, Number p2,
+			NativeByteString p3, NativeByteString p4, String p5) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public NativeByteString deriveKeyConnByPan(NativeKey p1, Number p2, NativeByteString p3, NativeByteString p4, String p5, NativeKey p6) {
+
+	public NativeByteString deriveKeyConnByPan(NativeKey p1, Number p2,
+			NativeByteString p3, NativeByteString p4, String p5,NativeKey p6) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	public NativeByteString connectByPan(String p1) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public NativeByteString encryptConnByPan(NativeByteString p1, Number p2, NativeByteString p3, NativeByteString p4, String p5) {
+
+	public NativeByteString encryptConnByPan(NativeByteString p1, Number p2,
+			NativeByteString p3, NativeByteString p4, String p5) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	public NativeByteString disconnByPan(String p1) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	public NativeByteString deriveKeyLmk(Number p1, Number p2, Number p3, NativeByteString p4, NativeByteString p5, NativeByteString p6) {
 		return new NativeByteString("deriveKeyLmk", new Integer(GPConstant.HEX));
 	}
@@ -118,12 +130,18 @@ public class Hsm implements GPKeyCryptoEngine {
 		for (int i = 0; i < p4.GetLength(); i++)
 			iv[i] = p4.ByteAt(i);
 
-		String out = null;
-		out = WD3DesCryptoUtil.ecb_decrypt(WDByteUtil.bytes2HEX(key), WDByteUtil.bytes2HEX(dataToDecrypt), Padding.NoPadding);
+		byte[] out = null;
+		try {
+			out = Crypto.decrypt(key, mech, dataToDecrypt, iv);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 
 		// return
+		String str = new String(Hex.encode(out));
 		Integer ee = new Integer(GPConstant.HEX);
-		NativeByteString sNew = new NativeByteString(out, ee);
+		NativeByteString sNew = new NativeByteString(str, ee);
 		return sNew;
 	}
 
@@ -168,9 +186,12 @@ public class Hsm implements GPKeyCryptoEngine {
 			encryptIv[i] = p7.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * try { //out = Crypto.decryptEncrypt(decrytKey, decryptMech, encrytKey, encryptMech, data, decryptIv, encryptIv); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.decryptEncrypt(decrytKey, decryptMech, encrytKey, encryptMech, data, decryptIv, encryptIv);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 
 		// return
 		String str = new String(Hex.encode(out));
@@ -202,9 +223,15 @@ public class Hsm implements GPKeyCryptoEngine {
 			data[i] = p3.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * try { //out = Crypto.deriveKey(masterKey, mech, data); String keyToDerive = new String(Hex.encode(out)); p4.strBlob = keyToDerive; // not implemented GP_Global.setKey(p4.strIndex,keyToDerive); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.deriveKey(masterKey, mech, data);
+			String keyToDerive = new String(Hex.encode(out));
+			p4.strBlob = keyToDerive;
+			// not implemented GP_Global.setKey(p4.strIndex,keyToDerive);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 
 	}
 
@@ -219,9 +246,17 @@ public class Hsm implements GPKeyCryptoEngine {
 			data[i] = p3.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.deriveKey(masterKey, mech, data); String keyToDerive = new String(Hex.encode(out)); log.debug("before odd adjust :" + keyToDerive); keyToDerive = Hex.getOddString(keyToDerive); p4.strBlob = keyToDerive; // not implemented GP_Global.setKey(p4.strIndex,keyToDerive); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.deriveKey(masterKey, mech, data);
+			String keyToDerive = new String(Hex.encode(out));
+			log.debug("before odd adjust :" + keyToDerive);
+			keyToDerive = Hex.getOddString(keyToDerive);
+			p4.strBlob = keyToDerive;
+			// not implemented GP_Global.setKey(p4.strIndex,keyToDerive);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 	}
 
 	/**
@@ -240,9 +275,13 @@ public class Hsm implements GPKeyCryptoEngine {
 			data[i] = p2.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.digest(digestMech, data); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.digest(digestMech, data);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
+
 		// return
 		String str = new String(Hex.encode(out));
 		Integer ee = new Integer(GPConstant.HEX);
@@ -280,9 +319,12 @@ public class Hsm implements GPKeyCryptoEngine {
 			iv[i] = p4.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.encrypt(key, mech, dataToEncrypt, iv); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.encrypt(key, mech, dataToEncrypt, iv);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 
 		// return
 		String str = new String(Hex.encode(out));
@@ -304,9 +346,16 @@ public class Hsm implements GPKeyCryptoEngine {
 
 		KeyParameter out;
 		byte[] keyToGen = null;
-		/*
-		 * try { out = Crypto.generatorKey(mech); keyToGen = out.getKey(); String strKeyToDerive = new String(Hex.encode(keyToGen)); p2.strBlob = strKeyToDerive; // not implemented GP_Global.setKey(p2.strIndex,strKeyToDerive); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.generatorKey(mech);
+			keyToGen = out.getKey();
+			String strKeyToDerive = new String(Hex.encode(keyToGen));
+			p2.strBlob = strKeyToDerive;
+			// not implemented GP_Global.setKey(p2.strIndex,strKeyToDerive);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 	}
 
 	/**
@@ -327,9 +376,19 @@ public class Hsm implements GPKeyCryptoEngine {
 		CipherParameters privateParam;
 		byte[] publicKey = null;
 		byte[] privateKey = null;
-		/*
-		 * try { pair = Crypto.generateRSAKeyPair(3, 1024); String strModulus = new String(Hex.encode((((RSAKeyParameters) pair.getPublic()).getModulus()).toByteArray())); String strExponent = new String(Hex.encode((((RSAKeyParameters) pair.getPublic()).getExponent()).toByteArray())); String strP = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getP()).toByteArray())); String strQ = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getQ()).toByteArray())); String strDP1 = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getDP()).toByteArray())); String strDQ1 = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getDQ()).toByteArray())); String strPQ = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getQInv()).toByteArray())); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			pair = Crypto.generateRSAKeyPair(3, 1024);
+			String strModulus = new String(Hex.encode((((RSAKeyParameters) pair.getPublic()).getModulus()).toByteArray()));
+			String strExponent = new String(Hex.encode((((RSAKeyParameters) pair.getPublic()).getExponent()).toByteArray()));
+			String strP = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getP()).toByteArray()));
+			String strQ = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getQ()).toByteArray()));
+			String strDP1 = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getDP()).toByteArray()));
+			String strDQ1 = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getDQ()).toByteArray()));
+			String strPQ = new String(Hex.encode((((RSAPrivateCrtKeyParameters) pair.getPrivate()).getQInv()).toByteArray()));
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 	}
 
 	/**
@@ -343,9 +402,13 @@ public class Hsm implements GPKeyCryptoEngine {
 		int rdmLength = (int) p1.intValue();
 
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.generaterandom(rdmLength); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.generaterandom(rdmLength);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
+
 		// return
 		String str = new String(Hex.encode(out));
 		Integer ee = new Integer(GPConstant.HEX);
@@ -378,11 +441,35 @@ public class Hsm implements GPKeyCryptoEngine {
 			iv[i] = p4.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * if ((signingMech == Crypto.DES_MAC) || (signingMech == Crypto.DES_MAC_EMV)) { try { //out = Crypto.DESsign(signingkey, signingMech, data, iv); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); } } else // RSA { try { // get component of the RSA BigInteger mod = new BigInteger(p1.getComponent(p1.MODULUS).toString(), 16); BigInteger pubExp = new BigInteger("11", 16); BigInteger privExp = new BigInteger(p1.getComponent(p1.EXPONENT).toString(), 16); BigInteger p = new BigInteger(p1.getComponent(p1.CRT_P).toString(), 16); BigInteger q = new BigInteger(p1.getComponent(p1.CRT_Q).toString(), 16); BigInteger pExp = new BigInteger(p1.getComponent(p1.CRT_DP1).toString(), 16); BigInteger qExp = new BigInteger(p1.getComponent(p1.CRT_DQ1).toString(), 16); BigInteger crtCoef = new BigInteger(p1.getComponent(p1.CRT_PQ).toString(), 16);
-		 * 
-		 * RSAPrivateCrtKeyParameters privParameters = new RSAPrivateCrtKeyParameters(mod, pubExp, privExp, p, q, pExp, qExp, crtCoef); //out = Crypto.RSAsign(privParameters, data); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); } } // return
-		 */String str = new String(Hex.encode(out));
+		if ((signingMech == Crypto.DES_MAC) || (signingMech == Crypto.DES_MAC_EMV)) {
+			try {
+				out = Crypto.DESsign(signingkey, signingMech, data, iv);
+			} catch (CryptoException e) {
+				e.printStackTrace();
+				throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+			}
+		} else // RSA
+		{
+			try {
+				// get component of the RSA
+				BigInteger mod = new BigInteger(p1.getComponent(p1.MODULUS).toString(), 16);
+				BigInteger pubExp = new BigInteger("11", 16);
+				BigInteger privExp = new BigInteger(p1.getComponent(p1.EXPONENT).toString(), 16);
+				BigInteger p = new BigInteger(p1.getComponent(p1.CRT_P).toString(), 16);
+				BigInteger q = new BigInteger(p1.getComponent(p1.CRT_Q).toString(), 16);
+				BigInteger pExp = new BigInteger(p1.getComponent(p1.CRT_DP1).toString(), 16);
+				BigInteger qExp = new BigInteger(p1.getComponent(p1.CRT_DQ1).toString(), 16);
+				BigInteger crtCoef = new BigInteger(p1.getComponent(p1.CRT_PQ).toString(), 16);
+
+				RSAPrivateCrtKeyParameters privParameters = new RSAPrivateCrtKeyParameters(mod, pubExp, privExp, p, q, pExp, qExp, crtCoef);
+				out = Crypto.RSAsign(privParameters, data);
+			} catch (CryptoException e) {
+				e.printStackTrace();
+				throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+			}
+		}
+		// return
+		String str = new String(Hex.encode(out));
 		Integer ee = new Integer(GPConstant.HEX);
 		NativeByteString sNew = new NativeByteString(str, ee);
 		return sNew;
@@ -415,9 +502,26 @@ public class Hsm implements GPKeyCryptoEngine {
 			signature[i] = p3.ByteAt(i);
 
 		boolean out = false;
-		/*
-		 * if ((verifyMech == Crypto.DES_MAC) || (verifyMech == Crypto.DES3_MAC) || (verifyMech == Crypto.DES3_MAC_EMV)) { try { out = Crypto.DESverify(verifykey, verifyMech, data, signature); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); } } else // RSA { try { // get component of the RSA BigInteger mod = new BigInteger(p1.getComponent(p1.MODULUS).toString(), 16); BigInteger pubExp = new BigInteger("3", 16); RSAKeyParameters pubParameters = new RSAKeyParameters(false, mod, pubExp); out = Crypto.RSAverify(pubParameters, data, signature); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); } }
-		 */
+		if ((verifyMech == Crypto.DES_MAC) || (verifyMech == Crypto.DES3_MAC) || (verifyMech == Crypto.DES3_MAC_EMV)) {
+			try {
+				out = Crypto.DESverify(verifykey, verifyMech, data, signature);
+			} catch (CryptoException e) {
+				e.printStackTrace();
+				throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+			}
+		} else // RSA
+		{
+			try {
+				// get component of the RSA
+				BigInteger mod = new BigInteger(p1.getComponent(p1.MODULUS).toString(), 16);
+				BigInteger pubExp = new BigInteger("3", 16);
+				RSAKeyParameters pubParameters = new RSAKeyParameters(false, mod, pubExp);
+				out = Crypto.RSAverify(pubParameters, data, signature);
+			} catch (CryptoException e) {
+				e.printStackTrace();
+				throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+			}
+		}
 		// return
 		return out;
 	}
@@ -451,9 +555,13 @@ public class Hsm implements GPKeyCryptoEngine {
 			iv[i] = p5.ByteAt(i);
 
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.encrypt(wrapKey, wrapMech, keyToWrap, iv); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.encrypt(wrapKey, wrapMech, keyToWrap, iv);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
+
 		// return
 		String strKeyResult = new String(Hex.encode(out));
 		p4.strBlob = strKeyResult;
@@ -493,9 +601,13 @@ public class Hsm implements GPKeyCryptoEngine {
 
 		// call syp
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.decrypt(unwrapKey, unwrapMech, keyToUnwrap, iv); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.decrypt(unwrapKey, unwrapMech, keyToUnwrap, iv);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
+
 		// return
 		String strKeyResult = new String(Hex.encode(out));
 		p3.strBlob = strKeyResult;
@@ -551,19 +663,26 @@ public class Hsm implements GPKeyCryptoEngine {
 
 		// decrypt
 		byte[] out = null;
-		/*
-		 * try { out = Crypto.decrypt(unwrapKey, unwrapMech, keyToUnwrap, unwrapIV); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out = Crypto.decrypt(unwrapKey, unwrapMech, keyToUnwrap, unwrapIV);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 		// encrypt
 		byte[] out1 = null;
-		/*
-		 * try { out1 = Crypto.encrypt(wrapKey, wrapMech, out, wrapIV); } catch (CryptoException e) { e.printStackTrace(); throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString()); }
-		 */
+		try {
+			out1 = Crypto.encrypt(wrapKey, wrapMech, out, wrapIV);
+		} catch (CryptoException e) {
+			e.printStackTrace();
+			throw new EvaluatorException((new GPError("Crypto", 0, 0, e.getMessage())).toString());
+		}
 
 		// return
 		String strKeyResult = new String(Hex.encode(out1));
 		p5.strBlob = strKeyResult;
 		// not implemented GP_Global.setKey(p5.strIndex,strKeyResult);
 	}
+
 
 }
