@@ -2273,7 +2273,7 @@
 this.key["KMC"].setComponent(0x80, new ByteString("404142434445464748494A4B4C4D4E4F",HEX));
                         changeRate();
 		    //this.nativeDel(myObject,myKey);
-			//this.install(myObject,myKey);
+			this.install(myObject,myKey);
 
 		   	
 				
