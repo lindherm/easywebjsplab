@@ -13,6 +13,7 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 
+import com.gp.gpscript.device.PcscCardReader;
 import com.gp.gpscript.profile.app.ApplicationProfile;
 import com.gp.gpscript.profile.app.apDataElement;
 import com.gp.gpscript.profile.card.CardProfile;
@@ -55,6 +56,7 @@ import com.watchdata.commons.lang.WDByteUtil;
 public class ScriptEngine {
 
 	public Logger log = Logger.getLogger(ScriptEngine.class);
+	public String reader;
 	public ArrayList<String> paraList;
 	public int count = 0;
 	public String cardProfilePath = "";
@@ -73,8 +75,6 @@ public class ScriptEngine {
 	public ArrayList<String> textList = new ArrayList<String>();
 
 	public ScriptEngine(String selectedFragment, String secript, String cardProfilePath) throws Exception {
-		apduChannel = null;
-		
 		script = null;
 		appProfile = null;
 		cardProfile = null;
@@ -85,6 +85,14 @@ public class ScriptEngine {
 		this.selectedFragment = selectedFragment;
 		this.secript = secript;
 		this.cardProfilePath = cardProfilePath;
+	}
+	public String getReader() {
+		return reader;
+	}
+
+	public void setReader(String reader) {
+		this.reader = reader;
+		apduChannel=new PcscCardReader(getReader());
 	}
 
 	public String getIccdata() {
