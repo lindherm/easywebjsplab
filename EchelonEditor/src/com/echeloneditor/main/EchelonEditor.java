@@ -684,6 +684,7 @@ public class EchelonEditor {
 					filePath = filePath.substring(0, filePath.lastIndexOf(File.separator));
 					File zipFile=new File(filePath + "/" + selectedFile.getName() + ".zip");
 					ZipUtil.pack(fileChooser.getSelectedFile(), zipFile);
+					JOptionPane.showMessageDialog(frmEcheloneditor, "操作完成!");
 				}
 			}
 		});
