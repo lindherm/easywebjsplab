@@ -13,11 +13,14 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -34,12 +37,14 @@ import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import org.fife.rsta.ac.demo.DemoApp;
 import org.fife.rsta.ui.search.FindDialog;
 import org.fife.rsta.ui.search.ReplaceDialog;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.Gutter;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.zeroturnaround.zip.ZipUtil;
 
 import com.echeloneditor.actions.DecryptTemplateAction;
 import com.echeloneditor.actions.EmvFormatAction;
@@ -57,6 +62,7 @@ import com.echeloneditor.utils.FontUtil;
 import com.echeloneditor.utils.ImageHelper;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
+import com.sun.java.swing.plaf.windows.resources.windows;
 import com.watchdata.Generater;
 import com.watchdata.commons.lang.WDByteUtil;
 
@@ -663,6 +669,25 @@ public class EchelonEditor {
 			}
 		});
 		menu_1.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("ZIP打包");
+		mntmNewMenuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130926111642678_easyicon_net_24.png")));
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser(".");
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int ret = fileChooser.showOpenDialog(frmEcheloneditor);
+
+				if (ret == JFileChooser.APPROVE_OPTION) {
+					File selectedFile=fileChooser.getSelectedFile();
+					String filePath = selectedFile.getPath();
+					filePath = filePath.substring(0, filePath.lastIndexOf(File.separator));
+					File zipFile=new File(filePath + "/" + selectedFile.getName() + ".zip");
+					ZipUtil.pack(fileChooser.getSelectedFile(), zipFile);
+				}
+			}
+		});
+		menu_1.add(mntmNewMenuItem_3);
 
 		JMenu menu_5 = new JMenu("皮肤");
 		menuBar.add(menu_5);
