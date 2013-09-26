@@ -78,6 +78,8 @@ public class FileAction {
 
 		fileContent = fileContent.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
 		map.put("fileContent", fileContent);
+		fis.close();
+		bis.close();
 		// log.debug("open file done.");
 		return map;
 	}
