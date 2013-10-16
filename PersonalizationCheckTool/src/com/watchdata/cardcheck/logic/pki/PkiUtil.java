@@ -5,7 +5,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import com.spinn3r.log5j.Logger;
+import org.apache.log4j.Logger;
+
 import com.watchdata.cardcheck.configdao.PublicKeyInfo;
 import com.watchdata.cardcheck.utils.CryptoUtil;
 import com.watchdata.cardcheck.utils.DigitalTool;
@@ -18,7 +19,7 @@ public class PkiUtil {
 		
 	}
 	// log5j日志
-	private static Logger log = Logger.getLogger();
+	private static Logger log = Logger.getLogger(PkiUtil.class);
 	private static PublicKeyInfo pk=new PublicKeyInfo();
 	/**
 	 * 发卡行公钥证书恢复

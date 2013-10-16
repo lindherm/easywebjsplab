@@ -2,7 +2,8 @@ package com.watchdata.cardcheck.utils;
 
 import java.security.interfaces.RSAPublicKey;
 
-import com.spinn3r.log5j.Logger;
+import org.apache.log4j.Logger;
+
 import com.watchdata.commons.crypto.WDKeyUtil;
 import com.watchdata.commons.crypto.WDRsaCryptoUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
@@ -17,7 +18,7 @@ import com.watchdata.commons.lang.WDByteUtil;
  */
 public class CryptoUtil {
 	// log5j打日志
-	private static Logger log = Logger.getLogger();
+	private static Logger log = Logger.getLogger(CryptoUtil.class);
 
 	/**
 	 * rsa解密函数
