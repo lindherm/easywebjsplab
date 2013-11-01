@@ -340,7 +340,32 @@ public class AssistantToolDialog extends JDialog {
 		JButton btnShafile = new JButton("File->SHA1");
 		btnShafile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				JFileChooser jFileChooser=new JFileChooser();
+				int ret=jFileChooser.showOpenDialog(null);
+				if (ret==JFileChooser.APPROVE_OPTION) {
+					File file=jFileChooser.getSelectedFile();
+					try {
+						FileInputStream fis=new FileInputStream(file);
+						FileChannel fc=fis.getChannel();
+						MappedByteBuffer byteBuffer=fc.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
+						MessageDigest messageDigest = MessageDigest.getInstance("SHA1");  
+						messageDigest.update(byteBuffer);
+						File md5File=new File(file.getParent()+"/"+"SHA1.txt");
+						
+						FileOutputStream out=new FileOutputStream(md5File);
+						out.write(WDByteUtil.bytes2HEX(messageDigest.digest()).getBytes());
+						
+						fis.close();
+						fc.close();
+						out.close();
+						
+						JOptionPane.showMessageDialog(null, "计算完成！");
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
 			}
 		});
 		btnShafile.setBounds(75, 296, 112, 25);
@@ -359,7 +384,7 @@ public class AssistantToolDialog extends JDialog {
 						MappedByteBuffer byteBuffer=fc.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
 						MessageDigest messageDigest = MessageDigest.getInstance("MD5");  
 						messageDigest.update(byteBuffer);
-						File md5File=new File(file.getParent()+"/"+"md5.txt");
+						File md5File=new File(file.getParent()+"/"+"MD5.txt");
 						
 						FileOutputStream out=new FileOutputStream(md5File);
 						out.write(WDByteUtil.bytes2HEX(messageDigest.digest()).getBytes());
