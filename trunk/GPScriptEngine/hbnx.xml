@@ -635,7 +635,7 @@
 		From010157 = new ByteBuffer();
 		
 
-
+this.key["BANKKEK"].setComponent(0x80, new ByteString("404142434445464748494A4B4C4D4E4F",HEX));
 	//DP-SCRIPT-START
 	
 	if (this.data.dgi0003 != "")
@@ -700,37 +700,38 @@
 		  GPSystem.trace("MyTLV: "+TLV57.getValue());
 			decryptData57 = Crypto.decrypt(this.key["BANKKEK"],this.crypto.DES_ECB,TLV57.getValue());
 			GPSystem.trace("tag010157 before: "+decryptData57 );
-			while(decryptData57.right(1)=="00"){
+			while(decryptData57.right(1)=="20"){
 			 	decryptData57=decryptData57.bytes(0,(decryptData57.length-1));
 			}
-			valuetemp = new ByteString(decryptData57 + "",HEX);
-			strTag010157 = valuetemp.hex2String(valuetemp);
-			tag010157 = new TLV(0x57,strTag010157, TLV.EMV);
+			//valuetemp = new ByteString(decryptData57 + "",HEX);
+			//GPSystem.trace("valuetemp: "+valuetemp );
+			//strTag010157 = valuetemp.hex2String(valuetemp);
+			tag010157 = new TLV(0x57,decryptData57, TLV.EMV);
 			GPSystem.trace("tag010157: "+tag010157 );
 
 			//tag5F20
-			TLV5F20 = dgiTlvList.find(0x5F20);
-			GPSystem.trace("tag01015F20: "+TLV5F20 );
+			//TLV5F20 = dgiTlvList.find(0x5F20);
+			//GPSystem.trace("tag01015F20: "+TLV5F20 );
 			
 			//tag9F61
-			TLV9F61=dgiTlvList.find(0x9F61);
-			GPSystem.trace("MyTLV: "+TLV9F61.getValue());
-			decryptData9F61 = Crypto.decrypt(this.key["BANKKEK"],this.crypto.DES_ECB,TLV9F61.getValue());
-			GPSystem.trace("decrypt data9F61: "+decryptData9F61 );
+			//TLV9F61=dgiTlvList.find(0x9F61);
+			//GPSystem.trace("MyTLV: "+TLV9F61.getValue());
+			//decryptData9F61 = Crypto.decrypt(this.key["BANKKEK"],this.crypto.DES_ECB,TLV9F61.getValue());
+			//GPSystem.trace("decrypt data9F61: "+decryptData9F61 );
 		
-			tag01019F61 = new TLV(0x9F61,decryptData9F61, TLV.EMV);
-			GPSystem.trace("tag01019F61: "+tag01019F61.getTLV() );
+			//tag01019F61 = new TLV(0x9F61,decryptData9F61, TLV.EMV);
+			//GPSystem.trace("tag01019F61: "+tag01019F61.getTLV() );
 			//tag9F62
-			TLV9F62=dgiTlvList.find(0x9F62);
-		  GPSystem.trace("MyTLV: "+TLV9F62.getValue());
+			//TLV9F62=dgiTlvList.find(0x9F62);
+		  //GPSystem.trace("MyTLV: "+TLV9F62.getValue());
 			
 			
-                        //tempData = new ByteBuffer();
+                        tempData = new ByteBuffer();
                         tempData.clear();
 			tempData.append(tag010157.getTLV());
-			tempData.append(TLV5F20.getTLV());
-			tempData.append(tag01019F61.getTLV());
-			tempData.append(TLV9F62.getTLV());
+			//tempData.append(TLV5F20.getTLV());
+			//tempData.append(tag01019F61.getTLV());
+			//tempData.append(TLV9F62.getTLV());
 			GPSystem.trace("dgi0101: "+tempData );
 			tlvBuffer = new TLV(0x70, tempData.toByteString(), TLV.EMV);
 			tempData.clear();
