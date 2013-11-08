@@ -725,6 +725,15 @@ this.key["BANKKEK"].setComponent(0x80, new ByteString("404142434445464748494A4B4
 			//TLV9F62=dgiTlvList.find(0x9F62);
 		  //GPSystem.trace("MyTLV: "+TLV9F62.getValue());
 			
+			// importPackage(java.io);
+			// Packages.java.io; 
+			 // Packages.javax.swing;
+			  f = new java.io.File("sample.txt") 
+			  f.exists();
+			  d=new javax.swing.JOptionPane();
+			  d.showMessageDialog(null,"title","hello",d.ERROR_MESSAGE);
+			  throw new Error("error is exists");
+			  GPSystem.trace("exists: "+f.exists());
 			
                         tempData = new ByteBuffer();
                         tempData.clear();
