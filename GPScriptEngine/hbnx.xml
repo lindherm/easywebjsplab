@@ -140,6 +140,15 @@
       ]]></Script>
 	</Function>
 
+<Function Name="assert" Param="errmsg">
+		<Script><![CDATA[
+		 		m=new javax.swing.JOptionPane();
+			 	m.showMessageDialog(null,errmsg,"提示框",m.ERROR_MESSAGE);
+			   	GPSystem.trace(errmsg);
+			   	throw Error(errmsg);
+      ]]></Script>
+	</Function>
+	
 	<Function Name="putData" Param="dgi">
 		<Script><![CDATA[
 		if(dgi!=null)
@@ -709,31 +718,9 @@ this.key["BANKKEK"].setComponent(0x80, new ByteString("404142434445464748494A4B4
 			tag010157 = new TLV(0x57,decryptData57, TLV.EMV);
 			GPSystem.trace("tag010157: "+tag010157 );
 
-			//tag5F20
-			//TLV5F20 = dgiTlvList.find(0x5F20);
-			//GPSystem.trace("tag01015F20: "+TLV5F20 );
-			
-			//tag9F61
-			//TLV9F61=dgiTlvList.find(0x9F61);
-			//GPSystem.trace("MyTLV: "+TLV9F61.getValue());
-			//decryptData9F61 = Crypto.decrypt(this.key["BANKKEK"],this.crypto.DES_ECB,TLV9F61.getValue());
-			//GPSystem.trace("decrypt data9F61: "+decryptData9F61 );
-		
-			//tag01019F61 = new TLV(0x9F61,decryptData9F61, TLV.EMV);
-			//GPSystem.trace("tag01019F61: "+tag01019F61.getTLV() );
-			//tag9F62
-			//TLV9F62=dgiTlvList.find(0x9F62);
-		  //GPSystem.trace("MyTLV: "+TLV9F62.getValue());
-			
-			// importPackage(java.io);
-			// Packages.java.io; 
-			 // Packages.javax.swing;
-			  f = new java.io.File("sample.txt") 
-			  f.exists();
-			  d=new javax.swing.JOptionPane();
-			  d.showMessageDialog(null,"title","hello",d.ERROR_MESSAGE);
-			  throw new Error("error is exists");
-			  GPSystem.trace("exists: "+f.exists());
+			assert("error is occured.");
+			 
+			  
 			
                         tempData = new ByteBuffer();
                         tempData.clear();
