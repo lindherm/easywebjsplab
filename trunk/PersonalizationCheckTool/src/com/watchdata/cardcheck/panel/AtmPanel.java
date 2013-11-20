@@ -67,7 +67,7 @@ public class AtmPanel extends JImagePanel {
 	 * 
 	 * @throws Exception
 	 */
-	public AtmPanel(final JTextPane textPane) throws IOException{
+	public AtmPanel(final JTextPane textPane,final JTextPane textPane1) throws IOException{
 		
 		super(ImageIO.read(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/trade.png")));
 		
@@ -530,55 +530,7 @@ public class AtmPanel extends JImagePanel {
 					
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
-						logger.setLogArea(textPane);
-						apduHandler=new CommonAPDU();
-						// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
-						logger.debug("=============================reset===================================");
-						HashMap<String, String> res = apduHandler.reset(Config.getValue("Terminal_Data", "reader"));
-						if (!"9000".equals(res.get("sw"))) {
-							logger.error("card reset falied");
-						}
-						logger.debug("atr:" + res.get("atr"));
-
-						logger.debug("============================select PSE=================================");
-						HashMap<String, String> result = apduHandler.select(Constants.PSE);
-						if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
-							logger.error("select PSE error,card return:" + result.get("sw"));
-						}
-
-						if (WDAssert.isNotEmpty(result.get("88"))) {
-							// read dir, begin from 01
-							logger.debug("==============================read dir================================");
-							List<HashMap<String, String>> readDirList = apduHandler.readDir(result.get("88"));
-
-							// select aid
-							String aid = readDirList.get(0).get("4F");
-							logger.debug("===============================select aid==============================");
-							if (WDAssert.isEmpty(aid)) {
-								logger.error("select aid is null");
-							}
-							result = apduHandler.select(aid);
-							
-							if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
-								logger.error("select aid error,card return:" + result.get("sw"));
-							}
-							String tag9f4d=result.get("9F4D");
-							if (WDAssert.isEmpty(tag9f4d)) {
-								logger.error("logentry is not exists.:" + result.get("sw"));
-							}
-							result=apduHandler.getData("9F4F");
-							String strLog=result.get("res");
-							strLog=strLog.substring(6,strLog.length()-4);
-							List<String> tlList=CommonHelper.parseTLDataCommon(strLog);
-							
-							String sfi=tag9f4d.substring(0,2);
-							String logCount=tag9f4d.substring(2);
-							for (int i = 1; i <=Integer.parseInt(logCount, 16); i++) {
-								logger.debug("===============================readlog=============================="+sfi+WDStringUtil.paddingHeadZero(Integer.toHexString(i),2));
-								HashMap<String, String> readList= apduHandler.readDirCommon(sfi,WDStringUtil.paddingHeadZero(Integer.toHexString(i), 2));
-							}
-						}
+						
 					}
 				});
 				thread.start();
@@ -592,7 +544,7 @@ public class AtmPanel extends JImagePanel {
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				TradeThread tradeThread=new TradeThread(money, tradeType, tradingLabel,reportButton, textPane);
+				TradeThread tradeThread=new TradeThread(money, tradeType, tradingLabel,reportButton, textPane,textPane1);
 				Thread thread=new Thread(tradeThread);
 				thread.start();
 				
