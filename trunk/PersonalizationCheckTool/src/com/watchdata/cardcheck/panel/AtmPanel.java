@@ -522,24 +522,6 @@ public class AtmPanel extends JImagePanel {
 		cancelButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/cancel.png")));
 		cancelButton.setBounds(242, 293, 70, 31);
 		add(cancelButton);
-		
-		JButton button = new JButton();
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Thread thread=new Thread(new Runnable() {
-					
-					@Override
-					public void run() {
-						
-					}
-				});
-				thread.start();
-			}
-		});
-		button.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/log.png")));
-		button.setFocusPainted(false);
-		button.setBounds(242, 373, 70, 31);
-		add(button);
 
 		okButton.addActionListener(new ActionListener() {
 			@Override
