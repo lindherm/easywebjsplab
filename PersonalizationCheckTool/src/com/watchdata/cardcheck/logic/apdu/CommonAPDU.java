@@ -200,10 +200,12 @@ public class CommonAPDU extends AbstractAPDU {
 		String responseApdu = "";
 		String commandApdu = packApdu("READ_RECORD", "", WDStringUtil.paddingHeadZero(rec, 2), WDStringUtil.paddingHeadZero(Integer.toHexString(b), 2));
 		responseApdu = apduChannel.send(commandApdu);
-		if (Constants.SW_SUCCESS.equalsIgnoreCase(responseApdu.substring(responseApdu.length() - 4))) {
+		String sw=responseApdu.substring(responseApdu.length() - 4);
+		if (Constants.SW_SUCCESS.equalsIgnoreCase(sw)) {
 			result.put("apdu", commandApdu);
 			result.put("res", responseApdu);
 		}
+		result.put("sw", sw);
 		return result;
 	}
 

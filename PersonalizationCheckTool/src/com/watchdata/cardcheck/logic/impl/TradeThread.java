@@ -191,6 +191,9 @@ public class TradeThread implements Runnable {
 			for (int i = 1; i <=Integer.parseInt(logCount, 16); i++) {
 				logger.debug("===============================readlog=============================="+sfi+WDStringUtil.paddingHeadZero(Integer.toHexString(i),2));
 				HashMap<String, String> readList= apduHandler.readDirCommon(sfi,WDStringUtil.paddingHeadZero(Integer.toHexString(i), 2));
+				if (!readList.get("sw").equalsIgnoreCase("9000")) {
+					break;
+				}
 			}
 		}
 	}
