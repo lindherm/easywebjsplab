@@ -148,7 +148,7 @@ public class TradeThread implements Runnable {
 		logger.setLogArea(readlogTextPane);
 		CommonAPDU apduHandler=new CommonAPDU();
 		// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
-		logger.debug("=============================reset===================================");
+		logger.debug("=============================reset===================================",0);
 		HashMap<String, String> res = apduHandler.reset(Config.getValue("Terminal_Data", "reader"));
 		if (!"9000".equals(res.get("sw"))) {
 			logger.error("card reset falied");
