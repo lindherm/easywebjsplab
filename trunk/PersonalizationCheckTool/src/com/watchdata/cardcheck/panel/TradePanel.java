@@ -69,12 +69,12 @@ public class TradePanel extends JPanel {
 		};
 		
 		AtmPanel atmPanel = new AtmPanel(textPane,textPane1);
-		atmPanel.setBounds(565, 10, 575, 467);
+		atmPanel.setBounds(565, 10, 575, 483);
 		add(atmPanel);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "TRADE LOG", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(0, 28, 556, 659);
+		panel.setBounds(0, 0, 556, 500);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
@@ -88,7 +88,7 @@ public class TradePanel extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "READ TRADE LOG", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 70, 213)));
-		panel_1.setBounds(0, 689, 1118, 206);
+		panel_1.setBounds(0, 497, 1140, 180);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		

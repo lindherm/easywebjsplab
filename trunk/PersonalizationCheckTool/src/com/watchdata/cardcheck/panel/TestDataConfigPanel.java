@@ -97,7 +97,7 @@ public class TestDataConfigPanel extends JPanel {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Log", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(0, 598, 837, 238);
+		panel.setBounds(0, 495, 1000, 180);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
@@ -107,7 +107,8 @@ public class TestDataConfigPanel extends JPanel {
 		scrollPane_2.setViewportView(textPane_1);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 27, 837, 567);
+		panel_1.setBorder(new TitledBorder(null, "SCAN EMV CARD", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBounds(0, 5, 1000, 486);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
