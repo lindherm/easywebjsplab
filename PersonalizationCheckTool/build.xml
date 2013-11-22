@@ -25,9 +25,9 @@
 	<!-- Set global properties for this build. -->
 	<property name="version" value="1.0.0" />
 	<property name="source-dir" location="src" />
-	<property name="class-dir" location="E:\程序打包\PersonalizationCheckTool\ant-classes" />
-	<property name="dist-dir" location="E:\程序打包\PersonalizationCheckTool\dist" />
-	<property name="doc-dir" location="E:\程序打包\PersonalizationCheckTool\javadoc" />
+	<property name="class-dir" location="D:\程序打包\PersonalizationCheckTool\ant-classes" />
+	<property name="dist-dir" location="D:\程序打包\PersonalizationCheckTool\dist" />
+	<property name="doc-dir" location="D:\程序打包\PersonalizationCheckTool\javadoc" />
 	<property name="lib" value="lib" />
 	<property name="debug" value="true" />
 	<property name="debuglevel" value="lines,vars,source" />
