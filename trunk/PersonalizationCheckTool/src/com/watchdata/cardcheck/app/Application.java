@@ -80,7 +80,7 @@ public class Application extends JFrame {
 		//setLocationRelativeTo(getOwner());
 		//getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
 		//setAlwaysOnTop(true);
-		setResizable(false);
+		//setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
 	}

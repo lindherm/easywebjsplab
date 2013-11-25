@@ -8,7 +8,6 @@ import javax.swing.JTabbedPane;
 import com.watchdata.cardcheck.panel.AIDConfigPanel;
 import com.watchdata.cardcheck.panel.CAPublicKeyConfigPanel;
 import com.watchdata.cardcheck.panel.CardInfoDetectPanel;
-import com.watchdata.cardcheck.panel.CardInfoScanPanel;
 import com.watchdata.cardcheck.panel.CardReaderPanel;
 import com.watchdata.cardcheck.panel.IssuerKeyConfigPanel;
 import com.watchdata.cardcheck.panel.LogoPanel;
@@ -43,7 +42,7 @@ public class RightPanel extends JPanel{
 	public static TradePanel tradePanel = null;
 	public static LogoPanel logoPanel = null;
 	public static CardReaderPanel cardReaderPanel = new CardReaderPanel();
-	public static CardInfoScanPanel cardInfoScanPanel=null;
+	//public static CardInfoScanPanel cardInfoScanPanel=null;
 	
 
 	public RightPanel() throws Exception {
@@ -61,7 +60,7 @@ public class RightPanel extends JPanel{
 		testDataConfigPanel = new TestDataConfigPanel();
 		cardInfoDetectPanel=new CardInfoDetectPanel();
 		tradePanel = new TradePanel();
-		cardInfoScanPanel=new CardInfoScanPanel();
+		//cardInfoScanPanel=new CardInfoScanPanel();
 		setLayout(new BorderLayout());
 		logoPanel = new LogoPanel();
 		add(logoPanel, BorderLayout.CENTER);

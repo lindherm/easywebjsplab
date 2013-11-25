@@ -48,35 +48,10 @@ public class CardInfoDetectTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 			}
 		});
 		button.setText("卡片工具");
-
-		final JButton button_1 = new JButton();
-		button_1.setBounds(0, 91, 80, 21);
-		button_1.setFocusPainted(false);
-		button_1.setBorderPainted(false);
-		add(button_1);
-		button_1.setText("信息扫描");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent arg0) {
-				Application.rightPanel.add(RightPanel.cardInfoScanPanel, BorderLayout.CENTER);
-				RightPanel.cardInfoScanPanel.setVisible(true);
-				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.aidConfigPanel.setVisible(false);
-				RightPanel.logoPanel.setVisible(false);
-				RightPanel.caPublicKeyConfigPanel.setVisible(false);
-				RightPanel.issuerKeyConfigPanel.setVisible(false);
-				RightPanel.terminalLimitConfigPanel.setVisible(false);
-				RightPanel.terminalTypeConfigPanel.setVisible(false);
-				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
-				RightPanel.tradePanel.setVisible(false);
-				RightPanel.testDataConfigPanel.setVisible(false);
-				RightPanel.cardReaderPanel.setVisible(false);
-				AIDConfigPanel.buttonDel.requestFocus();
-			}
-		});
 
 	}
 
