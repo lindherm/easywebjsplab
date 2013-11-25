@@ -57,6 +57,7 @@ public class TestDataConfigPanel extends JPanel {
 	public CommonAPDU apduHandler;
 	public static Log log = new Log();
 	public static DefaultTreeModel model;
+	public DefaultMutableTreeNode rootNode;
 
 	public TableColumnModel tcm;
 	public TableColumn tc;
@@ -132,89 +133,21 @@ public class TestDataConfigPanel extends JPanel {
 						// TODO Auto-generated method stub
 						logger.setLogArea(textPane_1);
 						logger.debug("scan data....", 0);
-						//root node 
+						// root node
 						model = (DefaultTreeModel) tree.getModel();
-						DefaultMutableTreeNode rootNode=(DefaultMutableTreeNode)model.getRoot();
+						rootNode = (DefaultMutableTreeNode) model.getRoot();
 						rootNode.removeAllChildren();
-						
 
 						String reader = Config.getValue("Terminal_Data", "reader");
-						
-						//reset
+
+						// reset
 						HashMap<String, String> res = apduHandler.reset(reader);
 						if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-							addNode(rootNode,"ATR  "+res.get("atr"));
+							addNode(rootNode, "ATR  " + res.get("atr"));
 						}
-						
-						//pse node
-						res = apduHandler.select(Constants.PSE);
-						if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-							DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("PSE  "+Constants.PSE);
-							rootNode.add(newNode);
-							TreeNode[] nodes = model.getPathToRoot(newNode);
-							TreePath path = new TreePath(nodes);
-							tree.scrollPathToVisible(path);
-							tree.updateUI();
-							
-							for (int sfi = 1; sfi <= 31; sfi++) {
-								for (int rec = 1; rec <= 16; rec++) {
-									int sfi1 = (sfi << 3) | 4;
-									HashMap<String, String> readRes = apduHandler.readRecordCommon(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
-									if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
-										String dgiName=CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2))+ WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2);
-										
-										addNode(newNode, dgiName+" "+readRes.get("res"));
-									}
-								}
-							}
-						}
-						
-						//ppse node
-						res = apduHandler.select(Constants.PPSE);
-						if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-							DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("PPSE  "+Constants.PPSE);
-							rootNode.add(newNode);
-							TreeNode[] nodes = model.getPathToRoot(newNode);
-							TreePath path = new TreePath(nodes);
-							tree.scrollPathToVisible(path);
-							tree.updateUI();
-							
-							for (int sfi = 1; sfi <= 31; sfi++) {
-								for (int rec = 1; rec <= 16; rec++) {
-									int sfi1 = (sfi << 3) | 4;
-									HashMap<String, String> readRes = apduHandler.readRecordCommon(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
-									if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
-										String dgiName=CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2))+ WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2);
-										
-										addNode(newNode, dgiName+" "+readRes.get("res"));
-									}
-								}
-							}
-						}
-						
-						
-						res = apduHandler.select("A000000333010101");
-						
-						if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
-							DefaultMutableTreeNode newNode = new DefaultMutableTreeNode("PBOC  A000000333010101");
-							rootNode.add(newNode);
-							TreeNode[] nodes = model.getPathToRoot(newNode);
-							TreePath path = new TreePath(nodes);
-							tree.scrollPathToVisible(path);
-							tree.updateUI();
-							
-							for (int sfi = 1; sfi <= 31; sfi++) {
-								for (int rec = 1; rec <= 16; rec++) {
-									int sfi1 = (sfi << 3) | 4;
-									HashMap<String, String> readRes = apduHandler.readRecordCommon(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
-									if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
-										String dgiName=CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2))+ WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2);
-										
-										addNode(newNode, dgiName+" "+readRes.get("res"));
-									}
-								}
-							}
-						}
+						scanAid(Constants.PSE);
+						scanAid(Constants.PPSE);
+						scanAid("A000000333010101");
 						apduHandler.close();
 					}
 				});
@@ -275,13 +208,46 @@ public class TestDataConfigPanel extends JPanel {
 			}
 		});
 	}
-	//add node and show it in treelist
-	public void addNode(DefaultMutableTreeNode parentNode,String nodeName){
+
+	// add node and show it in treelist
+	public void addNode(DefaultMutableTreeNode parentNode, String nodeName) {
 		DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(nodeName);
 		parentNode.add(newNode);
 		TreeNode[] nodes = model.getPathToRoot(newNode);
 		TreePath path = new TreePath(nodes);
 		tree.scrollPathToVisible(path);
 		tree.updateUI();
+	}
+
+	public void scanAid(String aid) {
+		// ppse node
+		HashMap<String, String> res = apduHandler.select(aid);
+		if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
+			DefaultMutableTreeNode newNode;
+			if (aid.equalsIgnoreCase(Constants.PSE)) {
+				newNode = new DefaultMutableTreeNode("PSE  " + Constants.PSE);
+			}else if (aid.equalsIgnoreCase(Constants.PPSE)) {
+				newNode = new DefaultMutableTreeNode("PPSE  " + Constants.PPSE);
+			}else {
+				newNode = new DefaultMutableTreeNode("AID  "+aid);
+			}
+			rootNode.add(newNode);
+			TreeNode[] nodes = model.getPathToRoot(newNode);
+			TreePath path = new TreePath(nodes);
+			tree.scrollPathToVisible(path);
+			tree.updateUI();
+
+			for (int sfi = 1; sfi <= 31; sfi++) {
+				for (int rec = 1; rec <= 16; rec++) {
+					int sfi1 = (sfi << 3) | 4;
+					HashMap<String, String> readRes = apduHandler.readRecordCommon(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2), WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2));
+					if (Constants.SW_SUCCESS.equalsIgnoreCase(readRes.get("sw"))) {
+						String dgiName = CommonHelper.getDgiHead(WDStringUtil.paddingHeadZero(Integer.toHexString(sfi1), 2)) + WDStringUtil.paddingHeadZero(Integer.toHexString(rec), 2);
+
+						addNode(newNode, dgiName + " " + readRes.get("res"));
+					}
+				}
+			}
+		}
 	}
 }
