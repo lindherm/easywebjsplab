@@ -88,7 +88,7 @@ public class TradePanel extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "READ TRADE LOG", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 70, 213)));
-		panel_1.setBounds(0, 497, 1140, 180);
+		panel_1.setBounds(0, 497, 1118, 180);
 		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
