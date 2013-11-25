@@ -70,7 +70,7 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "CARD_INFO", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(463, 5, 537, 220);
+		panel.setBounds(416, 5, 584, 220);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
@@ -192,7 +192,7 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		panel_2.setBounds(0, 473, 1000, 180);
+		panel_2.setBounds(0, 473, 1000, 200);
 		add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
@@ -222,44 +222,44 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(null, "Config", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_3.setBounds(0, 5, 457, 220);
+		panel_3.setBounds(0, 5, 417, 220);
 		add(panel_3);
 		panel_3.setLayout(null);
 
 		comboBox = new JComboBox();
-		comboBox.setBounds(83, 175, 54, 23);
+		comboBox.setBounds(74, 175, 54, 23);
 		panel_3.add(comboBox);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] { "00", "01", "03" }));
 
 		JLabel lblId = new JLabel("id:");
-		lblId.setBounds(147, 179, 39, 15);
+		lblId.setBounds(138, 179, 39, 15);
 		panel_3.add(lblId);
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		textField_5 = new JTextField();
-		textField_5.setBounds(191, 176, 66, 21);
+		textField_5.setBounds(182, 176, 66, 21);
 		panel_3.add(textField_5);
 		textField_5.setText("00");
 		textField_5.setColumns(10);
 
 		JLabel lblNewLabel_1 = new JLabel("version:");
-		lblNewLabel_1.setBounds(257, 179, 64, 15);
+		lblNewLabel_1.setBounds(248, 179, 64, 15);
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		textField_4 = new JTextField();
-		textField_4.setBounds(331, 177, 66, 21);
+		textField_4.setBounds(322, 177, 66, 21);
 		panel_3.add(textField_4);
 		textField_4.setText("00");
 		textField_4.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("Kenc:");
-		lblNewLabel.setBounds(19, 79, 54, 15);
+		lblNewLabel.setBounds(10, 79, 54, 15);
 		panel_3.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		textField = new JTextField();
-		textField.setBounds(83, 76, 314, 21);
+		textField.setBounds(74, 76, 314, 21);
 		panel_3.add(textField);
 		textField.setColumns(10);
 		textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -285,35 +285,35 @@ public class CardInfoDetectPanel extends JPanel {
 		textField.setText(Config.getValue("CardInfo", "Kenc"));
 
 		JLabel lblKmac = new JLabel("Kmac:");
-		lblKmac.setBounds(19, 110, 54, 15);
+		lblKmac.setBounds(10, 110, 54, 15);
 		panel_3.add(lblKmac);
 		lblKmac.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		textField_1 = new JTextField();
-		textField_1.setBounds(83, 107, 314, 21);
+		textField_1.setBounds(74, 107, 314, 21);
 		panel_3.add(textField_1);
 		textField_1.setColumns(10);
 		textField_1.setText(Config.getValue("CardInfo", "Kmac"));
 
 		JLabel lblKdek = new JLabel("Kdek:");
-		lblKdek.setBounds(19, 136, 54, 15);
+		lblKdek.setBounds(10, 136, 54, 15);
 		panel_3.add(lblKdek);
 		lblKdek.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		textField_2 = new JTextField();
-		textField_2.setBounds(83, 133, 314, 21);
+		textField_2.setBounds(74, 133, 314, 21);
 		panel_3.add(textField_2);
 		textField_2.setColumns(10);
 		textField_2.setText(Config.getValue("CardInfo", "Kdek"));
 
 		textField_3 = new JTextField();
-		textField_3.setBounds(82, 23, 315, 21);
+		textField_3.setBounds(73, 23, 315, 21);
 		panel_3.add(textField_3);
 		textField_3.setColumns(10);
 		textField_3.setText(Config.getValue("CardInfo", "KMC"));
 
 		JLabel lblKmc = new JLabel("KMC:");
-		lblKmc.setBounds(19, 28, 48, 15);
+		lblKmc.setBounds(10, 28, 48, 15);
 		panel_3.add(lblKmc);
 		lblKmc.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_3.getDocument().addDocumentListener(new DocumentListener() {
