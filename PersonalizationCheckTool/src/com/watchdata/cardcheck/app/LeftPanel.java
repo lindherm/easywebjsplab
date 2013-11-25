@@ -69,7 +69,7 @@ public class LeftPanel extends JPanel {
 					RightPanel.tradePanel.setVisible(false);
 					RightPanel.testDataConfigPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
-					RightPanel.cardInfoScanPanel.setVisible(false);
+					//RightPanel.cardInfoScanPanel.setVisible(false);
 				} else if ("交易".equals(tabbedPane.getSelectedComponent().getName())) {
 					Application.rightPanel.add(RightPanel.tradePanel, BorderLayout.CENTER);
 					RightPanel.tradePanel.setVisible(true);
@@ -83,7 +83,7 @@ public class LeftPanel extends JPanel {
 					RightPanel.testDataConfigPanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
-					RightPanel.cardInfoScanPanel.setVisible(false);
+					//RightPanel.cardInfoScanPanel.setVisible(false);
 					AtmPanel.tradeType = pm.getString("mv.tradepanel.lend");
 					AtmPanel.setTradeType(AtmPanel.tradeType);
 					//更新交易状态
@@ -101,7 +101,7 @@ public class LeftPanel extends JPanel {
 					RightPanel.tradePanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
-					RightPanel.cardInfoScanPanel.setVisible(false);
+					//RightPanel.cardInfoScanPanel.setVisible(false);
 				} else if ("卡片".equals(tabbedPane.getSelectedComponent().getName())) {
 					Application.rightPanel.add(RightPanel.cardInfoDetectPanel, BorderLayout.CENTER);
 					RightPanel.cardInfoDetectPanel.setVisible(true);
@@ -115,7 +115,7 @@ public class LeftPanel extends JPanel {
 					RightPanel.logoPanel.setVisible(false);
 					RightPanel.tradePanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
-					RightPanel.cardInfoScanPanel.setVisible(false);
+					//RightPanel.cardInfoScanPanel.setVisible(false);
 				}
 			}
 		});

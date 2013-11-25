@@ -50,7 +50,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				AIDConfigPanel.textFieldAid.requestFocus();
 			}
 		});
@@ -75,7 +75,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
@@ -100,7 +100,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
@@ -126,7 +126,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				TerminalLimitConfigPanel.lowLimitField.requestFocus();
 			}
 		});
@@ -152,7 +152,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				TerminalPerformanceConfigPanel.checkBox.requestFocus();
 			}
 		});
@@ -177,7 +177,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
@@ -203,7 +203,7 @@ public class ConfigTabbedPanel extends JPanel {
 				RightPanel.tradePanel.setVisible(false);
 				RightPanel.testDataConfigPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
-				RightPanel.cardInfoScanPanel.setVisible(false);
+				//RightPanel.cardInfoScanPanel.setVisible(false);
 				CardReaderPanel.comboBox.requestFocus();
 			}
 		});

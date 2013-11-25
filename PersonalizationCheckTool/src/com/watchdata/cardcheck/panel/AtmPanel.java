@@ -70,20 +70,20 @@ public class AtmPanel extends JImagePanel {
 
 		tradeTypeLabel = new JLabel();
 		tradeTypeLabel.setText(pm.getString("mv.tradepanel.tradeType"));
-		tradeTypeLabel.setBounds(123, 115, 54, 20);
+		tradeTypeLabel.setBounds(117, 57, 54, 20);
 		add(tradeTypeLabel);
 
 		tradeTypeField = new JTextField();
-		tradeTypeField.setBounds(177, 115, 120, 20);
+		tradeTypeField.setBounds(171, 57, 120, 20);
 		add(tradeTypeField);
 
 		enterMoneyLabel = new JLabel();
 		enterMoneyLabel.setText(pm.getString("mv.tradepanel.enterMoney"));
-		enterMoneyLabel.setBounds(123, 145, 54, 20);
+		enterMoneyLabel.setBounds(117, 87, 54, 20);
 		add(enterMoneyLabel);
 
 		moneyTextField = new JTextField();
-		moneyTextField.setBounds(177, 145, 120, 20);
+		moneyTextField.setBounds(171, 87, 120, 20);
 		moneyTextField.setText(money.toString());
 		add(moneyTextField);
 		moneyTextField.addKeyListener(new KeyListener() {
@@ -110,13 +110,13 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		tradingLabel = new JLabel();
-		tradingLabel.setBounds(104, 83, 200, 100);
+		tradingLabel.setBounds(112, 105, 200, 100);
 		add(tradingLabel);
 		tradingLabel.setVisible(false);
 
 		qPBOCButton = new JButton();
 		/* qPBOCButton.setText("qPBOC"); */
-		qPBOCButton.setBounds(6, 85, 84, 25);
+		qPBOCButton.setBounds(6, 45, 84, 25);
 		qPBOCButton.setOpaque(true);
 		qPBOCButton.setFocusPainted(false);
 		qPBOCButton.setContentAreaFilled(false);// 设置不画按钮背景
@@ -141,7 +141,7 @@ public class AtmPanel extends JImagePanel {
 		lendButton.setContentAreaFilled(false);// 设置不画按钮背景
 		lendButton.setBorderPainted(false);
 		lendButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/lend.png")));
-		lendButton.setBounds(6, 115, 84, 25);
+		lendButton.setBounds(6, 75, 84, 25);
 		add(lendButton);
 		lendButton.addActionListener(new ActionListener() {
 			@Override
@@ -161,7 +161,7 @@ public class AtmPanel extends JImagePanel {
 		ecashButton.setContentAreaFilled(false);// 设置不画按钮背景
 		ecashButton.setBorderPainted(false);
 		ecashButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/ecash.png")));
-		ecashButton.setBounds(6, 145, 84, 25);
+		ecashButton.setBounds(6, 105, 84, 25);
 		add(ecashButton);
 		ecashButton.addActionListener(new ActionListener() {
 			@Override
@@ -181,7 +181,7 @@ public class AtmPanel extends JImagePanel {
 		earmarkButton.setContentAreaFilled(false);// 设置不画按钮背景
 		earmarkButton.setBorderPainted(false);
 		earmarkButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/earmark.png")));
-		earmarkButton.setBounds(6, 175, 84, 25);
+		earmarkButton.setBounds(6, 135, 84, 25);
 		add(earmarkButton);
 		earmarkButton.addActionListener(new ActionListener() {
 			@Override
@@ -196,7 +196,7 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		reportButton = new JButton();
-		reportButton.setBounds(423, 127, 120, 25);
+		reportButton.setBounds(423, 87, 120, 25);
 		reportButton.setAlignmentX(CENTER_ALIGNMENT);
 		reportButton.setOpaque(false);
 		reportButton.setFocusPainted(false);
@@ -276,7 +276,7 @@ public class AtmPanel extends JImagePanel {
 		button0.setContentAreaFilled(false);// 设置不画按钮背景
 		button0.setBorderPainted(false);
 		button0.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/0.png")));
-		button0.setBounds(152, 413, 32, 32);
+		button0.setBounds(152, 373, 32, 32);
 		add(button0);
 		button0.addActionListener(new ActionListener() {
 			@Override
@@ -297,7 +297,7 @@ public class AtmPanel extends JImagePanel {
 		button1.setContentAreaFilled(false);// 设置不画按钮背景
 		button1.setBorderPainted(false);
 		button1.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/1.png")));
-		button1.setBounds(107, 293, 32, 32);
+		button1.setBounds(107, 253, 32, 32);
 		add(button1);
 		button1.addActionListener(new ActionListener() {
 			@Override
@@ -316,7 +316,7 @@ public class AtmPanel extends JImagePanel {
 		button2.setContentAreaFilled(false);// 设置不画按钮背景
 		button2.setBorderPainted(false);
 		button2.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/2.png")));
-		button2.setBounds(152, 293, 32, 32);
+		button2.setBounds(152, 253, 32, 32);
 		add(button2);
 		button2.addActionListener(new ActionListener() {
 			@Override
@@ -335,7 +335,7 @@ public class AtmPanel extends JImagePanel {
 		button3.setContentAreaFilled(false);// 设置不画按钮背景
 		button3.setBorderPainted(false);
 		button3.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/3.png")));
-		button3.setBounds(197, 293, 32, 32);
+		button3.setBounds(197, 253, 32, 32);
 		add(button3);
 		button3.addActionListener(new ActionListener() {
 			@Override
@@ -354,7 +354,7 @@ public class AtmPanel extends JImagePanel {
 		button4.setContentAreaFilled(false);// 设置不画按钮背景
 		button4.setBorderPainted(false);
 		button4.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/4.png")));
-		button4.setBounds(107, 333, 32, 32);
+		button4.setBounds(107, 293, 32, 32);
 		add(button4);
 		button4.addActionListener(new ActionListener() {
 			@Override
@@ -373,7 +373,7 @@ public class AtmPanel extends JImagePanel {
 		button5.setContentAreaFilled(false);// 设置不画按钮背景
 		button5.setBorderPainted(false);
 		button5.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/5.png")));
-		button5.setBounds(152, 333, 32, 32);
+		button5.setBounds(152, 293, 32, 32);
 		add(button5);
 		button5.addActionListener(new ActionListener() {
 			@Override
@@ -392,7 +392,7 @@ public class AtmPanel extends JImagePanel {
 		button6.setContentAreaFilled(false);// 设置不画按钮背景
 		button6.setBorderPainted(false);
 		button6.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/6.png")));
-		button6.setBounds(197, 333, 32, 32);
+		button6.setBounds(197, 293, 32, 32);
 		add(button6);
 		button6.addActionListener(new ActionListener() {
 			@Override
@@ -411,7 +411,7 @@ public class AtmPanel extends JImagePanel {
 		button7.setContentAreaFilled(false);// 设置不画按钮背景
 		button7.setBorderPainted(false);
 		button7.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/7.png")));
-		button7.setBounds(107, 373, 32, 32);
+		button7.setBounds(107, 333, 32, 32);
 		add(button7);
 		button7.addActionListener(new ActionListener() {
 			@Override
@@ -430,7 +430,7 @@ public class AtmPanel extends JImagePanel {
 		button8.setContentAreaFilled(false);// 设置不画按钮背景
 		button8.setBorderPainted(false);
 		button8.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/8.png")));
-		button8.setBounds(152, 373, 32, 32);
+		button8.setBounds(152, 333, 32, 32);
 		add(button8);
 		button8.addActionListener(new ActionListener() {
 			@Override
@@ -449,7 +449,7 @@ public class AtmPanel extends JImagePanel {
 		button9.setContentAreaFilled(false);// 设置不画按钮背景
 		button9.setBorderPainted(false);
 		button9.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/9.png")));
-		button9.setBounds(197, 373, 32, 32);
+		button9.setBounds(197, 333, 32, 32);
 		add(button9);
 		button9.addActionListener(new ActionListener() {
 			@Override
@@ -468,7 +468,7 @@ public class AtmPanel extends JImagePanel {
 		dotButton.setContentAreaFilled(false);// 设置不画按钮背景
 		dotButton.setBorderPainted(false);
 		dotButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/dot.png")));
-		dotButton.setBounds(107, 413, 32, 32);
+		dotButton.setBounds(107, 373, 32, 32);
 		add(dotButton);
 		dotButton.addActionListener(new ActionListener() {
 			@Override
@@ -487,7 +487,7 @@ public class AtmPanel extends JImagePanel {
 		backButton.setContentAreaFilled(false);// 设置不画按钮背景
 		backButton.setBorderPainted(false);
 		backButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/00.png")));
-		backButton.setBounds(197, 413, 32, 32);
+		backButton.setBounds(197, 373, 32, 32);
 		add(backButton);
 		backButton.addActionListener(new ActionListener() {
 			@Override
@@ -506,7 +506,7 @@ public class AtmPanel extends JImagePanel {
 		okButton.setContentAreaFilled(false);// 设置不画按钮背景
 		okButton.setBorderPainted(false);
 		okButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/OK.png")));
-		okButton.setBounds(242, 333, 70, 31);
+		okButton.setBounds(242, 293, 70, 31);
 		add(okButton);
 
 		final JButton cancelButton = new JButton();
@@ -515,7 +515,7 @@ public class AtmPanel extends JImagePanel {
 		cancelButton.setContentAreaFilled(false);// 设置不画按钮背景
 		cancelButton.setBorderPainted(false);
 		cancelButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/watchdata/cardcheck/resources/images/cancel.png")));
-		cancelButton.setBounds(242, 293, 70, 31);
+		cancelButton.setBounds(242, 253, 70, 31);
 		add(cancelButton);
 
 		okButton.addActionListener(new ActionListener() {
