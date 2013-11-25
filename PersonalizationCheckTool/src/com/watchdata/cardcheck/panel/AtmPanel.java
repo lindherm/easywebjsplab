@@ -6,8 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,15 +22,12 @@ import javax.swing.filechooser.FileFilter;
 
 import com.watchdata.cardcheck.app.JImagePanel;
 import com.watchdata.cardcheck.log.Log;
-import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
-import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.impl.TradeThread;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.FileUtil;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
-import com.watchdata.commons.lang.WDStringUtil;
 
 public class AtmPanel extends JImagePanel {
 
@@ -526,7 +521,7 @@ public class AtmPanel extends JImagePanel {
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				TradeThread tradeThread=new TradeThread(money, tradeType, tradingLabel,reportButton, textPane,textPane1);
+				TradeThread tradeThread=new TradeThread(money, tradeType, tradingLabel,reportButton, textPane);
 				Thread thread=new Thread(tradeThread);
 				thread.start();
 				

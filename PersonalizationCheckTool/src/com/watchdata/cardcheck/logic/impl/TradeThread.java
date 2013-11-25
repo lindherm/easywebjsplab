@@ -1,6 +1,5 @@
 package com.watchdata.cardcheck.logic.impl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -10,22 +9,15 @@ import javax.swing.JTextPane;
 
 import com.watchdata.cardcheck.configdao.AIDInfo;
 import com.watchdata.cardcheck.configdao.TermInfo;
-import com.watchdata.cardcheck.log.Log;
-import com.watchdata.cardcheck.logic.Constants;
-import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
-import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.panel.AtmPanel.TerminalSupportType;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.TermSupportUtil;
-import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
 public class TradeThread implements Runnable {
-	private static Log logger = new Log();
 	public StringBuffer money;
 	public JTextPane textPane;
-	public JTextPane readlogTextPane;
 	public String tradeType;
 	public JLabel tradingLabel;
 	public JButton reportButton;
@@ -35,13 +27,12 @@ public class TradeThread implements Runnable {
 
 	public TermInfo termInfo = new TermInfo();
 
-	public TradeThread(StringBuffer money, String tradeType, JLabel tradingLabel, JButton reportButton, JTextPane textPane,JTextPane readlogTextPane) {
+	public TradeThread(StringBuffer money, String tradeType, JLabel tradingLabel, JButton reportButton, JTextPane textPane) {
 		this.money = money;
 		this.tradeType = tradeType;
 		this.reportButton = reportButton;
 		this.textPane = textPane;
 		this.tradingLabel = tradingLabel;
-		this.readlogTextPane=readlogTextPane;
 	}
 
 	@Override
@@ -136,68 +127,11 @@ public class TradeThread implements Runnable {
 						success = false;
 					}
 				}
-				showReadTradeLog();
 				reportButton.setEnabled(true);
 			}
 		}
 
 	}
-	
-	public void showReadTradeLog(){
-		// TODO Auto-generated method stub
-		logger.setLogArea(readlogTextPane);
-		CommonAPDU apduHandler=new CommonAPDU();
-		// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
-		logger.debug("=============================reset===================================",0);
-		HashMap<String, String> res = apduHandler.reset(Config.getValue("Terminal_Data", "reader"));
-		if (!"9000".equals(res.get("sw"))) {
-			logger.error("card reset falied");
-		}
-		logger.debug("atr:" + res.get("atr"));
-
-		logger.debug("============================select PSE=================================");
-		HashMap<String, String> result = apduHandler.select(Constants.PSE);
-		if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
-			logger.error("select PSE error,card return:" + result.get("sw"));
-		}
-
-		if (WDAssert.isNotEmpty(result.get("88"))) {
-			// read dir, begin from 01
-			logger.debug("==============================read dir================================");
-			List<HashMap<String, String>> readDirList = apduHandler.readDir(result.get("88"));
-
-			// select aid
-			String aid = readDirList.get(0).get("4F");
-			logger.debug("===============================select aid==============================");
-			if (WDAssert.isEmpty(aid)) {
-				logger.error("select aid is null");
-			}
-			result = apduHandler.select(aid);
-			
-			if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
-				logger.error("select aid error,card return:" + result.get("sw"));
-			}
-			String tag9f4d=result.get("9F4D");
-			if (WDAssert.isEmpty(tag9f4d)) {
-				logger.error("logentry is not exists.:" + result.get("sw"));
-			}
-			result=apduHandler.getData("9F4F");
-			String strLog=result.get("res");
-			strLog=strLog.substring(6,strLog.length()-4);
-			List<String> tlList=CommonHelper.parseTLDataCommon(strLog);
-			
-			String sfi=tag9f4d.substring(0,2);
-			String logCount=tag9f4d.substring(2);
-			for (int i = 1; i <=Integer.parseInt(logCount, 16); i++) {
-				logger.debug("===============================readlog=============================="+sfi+WDStringUtil.paddingHeadZero(Integer.toHexString(i),2));
-				HashMap<String, String> readList= apduHandler.readDirCommon(sfi,WDStringUtil.paddingHeadZero(Integer.toHexString(i), 2));
-				if (!readList.get("sw").equalsIgnoreCase("9000")) {
-					break;
-				}
-			}
-		}
-	}
-
 	/**
 	 * 将界面上文本框中输入数据转换为int型
 	 * 
