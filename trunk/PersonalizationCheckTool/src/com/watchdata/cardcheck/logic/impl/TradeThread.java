@@ -95,6 +95,7 @@ public class TradeThread implements Runnable {
 							success = electronicCashHandler.ECLoad(tradeMount, readerName, tradingLabel, termSupportUtil);
 						}
 					}
+					success=true;
 				} else {
 					tradingLabel.setText("终端不支持DDA!");
 					success = false;
