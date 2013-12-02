@@ -149,8 +149,11 @@ public class CommonAPDU extends AbstractAPDU {
 		log.debug("--------------------------------------------------------------" + dgiHead + record);
 		String commandApdu = packApdu("READ_RECORD", "", record, sfi);
 		String responseApdu = apduChannel.send(commandApdu);
-
-		if (dgiHead.equalsIgnoreCase("0B")) {
+		
+		String sw=responseApdu.substring(responseApdu.length() - 4);
+		result.put("sw", sw);
+		//if (dgiHead.equalsIgnoreCase("0B")) {
+		if (!responseApdu.substring(0,2).equals("70")) {
 			result.put("res", responseApdu);
 		} else {
 			result = unpackApdu(responseApdu);
