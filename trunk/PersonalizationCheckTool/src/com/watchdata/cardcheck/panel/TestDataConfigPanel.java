@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -26,6 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import com.watchdata.cardcheck.configdao.AIDInfo;
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
@@ -147,7 +149,12 @@ public class TestDataConfigPanel extends JPanel {
 						}
 						scanAid(Constants.PSE);
 						scanAid(Constants.PPSE);
-						scanAid("A000000333010101");
+						
+						AIDInfo aidInfo=new AIDInfo();
+						List<AIDInfo> aidInfoList=aidInfo.getAidInfos("SupAID");
+						for (AIDInfo aidInfo2 : aidInfoList) {
+							scanAid(aidInfo2.getAid());
+						}
 						apduHandler.close();
 					}
 				});
