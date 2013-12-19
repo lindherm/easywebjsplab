@@ -3,6 +3,8 @@ package com.watchdata.cardcheck.panel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
@@ -39,11 +42,12 @@ public class CardReaderPanel extends JPanel {
 
 	private static final long serialVersionUID = -6360462745055001746L;
 	public static JComboBox comboBox;
-	private String[] cardReaderList;
+	private List<String> cardReaderList;
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
 	private CardPcsc cardPcsc = new CardPcsc();
-	PcscChannel apduChannel=new PcscChannel();
+	public PcscChannel apduChannel=new PcscChannel();
+	public static CommonAPDU commonAPDU;
 
 	/**
 	 * Create the panel
@@ -73,12 +77,13 @@ public class CardReaderPanel extends JPanel {
 		comboBox = new JComboBox();
 		comboBoxModel = new DefaultComboBoxModel();
 		cardReaderList = apduChannel.getReaderList();
+		//cardReaderList.add("10.0.97.248:5000");
 
-		if (cardReaderList != null && cardReaderList.length > 0) {
-			comboBoxModel = new DefaultComboBoxModel(cardReaderList);
+		if (cardReaderList != null && cardReaderList.size() > 0) {
+			comboBoxModel = new DefaultComboBoxModel(cardReaderList.toArray());
 			comboBox.setModel(comboBoxModel);
 			String reader=Config.getValue("Terminal_Data", "reader");
-			if (containCRConfig(reader,cardReaderList)) {
+			if (cardReaderList.contains(reader)) {
 				comboBox.setSelectedItem(reader);
 			}
 		}
@@ -100,8 +105,8 @@ public class CardReaderPanel extends JPanel {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				// TODO Auto-generated method stub
 				//cardReaderList = apduChannel.getReaderList();
-				if (cardReaderList != null && cardReaderList.length > 0) {
-					comboBoxModel = new DefaultComboBoxModel(cardReaderList);
+				if (cardReaderList != null && cardReaderList.size() > 0) {
+					comboBoxModel = new DefaultComboBoxModel(cardReaderList.toArray());
 					comboBox.setModel(comboBoxModel);
 					comboBox.repaint();
 				} else {
@@ -118,9 +123,11 @@ public class CardReaderPanel extends JPanel {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent arg0) {
 				if (comboBox.getSelectedItem() != null) {
-					String resetStr = WDByteUtil.bytes2HEX(cardPcsc.resetCard());
-					JOptionPane.showMessageDialog(null, resetStr.substring(0, resetStr.length() - 4));
-					Config.setValue("Terminal_Data", "reader", comboBox.getSelectedItem().toString());
+					HashMap<String, String> res = commonAPDU.reset();
+					if ("9000".equals(res.get("sw"))) {
+						JOptionPane.showMessageDialog(null, res.get("atr"));
+						Config.setValue("Terminal_Data", "reader", comboBox.getSelectedItem().toString());
+					}
 				}
 			}
 		});
@@ -133,7 +140,10 @@ public class CardReaderPanel extends JPanel {
 		final JButton btnNewButton_1 = new JButton("关闭端口");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (cardPcsc.connectReader(comboBox.getSelectedItem().toString())) {
+				String reader=comboBox.getSelectedItem().toString();
+				commonAPDU=new CommonAPDU();
+				boolean flag=commonAPDU.init(reader);
+				if (flag) {
 					((JButton) e.getSource()).setEnabled(false);
 					btnNewButton_1.setEnabled(true);
 				}
@@ -146,7 +156,7 @@ public class CardReaderPanel extends JPanel {
 
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cardPcsc.disConnectReader();
+				commonAPDU.close();
 				((JButton) e.getSource()).setEnabled(false);
 				btnNewButton.setEnabled(true);
 			}
@@ -157,14 +167,4 @@ public class CardReaderPanel extends JPanel {
 		add(btnNewButton_1);
 	}
 
-	public boolean containCRConfig(String cardReaderConfig, String[] cardReaderList) {
-		boolean exist = false;
-		for (String str : cardReaderList) {
-			if (cardReaderConfig.equals(str)) {
-				exist = true;
-				return exist;
-			}
-		}
-		return exist;
-	}
 }

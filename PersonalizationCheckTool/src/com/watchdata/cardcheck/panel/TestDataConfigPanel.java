@@ -140,9 +140,10 @@ public class TestDataConfigPanel extends JPanel {
 						rootNode = (DefaultMutableTreeNode) model.getRoot();
 						rootNode.removeAllChildren();
 
-						String reader = Config.getValue("Terminal_Data", "reader");
+						//String reader = Config.getValue("Terminal_Data", "reader");
+						//apduHandler.init(reader);
 						// reset
-						HashMap<String, String> res = apduHandler.reset(reader);
+						HashMap<String, String> res = apduHandler.reset();
 						if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
 							addNode(rootNode, "ATR  " + res.get("atr"));
 						}
@@ -154,7 +155,7 @@ public class TestDataConfigPanel extends JPanel {
 						for (AIDInfo aidInfo2 : aidInfoList) {
 							scanAid(aidInfo2.getAid());
 						}
-						apduHandler.close();
+						//apduHandler.close();
 					}
 				});
 				thread.start();

@@ -1,7 +1,11 @@
 package com.watchdata.cardcheck.logic.apdu.pcsc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.IAPDUChannel;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardpcsc.CardPcsc;
 import com.watchdata.commons.lang.WDByteUtil;
 /**
@@ -40,12 +44,22 @@ public class PcscChannel implements IAPDUChannel{
 		
 		return recv;
 	}
-	public String[] getReaderList(){
-		if(cardPcsc.getReaderList() != null){
-			return cardPcsc.getReaderList();
-		}else{
-			return null;
+	
+	public List<String> getReaderList(){
+		List<String> list=new ArrayList<String>();
+		String[] termList=cardPcsc.getReaderList();
+		
+		if(termList != null){
+			for (String term : termList) {
+				list.add(term);
+			}
 		}
+		
+		for (String board : Config.getItems("BoardList")) {
+			list.add(Config.getValue("BoardList", board));
+		}
+		
+		return list;
 	}
 	
 	public void close(){

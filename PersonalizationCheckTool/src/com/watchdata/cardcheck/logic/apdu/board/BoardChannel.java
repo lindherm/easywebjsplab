@@ -6,7 +6,7 @@ import com.watchdata.cardcheck.logic.apdu.board.BoardOperate.CLibrary;
 
 public class BoardChannel implements IAPDUChannel {
 	private static Log logger = new Log();
-	CLibrary handle = null;
+	private static CLibrary handle = null;
 
 	public BoardChannel() {
 		handle = CLibrary.INSTANCE;

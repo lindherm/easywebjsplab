@@ -61,7 +61,7 @@ public class QPBOCHandler extends BaseHandler {
 		try{
 			// 复位
 			logger.debug("===============================reset=====================================");
-			HashMap<String,String> res=apduHandler.reset(readerName);
+			HashMap<String,String> res=apduHandler.reset();
 			if (!"9000".equals(res.get("sw"))) {
 				tradeLabel.setText("      卡片复位失败！");
 				genWordUtil.add("卡片复位失败！");
@@ -210,7 +210,7 @@ public class QPBOCHandler extends BaseHandler {
 			genWordUtil.close();
 			NDC.pop();
 			NDC.remove();
-			apduHandler.close();
+			//apduHandler.close();
 		}
 	}
 
