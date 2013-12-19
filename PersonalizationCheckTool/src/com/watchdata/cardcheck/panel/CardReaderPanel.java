@@ -20,9 +20,8 @@ import javax.swing.event.PopupMenuListener;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.cardcheck.utils.Config;
+import com.watchdata.cardcheck.utils.FileUtil;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import com.watchdata.cardpcsc.CardPcsc;
-import com.watchdata.commons.lang.WDByteUtil;
 
 /**
  * TerminalTypeConfigPanel.java
@@ -45,7 +44,6 @@ public class CardReaderPanel extends JPanel {
 	private List<String> cardReaderList;
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
-	private CardPcsc cardPcsc = new CardPcsc();
 	public PcscChannel apduChannel=new PcscChannel();
 	public static CommonAPDU commonAPDU;
 
@@ -141,6 +139,8 @@ public class CardReaderPanel extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String reader=comboBox.getSelectedItem().toString();
+				String[] board=reader.split(":");
+				FileUtil.updateBoradFile(board[0], board[1]);
 				commonAPDU=new CommonAPDU();
 				boolean flag=commonAPDU.init(reader);
 				if (flag) {
