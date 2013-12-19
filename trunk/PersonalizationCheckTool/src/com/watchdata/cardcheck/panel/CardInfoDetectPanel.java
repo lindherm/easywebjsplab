@@ -87,7 +87,7 @@ public class CardInfoDetectPanel extends JPanel {
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(tree, popupMenu);
 
-		JMenuItem mntmCardinfo = new JMenuItem("cardinfo");
+		JMenuItem mntmCardinfo = new JMenuItem("卡片信息");
 		mntmCardinfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				commonAPDU = new CommonAPDU();
@@ -320,15 +320,14 @@ public class CardInfoDetectPanel extends JPanel {
 			public void insertUpdate(DocumentEvent e) {
 				String kmc = textField_3.getText().trim();
 				commonAPDU = new CommonAPDU();
-				HashMap<String, String> res = commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
-
+				HashMap<String, String> res = commonAPDU.reset();
 				try {
 					commonAPDU.send("00A4040000");
 					String hostRandom = WDStringUtil.getRandomHexString(16);
 					String keyVersion = textField_4.getText().trim();
 					String keyId = textField_5.getText().trim();
 					// initializeUpdate
-					String strResp = commonAPDU.apduChannel.send("8050" + keyVersion + keyId + "08" + hostRandom);
+					String strResp = commonAPDU.send("8050" + keyVersion + keyId + "08" + hostRandom);
 					String initResp = strResp.substring(8, 20);
 
 					String deriveData = initResp + "F001" + initResp + "0F01";

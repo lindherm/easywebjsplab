@@ -25,7 +25,6 @@ import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
-import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
 
@@ -159,7 +158,7 @@ public class TradePanel extends JPanel {
 		CommonAPDU apduHandler=new CommonAPDU();
 		// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
 		logger.debug("=============================reset===================================",0);
-		HashMap<String, String> res = apduHandler.reset(Config.getValue("Terminal_Data", "reader"));
+		HashMap<String, String> res = apduHandler.reset();
 		if (!"9000".equals(res.get("sw"))) {
 			logger.error("card reset falied");
 		}
@@ -205,6 +204,7 @@ public class TradePanel extends JPanel {
 					break;
 				}
 			}
+			//apduHandler.close();
 		}
 	}
 }

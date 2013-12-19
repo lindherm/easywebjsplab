@@ -74,20 +74,24 @@ public class CommonAPDU extends AbstractAPDU {
 		this.secureityLevel = secureityLevel;
 	}
 
-	/**
-	 * 复位指令
-	 * 
-	 * @return
-	 */
-	public HashMap<String, String> reset(String readerName) {
-		HashMap<String, String> res = new HashMap<String, String>();
+	public boolean init(String readerName) {
 		if (readerName.indexOf(":")>0) {
 			apduChannel=new BoardChannel();
 		}else {
 			apduChannel=new PcscChannel();
 		}
-		boolean flag = apduChannel.init(readerName);
-		if (flag) {
+		return apduChannel.init(readerName);
+	}
+	/**
+	 * 复位指令
+	 * 
+	 * @return
+	 */
+	public HashMap<String, String> reset() {
+		HashMap<String, String> res = new HashMap<String, String>();
+		
+		//boolean flag = apduChannel.init(readerName);
+		//if (flag) {
 			String responseApdu = apduChannel.reset();
 			String sw = responseApdu.substring(responseApdu.length() - 4, responseApdu.length());
 			String atr = responseApdu.substring(0, responseApdu.length() - 4);
@@ -95,7 +99,7 @@ public class CommonAPDU extends AbstractAPDU {
 				res.put("sw", "9000");
 				res.put("atr", atr);
 			}
-		}
+		//}
 		return res;
 	}
 

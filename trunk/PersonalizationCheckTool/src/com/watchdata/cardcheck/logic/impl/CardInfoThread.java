@@ -15,7 +15,7 @@ import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.utils.Config;
 
 public class CardInfoThread extends Thread {
-	public CommonAPDU commonAPDU;
+	public static CommonAPDU commonAPDU;
 	public JTree tree;
 	public static Log logger=new Log();
 	public JTextPane textPane;
@@ -46,7 +46,7 @@ public class CardInfoThread extends Thread {
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) dtm.getRoot();
 		root.removeAllChildren();
 		try {
-			HashMap<String, String> res=commonAPDU.reset(Config.getValue("Terminal_Data", "reader"));
+			HashMap<String, String> res=commonAPDU.reset();
 			if (!"9000".equals(res.get("sw"))) {
 				logger.error("card reset error");
 			}
@@ -145,7 +145,7 @@ public class CardInfoThread extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			commonAPDU.close();
+			//commonAPDU.close();
 			expandTree(tree, true);
 			tree.updateUI();
 		}
