@@ -141,7 +141,6 @@ public class TestDataConfigPanel extends JPanel {
 						rootNode.removeAllChildren();
 
 						String reader = Config.getValue("Terminal_Data", "reader");
-
 						// reset
 						HashMap<String, String> res = apduHandler.reset(reader);
 						if (Constants.SW_SUCCESS.equalsIgnoreCase(res.get("sw"))) {
