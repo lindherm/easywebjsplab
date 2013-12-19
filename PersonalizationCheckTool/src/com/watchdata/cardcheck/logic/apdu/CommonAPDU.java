@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.watchdata.cardcheck.logic.Constants;
+import com.watchdata.cardcheck.logic.apdu.board.BoardChannel;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
@@ -29,7 +30,7 @@ public class CommonAPDU extends AbstractAPDU {
 	private String smac;
 
 	public CommonAPDU() {
-		apduChannel = new PcscChannel();
+		//apduChannel = new PcscChannel();
 		// log.setLogArea(TradePanel.textPane);
 	}
 
@@ -80,6 +81,11 @@ public class CommonAPDU extends AbstractAPDU {
 	 */
 	public HashMap<String, String> reset(String readerName) {
 		HashMap<String, String> res = new HashMap<String, String>();
+		if (readerName.indexOf(":")>0) {
+			apduChannel=new BoardChannel();
+		}else {
+			apduChannel=new PcscChannel();
+		}
 		boolean flag = apduChannel.init(readerName);
 		if (flag) {
 			String responseApdu = apduChannel.reset();

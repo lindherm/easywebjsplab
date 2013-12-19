@@ -145,6 +145,7 @@ public class CardInfoThread extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			commonAPDU.close();
 			expandTree(tree, true);
 			tree.updateUI();
 		}

@@ -1,10 +1,11 @@
 package com.watchdata.cardcheck.logic.apdu.board;
 
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.IAPDUChannel;
 import com.watchdata.cardcheck.logic.apdu.board.BoardOperate.CLibrary;
-import com.watchdata.commons.lang.WDByteUtil.BOM;
 
 public class BoardChannel implements IAPDUChannel {
+	private static Log logger = new Log();	
 	CLibrary handle=null;
 	public BoardChannel(){
 		handle=CLibrary.INSTANCE;
@@ -12,14 +13,21 @@ public class BoardChannel implements IAPDUChannel {
 
 	@Override
 	public String send(String commandApdu) {
-		// TODO Auto-generated method stub
-		return handle.Send(commandApdu.length(), commandApdu);
+		logger.debug("send[" + commandApdu.toUpperCase() + "]");
+		String recv = handle.Send(commandApdu.length(), commandApdu);
+		if (recv.substring(recv.length() - 4,recv.length()).equalsIgnoreCase("9000")) {
+			logger.debug("recv[" + recv + "]");
+		}else {
+			logger.error("recv[" + recv + "]");
+		}
+		
+		return recv;
 	}
 
 	@Override
 	public boolean init(String readName) {
 		// TODO Auto-generated method stub
-		int ret=handle.Open(readName, 1, (byte)1);
+		int ret=handle.Open("USB1", 1, (byte)1);
 		if (ret==0) {
 			return true;
 		}

@@ -21,7 +21,9 @@ public class BoardOperate {
 		System.out.println(handle);
 		
 		System.out.println(CLibrary.INSTANCE.Reset());
+		System.out.println(CLibrary.INSTANCE.Reset());
 		System.out.println(CLibrary.INSTANCE.Send(38, "00a404000e315041592e5359532e4444463031"));
+		System.out.println(CLibrary.INSTANCE.Reset());
 		System.out.println(CLibrary.INSTANCE.Close());
 	}
 }
