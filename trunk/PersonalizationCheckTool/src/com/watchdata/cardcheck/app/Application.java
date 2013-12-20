@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -18,7 +17,6 @@ import org.apache.log4j.Logger;
 
 import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-
 /**
  * @title Application.java
  * @description 应用主程序
@@ -73,14 +71,12 @@ public class Application extends JFrame {
 		super(titleStr);
 		initContentPane();
 		//setFont(new Font("", Font.BOLD, 14));
-		// JFrame打开后全屏。
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setBounds(0, 0, screenSize.width, screenSize.height-20);
-		// JFrame打开后居中。
-		//setLocationRelativeTo(getOwner());
+		setSize(new Dimension(800, 600));
+		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocationRelativeTo(null);
 		//getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
 		//setAlwaysOnTop(true);
-		//setResizable(false);
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
 	}
