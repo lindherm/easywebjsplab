@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.socketUtility.SessionSocket;
+import com.sessionsocket.SessionSocket;
 
 public class ClientSocket extends SessionSocket {
 

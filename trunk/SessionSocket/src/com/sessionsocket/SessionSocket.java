@@ -1,4 +1,4 @@
-package com.socketUtility;
+package com.sessionsocket;
 
 import java.io.IOException;
 import java.io.OutputStream;
