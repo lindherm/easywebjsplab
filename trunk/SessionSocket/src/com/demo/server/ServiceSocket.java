@@ -20,7 +20,7 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void beforeConnected(Socket socket) {
-		log.debug("======================================>>");
+		log.debug("=============================================");
 		log.debug("默认的最大线程数是：" + getMAX_THREAD());
 		if (ServerListener.max_thread > 0)
 			setMAX_THREAD(ServerListener.max_thread);
