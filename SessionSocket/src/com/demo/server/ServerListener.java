@@ -3,7 +3,10 @@ package com.demo.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import org.apache.log4j.Logger;
+
 public class ServerListener {
+	private static Logger log = Logger.getLogger(ServerListener.class);
 	private static boolean IS_STOP = false;
 	private ServerSocket listener;
 	public static int max_thread = 1000;
@@ -20,7 +23,7 @@ public class ServerListener {
 		try {
 			IS_STOP = false;
 			listener = new ServerSocket(port);
-			System.out.println("Service started on port "+port+"...");
+			log.info("Service started on port " + port + "...");
 			while (!IS_STOP && !listener.isClosed()) {
 				new ServiceSocket(listener.accept()).start();
 			}

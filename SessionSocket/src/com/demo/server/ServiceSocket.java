@@ -24,7 +24,7 @@ public class ServiceSocket extends SessionSocket {
 		if (ServerListener.max_thread > 0)
 			setMAX_THREAD(ServerListener.max_thread);
 		log.debug("当前最大线程数是：" + getMAX_THREAD());
-		log.debug("================================\n信息:连接之前。");
+		log.debug("================================信息:连接之前。");
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class ServiceSocket extends SessionSocket {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		// 读取数据
-		byte[] buffer = new byte[8192];// 缓存大小
+		byte[] buffer = new byte[getBUFFER_SIZE()];// 缓存大小
 		byte[] datalength = new byte[8];
 		reciver.read(datalength);
 		long dataL = Long.parseLong(new String(datalength), 10);
