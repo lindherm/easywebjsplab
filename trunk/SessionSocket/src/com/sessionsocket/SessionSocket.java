@@ -16,11 +16,11 @@ public abstract class SessionSocket implements Runnable {
 	/**
 	 * 读取数据使用的缓存区大小,单位KB
 	 */
-	private int BUFFER_SIZE = 5;
+	private int BUFFER_SIZE =1024;
 	/**
 	 * 允许的最大连接数,0不限制
 	 */
-	private int MAX_THREAD = 0;
+	private int MAX_THREAD = 100;
 	/**
 	 * 线程退出控制标记
 	 */
