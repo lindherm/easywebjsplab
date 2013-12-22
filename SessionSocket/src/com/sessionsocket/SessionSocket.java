@@ -16,15 +16,15 @@ public abstract class SessionSocket implements Runnable {
 	/**
 	 * 读取数据使用的缓存区大小,单位KB
 	 */
-	private int BUFFER_SIZE =1024;
+	private int BUFFER_SIZE =5;
 	/**
 	 * 允许的最大连接数,0不限制
 	 */
-	private int MAX_THREAD = 1024;
+	private int MAX_THREAD = 0;
 	/**
 	 * 线程退出控制标记
 	 */
-	private boolean needExit = false;
+	public boolean needExit = false;
 	/**
 	 * 会话注册功能启用禁用标志
 	 */
@@ -187,7 +187,7 @@ public abstract class SessionSocket implements Runnable {
 	 *             抛出IO异常,说明网络异常
 	 * @return 返回类型 String,即接收到的数据
 	 */
-	public abstract byte[] reciveMessage(Socket socket) throws IOException;
+	public abstract byte[] reciveMessage(Socket socket,Thread thread) throws IOException;
 
 	/**
 	 * @Description 当有数据到达时触发
@@ -287,7 +287,7 @@ public abstract class SessionSocket implements Runnable {
 					onClose(socket, thread);
 					break;
 				}
-				byte[] data = reciveMessage(socket);
+				byte[] data = reciveMessage(socket,thread);
 				onDataArrived(data, socket, thread);
 			} catch (IOException e) {
 				errorHandle(e, socket, thread);
