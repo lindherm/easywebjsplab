@@ -24,6 +24,7 @@ public class ServiceSocket extends SessionSocket {
 		log.debug("默认的最大线程数是：" + getMAX_THREAD());
 		if (ServerListener.max_thread > 0)
 			setMAX_THREAD(ServerListener.max_thread);
+		setBUFFER_SIZE(10);//10*1024
 		log.debug("当前最大线程数是：" + getMAX_THREAD());
 		
 	}
@@ -50,10 +51,7 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void onError(Exception e, Socket socket, Thread thread) {
-		if (!e.getMessage().equals("Connection reset")) {
-			e.printStackTrace();
-		}
-		log.debug("注意:连接异常["+e.getMessage()+"]。socketID:" + socket.hashCode()+"["+socket.toString()+"]");
+		log.error("注意:连接异常["+e.getMessage()+"]。socketID:" + socket.hashCode()+"["+socket.toString()+"]");
 	}
 
 	@Override
@@ -89,31 +87,37 @@ public class ServiceSocket extends SessionSocket {
 	}
 
 	@Override
-	public byte[] reciveMessage(Socket socket) throws IOException {
-		// 获得输入缓冲流
-		BufferedInputStream reciver = new BufferedInputStream(socket.getInputStream());
-		// 创建缓存文件
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+	public byte[] reciveMessage(Socket socket,Thread thread){
+		BufferedInputStream reciver=null;
+		ByteArrayOutputStream out = null;
+		try {
+			// 获得输入缓冲流
+			reciver = new BufferedInputStream(socket.getInputStream());
+			// 创建缓存文件
+			out = new ByteArrayOutputStream();
 
-		// 读取数据
-		byte[] buffer = new byte[getBUFFER_SIZE()];// 缓存大小
-		byte[] datalength = new byte[8];
-		reciver.read(datalength);
-		long dataL = Long.parseLong(new String(datalength), 10);
+			// 读取数据
+			byte[] buffer = new byte[getBUFFER_SIZE()*1024];// 缓存大小
+			byte[] datalength = new byte[8];
+			reciver.read(datalength);
+			long dataL = Long.parseLong(new String(datalength), 10);
 
-		int amount = -1;
-		int fileLen = 0;
+			int amount = -1;
+			int fileLen = 0;
 
-		while (fileLen < dataL) {
-			if ((amount = reciver.read(buffer)) != -1) {
-				out.write(buffer, 0, amount);
-				out.flush();
-				fileLen += amount;
+			while (fileLen < dataL) {
+				if ((amount = reciver.read(buffer)) != -1) {
+					out.write(buffer, 0, amount);
+					out.flush();
+					fileLen += amount;
+				}
 			}
+			sendMessage("done".getBytes(), socket);
+			out.close();
+		} catch (Exception e) {
+			errorHandle(e, socket, thread);
 		}
-		
-		sendMessage("done".getBytes(), socket);
-		out.close();
+
 		return out.toByteArray();
 	}
 }

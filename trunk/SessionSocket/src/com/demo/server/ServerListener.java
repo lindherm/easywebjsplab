@@ -9,7 +9,7 @@ public class ServerListener {
 	private static Logger log = Logger.getLogger(ServerListener.class);
 	private static boolean IS_STOP = false;
 	private ServerSocket listener;
-	public static int max_thread = 2048;
+	public static int max_thread = 0;
 
 	public static boolean isIS_STOP() {
 		return IS_STOP;
@@ -27,7 +27,7 @@ public class ServerListener {
 			while (!IS_STOP && !listener.isClosed()) {
 				new ServiceSocket(listener.accept()).start();
 			}
-			System.err.println("Service stopped.");
+			log.error("Service stopped.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
