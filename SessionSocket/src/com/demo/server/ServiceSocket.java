@@ -51,7 +51,7 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void onError(Exception e, Socket socket, Thread thread) {
-		log.error("注意:连接异常["+e.getMessage()+"]。socketID:" + socket.hashCode()+"["+socket.toString()+"]");
+		log.error("注意:连接异常["+e.getMessage()+"|"+e.getStackTrace()[0]+"]socketID:" + socket.hashCode()+"["+socket.toString()+"]");
 	}
 
 	@Override
