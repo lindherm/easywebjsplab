@@ -43,7 +43,7 @@ public class TestDemo {
 	public static void main(String[] args) throws UnknownHostException, IOException{
 		TestDemo hello=new TestDemo();
 		Socket socket = new Socket( "127.0.0.1", 9000);
-		for (int i = 0; i <2; i++) {
+		for (int i = 0; i <2000; i++) {
 			hello.test(socket);
 			//new TestDemo().test();
 		}
