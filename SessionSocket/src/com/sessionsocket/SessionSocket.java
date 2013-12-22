@@ -20,7 +20,7 @@ public abstract class SessionSocket implements Runnable {
 	/**
 	 * 允许的最大连接数,0不限制
 	 */
-	private int MAX_THREAD = 100;
+	private int MAX_THREAD = 1024;
 	/**
 	 * 线程退出控制标记
 	 */

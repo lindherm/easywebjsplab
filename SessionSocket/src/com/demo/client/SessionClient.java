@@ -32,6 +32,7 @@ public class SessionClient {
 	 */
 	public void addConnector(String connectorName, TcpConnector tcpConnector) throws UnknownHostException, IOException {
 		Socket socket = new Socket(tcpConnector.getIp(), tcpConnector.getPort());
+		socket.setSoTimeout(0);
 		tcpConnector.setSocket(socket);
 		session.putIfAbsent(connectorName, tcpConnector);
 	}
