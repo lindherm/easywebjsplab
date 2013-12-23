@@ -321,10 +321,23 @@ public class CardInfoDetectPanel extends JPanel {
 		btnPutkey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//commonAPDU = new CommonAPDU();
-				String keyVersion = textField_4.getText().trim();
+				String level=comboBox.getSelectedItem().toString().trim();
 				String keyId = textField_5.getText().trim();
+				String keyVersion = textField_4.getText().trim();
+				String newKeyVersion="01";
+				
+				String enc=textField.getText().trim();
+				String mac=textField_1.getText().trim();
+				String dek=textField_2.getText().trim();
+				
+				String keyInfo=textPane.getText();
+				
+				String newEnc=textPane.getText().trim();
+				String newMac=textPane.getText().trim();
+				String newDek=textPane.getText().trim();
+				
 				try {
-					commonAPDU.putKey(keyVersion, keyId, "01", textField.getText().trim(), textField_1.getText().trim(), textField_2.getText().trim());
+					commonAPDU.putKey(level,keyVersion, keyId, "01",enc,mac,dek);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

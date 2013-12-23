@@ -7,7 +7,6 @@ import java.util.List;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.board.BoardChannel;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
-import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
@@ -406,7 +405,9 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @param CDKdek
 	 * @throws Exception 
 	 */
-	public boolean putKey(String keyVersion, String keyId,String newKeyVersion,String CDKenc, String CDKmac, String CDKdek) throws Exception {
+	public boolean putKey(String secureity_level, String keyVersion, String keyId,String newKeyVersion,String CDKenc, String CDKmac, String CDKdek) throws Exception {
+		externalAuthenticate(secureity_level, keyVersion, keyId, CDKenc, CDKmac, CDKdek);
+		
 		int P1 = Integer.parseInt(keyVersion) & 0x80;
 		int P2 = Integer.parseInt(keyId) | 0x80;
 		
@@ -506,8 +507,7 @@ public class CommonAPDU extends AbstractAPDU {
 	}
 
 	public static void main(String[] args) {
-		/*
-		 * CommonAPDU commonAPDU = new CommonAPDU(); commonAPDU.reset("WatchData System CRW-VIuo 0"); commonAPDU.select("A000000003000000"); commonAPDU.externalAuthenticate("01", "00", "00", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F", "404142434445464748494A4B4C4D4E4F"); commonAPDU.send("84F28000024F00"); commonAPDU.send("84F24000024F00"); commonAPDU.send("84F22000024F00"); commonAPDU.send("84F21000024F00");
-		 */
+		System.out.println();
+		System.out.println(Integer.parseInt("01") | 0x80);
 	}
 }
