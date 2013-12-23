@@ -7,6 +7,7 @@ import java.util.List;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.board.BoardChannel;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
@@ -395,7 +396,49 @@ public class CommonAPDU extends AbstractAPDU {
 			setSmac(Smac);
 		}
 	}
-
+	/**
+	 * putkey javacard
+	 * @param keyVersion
+	 * @param newKeyVersion
+	 * @param keyIndex
+	 * @param CDKenc
+	 * @param CDKmac
+	 * @param CDKdek
+	 * @throws Exception 
+	 */
+	public boolean putKey(String keyVersion, String keyId,String newKeyVersion,String CDKenc, String CDKmac, String CDKdek) throws Exception {
+		int P1 = Integer.parseInt(keyVersion) & 0x80;
+		int P2 = Integer.parseInt(keyId) | 0x80;
+		
+		String data=newKeyVersion;
+		
+		String CDKencLen=Integer.toHexString(CDKenc.length()/2);
+		String CDKmacLen=Integer.toHexString(CDKmac.length()/2);
+		String CDKdekLen=Integer.toHexString(CDKdek.length()/2);
+		
+		String EncCDKenc=WD3DesCryptoUtil.ecb_encrypt(getKekKey(), CDKenc, Padding.NoPadding);
+		String EncCDKmac=WD3DesCryptoUtil.ecb_encrypt(getKekKey(), CDKmac, Padding.NoPadding);
+		String EncCDKdek=WD3DesCryptoUtil.ecb_encrypt(getKekKey(), CDKdek, Padding.NoPadding);
+		
+		String CDKencKcv=WD3DesCryptoUtil.ecb_encrypt(CDKenc, "0000000000000000", Padding.NoPadding).substring(0, 6);
+		String CDKmacKcv=WD3DesCryptoUtil.ecb_encrypt(CDKmac, "0000000000000000", Padding.NoPadding).substring(0, 6);
+		String CDKdekKcv=WD3DesCryptoUtil.ecb_encrypt(CDKdek, "0000000000000000", Padding.NoPadding).substring(0, 6);
+		
+		
+		String CDKencData="80"+CDKencLen+EncCDKenc+"03"+CDKencKcv;
+		String CDKmacData="80"+CDKmacLen+EncCDKmac+"03"+CDKmacKcv;
+		String CDKdekData="80"+CDKdekLen+EncCDKdek+"03"+CDKdekKcv;
+		
+		data+=CDKencData+CDKmacData+CDKdekData;
+		data=Integer.toHexString(data.length()/2)+data;
+		
+		String resp = send("80D8" + "01"+"81"+data);
+		
+		if (resp.equalsIgnoreCase("9000")) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * send apdu command
 	 * 
