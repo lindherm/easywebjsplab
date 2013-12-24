@@ -320,28 +320,31 @@ public class CardInfoDetectPanel extends JPanel {
 		JButton btnPutkey = new JButton("PutKey");
 		btnPutkey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//commonAPDU = new CommonAPDU();
-				String level=comboBox.getSelectedItem().toString().trim();
-				String keyId = textField_5.getText().trim();
 				String keyVersion = textField_4.getText().trim();
-				String newKeyVersion="01";
+				String keyId = textField_5.getText().trim();
 				
 				String enc=textField.getText().trim();
 				String mac=textField_1.getText().trim();
 				String dek=textField_2.getText().trim();
 				
-				String keyInfo=textPane.getText();
+				String keyInfo=textPane.getText().trim();
+				String[] keys=keyInfo.split("\r\n");
 				
-				String newEnc=textPane.getText().trim();
-				String newMac=textPane.getText().trim();
-				String newDek=textPane.getText().trim();
+				if (keys.length==4) {
+					String newEnc=keys[0];
+					String newMac=keys[1];
+					String newDek=keys[2];
+					String newKeyVersion=keys[3];
+					
 				
-				try {
-					commonAPDU.putKey(level,keyVersion, keyId, "01",enc,mac,dek);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					try {
+						commonAPDU.putKey(keyVersion, keyId,newKeyVersion,newEnc,newMac,newDek);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				
 			}
 		});
 		btnPutkey.setFocusPainted(false);

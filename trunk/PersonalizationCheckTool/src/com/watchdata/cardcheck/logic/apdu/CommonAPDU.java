@@ -405,12 +405,18 @@ public class CommonAPDU extends AbstractAPDU {
 	 * @param CDKdek
 	 * @throws Exception 
 	 */
-	public boolean putKey(String secureity_level, String keyVersion, String keyId,String newKeyVersion,String CDKenc, String CDKmac, String CDKdek) throws Exception {
-		externalAuthenticate(secureity_level, keyVersion, keyId, CDKenc, CDKmac, CDKdek);
+	public boolean putKey(String keyVersion, String keyId,String newKeyVersion,String CDKenc, String CDKmac, String CDKdek) throws Exception {
+		//externalAuthenticate(secureity_level, keyVersion, keyId, CDKenc, CDKmac, CDKdek);
 		
-		int P1 = Integer.parseInt(keyVersion) & 0x80;
-		int P2 = Integer.parseInt(keyId) | 0x80;
+		String P1 = Integer.toHexString(Integer.parseInt(keyVersion) & 0x7f);
+		String P2 = Integer.toHexString(Integer.parseInt(keyId) | 0x80) ;
+		if (P1.length()<2) {
+			P1=WDStringUtil.paddingHeadZero(P1, 2);
+		}
 		
+		if (P2.length()<2) {
+			P2=WDStringUtil.paddingHeadZero(P2, 2);
+		}
 		String data=newKeyVersion;
 		
 		String CDKencLen=Integer.toHexString(CDKenc.length()/2);
@@ -433,7 +439,7 @@ public class CommonAPDU extends AbstractAPDU {
 		data+=CDKencData+CDKmacData+CDKdekData;
 		data=Integer.toHexString(data.length()/2)+data;
 		
-		String resp = send("80D8" + "01"+"81"+data);
+		String resp = send("80D8" + P1+P2+data);
 		
 		if (resp.equalsIgnoreCase("9000")) {
 			return true;
