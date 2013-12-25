@@ -21,7 +21,6 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.watchdata.cardcheck.app.JImagePanel;
-import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.impl.TradeThread;
 import com.watchdata.cardcheck.utils.Config;
@@ -46,7 +45,6 @@ public class AtmPanel extends JImagePanel {
 	private PropertiesManager pm = new PropertiesManager();
 	private static StringBuffer money = new StringBuffer();
 	public static String tradeType = "";
-	private static Log logger=new Log();
 	public CommonAPDU apduHandler;
 
 	// 终端性能列表，与配置界面上的配置型一致，从第一个字节开始

@@ -101,7 +101,7 @@ public class PBOCHandler extends BaseHandler {
 				return false;
 			}
 
-			// 选择ppse报告内容
+			// 选择pse报告内容
 			genWordUtil.add(result.get("apdu"), "Select PSE", result.get("res"), result);
 
 			if (WDAssert.isNotEmpty(result.get("88"))) {
