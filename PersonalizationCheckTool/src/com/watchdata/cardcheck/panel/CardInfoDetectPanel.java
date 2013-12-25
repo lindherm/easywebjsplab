@@ -351,6 +351,9 @@ public class CardInfoDetectPanel extends JPanel {
 
 					deriveData = initResp + "F003" + initResp + "0F03";
 					newDek = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
+				}else {
+					JOptionPane.showMessageDialog(null, "参数个数错误！");
+					return;
 				}
 				try {
 					commonAPDU.putKey(keyVersion, keyId,newKeyVersion,newEnc,newMac,newDek);
