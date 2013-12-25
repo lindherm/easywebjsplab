@@ -323,28 +323,41 @@ public class CardInfoDetectPanel extends JPanel {
 				String keyVersion = textField_4.getText().trim();
 				String keyId = textField_5.getText().trim();
 				
-				String enc=textField.getText().trim();
-				String mac=textField_1.getText().trim();
-				String dek=textField_2.getText().trim();
-				
 				String keyInfo=textPane.getText().trim();
 				String[] keys=keyInfo.split("\r\n");
 				
+				String newEnc = null;
+				String newMac = null;
+				String newDek = null;
+				String newKeyVersion = null;
+				
 				if (keys.length==4) {
-					String newEnc=keys[0];
-					String newMac=keys[1];
-					String newDek=keys[2];
-					String newKeyVersion=keys[3];
+					newEnc=keys[0];
+					newMac=keys[1];
+					newDek=keys[2];
+					newKeyVersion=keys[3];
+				}else if (keys.length==2) {
+					String newKey=keys[0];
+					newKeyVersion=keys[1];
 					
-				
-					try {
-						commonAPDU.putKey(keyVersion, keyId,newKeyVersion,newEnc,newMac,newDek);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					String initResp=commonAPDU.getInitResp();
+					initResp=initResp.substring(8,20);
+					
+					String deriveData = initResp + "F001" + initResp + "0F01";
+					newEnc = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
+
+					deriveData = initResp + "F002" + initResp + "0F02";
+					newMac = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
+
+					deriveData = initResp + "F003" + initResp + "0F03";
+					newDek = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
 				}
-				
+				try {
+					commonAPDU.putKey(keyVersion, keyId,newKeyVersion,newEnc,newMac,newDek);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnPutkey.setFocusPainted(false);

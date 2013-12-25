@@ -28,6 +28,15 @@ public class CommonAPDU extends AbstractAPDU {
 	private String macKey;
 	private String kekKey;
 	private String smac;
+	private String initResp;
+
+	public String getInitResp() {
+		return initResp;
+	}
+
+	public void setInitResp(String initResp) {
+		this.initResp = initResp;
+	}
 
 	public CommonAPDU() {
 		//apduChannel = new PcscChannel();
@@ -364,7 +373,8 @@ public class CommonAPDU extends AbstractAPDU {
 		String hostRandom = WDStringUtil.getRandomHexString(16);
 		// initializeUpdate
 		String strResp = apduChannel.send("8050" + keyVersion + keyId + "08" + hostRandom);
-
+		setInitResp(strResp);
+		
 		String Rcard = strResp.substring(24, 40); // random of card
 		String Rter = hostRandom; // random of terminal
 
