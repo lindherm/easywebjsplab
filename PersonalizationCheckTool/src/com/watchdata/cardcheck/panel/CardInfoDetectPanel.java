@@ -44,6 +44,7 @@ import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
 import com.watchdata.commons.lang.WDAssert;
 import com.watchdata.commons.lang.WDStringUtil;
+import com.watchdata.kms.kmsi.IKms;
 
 public class CardInfoDetectPanel extends JPanel {
 	/**
@@ -62,6 +63,7 @@ public class CardInfoDetectPanel extends JPanel {
 	public JTextPane textPane_1;
 	public JComboBox comboBox;
 	private static Log log = new Log();
+	private static ConfigIpDialog dialog=null;
 
 	public CardInfoDetectPanel() {
 		log.setLogArea(textPane_1);
@@ -313,6 +315,19 @@ public class CardInfoDetectPanel extends JPanel {
 		textField_3.setText(Config.getValue("CardInfo", "KMC"));
 
 		JLabel lblKmc = new JLabel("KMC:");
+		lblKmc.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (dialog == null) {
+					dialog = new ConfigIpDialog(null);
+				}
+				if (dialog.isVisible()) {
+					dialog.toFront();
+				} else {
+					dialog.setVisible(true);
+				}
+			}
+		});
 		lblKmc.setBounds(10, 28, 48, 15);
 		panel_3.add(lblKmc);
 		lblKmc.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -381,16 +396,24 @@ public class CardInfoDetectPanel extends JPanel {
 					String strResp = commonAPDU.send("8050" + keyVersion + keyId + "08" + hostRandom);
 					String initResp = strResp.substring(8, 20);
 
-					String deriveData = initResp + "F001" + initResp + "0F01";
-					String keyEnc = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
+					String deriveDataKeyEnc = initResp + "F001" + initResp + "0F01";
+					String deriveDataKeyMac = initResp + "F002" + initResp + "0F02";
+					String deriveDataKeyDek = initResp + "F003" + initResp + "0F03";
+					String keyEnc = null;
+					String keyMac = null;
+					String keyDek = null;
+					if (kmc.length()==16) {
+						IKms iKms=IKms.getInstance();
+						keyEnc =iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyEnc, "pct");
+						keyMac =iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyMac, "pct");
+						keyDek =iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyDek, "pct");
+					}else {
+						keyEnc = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveDataKeyEnc, Padding.NoPadding);
+						keyMac = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveDataKeyMac, Padding.NoPadding);
+						keyDek = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveDataKeyDek, Padding.NoPadding);
+					}
 					CommonHelper.updateUI(textField, keyEnc);
-
-					deriveData = initResp + "F002" + initResp + "0F02";
-					String keyMac = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
 					CommonHelper.updateUI(textField_1, keyMac);
-
-					deriveData = initResp + "F003" + initResp + "0F03";
-					String keyDek = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveData, Padding.NoPadding);
 					CommonHelper.updateUI(textField_2, keyDek);
 
 					Config.setValue("CardInfo", "KMC", kmc);
