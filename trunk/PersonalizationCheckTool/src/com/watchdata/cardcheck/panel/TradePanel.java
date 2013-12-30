@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -86,13 +87,13 @@ public class TradePanel extends JPanel {
 		};
 		
 		AtmPanel atmPanel = new AtmPanel(textPane,textPane1);
-		atmPanel.setBounds(565, 10, 575, 483);
-		add(atmPanel);
+		//atmPanel.setBounds(565, 10, 575, 483);
+		//add(atmPanel);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "TRADE LOG", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(0, 0, 556, 500);
-		add(panel);
+		//panel.setBounds(0, 0, 556, 500);
+		//add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -132,7 +133,14 @@ public class TradePanel extends JPanel {
 			}
 		});
 		popupMenu.add(menuItem);
-
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setBounds(0, 0, 1118, 500);
+		splitPane.setLeftComponent(panel);
+		splitPane.setRightComponent(atmPanel);
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setDividerLocation(0.5);
+		add(splitPane);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
