@@ -26,7 +26,7 @@ public class Log {
 
 	public void debug(String info) {
 		logger.debug(info);
-		out(outStr("DEBUG", info), 1);
+		out(outStr("DEBUG", info), 4);
 	}
 
 	public void debug(String info, int startFlag) {
@@ -34,7 +34,7 @@ public class Log {
 		if (startFlag == 0) {
 			out(outStr("DEBUG", info), 0);
 		}
-		out(outStr("DEBUG", info), 1);
+		out(outStr("DEBUG", info), 4);
 	}
 
 	public void info(String info) {
@@ -71,17 +71,17 @@ public class Log {
 
 			if (command == 0) {
 				jTextPane.setText("");
+			}else if (command == 1) {
+				StyleConstants.setForeground(simpleAttributeSet, Color.GREEN);
 			} else if (command == 2) {
 				StyleConstants.setForeground(simpleAttributeSet, Color.RED);
-				addLog(info, jTextPane, simpleAttributeSet);
 			} else if (command == 3) {
 				StyleConstants.setForeground(simpleAttributeSet, Color.BLUE);
 				StyleConstants.setBold(simpleAttributeSet, true);
-				addLog(info, jTextPane, simpleAttributeSet);
 			} else {
 				StyleConstants.setForeground(simpleAttributeSet, Color.BLACK);
-				addLog(info, jTextPane, simpleAttributeSet);
 			}
+			addLog(info, jTextPane, simpleAttributeSet);
 		}
 	}
 
