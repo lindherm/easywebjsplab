@@ -3,6 +3,8 @@ package com.watchdata.cardcheck.logic.apdu;
 import java.util.HashMap;
 
 import com.watchdata.cardcheck.log.Log;
+import com.watchdata.cardcheck.utils.Config;
+import com.watchdata.cardcheck.utils.TermSupportUtil;
 /**
  * 
  * @description: 指令打包解包封装抽象类
@@ -134,11 +136,10 @@ public class AbstractAPDU {
 			}
 			
 			int tagLen = Integer.parseInt(tagLenStr,16)*2;			
-			
 			String value = apdu.substring(0, tagLen);
-			
 			resp.put(tag, value);
-			log.info(tag + "\t"+tagLenStr+" "+ value);
+			//deal gp log
+			printGpLog(tag,tagLenStr,value);
 			//递归解析TLV
 			if(isComleteTag(tag)) parseTLV(resp,value);
 			
@@ -146,6 +147,16 @@ public class AbstractAPDU {
 			if(apdu.length()<=0) break;			
 		}
 	}
+	//gp log
+	private void printGpLog(String tag,String tagLen,String value){
+		//print log with tag comment
+		String tagComment=Config.getValue("TAG", tag);
+		log.info(tag + "\t"+tagLen+" "+ value+"【"+tagComment+"】");
+		if (tag.equalsIgnoreCase("8E")) {
+			TermSupportUtil.parse8E(value);
+		}
+	}
+	
 	private boolean isComleteTag(String tag){
 		if(SPECIAL_TAG_LIST.indexOf(tag)<0) return false;
 		return true;
