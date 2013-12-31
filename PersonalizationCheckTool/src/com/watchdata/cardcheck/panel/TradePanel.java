@@ -87,13 +87,8 @@ public class TradePanel extends JPanel {
 		};
 		
 		AtmPanel atmPanel = new AtmPanel(textPane,textPane1);
-		//atmPanel.setBounds(565, 10, 575, 483);
-		//add(atmPanel);
-		
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "TRADE LOG", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		//panel.setBounds(0, 0, 556, 500);
-		//add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -106,13 +101,9 @@ public class TradePanel extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "READ TRADE LOG", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 70, 213)));
-		panel_1.setBounds(0, 497, 1118, 180);
-		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_1.add(scrollPane_1);
-		
 		scrollPane_1.setViewportView(textPane1);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
@@ -135,12 +126,19 @@ public class TradePanel extends JPanel {
 		popupMenu.add(menuItem);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBounds(0, 0, 1118, 500);
+		splitPane.setResizeWeight(0.48);
 		splitPane.setLeftComponent(panel);
 		splitPane.setRightComponent(atmPanel);
 		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(0.5);
-		add(splitPane);
+		
+		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setResizeWeight(0.8);
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setTopComponent(splitPane);
+		splitPane_1.setBottomComponent(panel_1);
+		splitPane_1.setBounds(0, 0, 1100, 680);
+		splitPane_1.setOneTouchExpandable(true);
+		add(splitPane_1);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -165,7 +163,7 @@ public class TradePanel extends JPanel {
 		logger.debug("read trade log",0);
 		CommonAPDU apduHandler=new CommonAPDU();
 		// 为了保证卡片和读卡器的正确性，交易开始前务必先复位
-		logger.debug("=============================reset===================================",0);
+		logger.debug("=============================reset===================================");
 		HashMap<String, String> res = apduHandler.reset();
 		if (!"9000".equals(res.get("sw"))) {
 			logger.error("card reset falied");
