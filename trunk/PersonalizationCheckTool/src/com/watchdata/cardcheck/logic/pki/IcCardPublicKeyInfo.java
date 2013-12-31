@@ -2,8 +2,6 @@ package com.watchdata.cardcheck.logic.pki;
 
 public class IcCardPublicKeyInfo {
 	private String head;
-	private String rail;
-	
 	private String certType;// 证书格式
 	private String pan;// 应用主账号
 
@@ -16,7 +14,7 @@ public class IcCardPublicKeyInfo {
 	private String publicExponentLength;// 发卡行公钥指数长度
 	private String pubMod;// 公钥模值
 	private String hash;// hash值
-
+	private String rail;
 	private boolean success = false;//是否恢复成功标识
 	private String errorCode;//出错代码
 
@@ -130,5 +128,10 @@ public class IcCardPublicKeyInfo {
 
 	public void setPubMod(String pubMod) {
 		this.pubMod = pubMod;
+	}
+
+	@Override
+	public String toString() {
+		return "IcCardPublicKeyInfo [head=" + head + ", certType=" + certType + ", pan=" + pan + ", expireDate=" + expireDate + ", csid=" + csid + ", hashMech=" + hashMech + ", publicKeyMech=" + publicKeyMech + ", publicKeyLength=" + publicKeyLength + ", publicExponentLength=" + publicExponentLength + ", pubMod=" + pubMod + ", hash=" + hash + ", rail=" + rail + "]";
 	}
 }

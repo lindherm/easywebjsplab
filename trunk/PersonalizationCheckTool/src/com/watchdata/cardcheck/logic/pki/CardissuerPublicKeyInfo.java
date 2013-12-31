@@ -2,8 +2,6 @@ package com.watchdata.cardcheck.logic.pki;
 
 public class CardissuerPublicKeyInfo {
 	private String head;
-	private String rail;
-	
 	private String certType;// 证书格式
 	private String cid;// 发卡行标识
 	private String expireDate;// 证书失效日期
@@ -15,7 +13,8 @@ public class CardissuerPublicKeyInfo {
 	private String publicExponentLength;// 发卡行公钥指数长度
 	private String pubMod;// 公钥模值
 	private String hash;// hash值
-
+	private String rail;
+	
 	private boolean success = false;//是否恢复成功标识
 	private String errorCode;//出错代码
 
@@ -131,4 +130,10 @@ public class CardissuerPublicKeyInfo {
 	public void setPubMod(String pubMod) {
 		this.pubMod = pubMod;
 	}
+
+	@Override
+	public String toString() {
+		return "CardissuerPublicKeyInfo [head=" + head + ", certType=" + certType + ", cid=" + cid + ", expireDate=" + expireDate + ", csid=" + csid + ", hashMech=" + hashMech + ", publicKeyMech=" + publicKeyMech + ", publicKeyLength=" + publicKeyLength + ", publicExponentLength=" + publicExponentLength + ", pubMod=" + pubMod + ", hash=" + hash + ", rail=" + rail + "]";
+	}
+
 }
