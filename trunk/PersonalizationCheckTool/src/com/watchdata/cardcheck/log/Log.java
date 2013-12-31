@@ -30,11 +30,12 @@ public class Log {
 	}
 
 	public void debug(String info, int startFlag) {
-		logger.debug(info);
+		//logger.debug(info);
 		if (startFlag == 0) {
 			out(outStr("DEBUG", info), 0);
+		}else {
+			out(outStr("DEBUG", info), 4);
 		}
-		out(outStr("DEBUG", info), 4);
 	}
 
 	public void info(String info) {
@@ -71,6 +72,7 @@ public class Log {
 
 			if (command == 0) {
 				jTextPane.setText("");
+				StyleConstants.setForeground(simpleAttributeSet, Color.BLACK);
 			}else if (command == 1) {
 				StyleConstants.setForeground(simpleAttributeSet, Color.GREEN);
 			} else if (command == 2) {
