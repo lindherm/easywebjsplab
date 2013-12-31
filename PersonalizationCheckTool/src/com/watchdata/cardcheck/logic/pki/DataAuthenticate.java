@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.utils.CryptoUtil;
 import com.watchdata.commons.lang.WDByteUtil;
 import com.watchdata.commons.lang.WDEncodeUtil;
 
 public class DataAuthenticate {
 	// log5j打日志
-	private static Logger log = Logger.getLogger(DataAuthenticate.class);
+	private static Log log = new Log();
 	// 恢复数据头
 	private static final String RECOVER_DATA_HEAD = "6A";
 	// 签名数据格式(静态数据认证)
@@ -82,12 +81,12 @@ public class DataAuthenticate {
 			log.error("dynamicDataAuthenticate to get cardissuerPublicKeyInfo error the code is: " + errorCode);
 			return false;
 		}
-
-		for (String calog : caLogList) {
-			logList.add(calog);
-		}
-		caLogList.clear();
-		logList.add("Issuer Public Key Modulus:\n"+issuerPKInfo.getPubMod());
+		initLogList(logList);
+		printLog(logList,"【Issuer】Cert:"+issuerCert);
+		printLog(logList,"CA Public Key index:"+caPKIndex);
+		printLog(logList,"【Issuer】 Public Key Exponent:"+issuerPKExponent);
+		printLog(logList,"【Issuer】"+issuerPKInfo.toString());
+		printLog(logList,"【Issuer】 Public Key Surplus:"+issuerPKSurplus);
 		
 		//获取IC卡公钥信息
 		IcCardPublicKeyInfo icPKInfo = PkiUtil.icCard_pubKey_recover(icCert, issuerPKInfo.getPubMod(), icPKSurplus, issuerPKExponent,icPKExponent, pan, staticDataList,caLogList);
@@ -100,7 +99,12 @@ public class DataAuthenticate {
 		for (String calog : caLogList) {
 			logList.add(calog);
 		}
-		logList.add("ICC Public Key Modulus:\n"+icPKInfo.getPubMod());
+		printLog(logList,"【IC】 Cert:"+icCert);
+		printLog(logList,"【IC】 Public Key Modulus:"+icPKInfo.getPubMod());
+		printLog(logList,"【IC】 Public Key Surplus:"+icPKSurplus);
+		printLog(logList,icPKInfo.toString());
+		printLog(logList,"【IC】 Public Key Exponent:"+icPKExponent);
+		
 		
 		//判断IC卡公钥模长度与动态数据长度是否相等
 		if (icPKInfo.getPubMod().length() != signedDynamicData.length()) {
@@ -109,10 +113,7 @@ public class DataAuthenticate {
 		}
 		//恢复签名的动态数据
 		String resultData = CryptoUtil.rsa_decrypt(icPKInfo.getPubMod(),icPKExponent, signedDynamicData);
-		log.debug("dynamicDataAuthenticate recoverd dynamicData：" + resultData);
-		
-		logList.add("Recovered signedDDA data:\n"+resultData);
-		
+		printLog(logList,"Recovered signedDDA data:"+resultData);
 		//判断恢复数据的开头
 		if (!resultData.startsWith(RECOVER_DATA_HEAD + SIGN_DATA_STYLE_DDA)) {
 			log.error("dynamicDataAuthenticate not start with 6A05!");
@@ -125,10 +126,12 @@ public class DataAuthenticate {
 		}
 		//哈希算法标识
 		String hashStyle = resultData.substring(4,6);
-		log.debug("dynamicDataAuthenticate hash style：" + hashStyle);
+		//log.debug("dynamicDataAuthenticate hash style：" + hashStyle);
+		printLog(logList,"hash style："+hashStyle);
 		//需要计算哈希的数据
 		String toHashData = resultData.substring(2, resultData.length() - 42) + ddolDataList;
-		log.debug("dynamicDataAuthenticate to hash：" + toHashData);
+		//log.debug("dynamicDataAuthenticate to hash：" + toHashData);
+		printLog(logList,"DDA hash data：" + toHashData);
 		String hashData = "";
 		//判断哈希算法标识并计算哈希
 		try{
@@ -147,13 +150,15 @@ public class DataAuthenticate {
 			throw new Exception("静态数据认证计算Hash的过程中出现异常" + e.getMessage());
 			//return false; 
 		}
-		log.debug("dynamicDataAuthenticate get hash：" + hashData);
+		//log.debug("dynamicDataAuthenticate get hash：" + hashData);
+		printLog(logList,"calcuate hash：" + hashData);
 		//恢复数据中的哈希数据
 		String resultHashData = resultData.substring(resultData.length() - 42,resultData.length() - 2);
-		log.debug("dynamicDataAuthenticate get hash from recovered data：" + resultHashData);
+		//log.debug("dynamicDataAuthenticate get hash from recovered data：" + resultHashData);
+		printLog(logList,"recovered data hash：" + resultHashData);
 		//比较两个哈希值
 		if (!hashData.equalsIgnoreCase(resultHashData)) {
-			log.error("dynamicDataAuthenticate Hash is not equals!");
+			log.error("Hash is not equals!");
 			return false;
 		}
 		//填充数据
@@ -233,5 +238,17 @@ public class DataAuthenticate {
 			return false;
 		}
 		return true;
+	}
+	//print and put loginfo into list
+	public void printLog(List<String> logList,String info){
+		logList.add(info);
+		log.debug(info);
+	}
+	//init loglist to null
+	public void initLogList(List<String> logList){
+		for (String calog : logList) {
+			logList.add(calog);
+		}
+		logList.clear();
 	}
 }

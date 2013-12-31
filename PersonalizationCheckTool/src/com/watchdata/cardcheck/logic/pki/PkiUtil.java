@@ -5,9 +5,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.watchdata.cardcheck.configdao.PublicKeyInfo;
+import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.utils.CryptoUtil;
 import com.watchdata.cardcheck.utils.DigitalTool;
 import com.watchdata.commons.lang.WDAssert;
@@ -19,7 +18,7 @@ public class PkiUtil {
 		
 	}
 	// log5j日志
-	private static Logger log = Logger.getLogger(PkiUtil.class);
+	private static Log log=new Log();
 	private static PublicKeyInfo pk=new PublicKeyInfo();
 	/**
 	 * 发卡行公钥证书恢复
@@ -93,6 +92,7 @@ public class PkiUtil {
 			cardissuerPublicKeyInfo.setErrorCode("F003");
 			return cardissuerPublicKeyInfo;
 		}
+		log.debug("【Issuer】 certPlainText:"+certText);
 
 		// 截取证书各部分数据存进vo
 		cardissuerPublicKeyInfo = changeCertTextToObject(certText);
@@ -190,6 +190,7 @@ public class PkiUtil {
 			icCardPublicKeyInfo.setErrorCode("F102");
 			return icCardPublicKeyInfo;
 		}
+		log.debug("【IC】 certPlainText:"+certText);
 		// 截取证书各部分数据存进vo
 		icCardPublicKeyInfo = changeCertTextToObject_Ic(certText);
 
