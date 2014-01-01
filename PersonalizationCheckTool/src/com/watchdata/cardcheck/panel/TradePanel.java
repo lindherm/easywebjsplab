@@ -44,7 +44,6 @@ public class TradePanel extends JPanel {
 	 * @throws IOException 
 	 */
 	public TradePanel() throws IOException {
-		setLayout(null);
 		
 		textPane =new JTextPane(){
 			/**
@@ -123,6 +122,7 @@ public class TradePanel extends JPanel {
 				thread.start();
 			}
 		});
+		setLayout(new BorderLayout(0, 0));
 		popupMenu.add(menuItem);
 		
 		JSplitPane splitPane = new JSplitPane();
@@ -136,7 +136,6 @@ public class TradePanel extends JPanel {
 		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_1.setTopComponent(splitPane);
 		splitPane_1.setBottomComponent(panel_1);
-		splitPane_1.setBounds(0, 0, 1100, 680);
 		splitPane_1.setOneTouchExpandable(true);
 		add(splitPane_1);
 	}

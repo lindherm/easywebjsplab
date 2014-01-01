@@ -35,6 +35,7 @@ import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDStringUtil;
+import javax.swing.JSplitPane;
 
 /**
  * TestDataConfigPanel.java
@@ -72,11 +73,11 @@ public class TestDataConfigPanel extends JPanel {
 	public TestDataConfigPanel() {
 		super();
 		log.setLogArea(textPane_1);
-		setLayout(null);
 		setName(pm.getString("mv.testdata.name"));
 		// setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.menu.dataConfig")));
 
 		apduHandler = new CommonAPDU();
+		setLayout(new BorderLayout(0, 0));
 
 		textPane_1 = new JTextPane() {
 			/**
@@ -100,8 +101,7 @@ public class TestDataConfigPanel extends JPanel {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Log", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(0, 504, 1000, 180);
-		add(panel);
+		//add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -111,8 +111,7 @@ public class TestDataConfigPanel extends JPanel {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "SCAN EMV CARD", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(0, 5, 1000, 500);
-		add(panel_1);
+		//add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		final JScrollPane scrollPane = new JScrollPane();
@@ -162,6 +161,14 @@ public class TestDataConfigPanel extends JPanel {
 			}
 		});
 		popupMenu.add(menuItem);
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setResizeWeight(0.5);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setTopComponent(panel_1);
+		splitPane.setBottomComponent(panel);
+		add(splitPane, BorderLayout.CENTER);
 		dialog.setSize(450, 350);
 		dialog.getContentPane().add(dlgscrollPane);
 	}
