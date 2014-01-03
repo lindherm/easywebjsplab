@@ -15,7 +15,7 @@ import javax.swing.plaf.FontUIResource;
 
 import org.apache.log4j.Logger;
 
-import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
+import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 /**
  * @title Application.java
@@ -58,8 +58,8 @@ public class Application extends JFrame {
 			props.put("userTextFont", "宋体 PLAIN 13");
 			props.put("subTextFont", "宋体 PLAIN 12");
 			props.put("windowTitleFont", "宋体 BOLD 16");
-			McWinLookAndFeel.setCurrentTheme(props);
-			UIManager.setLookAndFeel(new McWinLookAndFeel());
+			AcrylLookAndFeel.setCurrentTheme(props);
+			UIManager.setLookAndFeel(new AcrylLookAndFeel());
 		} catch (Exception e) {
 			log.error("LookAndFeel unsupported.");
 		}
@@ -82,6 +82,21 @@ public class Application extends JFrame {
 	}
 
 	private void initContentPane() {
+		try {
+			Properties props = new Properties();
+			props.put("logoString", "watchdata");
+			//props.put("textShadow", "off");
+			props.put("systemTextFont", "宋体 PLAIN 13");
+			props.put("controlTextFont", "宋体 PLAIN 13");
+			props.put("menuTextFont", "宋体 PLAIN 13");
+			props.put("userTextFont", "宋体 PLAIN 13");
+			props.put("subTextFont", "宋体 PLAIN 12");
+			props.put("windowTitleFont", "宋体 BOLD 16");
+			AcrylLookAndFeel.setCurrentTheme(props);
+			UIManager.setLookAndFeel(new AcrylLookAndFeel());
+		} catch (Exception e) {
+			log.error("LookAndFeel unsupported.");
+		}
 		contentPanel = getContentPane();
 		contentPanel.setLayout(new BorderLayout());
 		leftPanel = new LeftPanel();
