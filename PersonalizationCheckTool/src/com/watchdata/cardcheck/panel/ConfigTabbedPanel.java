@@ -32,7 +32,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton btnAid = new JButton();
 		btnAid.setHorizontalAlignment(SwingConstants.LEFT);
-		btnAid.setBounds(5, 5, 80, 21);
+		btnAid.setBounds(0, 5, 80, 21);
 		btnAid.setFocusPainted(false);
 		btnAid.setBorderPainted(false);
 		add(btnAid);
@@ -58,7 +58,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_3 = new JButton();
 		button_3.setHorizontalAlignment(SwingConstants.LEFT);
-		button_3.setBounds(5, 30, 80, 21);
+		button_3.setBounds(0, 30, 80, 21);
 		button_3.setFocusPainted(false);
 		button_3.setBorderPainted(false);
 		add(button_3);
@@ -83,7 +83,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_4 = new JButton();
 		button_4.setHorizontalAlignment(SwingConstants.LEFT);
-		button_4.setBounds(5, 55, 80, 21);
+		button_4.setBounds(0, 55, 80, 21);
 		button_4.setFocusPainted(false);
 		button_4.setBorderPainted(false);
 		add(button_4);
@@ -108,7 +108,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_6 = new JButton();
 		button_6.setHorizontalAlignment(SwingConstants.LEFT);
-		button_6.setBounds(5, 80, 80, 21);
+		button_6.setBounds(0, 80, 80, 21);
 		button_6.setFocusPainted(false);
 		button_6.setBorderPainted(false);
 		add(button_6);
@@ -134,7 +134,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_8 = new JButton();
 		button_8.setHorizontalAlignment(SwingConstants.LEFT);
-		button_8.setBounds(5, 105, 80, 21);
+		button_8.setBounds(0, 105, 80, 21);
 		button_8.setFocusPainted(false);
 		button_8.setBorderPainted(false);
 		add(button_8);
@@ -160,7 +160,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_10 = new JButton();
 		button_10.setHorizontalAlignment(SwingConstants.LEFT);
-		button_10.setBounds(5, 130, 80, 21);
+		button_10.setBounds(0, 130, 80, 21);
 		button_10.setFocusPainted(false);
 		button_10.setBorderPainted(false);
 		add(button_10);
@@ -185,7 +185,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_9 = new JButton();
 		button_9.setHorizontalAlignment(SwingConstants.LEFT);
-		button_9.setBounds(5, 155, 80, 21);
+		button_9.setBounds(0, 155, 80, 21);
 		button_9.setFocusPainted(false);
 		button_9.setBorderPainted(false);
 		add(button_9);
