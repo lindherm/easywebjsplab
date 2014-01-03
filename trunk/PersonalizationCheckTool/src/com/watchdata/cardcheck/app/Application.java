@@ -16,7 +16,10 @@ import javax.swing.plaf.FontUIResource;
 import org.apache.log4j.Logger;
 
 import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
+import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
+import com.watchdata.cardcheck.utils.SwingUtils;
+
 /**
  * @title Application.java
  * @description 应用主程序
@@ -51,15 +54,26 @@ public class Application extends JFrame {
 		try {
 			Properties props = new Properties();
 			props.put("logoString", "watchdata");
-			//props.put("textShadow", "off");
+			// props.put("textShadow", "off");
 			props.put("systemTextFont", "宋体 PLAIN 13");
 			props.put("controlTextFont", "宋体 PLAIN 13");
 			props.put("menuTextFont", "宋体 PLAIN 13");
 			props.put("userTextFont", "宋体 PLAIN 13");
 			props.put("subTextFont", "宋体 PLAIN 12");
 			props.put("windowTitleFont", "宋体 BOLD 16");
-			AcrylLookAndFeel.setCurrentTheme(props);
-			UIManager.setLookAndFeel(new AcrylLookAndFeel());
+
+			// 设置皮肤
+			String currentLaf = Config.getValue("CURRENT_THEME", "current_laf");
+			String currentTheme = Config.getValue("CURRENT_THEME", "current_theme");
+			String lafIndex = Config.getValue("CURRENT_THEME", "current_lafIndex");
+
+			if (!currentTheme.equals("window")) {
+				SwingUtils.setTheme(Integer.parseInt(lafIndex), currentTheme);
+			}
+
+			UIManager.setLookAndFeel(currentLaf);
+
+			SwingUtils.updateUI();
 		} catch (Exception e) {
 			log.error("LookAndFeel unsupported.");
 		}
@@ -70,30 +84,41 @@ public class Application extends JFrame {
 	public Application() {
 		super(titleStr);
 		initContentPane();
-		//setFont(new Font("", Font.BOLD, 14));
+		// setFont(new Font("", Font.BOLD, 14));
 		setSize(new Dimension(800, 600));
-		//Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocationRelativeTo(null);
-		//getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
-		//setAlwaysOnTop(true);
+		// getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
+		// setAlwaysOnTop(true);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
+		// UIManager.put("JRootPane.font ", new FontUIResource("宋体 ", 0, 20));
 	}
 
 	private void initContentPane() {
 		try {
 			Properties props = new Properties();
 			props.put("logoString", "watchdata");
-			//props.put("textShadow", "off");
+			// props.put("textShadow", "off");
 			props.put("systemTextFont", "宋体 PLAIN 13");
 			props.put("controlTextFont", "宋体 PLAIN 13");
 			props.put("menuTextFont", "宋体 PLAIN 13");
 			props.put("userTextFont", "宋体 PLAIN 13");
 			props.put("subTextFont", "宋体 PLAIN 12");
 			props.put("windowTitleFont", "宋体 BOLD 16");
-			AcrylLookAndFeel.setCurrentTheme(props);
-			UIManager.setLookAndFeel(new AcrylLookAndFeel());
+
+			// 设置皮肤
+			String currentLaf = Config.getValue("CURRENT_THEME", "current_laf");
+			String currentTheme = Config.getValue("CURRENT_THEME", "current_theme");
+			String lafIndex = Config.getValue("CURRENT_THEME", "current_lafIndex");
+
+			if (!currentTheme.equals("window")) {
+				SwingUtils.setTheme(Integer.parseInt(lafIndex), currentTheme);
+			}
+
+			UIManager.setLookAndFeel(currentLaf);
+
+			SwingUtils.updateUI();
 		} catch (Exception e) {
 			log.error("LookAndFeel unsupported.");
 		}
