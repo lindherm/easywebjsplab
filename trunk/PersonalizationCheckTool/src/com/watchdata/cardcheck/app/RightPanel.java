@@ -9,6 +9,7 @@ import com.watchdata.cardcheck.panel.AIDConfigPanel;
 import com.watchdata.cardcheck.panel.CAPublicKeyConfigPanel;
 import com.watchdata.cardcheck.panel.CardInfoDetectPanel;
 import com.watchdata.cardcheck.panel.CardReaderPanel;
+import com.watchdata.cardcheck.panel.FaceConfiTabbedPanel;
 import com.watchdata.cardcheck.panel.IssuerKeyConfigPanel;
 import com.watchdata.cardcheck.panel.LogoPanel;
 import com.watchdata.cardcheck.panel.TerminalLimitConfigPanel;
@@ -39,6 +40,7 @@ public class RightPanel extends JPanel{
 	public static TerminalTypeConfigPanel terminalTypeConfigPanel = null;
 	public static TestDataConfigPanel testDataConfigPanel = null;
 	public static CardInfoDetectPanel cardInfoDetectPanel = null;
+	public static FaceConfiTabbedPanel faceConfiTabbedPanel = null;
 	public static TradePanel tradePanel = null;
 	public static LogoPanel logoPanel = null;
 	public static CardReaderPanel cardReaderPanel = new CardReaderPanel();
@@ -59,6 +61,7 @@ public class RightPanel extends JPanel{
 		terminalTypeConfigPanel = new TerminalTypeConfigPanel();
 		testDataConfigPanel = new TestDataConfigPanel();
 		cardInfoDetectPanel=new CardInfoDetectPanel();
+		faceConfiTabbedPanel=new FaceConfiTabbedPanel();
 		tradePanel = new TradePanel();
 		//cardInfoScanPanel=new CardInfoScanPanel();
 		setLayout(new BorderLayout());
