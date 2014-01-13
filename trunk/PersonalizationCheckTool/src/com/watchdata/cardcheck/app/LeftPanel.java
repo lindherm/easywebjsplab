@@ -1,6 +1,7 @@
 package com.watchdata.cardcheck.app;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -13,11 +14,9 @@ import com.watchdata.cardcheck.panel.AtmPanel;
 import com.watchdata.cardcheck.panel.CardInfoDetectTabbedPanel;
 import com.watchdata.cardcheck.panel.CheckTabbedPanel;
 import com.watchdata.cardcheck.panel.ConfigTabbedPanel;
-import com.watchdata.cardcheck.panel.FaceConfiTabbedPanel;
 import com.watchdata.cardcheck.panel.TradeTabbedPanel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
-import java.awt.FlowLayout;
 
 /**
  * @title LeftPanel.java
@@ -35,7 +34,7 @@ public class LeftPanel extends JPanel {
 	private TradeTabbedPanel tradeTabbedPanel = new TradeTabbedPanel();
 	private CheckTabbedPanel checkTabbedPanel = new CheckTabbedPanel();
 	private CardInfoDetectTabbedPanel cardDetectTabbedPanel = new CardInfoDetectTabbedPanel();
-	private FaceConfiTabbedPanel faceConfiTabbedPanel = new FaceConfiTabbedPanel();
+	//private FaceConfiTabbedPanel faceConfiTabbedPanel = new FaceConfiTabbedPanel();
 	private PropertiesManager pm = new PropertiesManager();
 
 	public LeftPanel() {
@@ -56,11 +55,11 @@ public class LeftPanel extends JPanel {
 		tabbedPane.add(tradeTabbedPanel.getName(), tradeTabbedPanel);
 		tabbedPane.add(checkTabbedPanel.getName(), checkTabbedPanel);
 		tabbedPane.add(cardDetectTabbedPanel.getName(), cardDetectTabbedPanel);
-		tabbedPane.add(faceConfiTabbedPanel.getName(),faceConfiTabbedPanel);
+		//tabbedPane.add(faceConfiTabbedPanel.getName(),faceConfiTabbedPanel);
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				if ("配置".equals(tabbedPane.getSelectedComponent().getName())) {
+				if ("设置".equals(tabbedPane.getSelectedComponent().getName())) {
 					Application.rightPanel.add(RightPanel.logoPanel, BorderLayout.CENTER);
 					RightPanel.logoPanel.setVisible(true);
 					RightPanel.aidConfigPanel.setVisible(false);
@@ -120,7 +119,7 @@ public class LeftPanel extends JPanel {
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.faceConfiTabbedPanel.setVisible(false);
 				}
-				else if ("皮肤".equals(tabbedPane.getSelectedComponent().getName())) {
+				/*else if ("皮肤".equals(tabbedPane.getSelectedComponent().getName())) {
 					Application.rightPanel.add(RightPanel.cardInfoDetectPanel, BorderLayout.CENTER);
 					RightPanel.faceConfiTabbedPanel.setVisible(true);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
@@ -135,7 +134,7 @@ public class LeftPanel extends JPanel {
 					RightPanel.tradePanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 					
-				}
+				}*/
 			}
 		});
 

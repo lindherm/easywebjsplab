@@ -27,7 +27,7 @@ public class ConfigTabbedPanel extends JPanel {
 	public ConfigTabbedPanel() {
 		super();
 		setSize(99, 750);
-		setName("配置");
+		setName("设置");
 		setLayout(null);
 
 		final JButton btnAid = new JButton();
@@ -54,7 +54,7 @@ public class ConfigTabbedPanel extends JPanel {
 				AIDConfigPanel.textFieldAid.requestFocus();
 			}
 		});
-		btnAid.setText("AID配置");
+		btnAid.setText("AID设置");
 
 		final JButton button_3 = new JButton();
 		button_3.setHorizontalAlignment(SwingConstants.LEFT);
@@ -185,7 +185,7 @@ public class ConfigTabbedPanel extends JPanel {
 
 		final JButton button_9 = new JButton();
 		button_9.setHorizontalAlignment(SwingConstants.LEFT);
-		button_9.setBounds(0, 155, 80, 21);
+		button_9.setBounds(0, 177, 80, 21);
 		button_9.setFocusPainted(false);
 		button_9.setBorderPainted(false);
 		add(button_9);
@@ -208,7 +208,32 @@ public class ConfigTabbedPanel extends JPanel {
 			}
 		});
 		button_9.setText("读卡器");
+		
+		JButton button = new JButton();
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Application.rightPanel.add(RightPanel.aidConfigPanel, BorderLayout.CENTER);
+				RightPanel.aidConfigPanel.setVisible(false);
+				RightPanel.logoPanel.setVisible(true);
+				RightPanel.caPublicKeyConfigPanel.setVisible(false);
+				RightPanel.issuerKeyConfigPanel.setVisible(false);
+				RightPanel.terminalLimitConfigPanel.setVisible(false);
+				RightPanel.terminalTypeConfigPanel.setVisible(false);
+				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
+				RightPanel.tradePanel.setVisible(false);
+				RightPanel.testDataConfigPanel.setVisible(false);
+				RightPanel.cardReaderPanel.setVisible(false);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
+				
+				new FaceDialog(Application.frame);
+			}
+		});
+		button.setText("皮肤设置");
+		button.setHorizontalAlignment(SwingConstants.LEFT);
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
+		button.setBounds(0, 154, 80, 21);
+		add(button);
 
 	}
-
 }
