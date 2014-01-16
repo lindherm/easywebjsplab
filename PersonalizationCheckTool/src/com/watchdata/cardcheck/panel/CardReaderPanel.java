@@ -139,8 +139,10 @@ public class CardReaderPanel extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String reader=comboBox.getSelectedItem().toString();
-				String[] board=reader.split(":");
-				FileUtil.updateBoradFile(board[0], board[1]);
+				if (reader.indexOf(':')>0) {
+					String[] board=reader.split(":");
+					FileUtil.updateBoradFile(board[0], board[1]);
+				}
 				commonAPDU=new CommonAPDU();
 				boolean flag=commonAPDU.init(reader);
 				if (flag) {
