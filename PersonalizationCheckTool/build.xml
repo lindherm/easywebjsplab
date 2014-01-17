@@ -83,8 +83,8 @@
 		<copy todir="${dist-dir}/PCT_lib">
 			<fileset dir="lib" />
 		</copy>
-		<copy todir="${dist-dir}/logs">
-			<fileset dir="logs" />
+		<copy todir="${dist-dir}/log">
+			<fileset dir="log" />
 		</copy>
 		<copy todir="${dist-dir}/prg">
 			<fileset dir="prg" />
@@ -98,7 +98,7 @@
 			</fileset>
 		</copy>
 		<delete includeEmptyDirs="true" quiet="true">
-			<fileset dir="${dist-dir}/logs">
+			<fileset dir="${dist-dir}/log">
 				<include name="**/*"/>
 			</fileset>
 		</delete>
