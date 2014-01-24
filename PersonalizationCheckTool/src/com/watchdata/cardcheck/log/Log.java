@@ -59,7 +59,7 @@ public class Log {
 	}
 
 	public String outStr(String infoType, String info) {
-		return sf.format(new Date()) + " " + infoType + "\t" + info + "\n";
+		return sf.format(new Date()) + " " + infoType + " " + info + "\n";
 	}
 
 	public String outStrNoDate(String info) {

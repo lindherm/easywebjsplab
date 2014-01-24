@@ -110,4 +110,9 @@ public class PublicKeyInfo {
 		}
 		return true;
 	}
+	@Override
+	public String toString() {
+		return "RID=" + rid + "\nCA_PK_Exponent=" + Exp + "\nCA_PK_Arith=" + Arith + "\nCA_PK_HashArith=" + HashArith + "\nCA_PK_Modulus=" + Module + "\n";
+	}
+	
 }

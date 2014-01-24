@@ -62,19 +62,21 @@ public class PkiUtil {
 			log.error("pan cann't be null.");
 			return null;
 		}
-
+		log.debug("CA Public Key Index['8F']:\n"+caPubKeyIndex);
+		log.debug("RID:\n"+rid);
 		// 通过rid，caPubKeyIndex查询数据库得到密钥对象
 		//ICAPublicKeyConfigDao icaPublicKeyConfigDao = (ICAPublicKeyConfigDao) SpringUtil.getBean("iCAkeyconfigDao");
 		//CAPublicKeyConfig caPublicKeyConfig = (CAPublicKeyConfig) icaPublicKeyConfigDao.getCAPublicKey(rid, caPubKeyIndex);
 		String sectionName = rid+ "_CA_" +caPubKeyIndex;
 		PublicKeyInfo publicKeyInfo=pk.getPK(sectionName, rid, caPubKeyIndex);
+		
 		// 如果密钥不存在 失败
 		if (publicKeyInfo == null) {
 			log.error("capublickey not exists.");
 			cardissuerPublicKeyInfo.setErrorCode("F001");
 			return cardissuerPublicKeyInfo;
 		}
-
+		log.debug("CA_PK_INFO:\n"+publicKeyInfo.toString());
 		// 如果发卡行公钥证书的长度不同于获得的认证中心公钥模长度，那么动态数据认证失败
 		if (cardIssuerPubKeyCert.length() != publicKeyInfo.getModule().length()) {
 			log.error("capublickey length not equals to cardIssuerPubKeyCert length.");
@@ -92,7 +94,7 @@ public class PkiUtil {
 			cardissuerPublicKeyInfo.setErrorCode("F003");
 			return cardissuerPublicKeyInfo;
 		}
-		log.debug("【Issuer】 certPlainText:"+certText);
+		log.debug("Issuer Data Recovered :\n"+certText);
 
 		// 截取证书各部分数据存进vo
 		cardissuerPublicKeyInfo = changeCertTextToObject(certText);
@@ -104,6 +106,7 @@ public class PkiUtil {
 				cardissuerPublicKeyInfo.setSuccess(true);
 				cardissuerPublicKeyInfo.setErrorCode(errCode);
 				logList.add("Check Issuer PK Certificate--PASS!");
+				log.debug("Issuer Public Key Certificate Hash is verified!\n");
 			} else {
 				cardissuerPublicKeyInfo.setErrorCode(errCode);
 				return cardissuerPublicKeyInfo;
@@ -190,7 +193,7 @@ public class PkiUtil {
 			icCardPublicKeyInfo.setErrorCode("F102");
 			return icCardPublicKeyInfo;
 		}
-		log.debug("【IC】 certPlainText:"+certText);
+		log.debug("ICC Data Recovered : \n"+certText);
 		// 截取证书各部分数据存进vo
 		icCardPublicKeyInfo = changeCertTextToObject_Ic(certText);
 
@@ -202,6 +205,7 @@ public class PkiUtil {
 				icCardPublicKeyInfo.setErrorCode(errCode);
 				//word日志
 				logList.add("Check ICC PK Certificate--PASS");
+				log.debug("ICC Public Key Certificate Hash is verified!\n");
 			} else {
 				icCardPublicKeyInfo.setErrorCode(errCode);
 				return icCardPublicKeyInfo;
@@ -387,8 +391,14 @@ public class PkiUtil {
 		sb.append(cardissuerPublicKeyInfo.getCsid()).append(cardissuerPublicKeyInfo.getHashMech()).append(cardissuerPublicKeyInfo.getPublicKeyMech());
 		sb.append(cardissuerPublicKeyInfo.getPublicKeyLength()).append(cardissuerPublicKeyInfo.getPublicExponentLength()).append(cardissuerPublicKeyInfo.getPubMod());
 		sb.append(publicKeySurplus).append(publicExponent);
+		
+		log.debug("Issuer Input Data for Hash :\n"+sb.toString());
+		
 		// hash算法标识
 		String hashMech = cardissuerPublicKeyInfo.getHashMech();
+		log.debug("HashMech :\n"+hashMech);
+		log.debug("Issuer Hash retrived from Certificate:\n"+cardissuerPublicKeyInfo.getHash());
+		
 		// 按照指定的算法计算hash值
 		if ("01".equals(hashMech)) {
 			String wdhash = WDByteUtil.bytes2HEX(WDEncodeUtil.sha1(WDByteUtil.HEX2Bytes(sb.toString())));
@@ -397,6 +407,7 @@ public class PkiUtil {
 				log.error("hash is wrong.");
 				return "F007";
 			}
+			log.debug("Issuer Hash Recomputed :\n"+wdhash);
 		} else {
 			log.error("hashmech not support.");
 			return "F008";
@@ -478,14 +489,17 @@ public class PkiUtil {
 		sb.append(icCardPublicKeyInfo.getPublicKeyLength()).append(icCardPublicKeyInfo.getPublicExponentLength()).append(icCardPublicKeyInfo.getPubMod());
 		sb.append(publicKeySurplus).append(publicExponent);
 		sb.append(sad);
+		log.debug("Input Data for Hash (for ICC Public Key Certificate) :\n"+sb.toString());
 		// hash算法标识
 		String hashMech = icCardPublicKeyInfo.getHashMech();
+		log.debug("Hash Recovered from ICC Publick Key Certificate :\n"+icCardPublicKeyInfo.getHash());
 		// 按照指定的算法计算hash值
 		if ("01".equals(hashMech)) {
 			String wdhash = WDByteUtil.bytes2HEX(WDEncodeUtil.sha1(WDByteUtil.HEX2Bytes(sb.toString())));
 			// 与证书中的比较
 			if (!wdhash.equals(icCardPublicKeyInfo.getHash())) {
 				log.error("hash is wrong.");
+				log.debug("ICC Hash Recomputed : \n"+wdhash);
 				return "F106";
 			}
 		} else {

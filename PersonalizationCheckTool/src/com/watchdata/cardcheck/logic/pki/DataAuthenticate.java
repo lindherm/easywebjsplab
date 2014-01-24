@@ -82,11 +82,11 @@ public class DataAuthenticate {
 			return false;
 		}
 		initLogList(logList);
-		printLog(logList,"【Issuer】Cert:"+issuerCert);
-		printLog(logList,"CA Public Key index:"+caPKIndex);
-		printLog(logList,"【Issuer】 Public Key Exponent:"+issuerPKExponent);
-		printLog(logList,"【Issuer】"+issuerPKInfo.toString());
-		printLog(logList,"【Issuer】 Public Key Surplus:"+issuerPKSurplus);
+		printLog(logList,"Issuer Public Key Certificate[90]:\n"+issuerCert);
+		//printLog(logList,"CA Public Key index:"+caPKIndex);
+		printLog(logList,"Issuer_PK_Exponent[9F32]:\n"+issuerPKExponent);
+		//printLog(logList,"【Issuer】"+issuerPKInfo.toString());
+		printLog(logList,"Issuer Public Key Remainder[92]:\n"+issuerPKSurplus);
 		
 		//获取IC卡公钥信息
 		IcCardPublicKeyInfo icPKInfo = PkiUtil.icCard_pubKey_recover(icCert, issuerPKInfo.getPubMod(), icPKSurplus, issuerPKExponent,icPKExponent, pan, staticDataList,caLogList);
@@ -99,11 +99,11 @@ public class DataAuthenticate {
 		for (String calog : caLogList) {
 			logList.add(calog);
 		}
-		printLog(logList,"【IC】 Cert:"+icCert);
-		printLog(logList,"【IC】 Public Key Modulus:"+icPKInfo.getPubMod());
-		printLog(logList,"【IC】 Public Key Surplus:"+icPKSurplus);
+		printLog(logList,"ICC Public Key Certificate('9F 46'):\n"+icCert);
+		printLog(logList,"ICC Public Key Modulus:\n"+icPKInfo.getPubMod());
+		printLog(logList,"ICC Public Key Remainder[9F48]:\n"+icPKSurplus);
 		printLog(logList,icPKInfo.toString());
-		printLog(logList,"【IC】 Public Key Exponent:"+icPKExponent);
+		printLog(logList,"ICC Public Key Exponent ('9F 47') :\n"+icPKExponent);
 		
 		
 		//判断IC卡公钥模长度与动态数据长度是否相等
