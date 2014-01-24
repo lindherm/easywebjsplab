@@ -499,9 +499,9 @@ public class PkiUtil {
 			// 与证书中的比较
 			if (!wdhash.equals(icCardPublicKeyInfo.getHash())) {
 				log.error("hash is wrong.");
-				log.debug("ICC Hash Recomputed : \n"+wdhash);
 				return "F106";
 			}
+			log.debug("ICC Hash Recomputed : \n"+wdhash);
 		} else {
 			log.error("hashmech not support.");
 			return "F107";

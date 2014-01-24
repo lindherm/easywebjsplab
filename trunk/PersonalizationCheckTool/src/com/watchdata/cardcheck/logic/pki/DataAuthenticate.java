@@ -102,7 +102,7 @@ public class DataAuthenticate {
 		printLog(logList,"ICC Public Key Certificate('9F 46'):\n"+icCert);
 		printLog(logList,"ICC Public Key Modulus:\n"+icPKInfo.getPubMod());
 		printLog(logList,"ICC Public Key Remainder[9F48]:\n"+icPKSurplus);
-		printLog(logList,icPKInfo.toString());
+		//printLog(logList,icPKInfo.toString());
 		printLog(logList,"ICC Public Key Exponent ('9F 47') :\n"+icPKExponent);
 		
 		
