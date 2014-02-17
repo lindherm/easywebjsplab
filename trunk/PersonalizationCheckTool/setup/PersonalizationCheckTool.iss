@@ -18,9 +18,9 @@ AppPublisher={#MyAppPublisher}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-OutputDir=D:\程序打包
+OutputDir=D:\程序打包\PersonalizationCheckTool\setup
 OutputBaseFilename=pct_setup
-SetupIconFile=D:\程序打包\check.ico
+SetupIconFile=D:\程序打包\PersonalizationCheckTool\setup\check.ico
 Compression=lzma
 SolidCompression=yes
 
