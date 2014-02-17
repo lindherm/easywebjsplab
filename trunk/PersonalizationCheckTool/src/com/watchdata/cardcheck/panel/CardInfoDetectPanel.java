@@ -63,7 +63,7 @@ public class CardInfoDetectPanel extends JPanel {
 	public JTextPane textPane_1;
 	public JComboBox comboBox;
 	private static Log log = new Log();
-	private static ConfigIpDialog dialog=null;
+	private static ConfigIpDialog dialog = null;
 
 	public CardInfoDetectPanel() {
 		log.setLogArea(textPane_1);
@@ -177,7 +177,19 @@ public class CardInfoDetectPanel extends JPanel {
 							String[] apdus = prg.split("\n");
 
 							for (String apdu : apdus) {
-								commonAPDU.send(apdu);
+								if (!apdu.startsWith("//") && WDAssert.isNotEmpty(apdu.trim())) {
+									apdu = apdu.trim();
+									int commentPos = apdu.indexOf("//");
+									int swPos = apdu.indexOf("SW");
+									int pos = calPos(commentPos, swPos);
+									if (pos != -1) {
+										apdu = apdu.substring(0, pos).trim();
+										commonAPDU.send(apdu);
+									} else {
+										// apdu=apdu.substring(0, commentPos);
+										commonAPDU.send(apdu);
+									}
+								}
 							}
 						} catch (Exception e) {
 							// TODO: handle exception
@@ -331,33 +343,33 @@ public class CardInfoDetectPanel extends JPanel {
 		lblKmc.setBounds(10, 28, 48, 15);
 		panel_3.add(lblKmc);
 		lblKmc.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		JButton btnPutkey = new JButton("PutKey");
 		btnPutkey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String keyVersion = textField_4.getText().trim();
 				String keyId = textField_5.getText().trim();
-				
-				String keyInfo=textPane.getText().trim();
-				String[] keys=keyInfo.split("\r\n");
-				
+
+				String keyInfo = textPane.getText().trim();
+				String[] keys = keyInfo.split("\r\n");
+
 				String newEnc = null;
 				String newMac = null;
 				String newDek = null;
 				String newKeyVersion = null;
-				
-				if (keys.length==4) {
-					newEnc=keys[0];
-					newMac=keys[1];
-					newDek=keys[2];
-					newKeyVersion=keys[3];
-				}else if (keys.length==2) {
-					String newKey=keys[0];
-					newKeyVersion=keys[1];
-					
-					String initResp=commonAPDU.getInitResp();
-					initResp=initResp.substring(8,20);
-					
+
+				if (keys.length == 4) {
+					newEnc = keys[0];
+					newMac = keys[1];
+					newDek = keys[2];
+					newKeyVersion = keys[3];
+				} else if (keys.length == 2) {
+					String newKey = keys[0];
+					newKeyVersion = keys[1];
+
+					String initResp = commonAPDU.getInitResp();
+					initResp = initResp.substring(8, 20);
+
 					String deriveData = initResp + "F001" + initResp + "0F01";
 					newEnc = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
 
@@ -366,12 +378,12 @@ public class CardInfoDetectPanel extends JPanel {
 
 					deriveData = initResp + "F003" + initResp + "0F03";
 					newDek = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "参数个数错误！");
 					return;
 				}
 				try {
-					commonAPDU.putKey(keyVersion, keyId,newKeyVersion,newEnc,newMac,newDek);
+					commonAPDU.putKey(keyVersion, keyId, newKeyVersion, newEnc, newMac, newDek);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -402,12 +414,12 @@ public class CardInfoDetectPanel extends JPanel {
 					String keyEnc = null;
 					String keyMac = null;
 					String keyDek = null;
-					if (kmc.length()==16) {
-						IKms iKms=IKms.getInstance();
-						keyEnc =iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyEnc, "pct");
-						keyMac =iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyMac, "pct");
-						keyDek =iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyDek, "pct");
-					}else {
+					if (kmc.length() == 16) {
+						IKms iKms = IKms.getInstance();
+						keyEnc = iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyEnc, "pct");
+						keyMac = iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyMac, "pct");
+						keyDek = iKms.encrypt(kmc, IKms.DES_ECB, deriveDataKeyDek, "pct");
+					} else {
 						keyEnc = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveDataKeyEnc, Padding.NoPadding);
 						keyMac = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveDataKeyMac, Padding.NoPadding);
 						keyDek = WD3DesCryptoUtil.ecb_encrypt(kmc, deriveDataKeyDek, Padding.NoPadding);
@@ -489,5 +501,17 @@ public class CardInfoDetectPanel extends JPanel {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+
+	public int calPos(int pos1, int pos2) {
+		int pos = -1;
+		if (pos1 != -1 && pos2 != -1) {
+			pos = Math.min(pos1, pos2);
+		} else if (pos1 == -1 && pos2 != -1) {
+			pos = pos2;
+		} else if (pos1 != -1 && pos2 == -1) {
+			pos = pos1;
+		}
+		return pos;
 	}
 }
