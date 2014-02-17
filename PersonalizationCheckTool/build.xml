@@ -25,9 +25,11 @@
 	<!-- Set global properties for this build. -->
 	<property name="version" value="1.0.0" />
 	<property name="source-dir" location="src" />
-	<property name="class-dir" location="D:\程序打包\PersonalizationCheckTool\ant-classes" />
-	<property name="dist-dir" location="D:\程序打包\PersonalizationCheckTool\dist" />
-	<property name="doc-dir" location="D:\程序打包\PersonalizationCheckTool\javadoc" />
+	<property name="root-dir" location="D:\程序打包" />
+	<property name="class-dir" location="${root-dir}/PersonalizationCheckTool/ant-classes" />
+	<property name="dist-dir" location="${root-dir}/PersonalizationCheckTool/dist" />
+	<property name="doc-dir" location="${root-dir}/PersonalizationCheckTool/javadoc" />
+	<property name="setup-dir" location="${root-dir}/PersonalizationCheckTool/setup" />
 	<property name="lib" value="lib" />
 	<property name="debug" value="true" />
 	<property name="debuglevel" value="lines,vars,source" />
@@ -95,6 +97,12 @@
 		<copy todir="${dist-dir}">
 			<fileset dir="." >
 				<include name="*.dll" />
+			</fileset>
+		</copy>
+		<delete includeEmptyDirs="true" quiet="true" dir="${setup-dir}" />
+		<copy todir="${dist-dir}/..">
+			<fileset dir="." >
+				<include name="setup/*" />
 			</fileset>
 		</copy>
 		<delete includeEmptyDirs="true" quiet="true">
