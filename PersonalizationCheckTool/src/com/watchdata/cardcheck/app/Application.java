@@ -15,7 +15,6 @@ import javax.swing.plaf.FontUIResource;
 
 import org.apache.log4j.Logger;
 
-import com.jtattoo.plaf.acryl.AcrylLookAndFeel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.SwingUtils;
