@@ -62,9 +62,11 @@ public class Config {
 		if (!iniSection.hasItem(itemName)) {
 			iniSection.addItem(itemName);
 		}
-		iniSection.getItem(itemName).setValue(itemValue);
-
-		write();
+		String oldValue=iniSection.getItem(itemName).getValue();
+		if (!oldValue.equals(itemName)) {
+			iniSection.getItem(itemName).setValue(itemValue);
+			write();
+		}
 	}
 
 	public static String getValue(String SectionName, String itemName) {
