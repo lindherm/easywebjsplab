@@ -1,6 +1,5 @@
 package com.watchdata.cardcheck.panel;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -53,23 +51,11 @@ public class CardReaderPanel extends JPanel {
 	public CardReaderPanel() {
 		super();
 		setLayout(null);
-		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mc.cardreaderpanel.cardReaderConfig")));
-
-		final JLabel label = new JLabel();
-		label.setBounds(0, 50, 97, 20);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		label.setText(pm.getString("mc.cardreaderpanel.chooseReader"));
-		add(label);
-
-		final JSeparator separator = new JSeparator();
-		separator.setBounds(79, 60, 730, 20);
-		add(separator);
 
 		final JLabel label_1 = new JLabel();
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_1.setText(pm.getString("mc.cardreaderpanel.cardReader"));
-		label_1.setBounds(0, 95, 97, 20);
+		label_1.setBounds(-30, 11, 97, 20);
 		add(label_1);
 
 		comboBox = new JComboBox();
@@ -85,7 +71,7 @@ public class CardReaderPanel extends JPanel {
 				comboBox.setSelectedItem(reader);
 			}
 		}
-		comboBox.setBounds(100, 95, 300, 20);
+		comboBox.setBounds(70, 11, 300, 20);
 		comboBox.addPopupMenuListener(new PopupMenuListener() {
 
 			@Override
@@ -129,13 +115,13 @@ public class CardReaderPanel extends JPanel {
 				}
 			}
 		});
-		button.setBounds(507, 92, 84, 21);
+		button.setBounds(453, 11, 60, 21);
 		button.setFocusPainted(false);
 		button.setBorderPainted(false);
 		add(button);
 
-		final JButton btnNewButton = new JButton("打开端口");
-		final JButton btnNewButton_1 = new JButton("关闭端口");
+		final JButton btnNewButton = new JButton("打开");
+		final JButton btnNewButton_1 = new JButton("关闭");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String reader=comboBox.getSelectedItem().toString();
@@ -151,7 +137,7 @@ public class CardReaderPanel extends JPanel {
 				}
 			}
 		});
-		btnNewButton.setBounds(413, 92, 84, 21);
+		btnNewButton.setBounds(383, 10, 60, 21);
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBorderPainted(false);
 		add(btnNewButton);
@@ -163,7 +149,7 @@ public class CardReaderPanel extends JPanel {
 				btnNewButton.setEnabled(true);
 			}
 		});
-		btnNewButton_1.setBounds(601, 92, 84, 21);
+		btnNewButton_1.setBounds(523, 11, 60, 21);
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setBorderPainted(false);
 		add(btnNewButton_1);

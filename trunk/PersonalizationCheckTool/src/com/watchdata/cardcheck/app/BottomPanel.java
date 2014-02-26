@@ -1,10 +1,8 @@
 package com.watchdata.cardcheck.app;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.FlowLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,40 +26,31 @@ public class BottomPanel extends JPanel {
 	 */
 	public BottomPanel() {
 		super();
-		setLayout(new BorderLayout());
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		final JPanel panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
-		add(panel, BorderLayout.WEST);
+		add(panel);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		final JLabel label = new JLabel();
 		label.setText(pm.getString("mv.bottom.version"));
-		final GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.insets = new Insets(10, 100, 10, 0);
-		panel.add(label, gridBagConstraints);
+		panel.add(label);
 
 		final JPanel panel_1 = new JPanel();
-		panel_1.setLayout(new GridBagLayout());
-		add(panel_1, BorderLayout.EAST);
+		add(panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		final JLabel wwwwatchdatacomLabel = new JLabel();
 		wwwwatchdatacomLabel.setText(pm.getString("mv.bottom.url"));
-		final GridBagConstraints gridBagConstraints_2 = new GridBagConstraints();
-		gridBagConstraints_2.insets = new Insets(0, 0, 0, 100);
-		panel_1.add(wwwwatchdatacomLabel, gridBagConstraints_2);
+		panel_1.add(wwwwatchdatacomLabel);
 
 		final JPanel panel_2 = new JPanel();
-		panel_2.setLayout(new GridBagLayout());
-		add(panel_2, BorderLayout.CENTER);
+		add(panel_2);
+		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		final JLabel label_1 = new JLabel();
 		label_1.setText(pm.getString("mv.bottom.right"));
-		final GridBagConstraints gridBagConstraints_1 = new GridBagConstraints();
-		gridBagConstraints_1.gridy = 0;
-		gridBagConstraints_1.gridx = 0;
-		panel_2.add(label_1, gridBagConstraints_1);
+		panel_2.add(label_1);
 	}
 
 }
