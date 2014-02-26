@@ -57,14 +57,17 @@ public class Config {
 		if (!iniSection.hasItem(itemName)) {
 			iniSection.addItem(itemName);
 		}
-		iniSection.getItem(itemName).setValue(itemValue);
+		String oldValue=iniSection.getItem(itemName).getValue();
+		if (!oldValue.equals(itemName)) {
+			iniSection.getItem(itemName).setValue(itemValue);
 
-		IniFileWriter writer = new IniFileWriter(ini, configFile);
-		try {
-			writer.write();
-		} catch (IOException e) {
-			// exception thrown as an input\output exception occured
-			e.printStackTrace();
+			IniFileWriter writer = new IniFileWriter(ini, configFile);
+			try {
+				writer.write();
+			} catch (IOException e) {
+				// exception thrown as an input\output exception occured
+				e.printStackTrace();
+			}
 		}
 	}
 
