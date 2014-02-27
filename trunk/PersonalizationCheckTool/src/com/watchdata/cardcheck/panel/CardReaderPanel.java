@@ -1,5 +1,8 @@
 package com.watchdata.cardcheck.panel;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -42,7 +45,7 @@ public class CardReaderPanel extends JPanel {
 	private List<String> cardReaderList;
 	private DefaultComboBoxModel comboBoxModel;
 	private PropertiesManager pm = new PropertiesManager();
-	public PcscChannel apduChannel=new PcscChannel();
+	public PcscChannel apduChannel = new PcscChannel();
 	public static CommonAPDU commonAPDU;
 
 	/**
@@ -61,12 +64,12 @@ public class CardReaderPanel extends JPanel {
 		comboBox = new JComboBox();
 		comboBoxModel = new DefaultComboBoxModel();
 		cardReaderList = apduChannel.getReaderList();
-		//cardReaderList.add("10.0.97.248:5000");
+		// cardReaderList.add("10.0.97.248:5000");
 
 		if (cardReaderList != null && cardReaderList.size() > 0) {
 			comboBoxModel = new DefaultComboBoxModel(cardReaderList.toArray());
 			comboBox.setModel(comboBoxModel);
-			String reader=Config.getValue("Terminal_Data", "reader");
+			String reader = Config.getValue("Terminal_Data", "reader");
 			if (cardReaderList.contains(reader)) {
 				comboBox.setSelectedItem(reader);
 			}
@@ -88,7 +91,7 @@ public class CardReaderPanel extends JPanel {
 			@Override
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				// TODO Auto-generated method stub
-				//cardReaderList = apduChannel.getReaderList();
+				// cardReaderList = apduChannel.getReaderList();
 				if (cardReaderList != null && cardReaderList.size() > 0) {
 					comboBoxModel = new DefaultComboBoxModel(cardReaderList.toArray());
 					comboBox.setModel(comboBoxModel);
@@ -109,6 +112,10 @@ public class CardReaderPanel extends JPanel {
 				if (comboBox.getSelectedItem() != null) {
 					HashMap<String, String> res = commonAPDU.reset();
 					if ("9000".equals(res.get("sw"))) {
+						StringSelection atr = new StringSelection(res.get("atr"));
+						Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+						clipboard.setContents(atr, null);
+
 						JOptionPane.showMessageDialog(null, res.get("atr"));
 						Config.setValue("Terminal_Data", "reader", comboBox.getSelectedItem().toString());
 					}
@@ -124,13 +131,13 @@ public class CardReaderPanel extends JPanel {
 		final JButton btnNewButton_1 = new JButton("关闭");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String reader=comboBox.getSelectedItem().toString();
-				if (reader.indexOf(':')>0) {
-					String[] board=reader.split(":");
+				String reader = comboBox.getSelectedItem().toString();
+				if (reader.indexOf(':') > 0) {
+					String[] board = reader.split(":");
 					FileUtil.updateBoradFile(board[0], board[1]);
 				}
-				commonAPDU=new CommonAPDU();
-				boolean flag=commonAPDU.init(reader);
+				commonAPDU = new CommonAPDU();
+				boolean flag = commonAPDU.init(reader);
 				if (flag) {
 					((JButton) e.getSource()).setEnabled(false);
 					btnNewButton_1.setEnabled(true);
