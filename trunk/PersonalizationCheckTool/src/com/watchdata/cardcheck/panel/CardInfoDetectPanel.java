@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
@@ -40,6 +41,7 @@ import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.impl.CardInfoThread;
+import com.watchdata.cardcheck.logic.impl.LoadCapThead;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
@@ -99,6 +101,18 @@ public class CardInfoDetectPanel extends JPanel {
 			}
 		});
 		popupMenu.add(mntmCardinfo);
+
+		JSeparator separator = new JSeparator();
+		popupMenu.add(separator);
+
+		JMenuItem mntmLoad = new JMenuItem("load");
+		mntmLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LoadCapThead loadCapThead=new LoadCapThead(commonAPDU, textPane_1);
+				loadCapThead.start();
+			}
+		});
+		popupMenu.add(mntmLoad);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
