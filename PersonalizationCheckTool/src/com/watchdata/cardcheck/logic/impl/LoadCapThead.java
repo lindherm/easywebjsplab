@@ -11,9 +11,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.swing.JFileChooser;
 import javax.swing.JTextPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
@@ -22,71 +20,67 @@ import com.watchdata.commons.lang.WDStringUtil;
 
 public class LoadCapThead extends Thread {
 	public static CommonAPDU commonAPDU;
-	public static Log log=new Log();
+	public static Log log = new Log();
 	public JTextPane textPane_1;
-	public LoadCapThead(CommonAPDU commonAPDU,JTextPane textPane){
-		this.commonAPDU=commonAPDU;
-		this.textPane_1=textPane;
+	public File file;
+
+	public LoadCapThead(File file,CommonAPDU commonAPDU, JTextPane textPane) {
+		this.file=file;
+		this.commonAPDU = commonAPDU;
+		this.textPane_1 = textPane;
 	}
 
 	@Override
 	public void run() {
 		log.setLogArea(textPane_1);
-		JFileChooser jFileChooser = new JFileChooser(".");
-		FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("cap package", "cap");
-		jFileChooser.setFileFilter(fileNameExtensionFilter);
+		try {
 
-		int i = jFileChooser.showOpenDialog(null);
-		if (i == JFileChooser.APPROVE_OPTION) {
-			File file = jFileChooser.getSelectedFile();
-			try {
-				
-				List<String> loadFileInfo = getCapInfo(file);
-				String pkgName=loadFileInfo.get(0);
-				String apduCommand=WDStringUtil.paddingHeadZero(Integer.toHexString(pkgName.length()/2), 2)+pkgName;
-				apduCommand+="00000000";
-				apduCommand=WDStringUtil.paddingHeadZero(Integer.toHexString(apduCommand.length()/2), 2)+apduCommand;
-				apduCommand="80E60200"+apduCommand;
-				commonAPDU.send(apduCommand);
-				for (int j = 1; j < loadFileInfo.size(); j++) {
-					String p1 = "";
-					if (j == loadFileInfo.size() - 1) {
-						p1 = "80";
-					} else {
-						p1 = "00";
-					}
-					String temp = "80E8" + p1 + WDStringUtil.paddingHeadZero(Integer.toHexString(j-1), 2) + Integer.toHexString(loadFileInfo.get(j).length() / 2);
-					temp += loadFileInfo.get(j);
-					commonAPDU.send(temp);
+			List<String> loadFileInfo = getCapInfo(file);
+			String pkgName = loadFileInfo.get(0);
+			String apduCommand = WDStringUtil.paddingHeadZero(Integer.toHexString(pkgName.length() / 2), 2) + pkgName;
+			apduCommand += "00000000";
+			apduCommand = WDStringUtil.paddingHeadZero(Integer.toHexString(apduCommand.length() / 2), 2) + apduCommand;
+			apduCommand = "80E60200" + apduCommand;
+			commonAPDU.send(apduCommand);
+			for (int j = 1; j < loadFileInfo.size(); j++) {
+				String p1 = "";
+				if (j == loadFileInfo.size() - 1) {
+					p1 = "80";
+				} else {
+					p1 = "00";
 				}
-				log.debug("load complete.");
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				String temp = "80E8" + p1 + WDStringUtil.paddingHeadZero(Integer.toHexString(j - 1), 2) + Integer.toHexString(loadFileInfo.get(j).length() / 2);
+				temp += loadFileInfo.get(j);
+				commonAPDU.send(temp);
 			}
+			log.debug("load complete.");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 	}
 
 	public List<String> getCapInfo(File file) throws IOException {
 		Map<String, String> mapBean = new HashMap<String, String>();
 		List<String> loadFileInfo = new ArrayList<String>();
 		String zipFileName = file.getPath();
-		//read cap pkg
-		mapBean =readZipFile(zipFileName);
-		
+		// read cap pkg
+		mapBean = readZipFile(zipFileName);
+
 		loadFileInfo.add(mapBean.get("head"));
-		String capFileInfo=mapBean.get("body");
-		
+		String capFileInfo = mapBean.get("body");
+
 		int len = capFileInfo.length();
 		String lenInHex = Integer.toHexString(len / 2);
-		
-		capFileInfo =WDStringUtil.paddingHeadZero(lenInHex, 4)+capFileInfo;
+
+		capFileInfo = WDStringUtil.paddingHeadZero(lenInHex, 4) + capFileInfo;
 		if (len > 128 && len < 255) {
-			capFileInfo= "81"+capFileInfo;
+			capFileInfo = "81" + capFileInfo;
 		} else if (len > 255) {
-			capFileInfo= "82"+capFileInfo;
+			capFileInfo = "82" + capFileInfo;
 		}
-		capFileInfo="C4"+capFileInfo;
+		capFileInfo = "C4" + capFileInfo;
 
 		int count = -1;
 		len = capFileInfo.length();
@@ -107,11 +101,12 @@ public class LoadCapThead extends Thread {
 
 		return loadFileInfo;
 	}
-	//read pkg cap
-	public Map<String, String> readZipFile(String zipFileName) throws IOException{
+
+	// read pkg cap
+	public Map<String, String> readZipFile(String zipFileName) throws IOException {
 		Map<String, String> mapBean = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
-		
+
 		ZipFile zipFile = new ZipFile(zipFileName);
 		Enumeration en = zipFile.entries();
 		do {
@@ -122,7 +117,7 @@ public class LoadCapThead extends Thread {
 				break;
 			ZipEntry ze = (ZipEntry) en.nextElement();
 			String zeName = ze.getName();
-			
+
 			if (!zeName.equals("META-INF/MANIFEST.MF")) {
 				InputStream in = zipFile.getInputStream(ze);
 				byte buf[] = new byte[10240];
@@ -134,26 +129,25 @@ public class LoadCapThead extends Thread {
 						break;
 					}
 				} while (true);
-				zeName=zeName.substring(zeName.lastIndexOf("/")+1);
+				zeName = zeName.substring(zeName.lastIndexOf("/") + 1);
 				mapBean.put(zeName, sb.toString());
 			}
 		} while (true);
 		zipFile.close();
-		
+
 		sb.setLength(0);
 		sb.append(mapBean.get("Header.cap")).append(mapBean.get("Directory.cap")).append(mapBean.get("Import.cap")).append(mapBean.get("Applet.cap"));
 		sb.append(mapBean.get("Class.cap")).append(mapBean.get("Method.cap")).append(mapBean.get("StaticField.cap")).append(mapBean.get("ConstantPool.cap"));
 		sb.append(mapBean.get("RefLocation.cap"));
-		
 
-		String headInfo=mapBean.get("Header.cap");
-		int pkgLen=Integer.parseInt(headInfo.substring(24,26),16);
-		
+		String headInfo = mapBean.get("Header.cap");
+		int pkgLen = Integer.parseInt(headInfo.substring(24, 26), 16);
+
 		mapBean.clear();
-		mapBean.put("head", headInfo.substring(26,26+pkgLen*2));
+		mapBean.put("head", headInfo.substring(26, 26 + pkgLen * 2));
 		mapBean.put("body", sb.toString());
-		
+
 		return mapBean;
 	}
-	
+
 }
