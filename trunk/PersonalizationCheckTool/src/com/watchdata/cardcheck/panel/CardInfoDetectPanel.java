@@ -105,7 +105,7 @@ public class CardInfoDetectPanel extends JPanel {
 		JSeparator separator = new JSeparator();
 		popupMenu.add(separator);
 
-		JMenuItem mntmLoad = new JMenuItem("load");
+		JMenuItem mntmLoad = new JMenuItem("load info");
 		mntmLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				LoadCapThead loadCapThead=new LoadCapThead(commonAPDU, textPane_1);
