@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -108,8 +109,16 @@ public class CardInfoDetectPanel extends JPanel {
 		JMenuItem mntmLoad = new JMenuItem("load info");
 		mntmLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				LoadCapThead loadCapThead=new LoadCapThead(commonAPDU, textPane_1);
-				loadCapThead.start();
+				JFileChooser jFileChooser = new JFileChooser(".");
+				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("cap package", "cap");
+				jFileChooser.setFileFilter(fileNameExtensionFilter);
+
+				int i = jFileChooser.showOpenDialog(null);
+				if (i == JFileChooser.APPROVE_OPTION) {
+					File file = jFileChooser.getSelectedFile();
+					LoadCapThead loadCapThead = new LoadCapThead(file, commonAPDU, textPane_1);
+					loadCapThead.start();
+				}
 			}
 		});
 		popupMenu.add(mntmLoad);
