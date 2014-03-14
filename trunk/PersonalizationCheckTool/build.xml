@@ -17,19 +17,19 @@
 -->
 
 
-<project name="PersonalizationCheckTool" default="make-jar" basedir=".">
+<project name="CardPersonalizationAssistantTool" default="make-jar" basedir=".">
 
-	<description>PersonalizationCheckTool build file</description>
+	<description>CardPersonalizationAssistantTool build file</description>
 
 
 	<!-- Set global properties for this build. -->
 	<property name="version" value="1.0.0" />
 	<property name="source-dir" location="src" />
 	<property name="root-dir" location="D:\程序打包" />
-	<property name="class-dir" location="${root-dir}/PersonalizationCheckTool/ant-classes" />
-	<property name="dist-dir" location="${root-dir}/PersonalizationCheckTool/dist" />
-	<property name="doc-dir" location="${root-dir}/PersonalizationCheckTool/javadoc" />
-	<property name="setup-dir" location="${root-dir}/PersonalizationCheckTool/setup" />
+	<property name="class-dir" location="${root-dir}/CardPersonalizationAssistantTool/ant-classes" />
+	<property name="dist-dir" location="${root-dir}/CardPersonalizationAssistantTool/dist" />
+	<property name="doc-dir" location="${root-dir}/CardPersonalizationAssistantTool/javadoc" />
+	<property name="setup-dir" location="${root-dir}/CardPersonalizationAssistantTool/setup" />
 	<property name="lib" value="lib" />
 	<property name="debug" value="true" />
 	<property name="debuglevel" value="lines,vars,source" />
@@ -60,14 +60,14 @@
 				<chainedmapper>
 					<!--过滤文件，将路径去掉，只保留文件名-->
 					<flattenmapper />
-					<globmapper from="*" to="PCT_lib/*" />
+					<globmapper from="*" to="CardPAT_lib/*" />
 				</chainedmapper>
 			</mapper>
 
 		</pathconvert>
 		<delete includeEmptyDirs="true" quiet="true" dir="${dist-dir}" />
 		<mkdir dir="${dist-dir}" />
-		<jar destfile="${dist-dir}/PCT.jar">
+		<jar destfile="${dist-dir}/CardPAT.jar">
 			<fileset dir="${class-dir}" />
 			<fileset dir="${source-dir}">
 				<include name="**/*.dtd" />
@@ -82,7 +82,7 @@
 		<copy todir="${dist-dir}/resources">
 			<fileset dir="resources" />
 		</copy>
-		<copy todir="${dist-dir}/PCT_lib">
+		<copy todir="${dist-dir}/CardPAT_lib">
 			<fileset dir="lib" />
 		</copy>
 		<copy todir="${dist-dir}/log">
@@ -120,7 +120,7 @@
 
 	<!-- Builds the source zip file. -->
 	<target name="make-source-zip" description="Builds the source zip file">
-		<zip destfile="PersonalizationCheckTool_${version}_Source.zip">
+		<zip destfile="CardPersonalizationAssistantTool_${version}_Source.zip">
 			<fileset dir=".">
 				<include name="src/**" />
 				<include name="build.xml" />

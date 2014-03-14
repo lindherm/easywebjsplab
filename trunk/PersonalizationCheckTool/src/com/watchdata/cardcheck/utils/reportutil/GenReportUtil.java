@@ -64,7 +64,7 @@ public class GenReportUtil {
 		}
 
 		// 添加页眉
-		HeaderFooter header = new HeaderFooter(new Phrase("《卡片个人化检测工具》                            版权所有：北京握奇数据系统有限公司", new Font(Font.NORMAL, 10, Font.NORMAL, Color.BLACK)), false);
+		HeaderFooter header = new HeaderFooter(new Phrase("《金融卡个人化开发辅助工具》                            版权所有：组内科技", new Font(Font.NORMAL, 10, Font.NORMAL, Color.BLACK)), false);
 		header.setAlignment(Element.ALIGN_RIGHT);
 		document.setHeader(header);
 		// 添加页脚
