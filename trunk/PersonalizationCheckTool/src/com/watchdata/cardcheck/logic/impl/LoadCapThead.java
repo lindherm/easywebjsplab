@@ -22,10 +22,10 @@ public class LoadCapThead extends Thread {
 	public static CommonAPDU commonAPDU;
 	public static Log log = new Log();
 	public JTextPane textPane_1;
-	public File file;
+	public File[] capFiles;
 
-	public LoadCapThead(File file,CommonAPDU commonAPDU, JTextPane textPane) {
-		this.file=file;
+	public LoadCapThead(File[] file, CommonAPDU commonAPDU, JTextPane textPane) {
+		this.capFiles = file;
 		this.commonAPDU = commonAPDU;
 		this.textPane_1 = textPane;
 	}
@@ -33,32 +33,33 @@ public class LoadCapThead extends Thread {
 	@Override
 	public void run() {
 		log.setLogArea(textPane_1);
-		try {
-
-			List<String> loadFileInfo = getCapInfo(file);
-			String pkgName = loadFileInfo.get(0);
-			String apduCommand = WDStringUtil.paddingHeadZero(Integer.toHexString(pkgName.length() / 2), 2) + pkgName;
-			apduCommand += "00000000";
-			apduCommand = WDStringUtil.paddingHeadZero(Integer.toHexString(apduCommand.length() / 2), 2) + apduCommand;
-			apduCommand = "80E60200" + apduCommand;
-			commonAPDU.send(apduCommand);
-			for (int j = 1; j < loadFileInfo.size(); j++) {
-				String p1 = "";
-				if (j == loadFileInfo.size() - 1) {
-					p1 = "80";
-				} else {
-					p1 = "00";
+		for (File file : capFiles) {
+			try {
+				List<String> loadFileInfo = getCapInfo(file);
+				String pkgName = loadFileInfo.get(0);
+				String apduCommand = WDStringUtil.paddingHeadZero(Integer.toHexString(pkgName.length() / 2), 2) + pkgName;
+				apduCommand += "00000000";
+				apduCommand = WDStringUtil.paddingHeadZero(Integer.toHexString(apduCommand.length() / 2), 2) + apduCommand;
+				apduCommand = "80E60200" + apduCommand;
+				commonAPDU.send(apduCommand);
+				for (int j = 1; j < loadFileInfo.size(); j++) {
+					String p1 = "";
+					if (j == loadFileInfo.size() - 1) {
+						p1 = "80";
+					} else {
+						p1 = "00";
+					}
+					String temp = "80E8" + p1 + WDStringUtil.paddingHeadZero(Integer.toHexString(j - 1), 2) + Integer.toHexString(loadFileInfo.get(j).length() / 2);
+					temp += loadFileInfo.get(j);
+					commonAPDU.send(temp);
 				}
-				String temp = "80E8" + p1 + WDStringUtil.paddingHeadZero(Integer.toHexString(j - 1), 2) + Integer.toHexString(loadFileInfo.get(j).length() / 2);
-				temp += loadFileInfo.get(j);
-				commonAPDU.send(temp);
+				String msg = "load " + file.getName() + " complete.";
+				log.info(msg);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			log.debug("load complete.");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 	}
 
 	public List<String> getCapInfo(File file) throws IOException {
