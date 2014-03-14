@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -93,7 +92,7 @@ public class CardInfoDetectPanel extends JPanel {
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(tree, popupMenu);
 
-		JMenuItem mntmCardinfo = new JMenuItem("卡片信息");
+		JMenuItem mntmCardinfo = new JMenuItem("CARD INFO");
 		mntmCardinfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				commonAPDU = new CommonAPDU();
@@ -106,16 +105,17 @@ public class CardInfoDetectPanel extends JPanel {
 		JSeparator separator = new JSeparator();
 		popupMenu.add(separator);
 
-		JMenuItem mntmLoad = new JMenuItem("load info");
+		JMenuItem mntmLoad = new JMenuItem("LOAD CAP");
 		mntmLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser jFileChooser = new JFileChooser(".");
 				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("cap package", "cap");
 				jFileChooser.setFileFilter(fileNameExtensionFilter);
+				jFileChooser.setMultiSelectionEnabled(true);
 
 				int i = jFileChooser.showOpenDialog(null);
 				if (i == JFileChooser.APPROVE_OPTION) {
-					File file = jFileChooser.getSelectedFile();
+					File[] file = jFileChooser.getSelectedFiles();
 					LoadCapThead loadCapThead = new LoadCapThead(file, commonAPDU, textPane_1);
 					loadCapThead.start();
 				}
