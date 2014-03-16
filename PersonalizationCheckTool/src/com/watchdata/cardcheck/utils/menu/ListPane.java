@@ -40,9 +40,14 @@ import com.watchdata.cardcheck.utils.PropertiesManager;
  * @mail rehte@hotmail.com
  */
 public class ListPane extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int HORZ_PAD = 12;
 	private static final int VERT_PAD = 6;
 	private PropertiesManager pm = new PropertiesManager();
+	private Color menuFontColor=new Color(33, 93, 198);
 
 	/**
 	 * Creates new form ListPane
@@ -64,7 +69,7 @@ public class ListPane extends JPanel {
 		JLabel lblItem = new JLabel();
 		if (iconURL != null) {
 			lblItem.setIcon(new ImageIcon(getClass().getResource(iconURL)));
-			lblItem.setForeground(new Color(33, 93, 198));
+			lblItem.setForeground(menuFontColor);
 		} else
 			lblItem.setForeground(Color.BLACK);
 		lblItem.setText(text);
@@ -86,13 +91,21 @@ public class ListPane extends JPanel {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-
+				Container container = e.getComponent().getParent().getParent().getParent();
+				JLabel label=(JLabel)e.getComponent();
+				label.setBackground(menuFontColor);
+				label.setForeground(menuFontColor);
+				container.repaint();
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-
+				Container container = e.getComponent().getParent().getParent().getParent();
+				JLabel label=(JLabel)e.getComponent();
+				label.setBackground(Color.red);
+				label.setForeground(Color.red);
+				container.repaint();
 			}
 
 			@Override
