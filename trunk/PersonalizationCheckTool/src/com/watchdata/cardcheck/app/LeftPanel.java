@@ -6,41 +6,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.watchdata.cardcheck.panel.CardInfoDetectTabbedPanel;
-import com.watchdata.cardcheck.panel.CheckTabbedPanel;
-import com.watchdata.cardcheck.panel.ConfigTabbedPanel;
-import com.watchdata.cardcheck.panel.TradeTabbedPanel;
-import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.menu.FolderPane;
 import com.watchdata.cardcheck.utils.menu.ListPane;
 
-/**
- * @title LeftPanel.java
- * @description
- * @author pei.li 2012-3-16
- * @version 1.0.0
- * @modify
- * @copyright watchdata
- */
 public class LeftPanel extends JPanel {
 
 	private static final long serialVersionUID = 3433561501023042680L;
-	//private JTabbedPane tabbedPane;
-	private ConfigTabbedPanel configTabbedPanel = new ConfigTabbedPanel();
-	private TradeTabbedPanel tradeTabbedPanel = new TradeTabbedPanel();
-	private CheckTabbedPanel checkTabbedPanel = new CheckTabbedPanel();
-	private CardInfoDetectTabbedPanel cardDetectTabbedPanel = new CardInfoDetectTabbedPanel();
-	// private FaceConfiTabbedPanel faceConfiTabbedPanel = new FaceConfiTabbedPanel();
-	private PropertiesManager pm = new PropertiesManager();
-
 	public LeftPanel() {
 		super(new BorderLayout());
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
-		//final JPanel panel = new JPanel();
-		//panel.setLayout(new BorderLayout());
-		//panel.setBorder(new TitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
-		//add(panel);
 
 		FolderPane fp = getFolderPane();
 		// 添加到JScrollPane
@@ -60,14 +34,6 @@ public class LeftPanel extends JPanel {
 		fp.addFolder("卡片", getCardFileFolderPane());
 		return fp;
 	}
-/*
-	private ListPane getDetailsPane() {
-		ListPane p = new ListPane();
-		p.addItem("<html><b>java_source</b><br>文件夹</html>", null);
-		p.addItem("<html>修改日期: 2001年11月8日,<br>22:39</html>", null);
-		p.setSize(140, 74);
-		return p;
-	}*/
 
 	private ListPane getConfigFileFolderPane() {
 		ListPane p = new ListPane();
