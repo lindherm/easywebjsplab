@@ -28,6 +28,7 @@ import com.watchdata.cardcheck.panel.AIDConfigPanel;
 import com.watchdata.cardcheck.panel.AtmPanel;
 import com.watchdata.cardcheck.panel.CardReaderPanel;
 import com.watchdata.cardcheck.panel.FaceDialog;
+import com.watchdata.cardcheck.panel.TerminalLimitConfigPanel;
 import com.watchdata.cardcheck.panel.TerminalPerformanceConfigPanel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
@@ -144,6 +145,21 @@ public class ListPane extends JPanel {
 						// RightPanel.cardInfoScanPanel.setVisible(false);
 						RightPanel.cardReaderPanel.setVisible(false);
 					} else if (text.equals("终端限制")) {
+						Application.rightPanel.add(RightPanel.terminalLimitConfigPanel, BorderLayout.CENTER);
+						RightPanel.terminalLimitConfigPanel.setVisible(true);
+						RightPanel.issuerKeyConfigPanel.setVisible(false);
+						RightPanel.caPublicKeyConfigPanel.setVisible(false);
+						RightPanel.aidConfigPanel.setVisible(false);
+						RightPanel.logoPanel.setVisible(false);
+						RightPanel.terminalTypeConfigPanel.setVisible(false);
+						RightPanel.terminalPerformanceConfigPanel.setVisible(false);
+						RightPanel.tradePanel.setVisible(false);
+						RightPanel.testDataConfigPanel.setVisible(false);
+						RightPanel.cardReaderPanel.setVisible(false);
+						RightPanel.cardInfoDetectPanel.setVisible(false);
+						// RightPanel.cardInfoScanPanel.setVisible(false);
+						TerminalLimitConfigPanel.lowLimitField.requestFocus();
+					} else if (text.equals("终端性能")) {
 						Application.rightPanel.add(RightPanel.terminalPerformanceConfigPanel, BorderLayout.CENTER);
 						RightPanel.terminalPerformanceConfigPanel.setVisible(true);
 						RightPanel.terminalLimitConfigPanel.setVisible(false);
