@@ -1,7 +1,6 @@
 package com.watchdata.cardcheck.panel;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,7 +9,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
@@ -57,23 +55,11 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 	public TerminalPerformanceConfigPanel() {
 		setLayout(null);
 		setLayout(null);
-		//setBorder(JTBorderFactory.createTitleBorder(pm.getString("mv.terminalperformanceconfig.name")));
-
-		final JLabel termPermLabel = new JLabel();
-		termPermLabel.setBounds(0, 50, 97, 20);
-		termPermLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		termPermLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		termPermLabel.setText(pm.getString("mv.terminalperformanceconfig.performance"));
-		add(termPermLabel);
-
-		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(79, 60, 730, 20);
-		add(separator_1);
 
 		final JPanel byte1Panel = new JPanel();
 		byte1Panel.setLayout(null);
 		byte1Panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "BYTE1-\u5361\u7247\u6570\u636E\u8F93\u5165\u6027\u80FD", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		byte1Panel.setBounds(30, 80, 300, 171);
+		byte1Panel.setBounds(12, 10, 300, 171);
 		add(byte1Panel);
 
 		final JLabel label_2 = new JLabel();
@@ -122,7 +108,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 
 		final JPanel byte3Panel = new JPanel();
 		byte3Panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "BYTE3-\u5B89\u5168\u6027\u80FD", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		byte3Panel.setBounds(30, 412, 380, 195);
+		byte3Panel.setBounds(12, 342, 380, 195);
 		byte3Panel.setLayout(null);
 		add(byte3Panel);
 
@@ -183,7 +169,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 
 		final JPanel byte2Panel = new JPanel();
 		byte2Panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "BYTE2-CVM\u6027\u80FD\uFF1A", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		byte2Panel.setBounds(28, 261, 493, 141);
+		byte2Panel.setBounds(10, 191, 493, 141);
 		byte2Panel.setLayout(null);
 		add(byte2Panel);
 
@@ -257,7 +243,7 @@ public class TerminalPerformanceConfigPanel extends JPanel {
 
 		final JButton saveButton = new JButton();
 		saveButton.setText(pm.getString("mv.terminalperformanceconfig.save"));
-		saveButton.setBounds(123, 623, 84, 21);
+		saveButton.setBounds(102, 547, 84, 21);
 		saveButton.setFocusPainted(false);
 		saveButton.setBorderPainted(false);
 		add(saveButton);

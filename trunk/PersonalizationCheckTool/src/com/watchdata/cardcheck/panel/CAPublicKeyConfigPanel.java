@@ -87,17 +87,6 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		//setBorder(JTBorderFactory.createTitleBorder("CA公钥管理"));
 		init();
 
-		final JLabel caManageLabel = new JLabel();
-		caManageLabel.setBounds(-4, 38, 97, 20);
-		caManageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		caManageLabel.setFont(new Font("宋体", Font.BOLD, 12));
-		caManageLabel.setText("CA公钥管理");
-		add(caManageLabel);
-
-		final JSeparator separator = new JSeparator();
-		separator.setBounds(88, 48, 730, 20);
-		add(separator);
-
 		RIDCombox = new JComboBox();
 		List<CAInfo> caInfos = caInfo.getCaInfos("CA_Info");
 		for (CAInfo caInfo : caInfos) {
@@ -110,46 +99,46 @@ public class CAPublicKeyConfigPanel extends JPanel {
 				CardTypetextField.setText(Config.getValue("CA_Info", RIDCombox.getSelectedItem().toString()));
 			}
 		});
-		RIDCombox.setBounds(100, 70, 160, 20);
+		RIDCombox.setBounds(104, 10, 160, 20);
 		add(RIDCombox);
 
 		final JLabel label_1 = new JLabel();
 		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_1.setText(pm.getString("mv.capublickeyconfig.banktype"));
-		label_1.setBounds(270, 70, 97, 20);
+		label_1.setBounds(274, 10, 97, 20);
 		add(label_1);
 
 		CardTypetextField = new JTextField();
-		CardTypetextField.setBounds(382, 70, 160, 20);
+		CardTypetextField.setBounds(386, 10, 160, 20);
 		CardTypetextField.setEditable(false);
 		add(CardTypetextField);
 
 		final JLabel label_2 = new JLabel();
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_2.setText(pm.getString("mv.capublickeyconfig.index"));
-		label_2.setBounds(-4, 100, 97, 20);
+		label_2.setBounds(0, 40, 97, 20);
 		add(label_2);
 
 		final JLabel label_3 = new JLabel();
 		label_3.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_3.setText(pm.getString("mv.capublickeyconfig.exp"));
-		label_3.setBounds(205, 100, 97, 20);
+		label_3.setBounds(209, 40, 97, 20);
 		add(label_3);
 
 		final JLabel label_4 = new JLabel();
 		label_4.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_4.setText(pm.getString("mv.capublickeyconfig.algo"));
-		label_4.setBounds(416, 100, 97, 20);
+		label_4.setBounds(420, 40, 97, 20);
 		add(label_4);
 
 		final JLabel label_5 = new JLabel();
 		label_5.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_5.setText(pm.getString("mv.capublickeyconfig.hashalgo"));
-		label_5.setBounds(-4, 130, 97, 20);
+		label_5.setBounds(0, 70, 97, 20);
 		add(label_5);
 
 		EXPtextField = new JTextField();
-		EXPtextField.setBounds(312, 100, 140, 20);
+		EXPtextField.setBounds(316, 40, 140, 20);
 		EXPtextField.setDocument(new FixedSizePlainDocument(6));
 		EXPtextField.addKeyListener(new KeyListener() {
 			@Override
@@ -172,7 +161,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		add(EXPtextField);
 
 		algorithmtextField = new JTextField();
-		algorithmtextField.setBounds(523, 100, 120, 20);
+		algorithmtextField.setBounds(527, 40, 120, 20);
 		algorithmtextField.setDocument(new FixedSizePlainDocument(2));
 		algorithmtextField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -191,7 +180,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		add(algorithmtextField);
 
 		HashtextField = new JTextField();
-		HashtextField.setBounds(100, 130, 120, 20);
+		HashtextField.setBounds(104, 70, 120, 20);
 		HashtextField.setDocument(new FixedSizePlainDocument(2));
 		HashtextField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -212,11 +201,11 @@ public class CAPublicKeyConfigPanel extends JPanel {
 		final JLabel label_6 = new JLabel();
 		label_6.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_6.setText(pm.getString("mv.capublickeyconfig.module"));
-		label_6.setBounds(205, 130, 97, 20);
+		label_6.setBounds(209, 70, 97, 20);
 		add(label_6);
 
 		ModuletextField = new JTextField();
-		ModuletextField.setBounds(312, 130, 345, 20);
+		ModuletextField.setBounds(316, 70, 345, 20);
 		ModuletextField.setDocument(new FixedSizePlainDocument(2048));
 		ModuletextField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -238,7 +227,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 
 		final JButton delButton1 = new JButton();
 		delButton1.setText(pm.getString("mv.capublickeyconfig.del"));
-		delButton1.setBounds(715, 100, 84, 21);
+		delButton1.setBounds(719, 40, 84, 21);
 		delButton1.setFocusPainted(false);
 		delButton1.setBorderPainted(false);
 		add(delButton1);
@@ -276,7 +265,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 
 		final JButton modifyButton = new JButton();
 		modifyButton.setText(pm.getString("mv.capublickeyconfig.modify"));
-		modifyButton.setBounds(715, 129, 84, 21);
+		modifyButton.setBounds(719, 69, 84, 21);
 		modifyButton.setFocusPainted(false);
 		modifyButton.setBorderPainted(false);
 		add(modifyButton);
@@ -304,13 +293,13 @@ public class CAPublicKeyConfigPanel extends JPanel {
 			}
 		});
 		final JLabel label = new JLabel();
-		label.setBounds(-4, 70, 97, 20);
+		label.setBounds(0, 10, 97, 20);
 		add(label);
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		label.setText("RID：");
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 160, 789, 527);
+		panel.setBounds(10, 100, 789, 597);
 		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
@@ -344,7 +333,7 @@ public class CAPublicKeyConfigPanel extends JPanel {
 
 		textField = new JTextField();
 		textField.setDocument(new FixedSizePlainDocument(2));
-		textField.setBounds(100, 100, 120, 20);
+		textField.setBounds(104, 40, 120, 20);
 		add(textField);
 		textField.setColumns(10);
 
