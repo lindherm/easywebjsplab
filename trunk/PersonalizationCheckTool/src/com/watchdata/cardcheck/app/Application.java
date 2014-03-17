@@ -81,7 +81,7 @@ public class Application extends JFrame {
 	}
 
 	public Application() {
-		super(titleStr);
+		setTitle(titleStr);
 		setIconImage(new ImageIcon(Application.class.getResource("/com/watchdata/cardcheck/resources/images/logo_48.png")).getImage());
 		initContentPane();
 		setSize(new Dimension(1024, 768));
