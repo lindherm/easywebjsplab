@@ -30,40 +30,40 @@ public class LeftPanel extends JPanel {
 		fp.setAnimated(true);
 		fp.addFolder("设置", getConfigFileFolderPane());
 		fp.addFolder("交易", getTradeFileFolderPane());
-		fp.addFolder("检测", getCheckFileFolderPane());
+		fp.addFolder("扫描", getCheckFileFolderPane());
 		fp.addFolder("卡片", getCardFileFolderPane());
 		return fp;
 	}
 
 	private ListPane getConfigFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("AID设置", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("CA管理", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("应用密钥", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("终端限制", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("终端性能", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("终端类型", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("皮肤设置", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("读卡器", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.setSize(140,240);
+		p.addItem("AID设置", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("CA管理", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("应用密钥", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("终端限制", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("终端性能", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("终端类型", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("皮肤设置", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("读卡器", "/com/watchdata/cardcheck/resources/images/menu/config_24.png");
+		p.setSize(140,280);
 		return p;
 	}
 	private ListPane getTradeFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("交易", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.setSize(140,30);
+		p.addItem("交易", "/com/watchdata/cardcheck/resources/images/menu/trade.png");
+		p.setSize(140,35);
 		return p;
 	}
 	private ListPane getCheckFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("检测", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.setSize(140,30);
+		p.addItem("扫描", "/com/watchdata/cardcheck/resources/images/menu/scan_24.png");
+		p.setSize(140,35);
 		return p;
 	}
 	private ListPane getCardFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("卡片", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.setSize(140,30);
+		p.addItem("卡片", "/com/watchdata/cardcheck/resources/images/menu/card_32.png");
+		p.setSize(140,35);
 		return p;
 	}
 }

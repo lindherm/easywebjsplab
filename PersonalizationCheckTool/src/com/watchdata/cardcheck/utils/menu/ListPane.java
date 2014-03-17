@@ -251,7 +251,7 @@ public class ListPane extends JPanel {
 					AtmPanel.setTradeType(AtmPanel.tradeType);
 					// 更新交易状态
 					Config.setValue("Terminal_Data", "currentTradeType", pm.getString("mv.tradepanel.lend"));
-				} else if (folderName.equals("检测")) {
+				} else if (folderName.equals("扫描")) {
 					Application.rightPanel.add(RightPanel.testDataConfigPanel, BorderLayout.CENTER);
 					RightPanel.testDataConfigPanel.setVisible(true);
 					RightPanel.terminalTypeConfigPanel.setVisible(false);
