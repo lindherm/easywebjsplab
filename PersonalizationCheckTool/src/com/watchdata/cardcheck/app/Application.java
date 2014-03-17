@@ -13,6 +13,7 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
+import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.SwingUtils;
@@ -48,24 +49,25 @@ public class Application extends JFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			Properties props = new Properties();
-			props.put("logoString", "watchdata");
+			//Properties props = new Properties();
+			//props.put("logoString", "watchdata");
 			//props.put("textShadow", "off");
-			props.put("systemTextFont", "微软雅黑 PLAIN 14");
-			props.put("controlTextFont", "微软雅黑 PLAIN 14");
-			props.put("menuTextFont", "微软雅黑 PLAIN 14");
-			props.put("userTextFont", "微软雅黑 PLAIN 14");
-			props.put("subTextFont", "微软雅黑 PLAIN 14");
-			props.put("windowTitleFont", "微软雅黑 BOLD 18");
+			//props.setProperty("controlTextFont", "微软雅黑 14");
+			//props.setProperty("systemTextFont", "微软雅黑 14");
+			//props.setProperty("userTextFont", "微软雅黑 14");
+			//props.setProperty("menuTextFont", "微软雅黑 14");
+			//props.setProperty("windowTitleFont", "微软雅黑  14");
+			//props.setProperty("subTextFont", "微软雅黑 14");
 
 			// 设置皮肤
 			String currentLaf = Config.getValue("CURRENT_THEME", "current_laf");
 			String currentTheme = Config.getValue("CURRENT_THEME", "current_theme");
 			String lafIndex = Config.getValue("CURRENT_THEME", "current_lafIndex");
 
-			Class<?> c = ClassLoader.getSystemClassLoader().loadClass(currentLaf);
-			Method m = c.getMethod("setCurrentTheme", Properties.class);
-			m.invoke(c.newInstance(), props);
+			//Class<?> c = ClassLoader.getSystemClassLoader().loadClass(currentLaf);
+			//Method m = c.getMethod("setCurrentTheme", Properties.class);
+			//m.invoke(c.newInstance(), props);
+			//McWinLookAndFeel.setCurrentTheme(props);
 			
 			if (!currentTheme.equals("window")) {
 				SwingUtils.setTheme(Integer.parseInt(lafIndex), currentTheme);
