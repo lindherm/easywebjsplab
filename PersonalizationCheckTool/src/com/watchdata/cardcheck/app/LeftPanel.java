@@ -38,13 +38,13 @@ public class LeftPanel extends JPanel {
 	private ListPane getConfigFileFolderPane() {
 		ListPane p = new ListPane();
 		p.addItem("AID设置", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
-		p.addItem("CA管理", "/com/watchdata/cardcheck/resources/images/menu/mydoc.png");
-		p.addItem("应用密钥", "/com/watchdata/cardcheck/resources/images/menu/shareddoc.png");
-		p.addItem("终端限制", "/com/watchdata/cardcheck/resources/images/menu/mycom.png");
-		p.addItem("终端性能", "/com/watchdata/cardcheck/resources/images/menu/neighbor.png");
-		p.addItem("终端类型", "/com/watchdata/cardcheck/resources/images/menu/neighbor.png");
-		p.addItem("皮肤设置", "/com/watchdata/cardcheck/resources/images/menu/neighbor.png");
-		p.addItem("读卡器", "/com/watchdata/cardcheck/resources/images/menu/neighbor.png");
+		p.addItem("CA管理", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
+		p.addItem("应用密钥", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
+		p.addItem("终端限制", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
+		p.addItem("终端性能", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
+		p.addItem("终端类型", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
+		p.addItem("皮肤设置", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
+		p.addItem("读卡器", "/com/watchdata/cardcheck/resources/images/menu/drive.png");
 		p.setSize(140,240);
 		return p;
 	}
