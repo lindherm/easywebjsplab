@@ -20,7 +20,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=D:\程序打包\CardPersonalizationAssistantTool\setup
 OutputBaseFilename=CardPAT_setup
-SetupIconFile=D:\程序打包\CardPersonalizationAssistantTool\setup\check.ico
+SetupIconFile=D:\程序打包\CardPersonalizationAssistantTool\setup\logo_72.ico
 Compression=lzma
 SolidCompression=yes
 
