@@ -3,8 +3,6 @@ package com.watchdata.cardcheck.app;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.lang.reflect.Method;
-import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -13,7 +11,6 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
-import com.jtattoo.plaf.mcwin.McWinLookAndFeel;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.cardcheck.utils.PropertiesManager;
 import com.watchdata.cardcheck.utils.SwingUtils;
