@@ -1,7 +1,6 @@
 package com.watchdata.cardcheck.panel;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -58,24 +56,13 @@ public class TerminalLimitConfigPanel extends JPanel {
 		termIdField.setDocument(new FixedSizePlainDocument(8));
 		setLayout(null);
 
-		final JLabel TermCodelabel = new JLabel();
-		TermCodelabel.setBounds(0, 50, 97, 20);
-		TermCodelabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TermCodelabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		TermCodelabel.setText(pm.getString("mv.termlimit.termact"));
-		add(TermCodelabel);
-
-		final JSeparator separator = new JSeparator();
-		separator.setBounds(79, 60, 730, 20);
-		add(separator);
-
 		final JLabel tacRejectLabel = new JLabel();
 		tacRejectLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		tacRejectLabel.setBounds(10, 80, 130, 20);
+		tacRejectLabel.setBounds(10, 10, 130, 20);
 		tacRejectLabel.setText(pm.getString("mv.termlimit.tac_refuse"));
 		add(tacRejectLabel);
 
-		tacRejectField.setBounds(145, 80, 180, 20);
+		tacRejectField.setBounds(145, 10, 180, 20);
 		String PROMPT = pm.getString("mv.termlimit.promotetac");
 
 		tacRejectField.setToolTipText(PROMPT);
@@ -102,10 +89,10 @@ public class TerminalLimitConfigPanel extends JPanel {
 		final JLabel tacOnlineLabel = new JLabel();
 		tacOnlineLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		tacOnlineLabel.setText(pm.getString("mv.termlimit.tac_online"));
-		tacOnlineLabel.setBounds(10, 110, 130, 20);
+		tacOnlineLabel.setBounds(10, 40, 130, 20);
 		add(tacOnlineLabel);
 
-		tacOnlineField.setBounds(145, 110, 180, 20);
+		tacOnlineField.setBounds(145, 40, 180, 20);
 		tacOnlineField.setToolTipText(PROMPT);
 		tacOnlineField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -130,10 +117,10 @@ public class TerminalLimitConfigPanel extends JPanel {
 		final JLabel tacAccessLabel = new JLabel();
 		tacAccessLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		tacAccessLabel.setText(pm.getString("mv.termlimit.tac_access"));
-		tacAccessLabel.setBounds(10, 140, 130, 20);
+		tacAccessLabel.setBounds(10, 70, 130, 20);
 		add(tacAccessLabel);
 
-		tacAccessField.setBounds(145, 140, 180, 20);
+		tacAccessField.setBounds(145, 70, 180, 20);
 
 		tacAccessField.setToolTipText(PROMPT);
 		tacAccessField.addKeyListener(new KeyListener() {
@@ -156,24 +143,13 @@ public class TerminalLimitConfigPanel extends JPanel {
 		tacAccessField.setText(Config.getValue("Terminal_Data", "TAC_DEFAULT"));
 		add(tacAccessField);
 
-		final JLabel TermLimitLabel = new JLabel();
-		TermLimitLabel.setBounds(0, 170, 97, 20);
-		TermLimitLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TermLimitLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		TermLimitLabel.setText(pm.getString("mv.termlimit.termlimit"));
-		add(TermLimitLabel);
-
-		final JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(79, 180, 730, 20);
-		add(separator_1);
-
 		final JLabel lowLimitLabel = new JLabel();
-		lowLimitLabel.setBounds(0, 210, 140, 20);
+		lowLimitLabel.setBounds(0, 100, 140, 20);
 		lowLimitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lowLimitLabel.setText(pm.getString("mv.termlimit.lowlimit"));
 		add(lowLimitLabel);
 		String PROMPTlIMIT = pm.getString("mv.termlimit.promotelimit");
-		lowLimitField.setBounds(145, 210, 180, 20);
+		lowLimitField.setBounds(145, 100, 180, 20);
 		lowLimitField.setToolTipText(PROMPTlIMIT);
 		lowLimitField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -194,24 +170,13 @@ public class TerminalLimitConfigPanel extends JPanel {
 		lowLimitField.setText(Config.getValue("Terminal_Data", "9F1B"));
 		add(lowLimitField);
 
-		final JLabel TermIDLabel = new JLabel();
-		TermIDLabel.setBounds(0, 250, 97, 20);
-		TermIDLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		TermIDLabel.setFont(new Font(pm.getString("mv.applicaiton.font"), Font.BOLD, 12));
-		TermIDLabel.setText(pm.getString("mv.termlimit.termid"));
-		add(TermIDLabel);
-
-		final JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(79, 260, 730, 20);
-		add(separator_2);
-
 		final JLabel termIdLabel = new JLabel();
 		termIdLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		termIdLabel.setBounds(10, 280, 130, 20);
+		termIdLabel.setBounds(10, 130, 130, 20);
 		termIdLabel.setText(pm.getString("mv.termlimit.idcontent"));
 		add(termIdLabel);
 		String PROMPTTERM = pm.getString("mv.termlimit.promoteid");
-		termIdField.setBounds(145, 280, 180, 20);
+		termIdField.setBounds(145, 130, 180, 20);
 		termIdField.setToolTipText(PROMPTTERM);
 		termIdField.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
@@ -234,7 +199,7 @@ public class TerminalLimitConfigPanel extends JPanel {
 
 		final JButton saveButton = new JButton();
 		saveButton.setText(pm.getString("mv.termlimit.save"));
-		saveButton.setBounds(145, 334, 84, 21);
+		saveButton.setBounds(145, 160, 84, 21);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				Config.setValue("Terminal_Data", "TAC_ADJECT", tacRejectField.getText().trim());

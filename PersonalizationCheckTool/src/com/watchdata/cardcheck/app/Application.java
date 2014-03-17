@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
@@ -82,6 +83,7 @@ public class Application extends JFrame {
 
 	public Application() {
 		super(titleStr);
+		setIconImage(new ImageIcon(Application.class.getResource("/com/watchdata/cardcheck/resources/images/logo_32.png")).getImage());
 		initContentPane();
 		// setFont(new Font("", Font.BOLD, 14));
 		setSize(new Dimension(1024, 768));
