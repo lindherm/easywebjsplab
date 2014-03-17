@@ -84,7 +84,7 @@ public class Application extends JFrame {
 		super(titleStr);
 		initContentPane();
 		// setFont(new Font("", Font.BOLD, 14));
-		setSize(new Dimension(800, 600));
+		setSize(new Dimension(1024, 768));
 		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocationRelativeTo(null);
 		// getGraphicsConfiguration().getDevice().setFullScreenWindow(this);
