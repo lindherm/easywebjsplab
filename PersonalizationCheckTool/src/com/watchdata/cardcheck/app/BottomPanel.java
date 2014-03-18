@@ -30,7 +30,7 @@ public class BottomPanel extends JPanel {
 
 		final JPanel panel = new JPanel();
 		add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		final JLabel label = new JLabel();
 		label.setText(pm.getString("mv.bottom.version"));
@@ -38,7 +38,7 @@ public class BottomPanel extends JPanel {
 
 		final JPanel panel_1 = new JPanel();
 		add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		final JLabel wwwwatchdatacomLabel = new JLabel();
 		wwwwatchdatacomLabel.setText(pm.getString("mv.bottom.url"));
@@ -46,7 +46,7 @@ public class BottomPanel extends JPanel {
 
 		final JPanel panel_2 = new JPanel();
 		add(panel_2);
-		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		final JLabel label_1 = new JLabel();
 		label_1.setText(pm.getString("mv.bottom.right"));
