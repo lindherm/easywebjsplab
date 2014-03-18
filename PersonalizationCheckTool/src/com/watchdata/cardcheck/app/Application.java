@@ -60,7 +60,7 @@ public class Application extends JFrame {
 			JFrame.setDefaultLookAndFeelDecorated(true);
 			
 			Font commonFont = new Font("宋体", Font.PLAIN, 12);
-			Font titleFont = new Font("微软雅黑", Font.BOLD, 18);
+			Font titleFont = new Font("微软雅黑", Font.PLAIN, 16);
 			UIManager.getDefaults().put("CheckBox.font", commonFont);
 			UIManager.getDefaults().put("Tree.font", commonFont);
 			UIManager.getDefaults().put("Viewport.font", commonFont);
