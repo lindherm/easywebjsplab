@@ -3,6 +3,7 @@ package com.watchdata.cardcheck.app;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -46,32 +47,60 @@ public class Application extends JFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			//Properties props = new Properties();
-			//props.put("logoString", "watchdata");
-			//props.put("textShadow", "off");
-			//props.setProperty("controlTextFont", "微软雅黑 14");
-			//props.setProperty("systemTextFont", "微软雅黑 14");
-			//props.setProperty("userTextFont", "微软雅黑 14");
-			//props.setProperty("menuTextFont", "微软雅黑 14");
-			//props.setProperty("windowTitleFont", "微软雅黑  14");
-			//props.setProperty("subTextFont", "微软雅黑 14");
-
 			// 设置皮肤
 			String currentLaf = Config.getValue("CURRENT_THEME", "current_laf");
 			String currentTheme = Config.getValue("CURRENT_THEME", "current_theme");
 			String lafIndex = Config.getValue("CURRENT_THEME", "current_lafIndex");
 
-			//Class<?> c = ClassLoader.getSystemClassLoader().loadClass(currentLaf);
-			//Method m = c.getMethod("setCurrentTheme", Properties.class);
-			//m.invoke(c.newInstance(), props);
-			//McWinLookAndFeel.setCurrentTheme(props);
-			
 			if (!currentTheme.equals("window")) {
 				SwingUtils.setTheme(Integer.parseInt(lafIndex), currentTheme);
 			}
 
 			UIManager.setLookAndFeel(currentLaf);
 			JFrame.setDefaultLookAndFeelDecorated(true);
+			
+			Font commonFont = new Font("宋体", Font.PLAIN, 12);
+			Font titleFont = new Font("微软雅黑", Font.BOLD, 18);
+			UIManager.getDefaults().put("CheckBox.font", commonFont);
+			UIManager.getDefaults().put("Tree.font", commonFont);
+			UIManager.getDefaults().put("Viewport.font", commonFont);
+			UIManager.getDefaults().put("ProgressBar.font", commonFont);
+			UIManager.getDefaults().put("RadioButtonMenuItem.font", commonFont);
+			UIManager.getDefaults().put("FormattedTextField.font", commonFont);
+			UIManager.getDefaults().put("ToolBar.font", commonFont);
+			UIManager.getDefaults().put("ColorChooser.font", commonFont);
+			UIManager.getDefaults().put("ToggleButton.font", commonFont);
+			UIManager.getDefaults().put("Panel.font", commonFont);
+			UIManager.getDefaults().put("TextArea.font", commonFont);
+			UIManager.getDefaults().put("Menu.font", commonFont);
+			UIManager.getDefaults().put("RadioButtonMenuItem.acceleratorFont", commonFont);
+			UIManager.getDefaults().put("Spinner.font", commonFont);
+			UIManager.getDefaults().put("Menu.acceleratorFont", commonFont);
+			UIManager.getDefaults().put("CheckBoxMenuItem.acceleratorFont", commonFont);
+			UIManager.getDefaults().put("TableHeader.font", commonFont);
+			UIManager.getDefaults().put("TextField.font", commonFont);
+			UIManager.getDefaults().put("OptionPane.font", commonFont);
+			UIManager.getDefaults().put("MenuBar.font", commonFont);
+			UIManager.getDefaults().put("Button.font", commonFont);
+			UIManager.getDefaults().put("Label.font", commonFont);
+			UIManager.getDefaults().put("PasswordField.font", commonFont);
+			UIManager.getDefaults().put("InternalFrame.titleFont", titleFont);
+			UIManager.getDefaults().put("OptionPane.buttonFont", commonFont);
+			UIManager.getDefaults().put("ScrollPane.font", commonFont);
+			UIManager.getDefaults().put("MenuItem.font", commonFont);
+			UIManager.getDefaults().put("ToolTip.font", commonFont);
+			UIManager.getDefaults().put("List.font", commonFont);
+			UIManager.getDefaults().put("OptionPane.messageFont", commonFont);
+			UIManager.getDefaults().put("EditorPane.font", commonFont);
+			UIManager.getDefaults().put("Table.font", commonFont);
+			UIManager.getDefaults().put("TabbedPane.font", commonFont);
+			UIManager.getDefaults().put("RadioButton.font", commonFont);
+			UIManager.getDefaults().put("CheckBoxMenuItem.font", commonFont);
+			UIManager.getDefaults().put("TextPane.font", commonFont);
+			UIManager.getDefaults().put("PopupMenu.font", commonFont);
+			UIManager.getDefaults().put("TitledBorder.font", commonFont);
+			UIManager.getDefaults().put("ComboBox.font", commonFont);
+
 			SwingUtils.updateUI();
 		} catch (Exception e) {
 			log.error("LookAndFeel unsupported.");
