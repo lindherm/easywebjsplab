@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -113,7 +114,23 @@ public class Application extends JFrame {
 		setTitle(titleStr);
 		setIconImage(new ImageIcon(Application.class.getResource("/com/watchdata/cardcheck/resources/images/logo_48.png")).getImage());
 		initContentPane();
-		setSize(new Dimension(1024, 768));
+		
+		Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
+		double screenWidth=d.getWidth();
+		double screenHeight=d.getHeight();
+		
+		if (screenWidth>1024) {
+			screenWidth=1024;
+		}else {
+			screenWidth=screenWidth-50;
+		}
+		if (screenHeight>768) {
+			screenHeight=768;
+		}else {
+			screenHeight=screenHeight-50;
+		}
+		setSize((int)screenWidth, (int)screenHeight);
+		
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
