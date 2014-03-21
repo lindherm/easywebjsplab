@@ -1,4 +1,4 @@
-package com.demo.server;
+package com.sessionsocket.server;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

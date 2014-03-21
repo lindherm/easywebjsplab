@@ -1,4 +1,4 @@
-package com.demo.client;
+package com.sessionsocket.client;
 
 import java.net.Socket;
 
