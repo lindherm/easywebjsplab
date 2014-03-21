@@ -1,4 +1,4 @@
-package com.demo.client;
+package com.sessionsocket.client;
 
 import java.io.File;
 import java.io.FileInputStream;
