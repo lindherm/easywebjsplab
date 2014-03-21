@@ -20,8 +20,7 @@ public class ClientSocket extends SessionSocket{
     public static void main(String args[]) {
     	Socket socket;
 		try {
-			//for(int i=0;i<10000;i++){
-			socket = new Socket(args[0],Integer.valueOf(args[1]));
+			socket = new Socket("10.0.97.120",9000);
 			ClientSocket clientSocket=new ClientSocket(socket);
 			//启动ClientSocket线程
 			clientSocket.start();
@@ -29,7 +28,6 @@ public class ClientSocket extends SessionSocket{
 			iMonitor.setDaemon(true);
 			//启动输入
 			iMonitor.start();
-			//}
 			
 		} catch (UnknownHostException e) {
 			System.out.println(e.getMessage());
@@ -43,30 +41,26 @@ public class ClientSocket extends SessionSocket{
 	}
 	public void onConnected(Socket socket, Thread thread) {
 		System.out.println("连接服务器成功！");
-		try {
-			sendMessage("test".getBytes());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
-		System.out.println(new String(data));
+		if (data!=null) {
+			System.out.println(new String(data));
+		}
 	}
 	public void onError(Exception e, Socket socket, Thread thread) {
 		System.out.println("与服务器连接异常，断开连接。");
 	}
 	class InputMonitor implements Runnable{
-		String nickName=null;
+		String command=null;
 		public void run() {
-		    while (nickName==null||nickName.equals("")) {
-		    	System.out.println("请输入昵称:");
-		    	nickName=getInput();
-			}
-		    System.out.println("Input:>");
-			while(true){
-				try {
-					sendMessage((nickName+":"+getInput()).getBytes());
-				} catch (Exception e) {
+			
+		    while (true) {
+		    	System.out.println(">");
+		    	command=getInput();
+		    	try {
+					sendMessage(command.getBytes());
+				} catch (IOException e) {
+					e.getMessage();
 				}
 			}
 		}
