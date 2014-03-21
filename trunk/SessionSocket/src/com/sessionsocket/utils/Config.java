@@ -16,7 +16,7 @@ public class Config {
 	// default config file path
 	// **********************************************************************
 
-	public static String configPath = System.getProperty("user.dir") + "\\resources\\";
+	public static String configPath = System.getProperty("user.dir") + "\\resource\\";
 
 	public static File configFile = null;
 	public static IniFile ini = null;
