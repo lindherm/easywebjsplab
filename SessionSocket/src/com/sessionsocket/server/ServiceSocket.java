@@ -46,7 +46,16 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
-		log.debug("注意:有消息到达:socketID:" + socket.hashCode()+"["+socket.toString()+"]【接收：" + data.length + "字节数据】");
+		System.out.println(new String(data));
+		if (data!=null) {
+			try {
+				sendMessage("success.".getBytes(), socket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			log.debug("注意:有消息到达:socketID:" + socket.hashCode()+"["+socket.toString()+"]【接收：" + data.length + "字节数据】");
+		}
 	}
 
 	@Override
@@ -85,8 +94,40 @@ public class ServiceSocket extends SessionSocket {
 			}
 		}
 	}
-
 	@Override
+	public byte[] reciveMessage(Socket socket,Thread thread){
+		BufferedInputStream reciver=null;
+		ByteArrayOutputStream out = null;
+		try {
+			// 获得输入缓冲流
+			reciver = new BufferedInputStream(socket.getInputStream());
+			// 创建缓存文件
+			out = new ByteArrayOutputStream();
+
+			// 读取数据
+			byte[] buffer = new byte[getBUFFER_SIZE()*1024];// 缓存大小
+			//byte[] datalength = new byte[8];
+			//reciver.read(datalength);
+			//long dataL = Long.parseLong(new String(datalength), 10);
+
+			int amount = -1;
+			//int fileLen = 0;
+
+			//while (fileLen < dataL) {
+				if ((amount = reciver.read(buffer)) != -1) {
+					out.write(buffer, 0, amount);
+					//fileLen += amount;
+				}
+			//}
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			errorHandle(e, socket, thread);
+		}
+
+		return out.toByteArray();
+	}
+	/*@Override
 	public byte[] reciveMessage(Socket socket,Thread thread){
 		BufferedInputStream reciver=null;
 		ByteArrayOutputStream out = null;
@@ -119,5 +160,5 @@ public class ServiceSocket extends SessionSocket {
 		}
 
 		return out.toByteArray();
-	}
+	}*/
 }

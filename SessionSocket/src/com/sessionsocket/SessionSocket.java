@@ -32,11 +32,11 @@ public abstract class SessionSocket implements Runnable {
 	/**
 	 * 伴随着线程启动的socket
 	 */
-	private Socket socket;
+	public Socket socket;
 	/**
 	 * 接受socket连接的线程
 	 */
-	private Thread thread;
+	public Thread thread;
 
 	/**
 	 * 
