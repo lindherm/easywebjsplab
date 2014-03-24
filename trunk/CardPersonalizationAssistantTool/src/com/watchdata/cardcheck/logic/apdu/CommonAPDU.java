@@ -7,6 +7,8 @@ import java.util.List;
 import com.watchdata.cardcheck.logic.Constants;
 import com.watchdata.cardcheck.logic.apdu.board.BoardChannel;
 import com.watchdata.cardcheck.logic.apdu.pcsc.PcscChannel;
+import com.watchdata.cardcheck.utils.Config;
+import com.watchdata.cardcheck.utils.FileUtil;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
 import com.watchdata.commons.crypto.pboc.WDPBOCUtil;
 import com.watchdata.commons.jce.JceBase.Padding;
@@ -104,16 +106,23 @@ public class CommonAPDU extends AbstractAPDU {
 	public HashMap<String, String> reset() {
 		HashMap<String, String> res = new HashMap<String, String>();
 
-		// boolean flag = apduChannel.init(readerName);
-		// if (flag) {
-		String responseApdu = apduChannel.reset();
-		String sw = responseApdu.substring(responseApdu.length() - 4, responseApdu.length());
-		String atr = responseApdu.substring(0, responseApdu.length() - 4);
-		if (("9000").equals(sw)) {
-			res.put("sw", "9000");
-			res.put("atr", atr);
+		String reader = Config.getValue("Terminal_Data", "reader");
+		if (reader.indexOf(':') > 0) {
+			String[] board = reader.split(":");
+			FileUtil.updateBoradFile(board[0], board[1]);
 		}
-		// }
+		// commonAPDU = new CommonAPDU();
+		boolean flag = init(reader);
+
+		if (flag) {
+			String responseApdu = apduChannel.reset();
+			String sw = responseApdu.substring(responseApdu.length() - 4, responseApdu.length());
+			String atr = responseApdu.substring(0, responseApdu.length() - 4);
+			if (("9000").equals(sw)) {
+				res.put("sw", "9000");
+				res.put("atr", atr);
+			}
+		}
 		return res;
 	}
 
@@ -473,7 +482,7 @@ public class CommonAPDU extends AbstractAPDU {
 	public String send(String apdu) throws Exception {
 		String classByte = apdu.substring(0, 2);
 		String insBytes = apdu.substring(2, 4);
-		if (!classByte.equalsIgnoreCase("80")|| (classByte.equalsIgnoreCase("80")&&insBytes.startsWith("0"))) {
+		if (!classByte.equalsIgnoreCase("80") || (classByte.equalsIgnoreCase("80") && insBytes.startsWith("0"))) {
 			// escape
 		} else {
 			if (getSecureityLevel().equalsIgnoreCase(NO_SECUREITY_LEVEL)) {
