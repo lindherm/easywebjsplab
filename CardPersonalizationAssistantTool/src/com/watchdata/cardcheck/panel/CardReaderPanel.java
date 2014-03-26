@@ -110,14 +110,15 @@ public class CardReaderPanel extends JPanel {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent arg0) {
 				if (comboBox.getSelectedItem() != null) {
-					HashMap<String, String> res = commonAPDU.reset();
+					String reader = comboBox.getSelectedItem().toString();
+					HashMap<String, String> res = commonAPDU.reset(reader);
 					if ("9000".equals(res.get("sw"))) {
 						StringSelection atr = new StringSelection(res.get("atr"));
 						Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 						clipboard.setContents(atr, null);
 
 						JOptionPane.showMessageDialog(null, res.get("atr"));
-						Config.setValue("Terminal_Data", "reader", comboBox.getSelectedItem().toString());
+						Config.setValue("Terminal_Data", "reader", reader);
 					}
 				}
 			}
