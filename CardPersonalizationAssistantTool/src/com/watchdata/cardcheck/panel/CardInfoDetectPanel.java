@@ -22,12 +22,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -41,6 +41,7 @@ import com.watchdata.cardcheck.log.Log;
 import com.watchdata.cardcheck.logic.apdu.CommonAPDU;
 import com.watchdata.cardcheck.logic.apdu.CommonHelper;
 import com.watchdata.cardcheck.logic.impl.CardInfoThread;
+import com.watchdata.cardcheck.logic.impl.DeleteObjThread;
 import com.watchdata.cardcheck.logic.impl.LoadCapThead;
 import com.watchdata.cardcheck.utils.Config;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
@@ -68,6 +69,10 @@ public class CardInfoDetectPanel extends JPanel {
 	private static Log log = new Log();
 	private static ConfigIpDialog dialog = null;
 
+	private static JMenuItem mntmCardinfo;
+	private static JMenuItem mntmLoad;
+	private static JMenuItem deleteObj;
+
 	public CardInfoDetectPanel() {
 		log.setLogArea(textPane_1);
 		setName("卡片信息");
@@ -92,7 +97,7 @@ public class CardInfoDetectPanel extends JPanel {
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(tree, popupMenu);
 
-		JMenuItem mntmCardinfo = new JMenuItem("CARD INFO");
+		mntmCardinfo = new JMenuItem("CARD INFO");
 		mntmCardinfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				commonAPDU = new CommonAPDU();
@@ -100,12 +105,8 @@ public class CardInfoDetectPanel extends JPanel {
 				thread.start();
 			}
 		});
-		popupMenu.add(mntmCardinfo);
 
-		JSeparator separator = new JSeparator();
-		popupMenu.add(separator);
-
-		JMenuItem mntmLoad = new JMenuItem("LOAD CAP");
+		mntmLoad = new JMenuItem("LOAD CAP");
 		mntmLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser jFileChooser = new JFileChooser(".");
@@ -121,8 +122,13 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 			}
 		});
-		popupMenu.add(mntmLoad);
-
+		deleteObj = new JMenuItem("Delete it");
+		deleteObj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DeleteObjThread deleteObjThread = new DeleteObjThread(tree, commonAPDU);
+				deleteObjThread.start();
+			}
+		});
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		panel_1.setBounds(0, 224, 890, 252);
@@ -509,20 +515,39 @@ public class CardInfoDetectPanel extends JPanel {
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (SwingUtilities.isRightMouseButton(e)) {
+					Component com = e.getComponent();
+					if (com instanceof JTree) {
+						JTree tree = (JTree) com;
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
+						String nodeName = (node != null) ? node.toString() : null;
+						if (WDAssert.isNotEmpty(nodeName)) {
+							if (node.isLeaf() && !nodeName.equalsIgnoreCase("CardInfo") && !nodeName.equalsIgnoreCase("Application Instances") && !nodeName.equalsIgnoreCase("Load Files and Modules") && !nodeName.equalsIgnoreCase("Load Files")) {
+								addMenu(deleteObj, e);
+							} else {
+								if (nodeName.equalsIgnoreCase("CardInfo")) {
+									addMenu(mntmCardinfo, e);
+								} else if (nodeName.equalsIgnoreCase("Load Files")) {
+									addMenu(mntmLoad, e);
+								}
+
+							}
+						}
+					}
 				}
 			}
 
 			private void showMenu(MouseEvent e) {
 				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+
+			private void addMenu(JMenuItem menuItem, MouseEvent e) {
+				popup.removeAll();
+				popup.add(menuItem);
+				showMenu(e);
 			}
 		});
 	}

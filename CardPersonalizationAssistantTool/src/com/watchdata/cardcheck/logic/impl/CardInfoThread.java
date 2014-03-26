@@ -150,12 +150,12 @@ public class CardInfoThread extends Thread {
 			tree.updateUI();
 		}
 	}
-	public void expandTree(JTree tree, boolean bo) {
+	public static void expandTree(JTree tree, boolean bo) {
 		TreeNode root = (TreeNode) tree.getModel().getRoot();
 		expandAll(tree, new TreePath(root), bo);
 	}
 
-	private void expandAll(JTree tree, TreePath parent, boolean expand) {
+	private static void expandAll(JTree tree, TreePath parent, boolean expand) {
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
 			for (Enumeration e = node.children(); e.hasMoreElements();) {
