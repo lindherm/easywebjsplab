@@ -137,9 +137,9 @@ public class LoadCapThead extends Thread {
 		zipFile.close();
 
 		sb.setLength(0);
-		sb.append(mapBean.get("Header.cap")).append(mapBean.get("Directory.cap")).append(mapBean.get("Import.cap")).append(mapBean.get("Applet.cap"));
-		sb.append(mapBean.get("Class.cap")).append(mapBean.get("Method.cap")).append(mapBean.get("StaticField.cap")).append(mapBean.get("ConstantPool.cap"));
-		sb.append(mapBean.get("RefLocation.cap"));
+		sb.append(checkNull(mapBean.get("Header.cap"))).append(checkNull(mapBean.get("Directory.cap"))).append(checkNull(mapBean.get("Import.cap"))).append(checkNull(mapBean.get("Applet.cap")));
+		sb.append(checkNull(mapBean.get("Class.cap"))).append(checkNull(mapBean.get("Method.cap"))).append(checkNull(mapBean.get("StaticField.cap"))).append(checkNull(mapBean.get("ConstantPool.cap")));
+		sb.append(checkNull(mapBean.get("RefLocation.cap")));
 
 		String headInfo = mapBean.get("Header.cap");
 		int pkgLen = Integer.parseInt(headInfo.substring(24, 26), 16);
@@ -151,4 +151,7 @@ public class LoadCapThead extends Thread {
 		return mapBean;
 	}
 
+	public String checkNull(String str) {
+		return str == null ? "" : str;
+	}
 }
