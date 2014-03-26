@@ -111,7 +111,18 @@ public class CommonAPDU extends AbstractAPDU {
 			String[] board = reader.split(":");
 			FileUtil.updateBoradFile(board[0], board[1]);
 		}
-		// commonAPDU = new CommonAPDU();
+		res = reset(reader);
+		return res;
+	}
+
+	/**
+	 * 复位指令
+	 * 
+	 * @return
+	 */
+	public HashMap<String, String> reset(String reader) {
+		HashMap<String, String> res = new HashMap<String, String>();
+		close();
 		boolean flag = init(reader);
 
 		if (flag) {
