@@ -49,7 +49,9 @@ public class LoadCapThead extends Thread {
 					} else {
 						p1 = "00";
 					}
-					String temp = "80E8" + p1 + WDStringUtil.paddingHeadZero(Integer.toHexString(j - 1), 2) + Integer.toHexString(loadFileInfo.get(j).length() / 2);
+					String p2=WDStringUtil.paddingHeadZero(Integer.toHexString(j - 1), 2);
+					String lc=WDStringUtil.paddingHeadZero(Integer.toHexString(loadFileInfo.get(j).length() / 2),2);
+					String temp = "80E8" + p1 +p2+lc;
 					temp += loadFileInfo.get(j);
 					commonAPDU.send(temp);
 				}
@@ -94,6 +96,7 @@ public class LoadCapThead extends Thread {
 		for (int i = 0; i < count; i++) {
 			if (pos + 320 > capFileInfo.length()) {
 				loadFileInfo.add(capFileInfo.substring(pos, capFileInfo.length()));
+				pos += capFileInfo.length()-pos;
 			} else {
 				loadFileInfo.add(capFileInfo.substring(pos, pos + 320));
 				pos += 320;
@@ -137,8 +140,15 @@ public class LoadCapThead extends Thread {
 		zipFile.close();
 
 		sb.setLength(0);
-		sb.append(checkNull(mapBean.get("Header.cap"))).append(checkNull(mapBean.get("Directory.cap"))).append(checkNull(mapBean.get("Import.cap"))).append(checkNull(mapBean.get("Applet.cap")));
-		sb.append(checkNull(mapBean.get("Class.cap"))).append(checkNull(mapBean.get("Method.cap"))).append(checkNull(mapBean.get("StaticField.cap"))).append(checkNull(mapBean.get("ConstantPool.cap")));
+		sb.append(checkNull(mapBean.get("Header.cap")));
+		sb.append(checkNull(mapBean.get("Directory.cap")));
+		sb.append(checkNull(mapBean.get("Import.cap")));
+		sb.append(checkNull(mapBean.get("Applet.cap")));
+		sb.append(checkNull(mapBean.get("Class.cap")));
+		sb.append(checkNull(mapBean.get("Method.cap")));
+		sb.append(checkNull(mapBean.get("StaticField.cap")));
+		sb.append(checkNull(mapBean.get("Export.cap")));
+		sb.append(checkNull(mapBean.get("ConstantPool.cap")));
 		sb.append(checkNull(mapBean.get("RefLocation.cap")));
 
 		String headInfo = mapBean.get("Header.cap");
