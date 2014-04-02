@@ -1,0 +1,19 @@
+header_component {
+	u1 tag
+	u2 size
+	u4 magic
+	u1 minor_version
+	u1 major_version
+	u1 flags
+	package_info {
+		u1 minor_version
+		u1 major_version
+		u1 AID_length
+		u1 AID[AID_length]
+	}
+	package_name_info {
+		u1 name_length
+		u1 name[name_length]
+	}
+}
+

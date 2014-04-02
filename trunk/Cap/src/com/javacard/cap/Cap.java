@@ -52,17 +52,19 @@ public class Cap {
 	public String checkNull(String str) {
 		return str == null ? "" : str;
 	}
-	
+
 	public static void main(String[] args) throws IOException {
-		Map<String, String> mapPse=Cap.readCap("pse.cap");
-		Map<String, String> mapPpse=Cap.readCap("ppse.cap");
-		Map<String, String> mapPboc=Cap.readCap("pboc.cap");
-		
+		Map<String, String> mapPse = Cap.readCap("pse.cap");
+		Map<String, String> mapPpse = Cap.readCap("ppse.cap");
+		Map<String, String> mapPboc = Cap.readCap("pboc.cap");
+
 		System.out.println(mapPse);
-		
-		Iterator<?> iterator=mapPse.entrySet().iterator();
+		System.out.println(mapPpse);
+		// System.out.println(mapPboc);
+
+		Iterator<?> iterator = mapPse.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Entry<String, String> entry=(Entry<String, String>)iterator.next();
+			Entry<String, String> entry = (Entry<String, String>) iterator.next();
 			System.out.println(entry.getKey());
 			System.out.println(entry.getValue());
 		}
