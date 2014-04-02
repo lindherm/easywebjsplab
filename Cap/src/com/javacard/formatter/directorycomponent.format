@@ -1,0 +1,23 @@
+directory_component {
+	u1 tag
+	u2 size
+	u2 component_sizes[12]
+	static_field_size_info {
+		u2 image_size
+		u2 array_init_count
+		u2 array_init_size
+	}
+	u1 import_count
+	u1 applet_count
+	u1 custom_count
+	custom_component_info custom_components[custom_count]{
+		u1 component_tag
+		u2 size
+		u1 AID_length
+		u1 AID[AID_length]
+	}
+}
+
+
+
+
