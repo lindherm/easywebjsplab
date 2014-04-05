@@ -112,7 +112,7 @@ public class Application extends JFrame {
 
 	public Application() {
 		setTitle(titleStr);
-		setIconImage(new ImageIcon(Application.class.getResource("/com/watchdata/cardcheck/resources/images/logo_48.png")).getImage());
+		setIconImage(new ImageIcon(Application.class.getResource("/com/gerenhua/cardcheck/resources/images/logo_48.png")).getImage());
 		initContentPane();
 		
 		Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
