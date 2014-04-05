@@ -37,32 +37,32 @@ public class LeftPanel extends JPanel {
 
 	private ListPane getConfigFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("AID设置", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("CA管理", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("应用密钥", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("终端限制", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("终端性能", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("终端类型", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("皮肤设置", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
-		p.addItem("读卡器", "/com/gerenhua/cardcheck/resources/images/menu/config_24.png");
+		p.addItem("AID设置", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("CA管理", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("应用密钥", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("终端限制", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("终端性能", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("终端类型", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("皮肤设置", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("读卡器", "/com/gerenhua/tool/resources/images/menu/config_24.png");
 		p.setSize(140,280);
 		return p;
 	}
 	private ListPane getTradeFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("交易", "/com/gerenhua/cardcheck/resources/images/menu/trade.png");
+		p.addItem("交易", "/com/gerenhua/tool/resources/images/menu/trade.png");
 		p.setSize(140,35);
 		return p;
 	}
 	private ListPane getCheckFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("扫描", "/com/gerenhua/cardcheck/resources/images/menu/scan_24.png");
+		p.addItem("扫描", "/com/gerenhua/tool/resources/images/menu/scan_24.png");
 		p.setSize(140,35);
 		return p;
 	}
 	private ListPane getCardFileFolderPane() {
 		ListPane p = new ListPane();
-		p.addItem("卡片", "/com/gerenhua/cardcheck/resources/images/menu/card_32.png");
+		p.addItem("卡片", "/com/gerenhua/tool/resources/images/menu/card_32.png");
 		p.setSize(140,35);
 		return p;
 	}

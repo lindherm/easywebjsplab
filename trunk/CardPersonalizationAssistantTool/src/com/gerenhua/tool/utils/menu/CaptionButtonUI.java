@@ -54,10 +54,10 @@ public class CaptionButtonUI extends ComponentUI implements MouseMotionListener,
     private static Icon hoveredFoldered;
     static{
         //初始化
-        iconExpanded=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/cardcheck/resources/images/menu/expanded.png"));
-        iconFoldered=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/cardcheck/resources/images/menu/foldered.png"));
-        hoveredExpanded=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/cardcheck/resources/images/menu/hovered_expanded.png"));
-        hoveredFoldered=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/cardcheck/resources/images/menu/hovered_foldered.png"));
+        iconExpanded=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/tool/resources/images/menu/expanded.png"));
+        iconFoldered=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/tool/resources/images/menu/foldered.png"));
+        hoveredExpanded=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/tool/resources/images/menu/hovered_expanded.png"));
+        hoveredFoldered=new ImageIcon(CaptionButtonUI.class.getResource("/com/gerenhua/tool/resources/images/menu/hovered_foldered.png"));
     }
     
     //是否画虚线框
