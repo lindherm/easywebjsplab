@@ -21,7 +21,7 @@ public class LogoPanel extends JImagePanel {
 	 * @throws Exception 
 	 */
 	public LogoPanel() throws Exception {
-		super(ImageIO.read(LogoPanel.class.getResource("/com/gerenhua/cardcheck/resources/images/wacthdata.png")));
+		super(ImageIO.read(LogoPanel.class.getResource("/com/gerenhua/tool/resources/images/wacthdata.png")));
 	}
 
 }
