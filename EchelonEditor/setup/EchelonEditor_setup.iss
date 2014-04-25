@@ -3,7 +3,7 @@
 
 #define MyAppName "EchelonEditor"
 #define MyAppVersion "1.0"
-#define MyAppExeName "EchelonEditor.exe"
+#define MyAppExeName "EE.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -17,7 +17,7 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=D:\程序打包\EchelonEditor\setup\
-OutputBaseFilename=setup
+OutputBaseFilename=EE_setup
 SetupIconFile=D:\程序打包\EchelonEditor\setup\logo.ico
 Compression=lzma
 SolidCompression=yes
