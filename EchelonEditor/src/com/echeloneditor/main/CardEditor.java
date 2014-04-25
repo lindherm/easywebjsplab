@@ -62,7 +62,7 @@ import com.echeloneditor.vo.StatusObject;
 import com.watchdata.Generater;
 import com.watchdata.commons.lang.WDByteUtil;
 
-public class EchelonEditor {
+public class CardEditor {
 
 	public JFrame frmEcheloneditor;
 	public static JTabbedPane tabbedPane;
@@ -98,7 +98,7 @@ public class EchelonEditor {
 
 					SwingUtils.updateUI();
 					// 初始化窗体
-					EchelonEditor window = new EchelonEditor();
+					CardEditor window = new CardEditor();
 					// 框体屏幕居中显示
 					window.frmEcheloneditor.setLocationRelativeTo(null);
 					// 显示窗体
@@ -121,7 +121,7 @@ public class EchelonEditor {
 	/**
 	 * Create the application.
 	 */
-	public EchelonEditor() {
+	public CardEditor() {
 		initialize();
 	}
 
@@ -174,7 +174,7 @@ public class EchelonEditor {
 		panel_1.add(toolBar, BorderLayout.NORTH);
 
 		JButton button = new JButton();
-		button.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112619422_easyicon_net_24.png")));
+		button.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504112619422_easyicon_net_24.png")));
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileHander fileHander = new FileHander(tabbedPane, statusObject);
@@ -186,19 +186,19 @@ public class EchelonEditor {
 		JButton button_1 = new JButton();
 		button_1.setActionCommand("open");
 		button_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		button_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112148516_easyicon_net_24.png")));
+		button_1.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504112148516_easyicon_net_24.png")));
 		toolBar.add(button_1);
 
 		JButton btnNewButton = new JButton();
 		btnNewButton.setActionCommand("save");
-		btnNewButton.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
+		btnNewButton.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
 		toolBar.add(btnNewButton);
 		statusObject.setSaveBtn(btnNewButton);
 		btnNewButton.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 		btnNewButton.setEnabled(false);
 
 		JButton button_2 = new JButton("");
-		button_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111901655_easyicon_net_24.png")));
+		button_2.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504111901655_easyicon_net_24.png")));
 		toolBar.add(button_2);
 
 		JButton button_3 = new JButton("");
@@ -279,7 +279,7 @@ public class EchelonEditor {
 
 			}
 		});
-		button_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504111819570_easyicon_net_24.png")));
+		button_3.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504111819570_easyicon_net_24.png")));
 		toolBar.add(button_3);
 		
 		JButton btnNewButton_1 = new JButton("");
@@ -355,7 +355,7 @@ public class EchelonEditor {
 
 			}
 		});
-		btnNewButton_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130721025254649_easyicon_net_24.png")));
+		btnNewButton_1.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130721025254649_easyicon_net_24.png")));
 		toolBar.add(btnNewButton_1);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -369,14 +369,14 @@ public class EchelonEditor {
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 		menuItem.setActionCommand("new");
 		menuItem.addActionListener(new SimpleJmenuItemListener(tabbedPane, statusObject));
-		menuItem.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112619422_easyicon_net_24.png")));
+		menuItem.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504112619422_easyicon_net_24.png")));
 		menu.add(menuItem);
 
 		JMenuItem menuItem_1 = new JMenuItem("打开");
 		menuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		menuItem_1.setActionCommand("open");
 		menuItem_1.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		menuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112148516_easyicon_net_24.png")));
+		menuItem_1.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504112148516_easyicon_net_24.png")));
 		menu.add(menuItem_1);
 
 		JSeparator separator_1 = new JSeparator();
@@ -386,7 +386,7 @@ public class EchelonEditor {
 		menuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		menuItem_2.setActionCommand("save");
 		menuItem_2.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
-		menuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
+		menuItem_2.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504114455808_easyicon_net_24.png")));
 		menu.add(menuItem_2);
 
 		JMenuItem menuItem_3 = new JMenuItem("另存为");
@@ -394,14 +394,14 @@ public class EchelonEditor {
 		menuItem_3.setActionCommand("saveas");
 		menuItem_3.addActionListener(new SimpleFileChooseListener(tabbedPane, statusObject));
 
-		menuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
+		menuItem_3.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504112319418_easyicon_net_24.png")));
 		menu.add(menuItem_3);
 
 		JSeparator separator_2 = new JSeparator();
 		menu.add(separator_2);
 
 		JMenuItem menuItem_4 = new JMenuItem("退出");
-		menuItem_4.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114639245_easyicon_net_24.png")));
+		menuItem_4.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504114639245_easyicon_net_24.png")));
 		menuItem_4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		menuItem_4.addActionListener(new ActionListener() {
 
@@ -416,7 +416,7 @@ public class EchelonEditor {
 		menuBar.add(menu_4);
 
 		JMenuItem menuItem_6 = new JMenuItem("查找");
-		menuItem_6.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508110036317_easyicon_net_24.png")));
+		menuItem_6.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508110036317_easyicon_net_24.png")));
 		menuItem_6.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK));
 		menuItem_6.addActionListener(new ActionListener() {
 
@@ -443,7 +443,7 @@ public class EchelonEditor {
 			}
 		});
 		menuItem_13.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
-		menuItem_13.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508104933496_easyicon_net_24.png")));
+		menuItem_13.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508104933496_easyicon_net_24.png")));
 		menu_4.add(menuItem_13);
 
 		JMenuItem menuItem_14 = new JMenuItem("重做");
@@ -453,7 +453,7 @@ public class EchelonEditor {
 				rSyntaxTextArea.redoLastAction();
 			}
 		});
-		menuItem_14.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508104655987_easyicon_net_24.png")));
+		menuItem_14.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508104655987_easyicon_net_24.png")));
 		menuItem_14.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_14);
 
@@ -468,7 +468,7 @@ public class EchelonEditor {
 			}
 		});
 		menuItem_8.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
-		menuItem_8.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508105503688_easyicon_net_24.png")));
+		menuItem_8.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508105503688_easyicon_net_24.png")));
 		menu_4.add(menuItem_8);
 
 		JMenuItem menuItem_9 = new JMenuItem("复制");
@@ -478,7 +478,7 @@ public class EchelonEditor {
 				rSyntaxTextArea.copy();
 			}
 		});
-		menuItem_9.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508112701510_easyicon_net_24.png")));
+		menuItem_9.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508112701510_easyicon_net_24.png")));
 		menuItem_9.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_9);
 
@@ -490,7 +490,7 @@ public class EchelonEditor {
 			}
 		});
 		menuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
-		menuItem_10.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508105319839_easyicon_net_24.png")));
+		menuItem_10.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508105319839_easyicon_net_24.png")));
 		menu_4.add(menuItem_10);
 
 		JMenuItem menuItem_11 = new JMenuItem("删除");
@@ -516,7 +516,7 @@ public class EchelonEditor {
 				}
 			}
 		});
-		menuItem_11.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508105713413_easyicon_net_24.png")));
+		menuItem_11.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508105713413_easyicon_net_24.png")));
 		menuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 		menu_4.add(menuItem_11);
 
@@ -530,7 +530,7 @@ public class EchelonEditor {
 				rSyntaxTextArea.selectAll();
 			}
 		});
-		menuItem_12.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508105939375_easyicon_net_24.png")));
+		menuItem_12.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508105939375_easyicon_net_24.png")));
 		menuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_12);
 		JSeparator separator_3 = new JSeparator();
@@ -538,7 +538,7 @@ public class EchelonEditor {
 		menu_4.add(menuItem_6);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("快速查找");
-		mntmNewMenuItem.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508112417300_easyicon_net_24.png")));
+		mntmNewMenuItem.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508112417300_easyicon_net_24.png")));
 		mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -564,7 +564,7 @@ public class EchelonEditor {
 				replaceDialog.setVisible(true);
 			}
 		});
-		menuItem_15.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508110228832_easyicon_net_24.png")));
+		menuItem_15.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508110228832_easyicon_net_24.png")));
 		menuItem_15.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_MASK));
 		menu_4.add(menuItem_15);
 		menu_4.add(mntmNewMenuItem);
@@ -592,7 +592,7 @@ public class EchelonEditor {
 			}
 		});
 		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
-		mntmNewMenuItem_1.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130508011341649_easyicon_net_24.png")));
+		mntmNewMenuItem_1.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130508011341649_easyicon_net_24.png")));
 		menu_4.add(mntmNewMenuItem_1);
 
 		JMenuItem mntmTlv = new JMenuItem("TLV");
@@ -607,7 +607,7 @@ public class EchelonEditor {
 				}
 			}
 		});
-		mntmTlv.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130509034342785_easyicon_net_24.png")));
+		mntmTlv.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130509034342785_easyicon_net_24.png")));
 		mntmTlv.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
 		menu_4.add(mntmTlv);
 
@@ -615,7 +615,7 @@ public class EchelonEditor {
 		menuBar.add(menu_3);
 
 		JMenuItem menuItem_5 = new JMenuItem("字体");
-		menuItem_5.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114104911_easyicon_net_24.png")));
+		menuItem_5.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504114104911_easyicon_net_24.png")));
 		menuItem_5.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.ALT_MASK));
 		menuItem_5.addActionListener(new ActionListener() {
 
@@ -638,7 +638,7 @@ public class EchelonEditor {
 		menuBar.add(menu_1);
 
 		JMenuItem menuItem_16 = new JMenuItem("辅助工具");
-		menuItem_16.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504114154800_easyicon_net_24.png")));
+		menuItem_16.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504114154800_easyicon_net_24.png")));
 		menuItem_16.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (dialog == null) {
@@ -655,7 +655,7 @@ public class EchelonEditor {
 		menu_1.add(menuItem_16);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("密钥成分生成工具");
-		mntmNewMenuItem_2.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130729071051684_easyicon_net_24.png")));
+		mntmNewMenuItem_2.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130729071051684_easyicon_net_24.png")));
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Generater window = new Generater();
@@ -665,7 +665,7 @@ public class EchelonEditor {
 		menu_1.add(mntmNewMenuItem_2);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("ZIP打包");
-		mntmNewMenuItem_3.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130926111642678_easyicon_net_24.png")));
+		mntmNewMenuItem_3.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130926111642678_easyicon_net_24.png")));
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser fileChooser = new JFileChooser(".");
@@ -688,7 +688,7 @@ public class EchelonEditor {
 		menuBar.add(menu_5);
 
 		JMenuItem menuItem_7 = new JMenuItem("皮肤");
-		menuItem_7.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/20130504113002740_easyicon_net_24.png")));
+		menuItem_7.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/20130504113002740_easyicon_net_24.png")));
 		menuItem_7.addActionListener(new ActionListener() {
 
 			@Override
@@ -708,7 +708,7 @@ public class EchelonEditor {
 				JOptionPane.showMessageDialog(frmEcheloneditor, "EchelonEditor_赫本", "帮助", JOptionPane.WARNING_MESSAGE);
 			}
 		});
-		menuItem_17.setIcon(new ImageIcon(EchelonEditor.class.getResource("/com/echeloneditor/resources/images/2013050411485151_easyicon_net_24.png")));
+		menuItem_17.setIcon(new ImageIcon(CardEditor.class.getResource("/com/echeloneditor/resources/images/2013050411485151_easyicon_net_24.png")));
 		menu_2.add(menuItem_17);
 
 		frmEcheloneditor.getContentPane().add(tabbedPane, BorderLayout.CENTER);
