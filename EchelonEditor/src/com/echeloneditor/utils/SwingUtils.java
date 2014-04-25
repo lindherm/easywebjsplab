@@ -68,7 +68,7 @@ public class SwingUtils {
 		if (tabbedPane.getSelectedIndex() == -1) {
 			return null;
 		}
-		System.out.println(tabbedPane.getSelectedIndex());
+		//System.out.println(tabbedPane.getSelectedIndex());
 		Component com = tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
 		if (com instanceof JScrollPane) {
 			Component[] component = ((JScrollPane) com).getComponents();
