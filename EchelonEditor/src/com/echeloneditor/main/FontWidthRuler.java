@@ -13,6 +13,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
+import com.echeloneditor.utils.Config;
+
 public class FontWidthRuler extends JPanel {
 	private static final long serialVersionUID = 1L;
 	// 度量单位初始化
@@ -70,6 +72,8 @@ public class FontWidthRuler extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder());
 
 		this.editorPane = editorPane;
+		
+		setPreferredWidth(Integer.parseInt(Config.getValue("CONFIG", "maxFileWidth")));
 	}
 
 	// 添加一个位置游标
