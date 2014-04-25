@@ -30,6 +30,8 @@ import com.echeloneditor.main.CloseableTabComponent;
 import com.echeloneditor.main.FontWidthRuler;
 import com.echeloneditor.utils.SwingUtils;
 import com.echeloneditor.vo.StatusObject;
+import com.watchdata.commons.lang.WDAssert;
+import com.watchdata.commons.lang.WDByteUtil;
 
 public class EditorPaneListener implements MouseListener, DocumentListener, MouseMotionListener, KeyListener {
 	public JTabbedPane tabbedPane;
@@ -192,6 +194,22 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 		mntmTlv.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, InputEvent.CTRL_MASK));
 		mntmTlv.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130509034342785_easyicon_net_24.png")));
 		jPopupMenu.add(mntmTlv);
+
+		JSeparator separator_2 = new JSeparator();
+		jPopupMenu.add(separator_2);
+
+		JMenuItem mntmTohex = new JMenuItem("ToHex");
+		mntmTohex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionevent) {
+				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
+				String selStr = rSyntaxTextArea.getSelectedText();
+				if (WDAssert.isNotEmpty(selStr)) {
+					rSyntaxTextArea.append(WDByteUtil.bytes2HEX(selStr.getBytes()));
+				}
+			}
+		});
+		mntmTohex.setIcon(new ImageIcon(EditorPaneListener.class.getResource("/com/echeloneditor/resources/images/20130504111819570_easyicon_net_24.png")));
+		jPopupMenu.add(mntmTohex);
 	}
 
 	@Override
