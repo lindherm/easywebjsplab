@@ -203,8 +203,16 @@ public class EditorPaneListener implements MouseListener, DocumentListener, Mous
 			public void actionPerformed(ActionEvent actionevent) {
 				RSyntaxTextArea rSyntaxTextArea = SwingUtils.getRSyntaxTextArea(tabbedPane);
 				String selStr = rSyntaxTextArea.getSelectedText();
+
+				String[] byteStr = selStr.trim().split(",");
+				byte[] byteTarget = new byte[byteStr.length];
+
+				for (int i = 0; i < byteTarget.length; i++) {
+					byteTarget[i] = (byte) Integer.parseInt(byteStr[i].trim());
+				}
+
 				if (WDAssert.isNotEmpty(selStr)) {
-					rSyntaxTextArea.append(WDByteUtil.bytes2HEX(selStr.getBytes()));
+					rSyntaxTextArea.append("\n\r\n"+WDByteUtil.bytes2HEX(byteTarget));
 				}
 			}
 		});
