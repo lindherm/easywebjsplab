@@ -99,7 +99,6 @@ public class FileHander {
 			}
 			// 加入标尺
 			ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
-			ruler.setPreferredWidth(20000);
 			ruler.addSpin(3);
 			ruler.NeedPaint = true;
 			sp.setColumnHeaderView(ruler);
@@ -206,7 +205,6 @@ public class FileHander {
 		}
 		// 加入标尺
 		ruler = new FontWidthRuler(FontWidthRuler.HORIZONTAL, 10, textArea);
-		ruler.setPreferredWidth(20000);
 		ruler.addSpin(3);
 		ruler.NeedPaint = true;
 		sp.setColumnHeaderView(ruler);
