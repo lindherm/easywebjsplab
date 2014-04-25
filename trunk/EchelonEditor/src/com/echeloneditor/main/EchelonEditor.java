@@ -131,7 +131,7 @@ public class EchelonEditor {
 	private void initialize() {
 		// 主窗体声明及初始化
 		frmEcheloneditor = new JFrame();
-		frmEcheloneditor.setIconImage(ImageHelper.loadImage("logo.jpg").getImage());
+		frmEcheloneditor.setIconImage(ImageHelper.loadImage("logo.png").getImage());
 		frmEcheloneditor.setTitle("EchelonEditor");
 		frmEcheloneditor.setSize(800, 600);
 
