@@ -141,7 +141,7 @@ public class FaceDialog extends JDialog {
 				Config.setValue("CURRENT_THEME","current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
 				//System.out.println(String.valueOf(lafList.getSelectedIndex()));
 				try {
-					SwingUtils.restart("EchelonEditor");
+					SwingUtils.restart(Config.getValue("CONFIG", "Name"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -157,7 +157,7 @@ public class FaceDialog extends JDialog {
 				Config.setValue("CURRENT_THEME","current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				Config.setValue("CURRENT_THEME","current_theme", "window");
 				try {
-					SwingUtils.restart("EchelonEditor");
+					SwingUtils.restart(Config.getValue("CONFIG", "Name"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
