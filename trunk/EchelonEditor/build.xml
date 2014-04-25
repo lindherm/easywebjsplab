@@ -17,7 +17,7 @@
 -->
 
 
-<project name="EchelonEditor" default="make-jar" basedir=".">
+<project name="CardEditor" default="make-jar" basedir=".">
 
 	<description>EchelonEditor build file</description>
 
@@ -26,10 +26,10 @@
 	<property name="version" value="1.0.0" />
 	<property name="source-dir" location="src" />
 	<property name="root-dir" location="D:\程序打包" />
-	<property name="class-dir" location="${root-dir}/EchelonEditor/ant-classes" />
-	<property name="dist-dir" location="${root-dir}/EchelonEditor/dist" />
-	<property name="doc-dir" location="${root-dir}/EchelonEditor/javadoc" />
-	<property name="setup-dir" location="${root-dir}/EchelonEditor/setup" />
+	<property name="class-dir" location="${root-dir}/CardEditor/ant-classes" />
+	<property name="dist-dir" location="${root-dir}/CardEditor/dist" />
+	<property name="doc-dir" location="${root-dir}/CardEditor/javadoc" />
+	<property name="setup-dir" location="${root-dir}/CardEditor/setup" />
 	<property name="lib" value="lib" />
 	<property name="debug" value="true" />
 	<property name="debuglevel" value="lines,vars,source" />
@@ -60,14 +60,14 @@
 				<chainedmapper>
 					<!--过滤文件，将路径去掉，只保留文件名-->
 					<flattenmapper />
-					<globmapper from="*" to="EE_lib/*" />
+					<globmapper from="*" to="CardEditor_lib/*" />
 				</chainedmapper>
 			</mapper>
 
 		</pathconvert>
 		<delete includeEmptyDirs="true" quiet="true" dir="${dist-dir}" />
 		<mkdir dir="${dist-dir}" />
-		<jar destfile="${dist-dir}/EE.jar">
+		<jar destfile="${dist-dir}/CardEditor.jar">
 			<fileset dir="${class-dir}" />
 			<fileset dir="${source-dir}">
 				<include name="**/*.xml" />
@@ -77,14 +77,14 @@
 				<include name="**/*.properties" />
 			</fileset>
 			<manifest>
-				<attribute name="Main-Class" value="com.echeloneditor.main.EchelonEditor" />
+				<attribute name="Main-Class" value="com.echeloneditor.main.CardEditor" />
 				<attribute name="Class-Path" value="${mf.classpath}" />
 			</manifest>
 		</jar>
 		<copy todir="${dist-dir}/resources">
 			<fileset dir="resources" />
 		</copy>
-		<copy todir="${dist-dir}/EE_lib">
+		<copy todir="${dist-dir}/CardEditor_lib">
 			<fileset dir="lib" />
 		</copy>
 		<delete includeEmptyDirs="true" quiet="true" dir="${setup-dir}" />
