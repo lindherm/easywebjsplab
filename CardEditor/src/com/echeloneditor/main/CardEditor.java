@@ -132,7 +132,7 @@ public class CardEditor {
 		// 主窗体声明及初始化
 		frmEcheloneditor = new JFrame();
 		frmEcheloneditor.setIconImage(ImageHelper.loadImage("logo.png").getImage());
-		frmEcheloneditor.setTitle("EchelonEditor");
+		frmEcheloneditor.setTitle(Config.getValue("CONFIG", "appName"));
 		frmEcheloneditor.setSize(800, 600);
 
 		frmEcheloneditor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
