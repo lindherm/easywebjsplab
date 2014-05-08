@@ -51,7 +51,7 @@ public class FaceConfiTabbedPanel extends JPanel {
 				RightPanel.cardReaderPanel.setVisible(false);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
 				
-				new FaceDialog(Application.frame);
+				//new FacePanel(Application.frame);
 			}
 		});
 		btnAid.setText("皮肤设置");

@@ -27,7 +27,7 @@ import com.gerenhua.tool.app.RightPanel;
 import com.gerenhua.tool.panel.AIDConfigPanel;
 import com.gerenhua.tool.panel.AtmPanel;
 import com.gerenhua.tool.panel.CardReaderPanel;
-import com.gerenhua.tool.panel.FaceDialog;
+import com.gerenhua.tool.panel.FacePanel;
 import com.gerenhua.tool.panel.TerminalLimitConfigPanel;
 import com.gerenhua.tool.panel.TerminalPerformanceConfigPanel;
 import com.gerenhua.tool.utils.Config;
@@ -66,6 +66,8 @@ public class ListPane extends JPanel {
 
 	// 添加一项，按照标签添加
 	public void addItem(final String text, String iconURL) {
+		JPanel jPanel=new JPanel();
+		jPanel.setLayout(new BorderLayout());
 		JLabel lblItem = new JLabel();
 		if (iconURL != null) {
 			lblItem.setIcon(new ImageIcon(getClass().getResource(iconURL)));
@@ -74,7 +76,7 @@ public class ListPane extends JPanel {
 			lblItem.setForeground(Color.BLACK);
 		lblItem.setText(text);
 
-		lblItem.addMouseListener(new MouseListener() {
+		jPanel.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -91,20 +93,23 @@ public class ListPane extends JPanel {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				Container container = e.getComponent().getParent().getParent().getParent();
-				JLabel label=(JLabel)e.getComponent();
-				label.setBackground(menuFontColor);
-				label.setForeground(menuFontColor);
+				Component container = e.getComponent();
+				JPanel panel=(JPanel)container;
+				JPanel ppanel=(JPanel)container.getParent();
+				ppanel.setBackground(new Color(214, 223, 247));
+				panel.setBackground(Color.WHITE);
+				//ppanel.setBackground(Color.WHITE);
 				container.repaint();
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				Container container = e.getComponent().getParent().getParent().getParent();
-				JLabel label=(JLabel)e.getComponent();
-				label.setBackground(Color.red);
-				label.setForeground(Color.red);
+				Component container = e.getComponent();
+				JPanel panel=(JPanel)container;
+				JPanel ppanel=(JPanel)container.getParent();
+				ppanel.setBackground(new Color(251,216,96));
+				panel.setBackground(FolderPaneUI.BACK_COLOR);
 				container.repaint();
 			}
 
@@ -217,9 +222,9 @@ public class ListPane extends JPanel {
 						// RightPanel.cardInfoScanPanel.setVisible(false);
 						CardReaderPanel.comboBox.requestFocus();
 					} else if (text.equals("皮肤设置")) {
-						Application.rightPanel.add(RightPanel.aidConfigPanel, BorderLayout.CENTER);
+						Application.rightPanel.add(RightPanel.facePanel, BorderLayout.CENTER);
 						RightPanel.aidConfigPanel.setVisible(false);
-						RightPanel.logoPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(true);
 						RightPanel.caPublicKeyConfigPanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
 						RightPanel.terminalLimitConfigPanel.setVisible(false);
@@ -230,7 +235,7 @@ public class ListPane extends JPanel {
 						RightPanel.cardReaderPanel.setVisible(false);
 						RightPanel.cardInfoDetectPanel.setVisible(false);
 
-						new FaceDialog(Application.frame);
+						//new FacePanel(Application.frame);
 					}
 
 				} else if (folderName.equals("交易")) {
@@ -283,7 +288,8 @@ public class ListPane extends JPanel {
 
 			}
 		});
-		add(lblItem);
+		jPanel.add(lblItem,BorderLayout.LINE_START);
+		add(jPanel);
 	}
 
 	// 为了模仿的相似，自定义的一个Border

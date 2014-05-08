@@ -29,7 +29,7 @@ import javax.swing.plaf.ComponentUI;
  */
 public class FolderPaneUI extends ComponentUI {
 	// 缺省常量
-	private static final Color BACK_COLOR = new Color(116, 149, 226);
+	public static final Color BACK_COLOR = new Color(116, 149, 226);
 	private static final int LEFT_PADDING = 12;
 	private static final int TOP_PADDING = 12;
 	private static final int RIGHT_PADDING = 12;
