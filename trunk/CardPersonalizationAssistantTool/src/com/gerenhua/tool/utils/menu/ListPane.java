@@ -121,6 +121,7 @@ public class ListPane extends JPanel {
 					if (text.equals("AID设置")) {
 						Application.rightPanel.add(RightPanel.aidConfigPanel, BorderLayout.CENTER);
 						RightPanel.aidConfigPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.logoPanel.setVisible(false);
 						RightPanel.caPublicKeyConfigPanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
@@ -136,6 +137,7 @@ public class ListPane extends JPanel {
 					} else if (text.equals("CA管理")) {
 						Application.rightPanel.add(RightPanel.caPublicKeyConfigPanel, BorderLayout.CENTER);
 						RightPanel.caPublicKeyConfigPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.aidConfigPanel.setVisible(false);
 						RightPanel.logoPanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
@@ -150,6 +152,7 @@ public class ListPane extends JPanel {
 					} else if (text.equals("应用密钥")) {
 						Application.rightPanel.add(RightPanel.issuerKeyConfigPanel, BorderLayout.CENTER);
 						RightPanel.issuerKeyConfigPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.caPublicKeyConfigPanel.setVisible(false);
 						RightPanel.aidConfigPanel.setVisible(false);
 						RightPanel.logoPanel.setVisible(false);
@@ -164,6 +167,7 @@ public class ListPane extends JPanel {
 					} else if (text.equals("终端限制")) {
 						Application.rightPanel.add(RightPanel.terminalLimitConfigPanel, BorderLayout.CENTER);
 						RightPanel.terminalLimitConfigPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
 						RightPanel.caPublicKeyConfigPanel.setVisible(false);
 						RightPanel.aidConfigPanel.setVisible(false);
@@ -180,6 +184,7 @@ public class ListPane extends JPanel {
 						Application.rightPanel.add(RightPanel.terminalPerformanceConfigPanel, BorderLayout.CENTER);
 						RightPanel.terminalPerformanceConfigPanel.setVisible(true);
 						RightPanel.terminalLimitConfigPanel.setVisible(false);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
 						RightPanel.caPublicKeyConfigPanel.setVisible(false);
 						RightPanel.aidConfigPanel.setVisible(false);
@@ -194,6 +199,7 @@ public class ListPane extends JPanel {
 					} else if (text.equals("终端类型")) {
 						Application.rightPanel.add(RightPanel.terminalTypeConfigPanel, BorderLayout.CENTER);
 						RightPanel.terminalTypeConfigPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 						RightPanel.terminalLimitConfigPanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
@@ -208,6 +214,7 @@ public class ListPane extends JPanel {
 					} else if (text.equals("读卡器")) {
 						Application.rightPanel.add(RightPanel.cardReaderPanel, BorderLayout.CENTER);
 						RightPanel.cardReaderPanel.setVisible(true);
+						RightPanel.facePanel.setVisible(false);
 						RightPanel.terminalTypeConfigPanel.setVisible(false);
 						RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 						RightPanel.terminalLimitConfigPanel.setVisible(false);
@@ -240,6 +247,7 @@ public class ListPane extends JPanel {
 				} else if (folderName.equals("交易")) {
 					Application.rightPanel.add(RightPanel.tradePanel, BorderLayout.CENTER);
 					RightPanel.tradePanel.setVisible(true);
+					RightPanel.facePanel.setVisible(false);
 					RightPanel.aidConfigPanel.setVisible(false);
 					RightPanel.logoPanel.setVisible(false);
 					RightPanel.caPublicKeyConfigPanel.setVisible(false);
@@ -257,6 +265,7 @@ public class ListPane extends JPanel {
 				} else if (folderName.equals("扫描")) {
 					Application.rightPanel.add(RightPanel.testDataConfigPanel, BorderLayout.CENTER);
 					RightPanel.testDataConfigPanel.setVisible(true);
+					RightPanel.facePanel.setVisible(false);
 					RightPanel.terminalTypeConfigPanel.setVisible(false);
 					RightPanel.terminalPerformanceConfigPanel.setVisible(false);
 					RightPanel.terminalLimitConfigPanel.setVisible(false);
@@ -270,6 +279,7 @@ public class ListPane extends JPanel {
 				} else if (folderName.equals("卡片")) {
 					Application.rightPanel.add(RightPanel.cardInfoDetectPanel, BorderLayout.CENTER);
 					RightPanel.cardInfoDetectPanel.setVisible(true);
+					RightPanel.facePanel.setVisible(false);
 					RightPanel.testDataConfigPanel.setVisible(false);
 					RightPanel.terminalTypeConfigPanel.setVisible(false);
 					RightPanel.terminalPerformanceConfigPanel.setVisible(false);
