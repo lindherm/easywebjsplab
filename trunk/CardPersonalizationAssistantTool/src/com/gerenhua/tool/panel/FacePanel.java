@@ -4,13 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +22,7 @@ import com.gerenhua.tool.utils.Config;
 import com.gerenhua.tool.utils.SwingUtils;
 import com.jtattoo.plaf.AbstractLookAndFeel;
 
-public class FaceDialog extends JDialog {
+public class FacePanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -42,10 +38,11 @@ public class FaceDialog extends JDialog {
 	private int selectedTheme = 0;
 	private ListSelectionListener themeListener = null;
 
-	public FaceDialog(final JFrame frame) {
-		super(frame, "皮肤", true);
-		setIconImage(null);
-		getContentPane().setLayout(null);
+	public FacePanel() {
+		//super(frame, "皮肤", true);
+		//setIconImage(null);
+		//getContentPane().
+		setLayout(null);
 		lafListener = new ListSelectionListener() {
 
 			@Override
@@ -104,7 +101,7 @@ public class FaceDialog extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "皮肤", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		panel.setBounds(22, 10, 220, 300);
-		getContentPane().add(panel);
+		add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -119,7 +116,7 @@ public class FaceDialog extends JDialog {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "主题", TitledBorder.LEFT, TitledBorder.TOP, null, null));
 		panel_1.setBounds(280, 10, 220, 300);
-		getContentPane().add(panel_1);
+		add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -149,7 +146,7 @@ public class FaceDialog extends JDialog {
 			}
 		});
 		btnNewButton.setBounds(291, 349, 93, 23);
-		getContentPane().add(btnNewButton);
+		add(btnNewButton);
 
 		JButton button = new JButton("恢复默认");
 		button.addActionListener(new ActionListener() {
@@ -164,19 +161,7 @@ public class FaceDialog extends JDialog {
 			}
 		});
 		button.setBounds(394, 349, 93, 23);
-		getContentPane().add(button);
-
-		addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				dispose();
-			}
-		});
-
-		setSize(600, 470);
-		setLocationRelativeTo(frame);
-		setVisible(true);
+		add(button);
 	}
 
 	private void setLookAndFeel(boolean loadThemes) {

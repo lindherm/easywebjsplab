@@ -51,19 +51,19 @@ public class LeftPanel extends JPanel {
 	private ListPane getTradeFileFolderPane() {
 		ListPane p = new ListPane();
 		p.addItem("交易", "/com/gerenhua/tool/resources/images/menu/trade.png");
-		p.setSize(140,35);
+		p.setSize(140,45);
 		return p;
 	}
 	private ListPane getCheckFileFolderPane() {
 		ListPane p = new ListPane();
 		p.addItem("扫描", "/com/gerenhua/tool/resources/images/menu/scan_24.png");
-		p.setSize(140,35);
+		p.setSize(140,45);
 		return p;
 	}
 	private ListPane getCardFileFolderPane() {
 		ListPane p = new ListPane();
 		p.addItem("卡片", "/com/gerenhua/tool/resources/images/menu/card_32.png");
-		p.setSize(140,35);
+		p.setSize(140,45);
 		return p;
 	}
 }
