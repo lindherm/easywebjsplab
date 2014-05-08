@@ -229,8 +229,9 @@ public class ListPane extends JPanel {
 						CardReaderPanel.comboBox.requestFocus();
 					} else if (text.equals("皮肤设置")) {
 						Application.rightPanel.add(RightPanel.facePanel, BorderLayout.CENTER);
-						RightPanel.aidConfigPanel.setVisible(false);
 						RightPanel.facePanel.setVisible(true);
+						RightPanel.logoPanel.setVisible(false);
+						RightPanel.aidConfigPanel.setVisible(false);
 						RightPanel.caPublicKeyConfigPanel.setVisible(false);
 						RightPanel.issuerKeyConfigPanel.setVisible(false);
 						RightPanel.terminalLimitConfigPanel.setVisible(false);
@@ -240,8 +241,6 @@ public class ListPane extends JPanel {
 						RightPanel.testDataConfigPanel.setVisible(false);
 						RightPanel.cardReaderPanel.setVisible(false);
 						RightPanel.cardInfoDetectPanel.setVisible(false);
-
-						//new FacePanel(Application.frame);
 					}
 
 				} else if (folderName.equals("交易")) {
