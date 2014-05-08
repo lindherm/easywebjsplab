@@ -27,7 +27,6 @@ import com.gerenhua.tool.app.RightPanel;
 import com.gerenhua.tool.panel.AIDConfigPanel;
 import com.gerenhua.tool.panel.AtmPanel;
 import com.gerenhua.tool.panel.CardReaderPanel;
-import com.gerenhua.tool.panel.FacePanel;
 import com.gerenhua.tool.panel.TerminalLimitConfigPanel;
 import com.gerenhua.tool.panel.TerminalPerformanceConfigPanel;
 import com.gerenhua.tool.utils.Config;
@@ -251,7 +250,6 @@ public class ListPane extends JPanel {
 					RightPanel.testDataConfigPanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
-					RightPanel.faceConfiTabbedPanel.setVisible(false);
 					AtmPanel.tradeType = pm.getString("mv.tradepanel.lend");
 					AtmPanel.setTradeType(AtmPanel.tradeType);
 					// 更新交易状态
@@ -269,7 +267,6 @@ public class ListPane extends JPanel {
 					RightPanel.tradePanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
-					RightPanel.faceConfiTabbedPanel.setVisible(false);
 				} else if (folderName.equals("卡片")) {
 					Application.rightPanel.add(RightPanel.cardInfoDetectPanel, BorderLayout.CENTER);
 					RightPanel.cardInfoDetectPanel.setVisible(true);
@@ -283,7 +280,6 @@ public class ListPane extends JPanel {
 					RightPanel.logoPanel.setVisible(false);
 					RightPanel.tradePanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
-					RightPanel.faceConfiTabbedPanel.setVisible(false);
 				}
 
 			}
