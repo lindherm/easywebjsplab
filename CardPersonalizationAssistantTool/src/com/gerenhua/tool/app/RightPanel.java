@@ -9,7 +9,6 @@ import com.gerenhua.tool.panel.AIDConfigPanel;
 import com.gerenhua.tool.panel.CAPublicKeyConfigPanel;
 import com.gerenhua.tool.panel.CardInfoDetectPanel;
 import com.gerenhua.tool.panel.CardReaderPanel;
-import com.gerenhua.tool.panel.FaceConfiTabbedPanel;
 import com.gerenhua.tool.panel.FacePanel;
 import com.gerenhua.tool.panel.IssuerKeyConfigPanel;
 import com.gerenhua.tool.panel.LogoPanel;
@@ -41,7 +40,6 @@ public class RightPanel extends JPanel{
 	public static TerminalTypeConfigPanel terminalTypeConfigPanel = null;
 	public static TestDataConfigPanel testDataConfigPanel = null;
 	public static CardInfoDetectPanel cardInfoDetectPanel = null;
-	public static FaceConfiTabbedPanel faceConfiTabbedPanel = null;
 	public static TradePanel tradePanel = null;
 	public static LogoPanel logoPanel = null;
 	public static FacePanel facePanel = null;
@@ -63,7 +61,6 @@ public class RightPanel extends JPanel{
 		terminalTypeConfigPanel = new TerminalTypeConfigPanel();
 		testDataConfigPanel = new TestDataConfigPanel();
 		cardInfoDetectPanel=new CardInfoDetectPanel();
-		faceConfiTabbedPanel=new FaceConfiTabbedPanel();
 		tradePanel = new TradePanel();
 		facePanel=new FacePanel();
 		//cardInfoScanPanel=new CardInfoScanPanel();
