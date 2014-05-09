@@ -138,7 +138,7 @@ public class FacePanel extends JPanel {
 				Config.setValue("CURRENT_THEME","current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
 				//System.out.println(String.valueOf(lafList.getSelectedIndex()));
 				try {
-					SwingUtils.restart("CardPAT");
+					SwingUtils.restart(Config.getValue("Terminal_Data", "appName"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -154,7 +154,7 @@ public class FacePanel extends JPanel {
 				Config.setValue("CURRENT_THEME","current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				Config.setValue("CURRENT_THEME","current_theme", "window");
 				try {
-					SwingUtils.restart("CardPAT");
+					SwingUtils.restart(Config.getValue("Terminal_Data", "appName"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

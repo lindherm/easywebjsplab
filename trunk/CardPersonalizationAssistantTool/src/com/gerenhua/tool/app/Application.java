@@ -31,7 +31,7 @@ public class Application extends JFrame {
 	private static final long serialVersionUID = -1077236347297286235L;
 	private static Logger log = Logger.getLogger(Application.class);
 	public static Application frame;
-	private static final String titleStr = pm.getString("mv.application.appTitle");
+	private static final String titleStr = Config.getValue("Terminal_Data", "appName");
 	private static Container contentPanel;
 	private static LeftPanel leftPanel;
 	public static RightPanel rightPanel;
@@ -59,7 +59,7 @@ public class Application extends JFrame {
 
 			UIManager.setLookAndFeel(currentLaf);
 			JFrame.setDefaultLookAndFeelDecorated(true);
-			
+
 			Font commonFont = new Font("微软雅黑", Font.PLAIN, 12);
 			Font titleFont = new Font("微软雅黑", Font.PLAIN, 14);
 			UIManager.getDefaults().put("CheckBox.font", commonFont);
@@ -114,23 +114,23 @@ public class Application extends JFrame {
 		setTitle(titleStr);
 		setIconImage(new ImageIcon(Application.class.getResource("/com/gerenhua/tool/resources/images/logo_48.png")).getImage());
 		initContentPane();
-		
-		Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
-		double screenWidth=d.getWidth();
-		double screenHeight=d.getHeight();
-		
-		if (screenWidth>1024) {
-			screenWidth=1024;
-		}else {
-			screenWidth=screenWidth-50;
+
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		double screenWidth = d.getWidth();
+		double screenHeight = d.getHeight();
+
+		if (screenWidth > 1024) {
+			screenWidth = 1024;
+		} else {
+			screenWidth = screenWidth - 50;
 		}
-		if (screenHeight>768) {
-			screenHeight=768;
-		}else {
-			screenHeight=screenHeight-50;
+		if (screenHeight > 768) {
+			screenHeight = 768;
+		} else {
+			screenHeight = screenHeight - 50;
 		}
-		setSize((int)screenWidth, (int)screenHeight);
-		
+		setSize((int) screenWidth, (int) screenHeight);
+
 		setLocationRelativeTo(null);
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
