@@ -75,7 +75,7 @@
 				<include name="**/*.properties" />
 			</fileset>
 			<manifest>
-				<attribute name="Main-Class" value="com.watchdata.cardcheck.app.Application" />
+				<attribute name="Main-Class" value="com.gerenhua.tool.app.Application" />
 				<attribute name="Class-Path" value="${mf.classpath}"/>
 			</manifest>
 		</jar>
