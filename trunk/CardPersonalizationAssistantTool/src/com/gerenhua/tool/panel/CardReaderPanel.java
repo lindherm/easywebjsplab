@@ -74,7 +74,7 @@ public class CardReaderPanel extends JPanel {
 				comboBox.setSelectedItem(reader);
 			}
 		}
-		comboBox.setBounds(70, 11, 300, 20);
+		comboBox.setBounds(70, 11, 365, 20);
 		comboBox.addPopupMenuListener(new PopupMenuListener() {
 
 			@Override
@@ -123,7 +123,7 @@ public class CardReaderPanel extends JPanel {
 				}
 			}
 		});
-		button.setBounds(453, 11, 60, 21);
+		button.setBounds(534, 11, 60, 21);
 		button.setFocusPainted(false);
 		button.setBorderPainted(false);
 		add(button);
@@ -145,7 +145,7 @@ public class CardReaderPanel extends JPanel {
 				}
 			}
 		});
-		btnNewButton.setBounds(383, 10, 60, 21);
+		btnNewButton.setBounds(464, 11, 60, 21);
 		btnNewButton.setFocusPainted(false);
 		btnNewButton.setBorderPainted(false);
 		add(btnNewButton);
@@ -157,7 +157,7 @@ public class CardReaderPanel extends JPanel {
 				btnNewButton.setEnabled(true);
 			}
 		});
-		btnNewButton_1.setBounds(523, 11, 60, 21);
+		btnNewButton_1.setBounds(604, 11, 60, 21);
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setBorderPainted(false);
 		add(btnNewButton_1);
