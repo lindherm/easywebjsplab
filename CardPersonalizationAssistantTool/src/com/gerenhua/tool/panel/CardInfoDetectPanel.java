@@ -122,7 +122,7 @@ public class CardInfoDetectPanel extends JPanel {
 				}
 			}
 		});
-		deleteObj = new JMenuItem("Delete it");
+		deleteObj = new JMenuItem("Remove");
 		deleteObj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DeleteObjThread deleteObjThread = new DeleteObjThread(tree, commonAPDU);
