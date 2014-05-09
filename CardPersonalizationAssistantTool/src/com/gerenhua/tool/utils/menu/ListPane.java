@@ -46,7 +46,7 @@ public class ListPane extends JPanel {
 	private static final int HORZ_PAD = 12;
 	private static final int VERT_PAD = 6;
 	private PropertiesManager pm = new PropertiesManager();
-	private Color menuFontColor=new Color(33, 93, 198);
+	private Color bakColor = null;
 
 	/**
 	 * Creates new form ListPane
@@ -65,14 +65,13 @@ public class ListPane extends JPanel {
 
 	// 添加一项，按照标签添加
 	public void addItem(final String text, String iconURL) {
-		JPanel jPanel=new JPanel();
+		JPanel jPanel = new JPanel();
 		jPanel.setLayout(new BorderLayout());
 		JLabel lblItem = new JLabel();
 		if (iconURL != null) {
 			lblItem.setIcon(new ImageIcon(getClass().getResource(iconURL)));
-			lblItem.setForeground(menuFontColor);
-		} else
-			lblItem.setForeground(Color.BLACK);
+		}
+		lblItem.setForeground(Color.BLACK);
 		lblItem.setText(text);
 
 		jPanel.addMouseListener(new MouseListener() {
@@ -93,11 +92,10 @@ public class ListPane extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 				Component container = e.getComponent();
-				JPanel panel=(JPanel)container;
-				JPanel ppanel=(JPanel)container.getParent();
+				JPanel panel = (JPanel) container;
+				JPanel ppanel = (JPanel) container.getParent();
 				ppanel.setBackground(new Color(214, 223, 247));
-				panel.setBackground(Color.WHITE);
-				//ppanel.setBackground(Color.WHITE);
+				panel.setBackground(bakColor);
 				container.repaint();
 			}
 
@@ -105,9 +103,10 @@ public class ListPane extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				Component container = e.getComponent();
-				JPanel panel=(JPanel)container;
-				JPanel ppanel=(JPanel)container.getParent();
-				ppanel.setBackground(new Color(251,216,96));
+				JPanel panel = (JPanel) container;
+				bakColor = panel.getBackground();
+				JPanel ppanel = (JPanel) container.getParent();
+				ppanel.setBackground(new Color(251, 216, 96));
 				panel.setBackground(FolderPaneUI.BACK_COLOR);
 				container.repaint();
 			}
@@ -293,7 +292,7 @@ public class ListPane extends JPanel {
 
 			}
 		});
-		jPanel.add(lblItem,BorderLayout.LINE_START);
+		jPanel.add(lblItem, BorderLayout.LINE_START);
 		add(jPanel);
 	}
 
