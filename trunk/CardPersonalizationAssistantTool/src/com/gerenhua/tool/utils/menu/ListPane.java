@@ -256,8 +256,6 @@ public class ListPane extends JPanel {
 					RightPanel.testDataConfigPanel.setVisible(false);
 					RightPanel.cardReaderPanel.setVisible(false);
 					RightPanel.cardInfoDetectPanel.setVisible(false);
-					AtmPanel.tradeType = pm.getString("mv.tradepanel.lend");
-					AtmPanel.setTradeType(AtmPanel.tradeType);
 					// 更新交易状态
 					Config.setValue("Terminal_Data", "currentTradeType", pm.getString("mv.tradepanel.lend"));
 				} else if (folderName.equals("扫描")) {
