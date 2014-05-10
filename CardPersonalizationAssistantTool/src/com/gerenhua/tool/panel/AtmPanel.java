@@ -26,7 +26,7 @@ import com.gerenhua.tool.utils.FileUtil;
 import com.gerenhua.tool.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
 
-public class AtmPanel extends JPanel{
+public class AtmPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -53,21 +53,22 @@ public class AtmPanel extends JPanel{
 
 	/**
 	 * Create the panel
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 * 
 	 * @throws Exception
 	 */
-	public AtmPanel(final JTextPane textPane,final JTextPane textPane1) throws IOException{
-		//super(ImageIO.read(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/trade.png")));
+	public AtmPanel(final JTextPane textPane, final JTextPane textPane1) throws IOException {
+		// super(ImageIO.read(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/trade.png")));
 		setLayout(null);
 
 		enterMoneyLabel = new JLabel();
 		enterMoneyLabel.setText("金额");
-		enterMoneyLabel.setBounds(6, 142, 40, 23);
+		enterMoneyLabel.setBounds(6, 154, 40, 23);
 		add(enterMoneyLabel);
 
 		moneyTextField = new JTextField();
-		moneyTextField.setBounds(46, 142, 60, 23);
+		moneyTextField.setBounds(46, 154, 60, 23);
 		moneyTextField.setText(money.toString());
 		add(moneyTextField);
 		moneyTextField.addKeyListener(new KeyListener() {
@@ -94,8 +95,8 @@ public class AtmPanel extends JPanel{
 		});
 
 		qPBOCButton = new JButton();
-		qPBOCButton.setText("QPBOC"); 
-		qPBOCButton.setBounds(6, 109, 100, 23);
+		qPBOCButton.setText("QPBOC");
+		qPBOCButton.setBounds(6, 121, 100, 23);
 		qPBOCButton.setFocusPainted(false);
 		qPBOCButton.setBorderPainted(false);
 		add(qPBOCButton);
@@ -103,11 +104,14 @@ public class AtmPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				tradeType = pm.getString("mv.tradepanel.qPBOC");
-				setTradeType(tradeType);
-				//更新交易状态
+				// 更新交易状态
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
-				//设置检测报告按钮不可用
+				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
+
+				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
+				Thread thread = new Thread(tradeThread);
+				thread.start();
 			}
 		});
 
@@ -115,17 +119,20 @@ public class AtmPanel extends JPanel{
 		lendButton.setText("借贷记");
 		lendButton.setFocusPainted(false);
 		lendButton.setBorderPainted(false);
-		lendButton.setBounds(6, 10, 100, 23);
+		lendButton.setBounds(6, 22, 100, 23);
 		add(lendButton);
 		lendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				tradeType = pm.getString("mv.tradepanel.lend");
-				setTradeType(tradeType);
-				//更新交易状态
+				// 更新交易状态
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
-				//设置检测报告按钮不可用
+				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
+
+				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
+				Thread thread = new Thread(tradeThread);
+				thread.start();
 			}
 		});
 
@@ -133,17 +140,20 @@ public class AtmPanel extends JPanel{
 		ecashButton.setText("电子现金");
 		ecashButton.setFocusPainted(false);
 		ecashButton.setBorderPainted(false);
-		ecashButton.setBounds(6, 76, 100, 23);
+		ecashButton.setBounds(6, 88, 100, 23);
 		add(ecashButton);
 		ecashButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				tradeType = pm.getString("mv.tradepanel.ecash");
-				setTradeType(tradeType);
-				//更新交易状态
+				// 更新交易状态
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
-				//设置检测报告按钮不可用
+				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
+
+				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
+				Thread thread = new Thread(tradeThread);
+				thread.start();
 			}
 		});
 
@@ -151,17 +161,20 @@ public class AtmPanel extends JPanel{
 		earmarkButton.setText("圈存");
 		earmarkButton.setFocusPainted(false);
 		earmarkButton.setBorderPainted(false);
-		earmarkButton.setBounds(6, 43, 100, 23);
+		earmarkButton.setBounds(6, 55, 100, 23);
 		add(earmarkButton);
 		earmarkButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				tradeType = pm.getString("mv.tradepanel.earmark");
-				setTradeType(tradeType);
-				//更新交易状态
+				// 更新交易状态
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
-				//设置检测报告按钮不可用
+				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
+
+				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
+				Thread thread = new Thread(tradeThread);
+				thread.start();
 			}
 		});
 
@@ -181,79 +194,62 @@ public class AtmPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String currentTradeType=Config.getValue("Terminal_Data", "currentTradeType");
-				
+
+				String currentTradeType = Config.getValue("Terminal_Data", "currentTradeType");
+
 				if (WDAssert.isEmpty(currentTradeType)) {
 					JOptionPane.showMessageDialog(null, "交易状态丢失！", "提示框", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				String filePath = System.getProperty("user.dir") + "/report/" + currentTradeType + ".doc";
-				
-				File file=new File(filePath);
+
+				File file = new File(filePath);
 				if (file.exists()) {
 					Object[] options = { "打开", "保存" };
 					int ret = JOptionPane.showOptionDialog(null, "交易检测报告", "提示框", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 					if (ret == JOptionPane.YES_OPTION) {
-						// word   
+						// word
 						try {
-								Runtime.getRuntime().exec("cmd /c start winword \"\" \""+filePath+"\"");
+							Runtime.getRuntime().exec("cmd /c start winword \"\" \"" + filePath + "\"");
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
-							JOptionPane.showMessageDialog(null, "打开文件失败，位置："+filePath+"请手动操作！");
-							return ;
-						}   
+							JOptionPane.showMessageDialog(null, "打开文件失败，位置：" + filePath + "请手动操作！");
+							return;
+						}
 
 					} else if (ret == JOptionPane.NO_OPTION) {
 						JFileChooser fileChooser = new JFileChooser();
 						fileChooser.setCurrentDirectory(new File("."));
 						fileChooser.setFileFilter(new FileFilter() {
-							
+
 							@Override
 							public String getDescription() {
 								// TODO Auto-generated method stub
 								return "mcrosoft office word 文档";
 							}
-							
+
 							@Override
 							public boolean accept(File f) {
 								// TODO Auto-generated method stub
-								if (f.getName().endsWith(".doc")||f.isDirectory()){
+								if (f.getName().endsWith(".doc") || f.isDirectory()) {
 									return true;
-								}else {
+								} else {
 									return false;
 								}
 							}
 						});
-						fileChooser.setSelectedFile(new File(currentTradeType+".doc"));
+						fileChooser.setSelectedFile(new File(currentTradeType + ".doc"));
 						ret = fileChooser.showSaveDialog(null);
 						if (ret == JFileChooser.APPROVE_OPTION) {
-							FileUtil.copyFile(filePath,fileChooser.getSelectedFile().getAbsolutePath());
+							FileUtil.copyFile(filePath, fileChooser.getSelectedFile().getAbsolutePath());
 							JOptionPane.showMessageDialog(null, "保存成功！");
 						} else {
 							return;
 						}
 					}
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(null, "检测报告不存在！", "提示框", JOptionPane.ERROR_MESSAGE);
 				}
-			}
-		});
-
-		final JButton okButton = new JButton();
-		okButton.setText("执行");
-		okButton.setFocusPainted(false);
-		okButton.setBorderPainted(false);
-		okButton.setBounds(6, 185, 100, 23);
-		add(okButton);
-
-		okButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				TradeThread tradeThread=new TradeThread(money, tradeType,reportButton, textPane);
-				Thread thread=new Thread(tradeThread);
-				thread.start();
-				
 			}
 		});
 
@@ -266,14 +262,4 @@ public class AtmPanel extends JPanel{
 
 	}
 
-	public static void setTradeType(String tradeType) {
-		money.delete(0, money.length());
-		moneyTextField.setText(money.toString());
-		enterMoneyLabel.setVisible(true);
-		moneyTextField.setVisible(true);
-	}
-
-	public static void setTradeTypeStr(String tradeType) {
-		AtmPanel.tradeType = tradeType;
-	}
 }
