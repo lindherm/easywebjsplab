@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
@@ -46,7 +45,7 @@ public class ElectronicCashHandler extends BaseHandler {
 	 *            判断终端性能
 	 * @return
 	 */
-	public boolean ECLoad(int tradeMount, String readerName, JLabel tradeLabel, TermSupportUtil termSupportUtil) {
+	public boolean ECLoad(int tradeMount, String readerName,TermSupportUtil termSupportUtil) {
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
 		String termRandom = WDStringUtil.getRandomHexString(8);
@@ -71,7 +70,6 @@ public class ElectronicCashHandler extends BaseHandler {
 			HashMap<String, String> res = apduHandler.reset();
 			if (!"9000".equals(res.get("sw"))) {
 				logger.error("Card Reset falied");
-				tradeLabel.setText("      卡片复位失败！");
 				genWordUtil.add("卡片复位失败");
 				//genWordUtil.close();
 				return false;
@@ -101,7 +99,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				logger.debug("===============================select aid==============================");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("select aid is null");
-					tradeLabel.setText("      获取aid为空！");
 					genWordUtil.add("获取AID为空");
 					//genWordUtil.close();
 					return false;
@@ -110,14 +107,12 @@ public class ElectronicCashHandler extends BaseHandler {
 					result = apduHandler.select(aid);
 				} else {
 					logger.error("Terminal can not support the app");
-					tradeLabel.setText("      终端不支持此应用！");
 					genWordUtil.add("终端不支持此应用");
 					//genWordUtil.close();
 					return false;
 				}
 				if (!"9000".equals(result.get("sw"))) {
 					logger.error("select app get response:" + result.get("sw"));
-					tradeLabel.setText("      选择应用返回:" + result.get("sw"));
 					genWordUtil.add("选择应用出错");
 					//genWordUtil.close();
 					return false;
@@ -150,14 +145,12 @@ public class ElectronicCashHandler extends BaseHandler {
 				result = apduHandler.getData("9F79");
 				String balance = result.get("9F79");
 				if (tradeMount > Integer.parseInt(singleLimit)) {
-					tradeLabel.setText("交易金额大于单笔交易金额上限!");
 					logger.error("ElectronicCashHandler ECLoad  single tradeMount is larger than the single top limit!");
 					genWordUtil.add("交易金额大于单笔交易金额上限");
 					//genWordUtil.close();
 					return false;
 				}
 				if (tradeMount + Integer.parseInt(balance) > Integer.parseInt(limit)) {
-					tradeLabel.setText("现有余额与交易金额之和大于电子现金余额上限!");
 					logger.error("balance plus trademount is larger than the top limit");
 					genWordUtil.add("现有余额与交易金额之和大于电子现金余额上限");
 					//genWordUtil.close();
@@ -174,7 +167,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				try {
 					loadDolDataResult = loadDolData(pdol, param);
 				} catch (Exception e) {
-					tradeLabel.setText("获取DDOL数据出错!");
 					logger.error("ElectronicCashHandler ECLoad get ddol param exception!");
 					genWordUtil.add("获取DDOL数据出错");
 					//genWordUtil.close();
@@ -345,7 +337,7 @@ public class ElectronicCashHandler extends BaseHandler {
 	 *            判断终端性能
 	 * @return
 	 */
-	public boolean ECPurcharse(int tradeMount, String readerName, JLabel tradeLabel, TermSupportUtil termSupportUtil) {
+	public boolean ECPurcharse(int tradeMount, String readerName,TermSupportUtil termSupportUtil) {
 		// issuerDao = (IIssuerDao) SpringUtil.getBean("issuerDao");
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
@@ -371,7 +363,6 @@ public class ElectronicCashHandler extends BaseHandler {
 			HashMap<String, String> res = apduHandler.reset();
 			if (!"9000".equals(res.get("sw"))) {
 				logger.error("Card Reset falied");
-				tradeLabel.setText("      卡片复位失败!");
 				genWordUtil.add("卡片复位失败");
 				genWordUtil.close();
 				return false;
@@ -385,7 +376,6 @@ public class ElectronicCashHandler extends BaseHandler {
 			HashMap<String, String> result = apduHandler.select(Constants.PSE);
 			if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 				logger.error("ElectronicCashHandler ECPurcharse select PSE error,card return:" + result.get("sw"));
-				tradeLabel.setText("选择PSE出错");
 				genWordUtil.add("选择PSE出错");
 				genWordUtil.close();
 				return false;
@@ -403,7 +393,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				logger.debug("===============================select aid==============================");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("get AID null!");
-					tradeLabel.setText("      获取aid为空！");
 					genWordUtil.add("获取AID为空");
 					genWordUtil.close();
 					return false;
@@ -412,14 +401,12 @@ public class ElectronicCashHandler extends BaseHandler {
 					result = apduHandler.select(aid);
 				} else {
 					logger.error("Terminal can not support the App");
-					tradeLabel.setText("      终端不支持此应用！");
 					genWordUtil.add("终端不支持此应用");
 					genWordUtil.close();
 					return false;
 				}
 				if (!"9000".equals(result.get("sw"))) {
 					logger.error("select app get response" + result.get("sw"));
-					tradeLabel.setText("      选择应用返回:" + result.get("sw"));
 					genWordUtil.add("选择应用出错");
 					genWordUtil.close();
 					return false;
@@ -453,7 +440,6 @@ public class ElectronicCashHandler extends BaseHandler {
 
 				if (tradeMount > Integer.parseInt(singleLimit)) {
 					logger.error("ElectronicCashHandler ECPurcharse single tradeMount is larger than the single top limit!");
-					tradeLabel.setText("交易金额大于单笔交易金额上限");
 					genWordUtil.add("交易金额大于单笔交易金额上限");
 					genWordUtil.close();
 					return false;
@@ -466,7 +452,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				try {
 					loadDolDataResult = loadDolData(pdol, param);
 				} catch (Exception e) {
-					tradeLabel.setText("获取DDOL数据出错!");
 					logger.error("ElectronicCashHandler ECPurcharse get ddol param exception!");
 					genWordUtil.add("获取DDOL数据出错");
 					genWordUtil.close();
@@ -543,7 +528,6 @@ public class ElectronicCashHandler extends BaseHandler {
 				List<String> logList = new ArrayList<String>();
 				if (!dataAuthenticate.dynamicDataAuthenticate(icPKCert, icPKReminder, icPKExp, signedDynmicData, ddolDataList, logList)) {
 					logger.error("ElectronicCashHandler ECPurcharse DDA failed");
-					tradeLabel.setText("动态数据认证失败!");
 					genWordUtil.add("动态数据认证失败");
 					genWordUtil.close();
 					return false;
@@ -582,7 +566,6 @@ public class ElectronicCashHandler extends BaseHandler {
 					result = apduHandler.externalAuthenticate(arpc + authRespCode);
 					if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 						logger.error("ElectronicCashHandler ECPurcharse external Authenticate failed,card return:" + result.get("sw"));
-						tradeLabel.setText("联机外部认证失败!");
 						genWordUtil.add("联机外部认证失败");
 						genWordUtil.close();
 						return false;

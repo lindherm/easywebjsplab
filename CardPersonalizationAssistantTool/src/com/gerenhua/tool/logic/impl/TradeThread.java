@@ -3,7 +3,6 @@ package com.gerenhua.tool.logic.impl;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
@@ -19,7 +18,6 @@ public class TradeThread implements Runnable {
 	public StringBuffer money;
 	public JTextPane textPane;
 	public String tradeType;
-	public JLabel tradingLabel;
 	public JButton reportButton;
 
 	private boolean success = false;
@@ -27,12 +25,11 @@ public class TradeThread implements Runnable {
 
 	public TermInfo termInfo = new TermInfo();
 
-	public TradeThread(StringBuffer money, String tradeType, JLabel tradingLabel, JButton reportButton, JTextPane textPane) {
+	public TradeThread(StringBuffer money, String tradeType,JButton reportButton, JTextPane textPane) {
 		this.money = money;
 		this.tradeType = tradeType;
 		this.reportButton = reportButton;
 		this.textPane = textPane;
-		this.tradingLabel = tradingLabel;
 	}
 
 	@Override
@@ -78,7 +75,7 @@ public class TradeThread implements Runnable {
 					if ("qPBOC".equals(tradeType)) {
 						// 执行交易
 						QPBOCHandler qpbocHandler = new QPBOCHandler(textPane);
-						success = qpbocHandler.trade(readerName, tradeMount, termSupportUtil, tradingLabel);
+						success = qpbocHandler.trade(readerName, tradeMount, termSupportUtil);
 					} else {
 						if (!touchSupport) {
 							JOptionPane.showMessageDialog(null, "终端不支持接触式IC,交易无法进行!", pm.getString("mv.testdata.InfoWindow"), JOptionPane.ERROR_MESSAGE);
@@ -86,18 +83,17 @@ public class TradeThread implements Runnable {
 						}
 						if ("借贷记".equals(tradeType)) {
 							PBOCHandler pBOCHandler = new PBOCHandler(textPane);
-							success = pBOCHandler.doTrade(tradeMount, readerName, tradingLabel, termSupportUtil);
+							success = pBOCHandler.doTrade(tradeMount, readerName, termSupportUtil);
 						} else if ("电子现金".equals(tradeType)) {
 							ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
-							success = electronicCashHandler.ECPurcharse(tradeMount, readerName, tradingLabel, termSupportUtil);
+							success = electronicCashHandler.ECPurcharse(tradeMount, readerName,termSupportUtil);
 						} else if ("圈存".equals(tradeType)) {
 							ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
-							success = electronicCashHandler.ECLoad(tradeMount, readerName, tradingLabel, termSupportUtil);
+							success = electronicCashHandler.ECLoad(tradeMount, readerName,termSupportUtil);
 						}
 					}
 					success=true;
 				} else {
-					tradingLabel.setText("终端不支持DDA!");
 					success = false;
 				}
 				reportButton.setEnabled(true);

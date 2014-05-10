@@ -38,7 +38,7 @@ public class QPBOCHandler extends BaseHandler {
 		logger.setLogArea(textPane);
 	}
 
-	public boolean trade(String readerName, int tradeMount,TermSupportUtil termSupportUtil,JLabel tradeLabel){
+	public boolean trade(String readerName, int tradeMount,TermSupportUtil termSupportUtil){
 		//生成交易检测报告
 		GenReportUtil genWordUtil=new GenReportUtil();
 		//打开报告文档
@@ -63,7 +63,6 @@ public class QPBOCHandler extends BaseHandler {
 			logger.debug("===============================reset=====================================");
 			HashMap<String,String> res=apduHandler.reset();
 			if (!"9000".equals(res.get("sw"))) {
-				tradeLabel.setText("      卡片复位失败！");
 				genWordUtil.add("卡片复位失败！");
 				genWordUtil.close();
 				return false;
@@ -75,7 +74,6 @@ public class QPBOCHandler extends BaseHandler {
 			logger.debug("============================select PPSE=====================================");
 			HashMap<String, String> result = apduHandler.select(Constants.PPSE);
 			if (!"9000".equals(result.get("sw"))) {
-				tradeLabel.setText("      选择PPSE环境返回:"+result.get("sw"));
 				return false;
 			}
 			
@@ -86,19 +84,16 @@ public class QPBOCHandler extends BaseHandler {
 			logger.debug("============================select AID=====================================");
 			String aid=result.get("4F");
 			if (WDAssert.isEmpty(aid)) {
-				tradeLabel.setText("      获取aid为空！");
 				return false;
 			}
 			if (termSupportUtil.isSupportAID(aid)) {
 				result = apduHandler.select(aid);
 			}else {
-				tradeLabel.setText("      终端不支持此应用！");
 				genWordUtil.add("终端不支持此应用！");
 				genWordUtil.close();
 				return false;
 			}
 			if (!"9000".equals(result.get("sw"))) {
-				tradeLabel.setText("      选择应用返回:"+result.get("sw"));
 				genWordUtil.add("选择应用返回:"+result.get("sw"));
 				genWordUtil.close();
 				return false;
@@ -115,7 +110,6 @@ public class QPBOCHandler extends BaseHandler {
 			String pdolData = loadDolData(result.get("9F38"), param);
 			result = apduHandler.gpo("83" + CommonHelper.getLVData(pdolData, 1));
 			if (!"9000".equals(result.get("sw"))) {
-				tradeLabel.setText("      GPO返回:"+result.get("sw"));
 				genWordUtil.add("GPO返回:"+result.get("sw"));
 				genWordUtil.close();
 				return false;
@@ -126,7 +120,6 @@ public class QPBOCHandler extends BaseHandler {
 			
 			String aip = result.get("82");
 			if (WDAssert.isEmpty(aip)) {
-				tradeLabel.setText("      aip为空！");
 				return false;
 			}
 			
@@ -171,7 +164,6 @@ public class QPBOCHandler extends BaseHandler {
 				List<String> logList=new ArrayList<String>();
 				if(!dataAuthenticate.dynamicDataAuthenticate(icPKCert, icPKReminder, icPKExp, signedDynmicData, termRandom,logList)){
 					logger.error("DDA failed!" );
-					tradeLabel.setText("     DDA失败！");
 					genWordUtil.add("DDA失败！");
 					genWordUtil.close();
 					return false;

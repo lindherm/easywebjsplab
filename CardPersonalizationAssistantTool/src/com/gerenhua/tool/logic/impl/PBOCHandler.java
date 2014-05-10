@@ -56,7 +56,7 @@ public class PBOCHandler extends BaseHandler {
 	 *            判断终端性能
 	 * @return
 	 */
-	public boolean doTrade(int tradeMount, String readerName, JLabel tradeLabel, TermSupportUtil termSupportUtil) {
+	public boolean doTrade(int tradeMount, String readerName,TermSupportUtil termSupportUtil) {
 		// 初始化交易参数，如授权金额，pin等
 		HashMap<String, String> param = new HashMap<String, String>();
 		String termRandom = WDStringUtil.getRandomHexString(8);
@@ -82,7 +82,6 @@ public class PBOCHandler extends BaseHandler {
 			HashMap<String, String> res = apduHandler.reset();
 			if (!"9000".equals(res.get("sw"))) {
 				logger.error("card reset falied");
-				tradeLabel.setText("      卡片复位失败！");
 				genWordUtil.add("卡片复位失败");
 				// genWordUtil.close();
 				return false;
@@ -95,7 +94,6 @@ public class PBOCHandler extends BaseHandler {
 			HashMap<String, String> result = apduHandler.select(Constants.PSE);
 			if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 				logger.error("select PSE error,card return:" + result.get("sw"));
-				tradeLabel.setText("      选择PSE出错！");
 				genWordUtil.add("选择PSE出错");
 				// genWordUtil.close();
 				return false;
@@ -114,7 +112,6 @@ public class PBOCHandler extends BaseHandler {
 				logger.debug("===============================select aid==============================");
 				if (WDAssert.isEmpty(aid)) {
 					logger.error("select aid is null");
-					tradeLabel.setText("      获取aid为空！");
 					genWordUtil.add("获取AID为空");
 					// genWordUtil.close();
 					return false;
@@ -123,14 +120,12 @@ public class PBOCHandler extends BaseHandler {
 					result = apduHandler.select(aid);
 				} else {
 					logger.error("Terminal can not support the app");
-					tradeLabel.setText("      终端不支持此应用！");
 					genWordUtil.add("终端不支持此应用");
 					// genWordUtil.close();
 					return false;
 				}
 				if (!"9000".equals(result.get("sw"))) {
 					logger.error("select app get response:" + result.get("sw"));
-					tradeLabel.setText("      选择应用返回:" + result.get("sw"));
 					genWordUtil.add("选择应用出错");
 					// genWordUtil.close();
 					return false;
@@ -165,7 +160,6 @@ public class PBOCHandler extends BaseHandler {
 				try {
 					loadDolDataResult = loadDolData(pdol, param);
 				} catch (Exception e) {
-					tradeLabel.setText("获取DDOL数据出错!");
 					logger.error("PBOC get ddol param exception!");
 					genWordUtil.add("获取DDOL数据出错");
 					// genWordUtil.close();
@@ -238,7 +232,6 @@ public class PBOCHandler extends BaseHandler {
 				List<String> logList = new ArrayList<String>();
 				if (!dataAuthenticate.dynamicDataAuthenticate(icPKCert, icPKReminder, icPKExp, signedDynmicData, termRandom, logList)) {
 					logger.error("DDA failed!");
-					tradeLabel.setText("动态数据认证失败!");
 					genWordUtil.add("动态数据认证失败");
 					// genWordUtil.close();
 					return false;
@@ -276,7 +269,6 @@ public class PBOCHandler extends BaseHandler {
 				result = apduHandler.externalAuthenticate(arpc + authRespCode);
 				if (!Constants.SW_SUCCESS.equalsIgnoreCase(result.get("sw"))) {
 					logger.error("external Authenticate failed,card return:" + result.get("sw"));
-					tradeLabel.setText("外部认证失败!");
 					genWordUtil.add("外部认证失败");
 					// genWordUtil.close();
 					return false;
