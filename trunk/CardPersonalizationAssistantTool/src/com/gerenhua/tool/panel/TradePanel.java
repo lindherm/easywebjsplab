@@ -126,7 +126,7 @@ public class TradePanel extends JPanel {
 		popupMenu.add(menuItem);
 		
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setResizeWeight(0.48);
+		splitPane.setResizeWeight(0.85);
 		splitPane.setLeftComponent(panel);
 		splitPane.setRightComponent(atmPanel);
 		splitPane.setOneTouchExpandable(true);

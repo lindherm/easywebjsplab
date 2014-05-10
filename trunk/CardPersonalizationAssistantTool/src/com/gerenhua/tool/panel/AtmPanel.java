@@ -9,18 +9,16 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 
-import com.gerenhua.tool.app.JImagePanel;
 import com.gerenhua.tool.logic.apdu.CommonAPDU;
 import com.gerenhua.tool.logic.impl.TradeThread;
 import com.gerenhua.tool.utils.Config;
@@ -28,9 +26,11 @@ import com.gerenhua.tool.utils.FileUtil;
 import com.gerenhua.tool.utils.PropertiesManager;
 import com.watchdata.commons.lang.WDAssert;
 
-public class AtmPanel extends JImagePanel {
-
-	private static final long serialVersionUID = 8540752419780942870L;
+public class AtmPanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static JTextField moneyTextField;
 	public static String proPath = System.getProperty("user.dir");
 	public static JButton qPBOCButton;
@@ -38,10 +38,7 @@ public class AtmPanel extends JImagePanel {
 	public static JButton earmarkButton;
 	public static JButton ecashButton;
 	public final JButton reportButton;
-	private static JLabel tradeTypeLabel;
-	private static JTextField tradeTypeField;
 	private static JLabel enterMoneyLabel;
-	private JLabel tradingLabel;
 	private PropertiesManager pm = new PropertiesManager();
 	private static StringBuffer money = new StringBuffer();
 	public static String tradeType = "";
@@ -61,27 +58,16 @@ public class AtmPanel extends JImagePanel {
 	 * @throws Exception
 	 */
 	public AtmPanel(final JTextPane textPane,final JTextPane textPane1) throws IOException{
-		
-		super(ImageIO.read(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/trade.png")));
-		
+		//super(ImageIO.read(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/trade.png")));
 		setLayout(null);
 
-		tradeTypeLabel = new JLabel();
-		tradeTypeLabel.setText(pm.getString("mv.tradepanel.tradeType"));
-		tradeTypeLabel.setBounds(117, 57, 54, 20);
-		add(tradeTypeLabel);
-
-		tradeTypeField = new JTextField();
-		tradeTypeField.setBounds(171, 57, 120, 20);
-		add(tradeTypeField);
-
 		enterMoneyLabel = new JLabel();
-		enterMoneyLabel.setText(pm.getString("mv.tradepanel.enterMoney"));
-		enterMoneyLabel.setBounds(117, 87, 54, 20);
+		enterMoneyLabel.setText("金额");
+		enterMoneyLabel.setBounds(6, 142, 40, 23);
 		add(enterMoneyLabel);
 
 		moneyTextField = new JTextField();
-		moneyTextField.setBounds(171, 87, 120, 20);
+		moneyTextField.setBounds(46, 142, 60, 23);
 		moneyTextField.setText(money.toString());
 		add(moneyTextField);
 		moneyTextField.addKeyListener(new KeyListener() {
@@ -107,19 +93,11 @@ public class AtmPanel extends JImagePanel {
 			}
 		});
 
-		tradingLabel = new JLabel();
-		tradingLabel.setBounds(112, 105, 200, 100);
-		add(tradingLabel);
-		tradingLabel.setVisible(false);
-
 		qPBOCButton = new JButton();
-		/* qPBOCButton.setText("qPBOC"); */
-		qPBOCButton.setBounds(6, 45, 84, 25);
-		qPBOCButton.setOpaque(true);
+		qPBOCButton.setText("QPBOC"); 
+		qPBOCButton.setBounds(6, 109, 100, 23);
 		qPBOCButton.setFocusPainted(false);
-		qPBOCButton.setContentAreaFilled(false);// 设置不画按钮背景
 		qPBOCButton.setBorderPainted(false);
-		qPBOCButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/qPBOC.png")));
 		add(qPBOCButton);
 		qPBOCButton.addActionListener(new ActionListener() {
 			@Override
@@ -134,12 +112,10 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		lendButton = new JButton();
-		lendButton.setOpaque(true);
+		lendButton.setText("借贷记");
 		lendButton.setFocusPainted(false);
-		lendButton.setContentAreaFilled(false);// 设置不画按钮背景
 		lendButton.setBorderPainted(false);
-		lendButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/lend.png")));
-		lendButton.setBounds(6, 75, 84, 25);
+		lendButton.setBounds(6, 10, 100, 23);
 		add(lendButton);
 		lendButton.addActionListener(new ActionListener() {
 			@Override
@@ -154,12 +130,10 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		ecashButton = new JButton();
-		ecashButton.setOpaque(true);
+		ecashButton.setText("电子现金");
 		ecashButton.setFocusPainted(false);
-		ecashButton.setContentAreaFilled(false);// 设置不画按钮背景
 		ecashButton.setBorderPainted(false);
-		ecashButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/ecash.png")));
-		ecashButton.setBounds(6, 105, 84, 25);
+		ecashButton.setBounds(6, 76, 100, 23);
 		add(ecashButton);
 		ecashButton.addActionListener(new ActionListener() {
 			@Override
@@ -174,12 +148,10 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		earmarkButton = new JButton();
-		earmarkButton.setOpaque(true);
+		earmarkButton.setText("圈存");
 		earmarkButton.setFocusPainted(false);
-		earmarkButton.setContentAreaFilled(false);// 设置不画按钮背景
 		earmarkButton.setBorderPainted(false);
-		earmarkButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/earmark.png")));
-		earmarkButton.setBounds(6, 135, 84, 25);
+		earmarkButton.setBounds(6, 43, 100, 23);
 		add(earmarkButton);
 		earmarkButton.addActionListener(new ActionListener() {
 			@Override
@@ -194,7 +166,7 @@ public class AtmPanel extends JImagePanel {
 		});
 
 		reportButton = new JButton();
-		reportButton.setBounds(423, 87, 120, 25);
+		reportButton.setBounds(6, 456, 100, 23);
 		reportButton.setAlignmentX(CENTER_ALIGNMENT);
 		reportButton.setOpaque(false);
 		reportButton.setFocusPainted(false);
@@ -268,272 +240,20 @@ public class AtmPanel extends JImagePanel {
 			}
 		});
 
-		final JButton button0 = new JButton();
-		button0.setOpaque(true);
-		button0.setFocusPainted(false);
-		button0.setContentAreaFilled(false);// 设置不画按钮背景
-		button0.setBorderPainted(false);
-		button0.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/0.png")));
-		button0.setBounds(152, 373, 32, 32);
-		add(button0);
-		button0.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				if (money.length() > 0) {
-					money.append("0");
-					if (decimalDigitsLimit(money.toString())) {
-						moneyTextField.setText(money.toString());
-					}
-				}
-			}
-		});
-
-		final JButton button1 = new JButton();
-		button1.setOpaque(true);
-		button1.setFocusPainted(false);
-		button1.setContentAreaFilled(false);// 设置不画按钮背景
-		button1.setBorderPainted(false);
-		button1.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/1.png")));
-		button1.setBounds(107, 253, 32, 32);
-		add(button1);
-		button1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("1");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button2 = new JButton();
-		button2.setOpaque(true);
-		button2.setFocusPainted(false);
-		button2.setContentAreaFilled(false);// 设置不画按钮背景
-		button2.setBorderPainted(false);
-		button2.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/2.png")));
-		button2.setBounds(152, 253, 32, 32);
-		add(button2);
-		button2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("2");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button3 = new JButton();
-		button3.setOpaque(true);
-		button3.setFocusPainted(false);
-		button3.setContentAreaFilled(false);// 设置不画按钮背景
-		button3.setBorderPainted(false);
-		button3.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/3.png")));
-		button3.setBounds(197, 253, 32, 32);
-		add(button3);
-		button3.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("3");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button4 = new JButton();
-		button4.setOpaque(true);
-		button4.setFocusPainted(false);
-		button4.setContentAreaFilled(false);// 设置不画按钮背景
-		button4.setBorderPainted(false);
-		button4.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/4.png")));
-		button4.setBounds(107, 293, 32, 32);
-		add(button4);
-		button4.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("4");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button5 = new JButton();
-		button5.setOpaque(true);
-		button5.setFocusPainted(false);
-		button5.setContentAreaFilled(false);// 设置不画按钮背景
-		button5.setBorderPainted(false);
-		button5.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/5.png")));
-		button5.setBounds(152, 293, 32, 32);
-		add(button5);
-		button5.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("5");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button6 = new JButton();
-		button6.setOpaque(true);
-		button6.setFocusPainted(false);
-		button6.setContentAreaFilled(false);// 设置不画按钮背景
-		button6.setBorderPainted(false);
-		button6.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/6.png")));
-		button6.setBounds(197, 293, 32, 32);
-		add(button6);
-		button6.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("6");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button7 = new JButton();
-		button7.setOpaque(true);
-		button7.setFocusPainted(false);
-		button7.setContentAreaFilled(false);// 设置不画按钮背景
-		button7.setBorderPainted(false);
-		button7.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/7.png")));
-		button7.setBounds(107, 333, 32, 32);
-		add(button7);
-		button7.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("7");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button8 = new JButton();
-		button8.setOpaque(true);
-		button8.setFocusPainted(false);
-		button8.setContentAreaFilled(false);// 设置不画按钮背景
-		button8.setBorderPainted(false);
-		button8.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/8.png")));
-		button8.setBounds(152, 333, 32, 32);
-		add(button8);
-		button8.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("8");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton button9 = new JButton();
-		button9.setOpaque(true);
-		button9.setFocusPainted(false);
-		button9.setContentAreaFilled(false);// 设置不画按钮背景
-		button9.setBorderPainted(false);
-		button9.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/9.png")));
-		button9.setBounds(197, 333, 32, 32);
-		add(button9);
-		button9.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("9");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton dotButton = new JButton();
-		dotButton.setOpaque(true);
-		dotButton.setFocusPainted(false);
-		dotButton.setContentAreaFilled(false);// 设置不画按钮背景
-		dotButton.setBorderPainted(false);
-		dotButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/dot.png")));
-		dotButton.setBounds(107, 373, 32, 32);
-		add(dotButton);
-		dotButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append(".");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
-		final JButton backButton = new JButton();
-		backButton.setOpaque(true);
-		backButton.setFocusPainted(false);
-		backButton.setContentAreaFilled(false);// 设置不画按钮背景
-		backButton.setBorderPainted(false);
-		backButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/00.png")));
-		backButton.setBounds(197, 373, 32, 32);
-		add(backButton);
-		backButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				money = new StringBuffer(moneyTextField.getText());
-				money.append("00");
-				if (decimalDigitsLimit(money.toString())) {
-					moneyTextField.setText(money.toString());
-				}
-			}
-		});
-
 		final JButton okButton = new JButton();
-		okButton.setOpaque(true);
+		okButton.setText("执行");
 		okButton.setFocusPainted(false);
-		okButton.setContentAreaFilled(false);// 设置不画按钮背景
 		okButton.setBorderPainted(false);
-		okButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/OK.png")));
-		okButton.setBounds(242, 293, 70, 31);
+		okButton.setBounds(6, 185, 100, 23);
 		add(okButton);
-
-		final JButton cancelButton = new JButton();
-		cancelButton.setOpaque(true);
-		cancelButton.setFocusPainted(false);
-		cancelButton.setContentAreaFilled(false);// 设置不画按钮背景
-		cancelButton.setBorderPainted(false);
-		cancelButton.setIcon(new ImageIcon(AtmPanel.class.getResource("/com/gerenhua/tool/resources/images/cancel.png")));
-		cancelButton.setBounds(242, 253, 70, 31);
-		add(cancelButton);
 
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				TradeThread tradeThread=new TradeThread(money, tradeType, tradingLabel,reportButton, textPane);
+				TradeThread tradeThread=new TradeThread(money, tradeType,reportButton, textPane);
 				Thread thread=new Thread(tradeThread);
 				thread.start();
 				
-			}
-		});
-
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				tradeTypeLabel.setVisible(false);
-				tradeTypeField.setVisible(false);
-				enterMoneyLabel.setVisible(false);
-				moneyTextField.setVisible(false);
-				tradingLabel.setVisible(false);
 			}
 		});
 
@@ -549,11 +269,8 @@ public class AtmPanel extends JImagePanel {
 	public static void setTradeType(String tradeType) {
 		money.delete(0, money.length());
 		moneyTextField.setText(money.toString());
-		tradeTypeLabel.setVisible(true);
-		tradeTypeField.setVisible(true);
 		enterMoneyLabel.setVisible(true);
 		moneyTextField.setVisible(true);
-		tradeTypeField.setText(tradeType);
 	}
 
 	public static void setTradeTypeStr(String tradeType) {
