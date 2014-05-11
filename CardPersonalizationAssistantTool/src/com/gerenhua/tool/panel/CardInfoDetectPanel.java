@@ -113,18 +113,16 @@ public class CardInfoDetectPanel extends JPanel {
 			}
 		});
 		setLayout(new BorderLayout(0, 0));
-		// add(panel_5, BorderLayout.NORTH);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "CARD_INFO", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		panel.setBounds(416, 5, 584, 220);
-		// add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane);
 
 		tree = new JTree();
+		tree.setVisibleRowCount(0);
 		tree.setShowsRootHandles(true);
 		tree.setModel(TreeModel);
 		scrollPane.setViewportView(tree);
@@ -135,8 +133,6 @@ public class CardInfoDetectPanel extends JPanel {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "KEY_INFO", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		panel_3.setLayout(null);
-		panel_3.setBounds(0, 5, 417, 220);
-		// add(panel_3);
 
 		comboBox = new JComboBox();
 		comboBox.setBounds(74, 142, 54, 21);
@@ -243,214 +239,218 @@ public class CardInfoDetectPanel extends JPanel {
 		lblKmc.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		JSplitPane splitPane = new JSplitPane();
-		add(splitPane, BorderLayout.NORTH);
-		splitPane.setResizeWeight(0.55);
-		splitPane.setBounds(0, 0, 1000, 218);
+		splitPane.setResizeWeight(0.5);
 		splitPane.setLeftComponent(panel_3);
 		splitPane.setRightComponent(panel);
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "GP\u6307\u4EE4", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		panel_1.setBounds(0, 224, 890, 252);
-		// add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
-		
-				JScrollPane scrollPane_1 = new JScrollPane();
-				scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-				panel_1.add(scrollPane_1);
-				
-						textPane = new JTextPane() {
-							/**
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		panel_1.add(scrollPane_1);
+
+		textPane = new JTextPane() {
+			/**
 							 * 
 							 */
-							private static final long serialVersionUID = 1L;
-				
-							@Override
-							public boolean getScrollableTracksViewportWidth() {
-								return false;
-							}
-				
-							@Override
-							public void setSize(Dimension d) {
-								if (d.width < getParent().getSize().width) {
-									d.width = getParent().getSize().width;
-								}
-								super.setSize(d);
-							}
-						};
-						scrollPane_1.setViewportView(textPane);
-						
-								JPanel panel_2 = new JPanel();
-								panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-								panel_2.setBounds(0, 473, 1000, 200);
-								// add(panel_2);
-								panel_2.setLayout(new BorderLayout(0, 0));
-								
-										JScrollPane scrollPane_2 = new JScrollPane();
-										panel_2.add(scrollPane_2, BorderLayout.CENTER);
-										
-												textPane_1 = new JTextPane() {
-													/**
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean getScrollableTracksViewportWidth() {
+				return false;
+			}
+
+			@Override
+			public void setSize(Dimension d) {
+				if (d.width < getParent().getSize().width) {
+					d.width = getParent().getSize().width;
+				}
+				super.setSize(d);
+			}
+		};
+		scrollPane_1.setViewportView(textPane);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		// panel_2.setBounds(0, 473, 1000, 200);
+		// add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel_2.add(scrollPane_2, BorderLayout.CENTER);
+
+		textPane_1 = new JTextPane() {
+			/**
 													 * 
 													 */
-													private static final long serialVersionUID = 1L;
-										
-													@Override
-													public boolean getScrollableTracksViewportWidth() {
-														return false;
-													}
-										
-													@Override
-													public void setSize(Dimension d) {
-														if (d.width < getParent().getSize().width) {
-															d.width = getParent().getSize().width;
-														}
-														super.setSize(d);
-													}
-												};
-												scrollPane_2.setViewportView(textPane_1);
-												// add(splitPane);
+			private static final long serialVersionUID = 1L;
 
-												JPanel panel_4 = new JPanel();
-												panel_4.setBounds(0, 0, 10, 10);
-												panel_4.setLayout(null);
-												// add(panel_4);
+			@Override
+			public boolean getScrollableTracksViewportWidth() {
+				return false;
+			}
 
-												JButton btnNewButton_1 = new JButton("脚本");
-												btnNewButton_1.setBounds(10, 10, 120, 23);
-												panel_4.add(btnNewButton_1);
-												btnNewButton_1.setFocusPainted(false);
-												btnNewButton_1.setBorderPainted(false);
-												
-														JButton button = new JButton("执行");
-														button.setBounds(10, 46, 120, 23);
-														panel_4.add(button);
-														button.setFocusPainted(false);
-														button.setBorderPainted(false);
-														
-																JButton btnPutkey = new JButton("PutKey");
-																btnPutkey.setBounds(10, 78, 120, 23);
-																panel_4.add(btnPutkey);
-																btnPutkey.addActionListener(new ActionListener() {
-																	public void actionPerformed(ActionEvent arg0) {
-																		String keyVersion = textField_4.getText().trim();
-																		String keyId = textField_5.getText().trim();
+			@Override
+			public void setSize(Dimension d) {
+				if (d.width < getParent().getSize().width) {
+					d.width = getParent().getSize().width;
+				}
+				super.setSize(d);
+			}
+		};
+		scrollPane_2.setViewportView(textPane_1);
+		// add(splitPane);
 
-																		String keyInfo = textPane.getText().trim();
-																		String[] keys = keyInfo.split("\r\n");
+		JPanel panel_4 = new JPanel();
+		// panel_4.setBounds(0, 0, 10, 10);
+		panel_4.setLayout(null);
+		// add(panel_4);
 
-																		String newEnc = null;
-																		String newMac = null;
-																		String newDek = null;
-																		String newKeyVersion = null;
+		JButton btnNewButton_1 = new JButton("脚本");
+		btnNewButton_1.setBounds(0, 24, 120, 23);
+		panel_4.add(btnNewButton_1);
+		btnNewButton_1.setFocusPainted(false);
+		btnNewButton_1.setBorderPainted(false);
 
-																		if (keys.length == 4) {
-																			newEnc = keys[0];
-																			newMac = keys[1];
-																			newDek = keys[2];
-																			newKeyVersion = keys[3];
-																		} else if (keys.length == 2) {
-																			String newKey = keys[0];
-																			newKeyVersion = keys[1];
+		JButton button = new JButton("执行");
+		button.setBounds(0, 60, 120, 23);
+		panel_4.add(button);
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
 
-																			String initResp = commonAPDU.getInitResp();
-																			initResp = initResp.substring(8, 20);
+		JButton btnPutkey = new JButton("PutKey");
+		btnPutkey.setBounds(0, 92, 120, 23);
+		panel_4.add(btnPutkey);
+		btnPutkey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String keyVersion = textField_4.getText().trim();
+				String keyId = textField_5.getText().trim();
 
-																			String deriveData = initResp + "F001" + initResp + "0F01";
-																			newEnc = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
+				String keyInfo = textPane.getText().trim();
+				String[] keys = keyInfo.split("\r\n");
 
-																			deriveData = initResp + "F002" + initResp + "0F02";
-																			newMac = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
+				String newEnc = null;
+				String newMac = null;
+				String newDek = null;
+				String newKeyVersion = null;
 
-																			deriveData = initResp + "F003" + initResp + "0F03";
-																			newDek = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
-																		} else {
-																			JOptionPane.showMessageDialog(null, "参数个数错误！");
-																			return;
-																		}
-																		try {
-																			commonAPDU.putKey(keyVersion, keyId, newKeyVersion, newEnc, newMac, newDek);
-																		} catch (Exception e) {
-																			// TODO Auto-generated catch block
-																			e.printStackTrace();
-																		}
-																	}
-																});
-																btnPutkey.setFocusPainted(false);
-																btnPutkey.setBorderPainted(false);
-																button.addActionListener(new ActionListener() {
-																	public void actionPerformed(ActionEvent arg0) {
-																		if (WDAssert.isEmpty(textPane.getText())) {
-																			JOptionPane.showMessageDialog(null, "请先加载脚本！", "信息框", JOptionPane.ERROR_MESSAGE);
-																			return;
-																		}
-																		Runnable runnable = new Runnable() {
-																			public void run() {
-																				try {
-																					String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
-																					String[] apdus = prg.split("\n");
+				if (keys.length == 4) {
+					newEnc = keys[0];
+					newMac = keys[1];
+					newDek = keys[2];
+					newKeyVersion = keys[3];
+				} else if (keys.length == 2) {
+					String newKey = keys[0];
+					newKeyVersion = keys[1];
 
-																					for (String apdu : apdus) {
-																						if (!apdu.startsWith("//") && WDAssert.isNotEmpty(apdu.trim())) {
-																							apdu = apdu.trim();
-																							int commentPos = apdu.indexOf("//");
-																							int swPos = apdu.indexOf("SW");
-																							int pos = calPos(commentPos, swPos);
-																							if (pos != -1) {
-																								apdu = apdu.substring(0, pos).trim();
-																								commonAPDU.send(apdu);
-																							} else {
-																								// apdu=apdu.substring(0, commentPos);
-																								commonAPDU.send(apdu);
-																							}
-																						}
-																					}
-																				} catch (Exception e) {
-																					// TODO: handle exception
-																					log.error(e.getMessage());
-																				}
-																			}
-																		};
-																		Thread thread = new Thread(runnable);
-																		thread.start();
-																	}
-																});
-																btnNewButton_1.addActionListener(new ActionListener() {
-																	public void actionPerformed(ActionEvent arg0) {
-																		JFileChooser jFileChooser = new JFileChooser("./prg/");
-																		FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("prg files", "prg");
-																		jFileChooser.setFileFilter(fileNameExtensionFilter);
+					String initResp = commonAPDU.getInitResp();
+					initResp = initResp.substring(8, 20);
 
-																		int i = jFileChooser.showOpenDialog(null);
-																		if (i == JFileChooser.APPROVE_OPTION) {
-																			File file = jFileChooser.getSelectedFile();
+					String deriveData = initResp + "F001" + initResp + "0F01";
+					newEnc = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
 
-																			FileInputStream fis;
-																			try {
-																				fis = new FileInputStream(file);
-																				byte[] fileContent = new byte[fis.available()];
-																				fis.read(fileContent);
+					deriveData = initResp + "F002" + initResp + "0F02";
+					newMac = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
 
-																				textPane.setText(new String(fileContent));
-																			} catch (Exception e) {
-																				// TODO Auto-generated catch block
-																				JOptionPane.showMessageDialog(null, e.getMessage());
-																			}
+					deriveData = initResp + "F003" + initResp + "0F03";
+					newDek = WD3DesCryptoUtil.ecb_encrypt(newKey, deriveData, Padding.NoPadding);
+				} else {
+					JOptionPane.showMessageDialog(null, "参数个数错误！");
+					return;
+				}
+				try {
+					commonAPDU.putKey(keyVersion, keyId, newKeyVersion, newEnc, newMac, newDek);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnPutkey.setFocusPainted(false);
+		btnPutkey.setBorderPainted(false);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (WDAssert.isEmpty(textPane.getText())) {
+					JOptionPane.showMessageDialog(null, "请先加载脚本！", "信息框", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				Runnable runnable = new Runnable() {
+					public void run() {
+						try {
+							String prg = textPane.getText().replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+							String[] apdus = prg.split("\n");
 
-																		}
-																	}
-																});
-																JSplitPane splitPane_2 = new JSplitPane();
-																splitPane_2.setResizeWeight(0.8);
-																splitPane_2.setLeftComponent(panel_1);
-																splitPane_2.setRightComponent(panel_4);
-																splitPane_2.setBounds(0, 0, 125, 27);
-																
-																		JSplitPane splitPane_4 = new JSplitPane();
-																		add(splitPane_4, BorderLayout.CENTER);
-																		splitPane_4.setResizeWeight(0.5);
-																		splitPane_4.setTopComponent(splitPane_2);
-																		splitPane_4.setBottomComponent(panel_2);
-																		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
+							for (String apdu : apdus) {
+								if (!apdu.startsWith("//") && WDAssert.isNotEmpty(apdu.trim())) {
+									apdu = apdu.trim();
+									int commentPos = apdu.indexOf("//");
+									int swPos = apdu.indexOf("SW");
+									int pos = calPos(commentPos, swPos);
+									if (pos != -1) {
+										apdu = apdu.substring(0, pos).trim();
+										commonAPDU.send(apdu);
+									} else {
+										// apdu=apdu.substring(0, commentPos);
+										commonAPDU.send(apdu);
+									}
+								}
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							log.error(e.getMessage());
+						}
+					}
+				};
+				Thread thread = new Thread(runnable);
+				thread.start();
+			}
+		});
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jFileChooser = new JFileChooser("./prg/");
+				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("prg files", "prg");
+				jFileChooser.setFileFilter(fileNameExtensionFilter);
+
+				int i = jFileChooser.showOpenDialog(null);
+				if (i == JFileChooser.APPROVE_OPTION) {
+					File file = jFileChooser.getSelectedFile();
+
+					FileInputStream fis;
+					try {
+						fis = new FileInputStream(file);
+						byte[] fileContent = new byte[fis.available()];
+						fis.read(fileContent);
+
+						textPane.setText(new String(fileContent));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+
+				}
+			}
+		});
+		JSplitPane splitPane_2 = new JSplitPane();
+		splitPane_2.setResizeWeight(0.85);
+		splitPane_2.setLeftComponent(panel_1);
+		splitPane_2.setRightComponent(panel_4);
+		// splitPane_2.setBounds(0, 0, 125, 27);
+
+		JSplitPane splitPane_4 = new JSplitPane();
+		// add(splitPane_4, BorderLayout.CENTER);
+		splitPane_4.setResizeWeight(0.6);
+		splitPane_4.setTopComponent(splitPane_2);
+		splitPane_4.setBottomComponent(panel_2);
+		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
+
+		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setResizeWeight(0.3);
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setTopComponent(splitPane);
+		splitPane_1.setBottomComponent(splitPane_4);
+
+		add(splitPane_1, BorderLayout.CENTER);
 		textField_3.getDocument().addDocumentListener(new DocumentListener() {
 			public void insertUpdate(DocumentEvent e) {
 				String kmc = textField_3.getText().trim();
