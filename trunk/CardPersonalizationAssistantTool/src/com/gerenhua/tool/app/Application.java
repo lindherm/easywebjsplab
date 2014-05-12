@@ -147,8 +147,8 @@ public class Application extends JFrame {
 			e.printStackTrace();
 		}
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftPanel, rightPanel);
+		splitPane.setEnabled(false);
 		splitPane.setDividerLocation(170);
-		splitPane.setOneTouchExpandable(true);
 		contentPanel.add(splitPane, BorderLayout.CENTER);
 		bottomPanel = new BottomPanel();
 		contentPanel.add(bottomPanel, BorderLayout.SOUTH);
