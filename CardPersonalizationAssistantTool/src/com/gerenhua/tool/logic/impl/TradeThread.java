@@ -15,7 +15,7 @@ import com.gerenhua.tool.utils.TermSupportUtil;
 import com.watchdata.commons.lang.WDStringUtil;
 
 public class TradeThread implements Runnable {
-	public StringBuffer money;
+	public String money;
 	public JTextPane textPane;
 	public String tradeType;
 	public JButton reportButton;
@@ -25,7 +25,7 @@ public class TradeThread implements Runnable {
 
 	public TermInfo termInfo = new TermInfo();
 
-	public TradeThread(StringBuffer money, String tradeType,JButton reportButton, JTextPane textPane) {
+	public TradeThread(String money, String tradeType, JButton reportButton, JTextPane textPane) {
 		this.money = money;
 		this.tradeType = tradeType;
 		this.reportButton = reportButton;
@@ -86,13 +86,13 @@ public class TradeThread implements Runnable {
 							success = pBOCHandler.doTrade(tradeMount, readerName, termSupportUtil);
 						} else if ("电子现金".equals(tradeType)) {
 							ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
-							success = electronicCashHandler.ECPurcharse(tradeMount, readerName,termSupportUtil);
+							success = electronicCashHandler.ECPurcharse(tradeMount, readerName, termSupportUtil);
 						} else if ("圈存".equals(tradeType)) {
 							ElectronicCashHandler electronicCashHandler = new ElectronicCashHandler(textPane);
-							success = electronicCashHandler.ECLoad(tradeMount, readerName,termSupportUtil);
+							success = electronicCashHandler.ECLoad(tradeMount, readerName, termSupportUtil);
 						}
 					}
-					success=true;
+					success = true;
 				} else {
 					success = false;
 				}

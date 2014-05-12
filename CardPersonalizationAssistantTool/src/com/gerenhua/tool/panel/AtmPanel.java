@@ -2,8 +2,6 @@ package com.gerenhua.tool.panel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -40,7 +38,7 @@ public class AtmPanel extends JPanel {
 	public final JButton reportButton;
 	private static JLabel enterMoneyLabel;
 	private PropertiesManager pm = new PropertiesManager();
-	private static StringBuffer money = new StringBuffer();
+	private String money = new String("");
 	public static String tradeType = "";
 	public CommonAPDU apduHandler;
 
@@ -69,30 +67,7 @@ public class AtmPanel extends JPanel {
 
 		moneyTextField = new JTextField();
 		moneyTextField.setBounds(46, 154, 60, 23);
-		moneyTextField.setText(money.toString());
 		add(moneyTextField);
-		moneyTextField.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				char dot = '.';
-				char zero = '0';
-				money = new StringBuffer(moneyTextField.getText());
-				money.append(c);
-				if (!(Character.isDigit(c) || dot == c) || (!decimalDigitsLimit(money.toString())) || (zero == c && money.length() == 1)) {
-					e.consume();
-					money.deleteCharAt(money.length() - 1);
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-		});
 
 		qPBOCButton = new JButton();
 		qPBOCButton.setText("QPBOC");
@@ -108,6 +83,7 @@ public class AtmPanel extends JPanel {
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
+				money = moneyTextField.getText().trim();
 
 				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
 				Thread thread = new Thread(tradeThread);
@@ -129,7 +105,7 @@ public class AtmPanel extends JPanel {
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
-
+				money = moneyTextField.getText().trim();
 				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
 				Thread thread = new Thread(tradeThread);
 				thread.start();
@@ -150,7 +126,7 @@ public class AtmPanel extends JPanel {
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
-
+				money = moneyTextField.getText().trim();
 				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
 				Thread thread = new Thread(tradeThread);
 				thread.start();
@@ -171,7 +147,7 @@ public class AtmPanel extends JPanel {
 				Config.setValue("Terminal_Data", "currentTradeType", tradeType);
 				// 设置检测报告按钮不可用
 				reportButton.setEnabled(false);
-
+				money = moneyTextField.getText().trim();
 				TradeThread tradeThread = new TradeThread(money, tradeType, reportButton, textPane);
 				Thread thread = new Thread(tradeThread);
 				thread.start();
