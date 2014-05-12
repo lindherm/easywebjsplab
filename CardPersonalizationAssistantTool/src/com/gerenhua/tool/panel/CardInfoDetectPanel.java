@@ -239,6 +239,7 @@ public class CardInfoDetectPanel extends JPanel {
 		lblKmc.setHorizontalAlignment(SwingConstants.RIGHT);
 
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setEnabled(false);
 		splitPane.setResizeWeight(0.5);
 		splitPane.setLeftComponent(panel_3);
 		splitPane.setRightComponent(panel);
@@ -273,8 +274,6 @@ public class CardInfoDetectPanel extends JPanel {
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new TitledBorder(null, "LOG", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
-		// panel_2.setBounds(0, 473, 1000, 200);
-		// add(panel_2);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -300,12 +299,9 @@ public class CardInfoDetectPanel extends JPanel {
 			}
 		};
 		scrollPane_2.setViewportView(textPane_1);
-		// add(splitPane);
 
 		JPanel panel_4 = new JPanel();
-		// panel_4.setBounds(0, 0, 10, 10);
 		panel_4.setLayout(null);
-		// add(panel_4);
 
 		JButton btnNewButton_1 = new JButton("脚本");
 		btnNewButton_1.setBounds(0, 24, 120, 23);
@@ -432,12 +428,14 @@ public class CardInfoDetectPanel extends JPanel {
 			}
 		});
 		JSplitPane splitPane_2 = new JSplitPane();
+		splitPane_2.setEnabled(false);
 		splitPane_2.setResizeWeight(0.85);
 		splitPane_2.setLeftComponent(panel_1);
 		splitPane_2.setRightComponent(panel_4);
 		// splitPane_2.setBounds(0, 0, 125, 27);
 
 		JSplitPane splitPane_4 = new JSplitPane();
+		splitPane_4.setEnabled(false);
 		// add(splitPane_4, BorderLayout.CENTER);
 		splitPane_4.setResizeWeight(0.6);
 		splitPane_4.setTopComponent(splitPane_2);
@@ -445,6 +443,7 @@ public class CardInfoDetectPanel extends JPanel {
 		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
 		JSplitPane splitPane_1 = new JSplitPane();
+		splitPane_1.setEnabled(false);
 		splitPane_1.setResizeWeight(0.3);
 		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_1.setTopComponent(splitPane);
