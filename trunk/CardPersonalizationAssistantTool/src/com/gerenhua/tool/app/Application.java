@@ -1,13 +1,18 @@
 package com.gerenhua.tool.app;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 
@@ -16,6 +21,7 @@ import org.apache.log4j.Logger;
 import com.gerenhua.tool.utils.Config;
 import com.gerenhua.tool.utils.PropertiesManager;
 import com.gerenhua.tool.utils.SwingUtils;
+import com.gerenhua.tool.utils.menu.FolderPaneUI;
 
 /**
  * @title Application.java
@@ -37,6 +43,7 @@ public class Application extends JFrame {
 	public static RightPanel rightPanel;
 	private static JSplitPane splitPane;
 	private static BottomPanel bottomPanel;
+	private Color bakColor = null;
 
 	/**
 	 * @Title: main
@@ -151,6 +158,46 @@ public class Application extends JFrame {
 		splitPane.setDividerLocation(170);
 		contentPanel.add(splitPane, BorderLayout.CENTER);
 		bottomPanel = new BottomPanel();
+		bottomPanel.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				Component container = e.getComponent();
+				JPanel panel = (JPanel) container;
+				panel.setBackground(bakColor);
+				container.repaint();
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				Component container = e.getComponent();
+				JPanel panel = (JPanel) container;
+				bakColor = panel.getBackground();
+				panel.setBackground(new Color(214, 223, 247));
+				container.repaint();
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 	}
 }

@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.gerenhua.tool.utils.PropertiesManager;
+
 /**
  * @title BottomPanel.java
  * @description 程序底部界面
@@ -19,7 +20,6 @@ public class BottomPanel extends JPanel {
 
 	private static final long serialVersionUID = -6944067066093744254L;
 	private PropertiesManager pm = new PropertiesManager();
-	
 
 	/**
 	 * Create the panel
@@ -29,6 +29,7 @@ public class BottomPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		final JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		add(panel);
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
@@ -37,6 +38,7 @@ public class BottomPanel extends JPanel {
 		panel.add(label);
 
 		final JPanel panel_1 = new JPanel();
+		panel_1.setOpaque(false);
 		add(panel_1);
 		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
@@ -45,6 +47,7 @@ public class BottomPanel extends JPanel {
 		panel_1.add(wwwwatchdatacomLabel);
 
 		final JPanel panel_2 = new JPanel();
+		panel_2.setOpaque(false);
 		add(panel_2);
 		panel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
