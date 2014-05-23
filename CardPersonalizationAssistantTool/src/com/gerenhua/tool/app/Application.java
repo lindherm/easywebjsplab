@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 import com.gerenhua.tool.utils.Config;
 import com.gerenhua.tool.utils.PropertiesManager;
 import com.gerenhua.tool.utils.SwingUtils;
-import com.gerenhua.tool.utils.menu.FolderPaneUI;
 
 /**
  * @title Application.java
