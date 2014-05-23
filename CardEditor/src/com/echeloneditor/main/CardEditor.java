@@ -2,9 +2,11 @@ package com.echeloneditor.main;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
@@ -133,7 +135,21 @@ public class CardEditor {
 		frmEcheloneditor = new JFrame();
 		frmEcheloneditor.setIconImage(ImageHelper.loadImage("logo.png").getImage());
 		frmEcheloneditor.setTitle(Config.getValue("CONFIG", "appName"));
-		frmEcheloneditor.setSize(800, 600);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		double screenWidth = d.getWidth();
+		double screenHeight = d.getHeight();
+
+		if (screenWidth > 1024) {
+			screenWidth = 1024;
+		} else {
+			screenWidth = screenWidth - 50;
+		}
+		if (screenHeight > 768) {
+			screenHeight = 768;
+		} else {
+			screenHeight = screenHeight - 50;
+		}
+		frmEcheloneditor.setSize((int) screenWidth, (int) screenHeight);
 
 		frmEcheloneditor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 窗口容器
