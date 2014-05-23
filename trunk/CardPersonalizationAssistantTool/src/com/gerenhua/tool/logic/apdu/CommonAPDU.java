@@ -7,6 +7,7 @@ import java.util.List;
 import com.gerenhua.tool.logic.Constants;
 import com.gerenhua.tool.logic.apdu.board.BoardChannel;
 import com.gerenhua.tool.logic.apdu.pcsc.PcscChannel;
+import com.gerenhua.tool.logic.apdu.readerx.ReaderXChannel;
 import com.gerenhua.tool.utils.Config;
 import com.gerenhua.tool.utils.FileUtil;
 import com.watchdata.commons.crypto.WD3DesCryptoUtil;
@@ -92,7 +93,9 @@ public class CommonAPDU extends AbstractAPDU {
 	public boolean init(String readerName) {
 		if (readerName.indexOf(":") > 0) {
 			apduChannel = new BoardChannel();
-		} else {
+		}else if(readerName.startsWith("USB")){ 
+			apduChannel=new ReaderXChannel();
+		}else {
 			apduChannel = new PcscChannel();
 		}
 		return apduChannel.init(readerName);

@@ -59,6 +59,10 @@ public class PcscChannel implements IAPDUChannel{
 			list.add(Config.getValue("BoardList", board));
 		}
 		
+		for (String usb : Config.getItems("USBreaderList")) {
+			list.add(Config.getValue("USBreaderList", usb));
+		}
+		
 		return list;
 	}
 	

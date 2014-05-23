@@ -92,7 +92,7 @@ public class CardInfoDetectPanel extends JPanel {
 		mntmLoad = new JMenuItem("LOAD CAP");
 		mntmLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jFileChooser = new JFileChooser(".");
+				JFileChooser jFileChooser = new JFileChooser("./resources/cap");
 				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("cap package", "cap");
 				jFileChooser.setFileFilter(fileNameExtensionFilter);
 				jFileChooser.setMultiSelectionEnabled(true);
@@ -404,7 +404,7 @@ public class CardInfoDetectPanel extends JPanel {
 		});
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jFileChooser = new JFileChooser("./prg/");
+				JFileChooser jFileChooser = new JFileChooser("./resources/scripts");
 				FileNameExtensionFilter fileNameExtensionFilter = new FileNameExtensionFilter("prg files", "prg");
 				jFileChooser.setFileFilter(fileNameExtensionFilter);
 

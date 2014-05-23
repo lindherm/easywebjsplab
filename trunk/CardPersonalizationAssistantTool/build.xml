@@ -88,9 +88,6 @@
 		<copy todir="${dist-dir}/log">
 			<fileset dir="log" />
 		</copy>
-		<copy todir="${dist-dir}/prg">
-			<fileset dir="prg" />
-		</copy>
 		<copy todir="${dist-dir}/report">
 			<fileset dir="report" />
 		</copy>
