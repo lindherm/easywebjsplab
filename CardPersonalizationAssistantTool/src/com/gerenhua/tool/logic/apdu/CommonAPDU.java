@@ -135,6 +135,8 @@ public class CommonAPDU extends AbstractAPDU {
 			if (("9000").equals(sw)) {
 				res.put("sw", "9000");
 				res.put("atr", atr);
+			}else {
+				res.put("sw", sw);
 			}
 		}
 		return res;
