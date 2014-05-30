@@ -432,6 +432,18 @@ public class CardInfoDetectPanel extends JPanel {
 		splitPane_2.setResizeWeight(0.85);
 		splitPane_2.setLeftComponent(panel_1);
 		splitPane_2.setRightComponent(panel_4);
+		
+		JButton button_1 = new JButton("数据处理");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PersionalizationDialog persionalizationDialog=new PersionalizationDialog();
+				persionalizationDialog.setVisible(true);
+			}
+		});
+		button_1.setFocusPainted(false);
+		button_1.setBorderPainted(false);
+		button_1.setBounds(0, 128, 120, 23);
+		panel_4.add(button_1);
 		// splitPane_2.setBounds(0, 0, 125, 27);
 
 		JSplitPane splitPane_4 = new JSplitPane();
