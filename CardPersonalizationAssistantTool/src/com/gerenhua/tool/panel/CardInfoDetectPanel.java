@@ -38,6 +38,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import com.gerenhua.tool.app.Application;
+import com.gerenhua.tool.app.RightPanel;
 import com.gerenhua.tool.log.Log;
 import com.gerenhua.tool.logic.apdu.CommonAPDU;
 import com.gerenhua.tool.logic.apdu.CommonHelper;
@@ -436,8 +438,22 @@ public class CardInfoDetectPanel extends JPanel {
 		JButton button_1 = new JButton("数据处理");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PersionalizationDialog persionalizationDialog=new PersionalizationDialog();
-				persionalizationDialog.setVisible(true);
+				//PersionalizationDialog persionalizationDialog=new PersionalizationDialog();
+				//persionalizationDialog.setVisible(true);
+				RightPanel.configPanel.setVisible(true);
+				Application.rightPanel.add(RightPanel.configPanel, BorderLayout.CENTER);
+				RightPanel.cardInfoDetectPanel.setVisible(false);
+				RightPanel.facePanel.setVisible(false);
+				RightPanel.testDataConfigPanel.setVisible(false);
+				RightPanel.terminalTypeConfigPanel.setVisible(false);
+				RightPanel.terminalPerformanceConfigPanel.setVisible(false);
+				RightPanel.terminalLimitConfigPanel.setVisible(false);
+				RightPanel.issuerKeyConfigPanel.setVisible(false);
+				RightPanel.caPublicKeyConfigPanel.setVisible(false);
+				RightPanel.aidConfigPanel.setVisible(false);
+				RightPanel.logoPanel.setVisible(false);
+				RightPanel.tradePanel.setVisible(false);
+				RightPanel.cardReaderPanel.setVisible(false);
 			}
 		});
 		button_1.setFocusPainted(false);

@@ -28,7 +28,7 @@ public class PersionalizationDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public PersionalizationDialog() {
-		setSize(1024, 768);
+		setSize(1280, 768);
 		getContentPane().setLayout(new BorderLayout());
 		add(configPanel,BorderLayout.CENTER	);
 	}
