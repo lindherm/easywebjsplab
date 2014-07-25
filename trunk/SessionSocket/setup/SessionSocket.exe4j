@@ -16,7 +16,7 @@
       <versionLine x="20" y="40" text="version %VERSION%" font="Arial" fontSize="8" fontColor="0,0,0" fontWeight="500" />
     </text>
   </splashScreen>
-  <java mainClass="com.sessionsocket.server.ServerListener" vmParameters="" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.4" maxVersion="1.8" allowBetaVM="true" jdkOnly="false">
+  <java mainClass="com.sessionsocket.server.ServerListener" vmParameters="-J-Xms128m -Xmx800m" arguments="" allowVMPassthroughParameters="true" preferredVM="" bundleRuntime="true" minVersion="1.4" maxVersion="1.8" allowBetaVM="true" jdkOnly="false">
     <searchSequence>
       <registry />
       <envVar name="JAVA_HOME" />

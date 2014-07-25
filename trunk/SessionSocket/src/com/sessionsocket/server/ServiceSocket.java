@@ -2,6 +2,7 @@ package com.sessionsocket.server;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import com.sessionsocket.SessionSocket;
+import com.watchdata.commons.lang.WDByteUtil;
 
 public class ServiceSocket extends SessionSocket {
 	private static Logger log = Logger.getLogger(ServiceSocket.class);
@@ -24,9 +26,9 @@ public class ServiceSocket extends SessionSocket {
 		log.debug("默认的最大线程数是：" + getMAX_THREAD());
 		if (ServerListener.max_thread > 0)
 			setMAX_THREAD(ServerListener.max_thread);
-		setBUFFER_SIZE(10);//10*1024
+		setBUFFER_SIZE(10);// 10*1024
 		log.debug("当前最大线程数是：" + getMAX_THREAD());
-		
+
 	}
 
 	@Override
@@ -36,31 +38,40 @@ public class ServiceSocket extends SessionSocket {
 
 	@Override
 	public void onClose(Socket socket, Thread thread) {
-		log.debug("注意:连接断开。socketID:" + socket.hashCode()+"["+socket.toString()+"]");
+		log.debug("注意:连接断开。socketID:" + socket.hashCode() + "[" + socket.toString() + "]");
 	}
 
 	@Override
 	public void onConnected(Socket socket, Thread thread) {
-		log.debug("信息:连接成功。socketID:" + socket.hashCode()+"["+socket.toString()+"]");
+		log.debug("信息:连接成功。socketID:" + socket.hashCode() + "[" + socket.toString() + "]");
 	}
 
 	@Override
 	public void onDataArrived(byte[] data, Socket socket, Thread thread) {
-		System.out.println(new String(data));
-		if (data!=null) {
+		if (data != null && data.length > 0) {
+
+			FileOutputStream out = null;
 			try {
-				sendMessage("success.".getBytes(), socket);
+				out = new FileOutputStream("d:/test/hello.rar");
+				out.write(data);
+				out.flush();
+
+				log.debug("注意:有消息到达:socketID:" + socket.hashCode() + "[" + socket.toString() + "]【接收：" + data.length + "字节数据】");
+				sendMessage("success.\n".getBytes());
+
+				if (out != null) {
+					out.close();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				errorHandle(e, socket, thread);
 			}
-			log.debug("注意:有消息到达:socketID:" + socket.hashCode()+"["+socket.toString()+"]【接收：" + data.length + "字节数据】");
 		}
 	}
 
 	@Override
 	public void onError(Exception e, Socket socket, Thread thread) {
-		log.error("注意:连接异常["+e.getMessage()+"|"+e.getStackTrace()[0]+"]socketID:" + socket.hashCode()+"["+socket.toString()+"]");
+		log.error("注意:连接异常[" + e.getMessage() + "|" + e.getStackTrace()[0] + "]socketID:" + socket.hashCode() + "[" + socket.toString() + "]");
 	}
 
 	@Override
@@ -70,7 +81,7 @@ public class ServiceSocket extends SessionSocket {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		log.info("注意:已经达到最大线程值。当前被拒绝的连接socketID：：" + socket.hashCode()+"["+socket.toString()+"]");
+		log.info("注意:已经达到最大线程值。当前被拒绝的连接socketID：：" + socket.hashCode() + "[" + socket.toString() + "]");
 	}
 
 	@Override
@@ -94,9 +105,10 @@ public class ServiceSocket extends SessionSocket {
 			}
 		}
 	}
+
 	@Override
-	public byte[] reciveMessage(Socket socket,Thread thread){
-		BufferedInputStream reciver=null;
+	public byte[] reciveMessage(Socket socket, Thread thread) {
+		BufferedInputStream reciver = null;
 		ByteArrayOutputStream out = null;
 		try {
 			// 获得输入缓冲流
@@ -105,60 +117,23 @@ public class ServiceSocket extends SessionSocket {
 			out = new ByteArrayOutputStream();
 
 			// 读取数据
-			byte[] buffer = new byte[getBUFFER_SIZE()*1024];// 缓存大小
-			//byte[] datalength = new byte[8];
-			//reciver.read(datalength);
-			//long dataL = Long.parseLong(new String(datalength), 10);
+			byte[] msgHeader = new byte[4];// 缓存大小
+			byte[] buffer = new byte[getBUFFER_SIZE() * 1024];// 缓存大小
 
-			int amount = -1;
-			//int fileLen = 0;
+			int amount = reciver.read(msgHeader);
+			long headLen = Long.parseLong(WDByteUtil.bytes2HEX(msgHeader), 16);
 
-			//while (fileLen < dataL) {
-				if ((amount = reciver.read(buffer)) != -1) {
-					out.write(buffer, 0, amount);
-					//fileLen += amount;
-				}
-			//}
+			long pos = 0;
+			while (pos < headLen) {
+				amount = reciver.read(buffer);
+				out.write(buffer, 0, amount);
+				pos += amount;
+			}
 			out.flush();
 			out.close();
 		} catch (Exception e) {
 			errorHandle(e, socket, thread);
 		}
-
 		return out.toByteArray();
 	}
-	/*@Override
-	public byte[] reciveMessage(Socket socket,Thread thread){
-		BufferedInputStream reciver=null;
-		ByteArrayOutputStream out = null;
-		try {
-			// 获得输入缓冲流
-			reciver = new BufferedInputStream(socket.getInputStream());
-			// 创建缓存文件
-			out = new ByteArrayOutputStream();
-
-			// 读取数据
-			byte[] buffer = new byte[getBUFFER_SIZE()*1024];// 缓存大小
-			byte[] datalength = new byte[8];
-			reciver.read(datalength);
-			long dataL = Long.parseLong(new String(datalength), 10);
-
-			int amount = -1;
-			int fileLen = 0;
-
-			while (fileLen < dataL) {
-				if ((amount = reciver.read(buffer)) != -1) {
-					out.write(buffer, 0, amount);
-					out.flush();
-					fileLen += amount;
-				}
-			}
-			sendMessage("done".getBytes(), socket);
-			out.close();
-		} catch (Exception e) {
-			errorHandle(e, socket, thread);
-		}
-
-		return out.toByteArray();
-	}*/
 }

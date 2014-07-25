@@ -1,8 +1,10 @@
 package com.sessionsocket.client;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -11,7 +13,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionClient {
-	public static ConcurrentHashMap<String, TcpConnector> session = new ConcurrentHashMap<String, TcpConnector>();
+	private static ConcurrentHashMap<String, TcpConnector> session = new ConcurrentHashMap<String, TcpConnector>();
 
 	public static ConcurrentHashMap<String, TcpConnector> getSession() {
 		return session;
@@ -66,35 +68,29 @@ public class SessionClient {
 	 * @return
 	 * @throws IOException
 	 */
-	public byte[] recive(String connectName) throws IOException {
+	public String recive(String connectName) throws IOException {
 		if (session.containsKey(connectName)) {
-			BufferedInputStream reciver = new BufferedInputStream(session.get(connectName).getSocket().getInputStream());
-			byte[] buffer = new byte[1024 * 10];// 缓存大小
-
-			int len = -1;
-			if ((len = reciver.read(buffer, 0, buffer.length)) > 0) {
-				return new String(buffer, 0, len).getBytes();
-			}
+			BufferedReader receiver = new BufferedReader(new InputStreamReader(session.get(connectName).getSocket().getInputStream()));
+			return receiver.readLine();
 		} else {
 			throw new IOException("connect is not exists.");
 		}
-		return null;
 	}
 
-	public byte[] recive(String connectName, int size) throws IOException {
+	public byte[] receive(String connectName, int size) throws IOException {
 		ByteArrayOutputStream out=new ByteArrayOutputStream();
 		if (session.containsKey(connectName)) {
-			BufferedInputStream reciver = new BufferedInputStream(session.get(connectName).getSocket().getInputStream());
+			BufferedInputStream receiver = new BufferedInputStream(session.get(connectName).getSocket().getInputStream());
 			byte[] buffer = new byte[1024];// 缓存大小
 
-			int len = -1;
-			int amount = 0;
-			while (amount < size) {
-				if ((len = reciver.read(buffer)) > 0) {
-					out.write(buffer, 0, len);
+			int amount = -1;
+			int pos = 0;
+			while (pos < size) {
+				if ((amount = receiver.read(buffer)) > 0) {
+					out.write(buffer, 0, amount);
 					out.flush();
 				}
-				amount += len;
+				pos += amount;
 			}
 			return out.toByteArray();
 		} else {
@@ -104,8 +100,8 @@ public class SessionClient {
 	}
 
 	public void Close(String connectorName) throws IOException {
-		session.get(connectorName).getSocket().close();
 		synchronized (session) {
+			session.get(connectorName).getSocket().close();
 			session.remove(connectorName);
 		}
 	}
