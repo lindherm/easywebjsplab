@@ -119,6 +119,8 @@ public class ConfigPanel extends AbstractPanle {
 		buttonPanel.setLayout(null);
 
 		final JButton addButton = new JButton();
+		addButton.setFocusPainted(false);
+		addButton.setBorderPainted(false);
 		addButton.setBounds(10, 23, 80, 23);
 		buttonPanel.add(addButton);
 		addButton.addActionListener(new ActionListener() {
@@ -143,33 +145,32 @@ public class ConfigPanel extends AbstractPanle {
 
 		final JButton delButton = new JButton();
 		delButton.setBounds(10, 50, 80, 23);
+		delButton.setFocusPainted(false);
+		delButton.setBorderPainted(false);
 		buttonPanel.add(delButton);
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				stopEditing();
 				
-				int[] indexs=table.getSelectedRows();
-				if (indexs.length>0) {
+				int[] rows=table.getSelectedRows();
+				if (rows.length>0) {
 					int i = JOptionPane.showConfirmDialog(null, "你确定要删除选中的表格行吗？", "消息", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (i == 1) {
-						return;
-					}
-					ConfigTableModel tableModel = (ConfigTableModel) table.getModel();
-					for (int index : indexs) {
-						tableModel.delRow(index);
+					if (i==JOptionPane.YES_OPTION) {
+						ConfigTableModel tableModel = (ConfigTableModel) table.getModel();
+						tableModel.delRows(rows);
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "请选择要删除的表格行！", "消息", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				// addLog("删除一行成功！");
-				// logTextArea.append(sf.format(new Date())+":删除一行成功！\n");
 			}
 		});
 		delButton.setText("删除");
 
 		final JButton upButton = new JButton();
 		upButton.setBounds(10, 79, 80, 23);
+		upButton.setFocusPainted(false);
+		upButton.setBorderPainted(false);
 		buttonPanel.add(upButton);
 		upButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
@@ -198,6 +199,8 @@ public class ConfigPanel extends AbstractPanle {
 
 		final JButton downButton = new JButton();
 		downButton.setBounds(10, 107, 80, 23);
+		downButton.setFocusPainted(false);
+		downButton.setBorderPainted(false);
 		buttonPanel.add(downButton);
 		downButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
@@ -227,6 +230,8 @@ public class ConfigPanel extends AbstractPanle {
 
 		final JButton saveButton = new JButton();
 		saveButton.setBounds(10, 135, 80, 23);
+		saveButton.setFocusPainted(false);
+		saveButton.setBorderPainted(false);
 		buttonPanel.add(saveButton);
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {

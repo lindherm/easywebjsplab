@@ -306,19 +306,19 @@ public class CardInfoDetectPanel extends JPanel {
 		panel_4.setLayout(null);
 
 		JButton btnNewButton_1 = new JButton("脚本");
-		btnNewButton_1.setBounds(0, 24, 120, 23);
+		btnNewButton_1.setBounds(0, 10, 120, 23);
 		panel_4.add(btnNewButton_1);
 		btnNewButton_1.setFocusPainted(false);
 		btnNewButton_1.setBorderPainted(false);
 
 		JButton button = new JButton("执行");
-		button.setBounds(0, 60, 120, 23);
+		button.setBounds(0, 43, 120, 23);
 		panel_4.add(button);
 		button.setFocusPainted(false);
 		button.setBorderPainted(false);
 
 		JButton btnPutkey = new JButton("PutKey");
-		btnPutkey.setBounds(0, 92, 120, 23);
+		btnPutkey.setBounds(0, 76, 120, 23);
 		panel_4.add(btnPutkey);
 		btnPutkey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -434,12 +434,12 @@ public class CardInfoDetectPanel extends JPanel {
 		splitPane_2.setResizeWeight(0.85);
 		splitPane_2.setLeftComponent(panel_1);
 		splitPane_2.setRightComponent(panel_4);
-		
+
 		JButton button_1 = new JButton("数据处理");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//PersionalizationDialog persionalizationDialog=new PersionalizationDialog();
-				//persionalizationDialog.setVisible(true);
+				// PersionalizationDialog persionalizationDialog=new PersionalizationDialog();
+				// persionalizationDialog.setVisible(true);
 				RightPanel.configPanel.setVisible(true);
 				Application.rightPanel.add(RightPanel.configPanel, BorderLayout.CENTER);
 				RightPanel.cardInfoDetectPanel.setVisible(false);
@@ -458,7 +458,7 @@ public class CardInfoDetectPanel extends JPanel {
 		});
 		button_1.setFocusPainted(false);
 		button_1.setBorderPainted(false);
-		button_1.setBounds(0, 128, 120, 23);
+		button_1.setBounds(0, 109, 120, 23);
 		panel_4.add(button_1);
 		// splitPane_2.setBounds(0, 0, 125, 27);
 

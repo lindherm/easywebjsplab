@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -20,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.gerenhua.tool.utils.Config;
 import com.gerenhua.tool.utils.SwingUtils;
+import com.gerenhua.tool.utils.WindowsExcuter;
 import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class FacePanel extends JPanel {
@@ -39,9 +43,9 @@ public class FacePanel extends JPanel {
 	private ListSelectionListener themeListener = null;
 
 	public FacePanel() {
-		//super(frame, "皮肤", true);
-		//setIconImage(null);
-		//getContentPane().
+		// super(frame, "皮肤", true);
+		// setIconImage(null);
+		// getContentPane().
 		setLayout(null);
 		lafListener = new ListSelectionListener() {
 
@@ -133,16 +137,28 @@ public class FacePanel extends JPanel {
 				String selectFace = "com.jtattoo.plaf." + select.toLowerCase() + "." + select + "LookAndFeel";
 				String selectTheme = themeList.getSelectedValue().toString();
 
-				Config.setValue("CURRENT_THEME","current_laf", selectFace);
-				Config.setValue("CURRENT_THEME","current_theme", selectTheme);
-				Config.setValue("CURRENT_THEME","current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
-				//System.out.println(String.valueOf(lafList.getSelectedIndex()));
-				try {
-					SwingUtils.restart(Config.getValue("Terminal_Data", "appName"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Config.setValue("CURRENT_THEME", "current_laf", selectFace);
+				Config.setValue("CURRENT_THEME", "current_theme", selectTheme);
+				Config.setValue("CURRENT_THEME", "current_lafIndex", String.valueOf(lafList.getSelectedIndex()));
+				Thread thread = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							// TODO Auto-generated method stub
+							List<String> cmdList = new ArrayList<String>();
+							cmdList.add("java");
+							cmdList.add("-jar");
+							cmdList.add(Config.getValue("Terminal_Data", "appName") + ".jar");
+							WindowsExcuter.excute(new File("."), cmdList);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				thread.start();
+				System.exit(0);
 			}
 		});
 		btnNewButton.setBounds(291, 349, 93, 23);
@@ -151,13 +167,27 @@ public class FacePanel extends JPanel {
 		JButton button = new JButton("恢复默认");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Config.setValue("CURRENT_THEME","current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-				Config.setValue("CURRENT_THEME","current_theme", "window");
-				try {
-					SwingUtils.restart(Config.getValue("Terminal_Data", "appName"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				Config.setValue("CURRENT_THEME", "current_laf", "com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+				Config.setValue("CURRENT_THEME", "current_theme", "window");
+				Thread thread = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							// TODO Auto-generated method stub
+							List<String> cmdList = new ArrayList<String>();
+							cmdList.add("java");
+							cmdList.add("-jar");
+							cmdList.add(Config.getValue("Terminal_Data", "appName") + ".jar");
+							WindowsExcuter.excute(new File("."), cmdList);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+				thread.start();
+				System.exit(0);
 			}
 		});
 		button.setBounds(394, 349, 93, 23);
