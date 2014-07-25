@@ -497,8 +497,8 @@ public class CommonAPDU extends AbstractAPDU {
 	 */
 	public String send(String apdu) throws Exception {
 		String classByte = apdu.substring(0, 2);
-		String insBytes = apdu.substring(2, 4);
-		if (!classByte.equalsIgnoreCase("80") || (classByte.equalsIgnoreCase("80") && insBytes.startsWith("0"))) {
+		String insByte = apdu.substring(2, 4);
+		if (!classByte.equalsIgnoreCase("80") || (classByte.equalsIgnoreCase("80") && insByte.startsWith("0"))) {
 			// escape
 		} else {
 			if (getSecureityLevel().equalsIgnoreCase(NO_SECUREITY_LEVEL)) {
@@ -557,7 +557,9 @@ public class CommonAPDU extends AbstractAPDU {
 	}
 
 	public void close() {
-		apduChannel.close();
+		if (apduChannel!=null) {
+			apduChannel.close();
+		}
 	}
 
 	public static void main(String[] args) {

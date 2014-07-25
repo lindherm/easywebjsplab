@@ -44,8 +44,9 @@ public class LeftPanel extends JPanel {
 		p.addItem("终端性能", "/com/gerenhua/tool/resources/images/menu/config_24.png");
 		p.addItem("终端类型", "/com/gerenhua/tool/resources/images/menu/config_24.png");
 		p.addItem("皮肤设置", "/com/gerenhua/tool/resources/images/menu/config_24.png");
+		p.addItem("母卡工具", "/com/gerenhua/tool/resources/images/menu/config_24.png");
 		p.addItem("读卡器", "/com/gerenhua/tool/resources/images/menu/config_24.png");
-		p.setSize(140,280);
+		p.setSize(140,315);
 		return p;
 	}
 	private ListPane getTradeFileFolderPane() {

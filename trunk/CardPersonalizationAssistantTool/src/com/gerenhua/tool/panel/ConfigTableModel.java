@@ -1,5 +1,6 @@
 package com.gerenhua.tool.panel;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -60,6 +61,16 @@ public class ConfigTableModel extends AbstractTableModel {
 		FileUtil.printVector(data);
 		// FileUtil.writeVector(data);
 		fireTableRowsDeleted(row, row);
+	}
+	
+	public void delRows(int[] rows) {
+		for (int i = rows.length-1; i >=0; i--) {
+			data.removeElementAt(rows[i]);
+		}
+		FileUtil.printVector(data);
+		// FileUtil.writeVector(data);
+		Arrays.sort(rows);
+		fireTableRowsDeleted(rows[0], rows[rows.length-1]);
 	}
 
 	public int getRowCount() {
